@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_smart_radar_client_config_form" model="ir.ui.view">
+            <field name="name">smart.radar.client.config.form</field>
+            <field name="model">smart.radar.client.config</field>
+            <field name="arch" type="xml">
+                <form string="Smart Radar Configuration">
+                    <header>
+                        <button name="action_test_connection" string="Test Connection" type="object" class="oe_highlight"/>
+                        <field name="supabase_status" widget="statusbar" statusbar_visible="disconnected,connected,error"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1><field name="name"/></h1>
+                        </div>
+                        <notebook>
+                            <page string="X (Twitter) API">
+                                <group>
+                                    <field name="x_api_key" widget="password"/>
+                                    <field name="x_api_secret" widget="password"/>
+                                    <field name="x_access_token" widget="password"/>
+                                    <field name="x_access_token_secret" widget="password"/>
+                                </group>
+                            </page>
+                            <page string="OpenAI Engine">
+                                <group>
+                                    <field name="openai_api_key" widget="password"/>
+                                </group>
+                            </page>
+                            <page string="Apify Radar Engine">
+                                <group>
+                                    <field name="apify_token" widget="password"/>
+                                    <field name="apify_actor_id"/>
+                                </group>
+                            </page>
+                            <page string="Supabase Cloud Sync">
+                                <group>
+                                    <field name="supabase_url"/>
+                                    <field name="supabase_key" widget="password"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_smart_radar_client_config" model="ir.actions.act_window">
+            <field name="name">Configuration</field>
+            <field name="res_model">smart.radar.client.config</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

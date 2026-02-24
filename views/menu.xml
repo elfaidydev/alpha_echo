@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Top Level Menu -->
+        <menuitem id="menu_smart_radar_root" name="Smart Radar" sequence="10" web_icon="smart_radar,static/description/icon.png"/>
+
+        <!-- Dashboard Action -->
+        <record id="action_smart_radar_dashboard" model="ir.actions.client">
+            <field name="name">Command Center</field>
+            <field name="tag">smart_radar.dashboard</field>
+        </record>
+
+        <!-- Dashboard Menu -->
+        <menuitem id="menu_smart_radar_dashboard" name="Dashboard" parent="menu_smart_radar_root" action="action_smart_radar_dashboard" sequence="10"/>
+
+        <!-- Settings Menu -->
+        <menuitem id="menu_smart_radar_settings_root" name="Configuration" parent="menu_smart_radar_root" sequence="90"/>
+        
+        <menuitem id="menu_smart_radar_client_config" name="Client Config" parent="menu_smart_radar_settings_root" action="action_smart_radar_client_config" sequence="10"/>
+    </data>
+</odoo>

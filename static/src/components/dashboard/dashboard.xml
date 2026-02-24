@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="smart_radar.Dashboard" owl="1">
+        <div class="o_smart_radar_dashboard" dir="rtl">
+            
+            <div class="v4-bg-orb orb-primary"></div>
+            <div class="v4-bg-orb orb-emerald"></div>
+
+            <div class="sr-v4-dashboard">
+                
+                <div class="sr-header-v4">
+                    <div class="header-right-side">
+                        <div class="logo-box">
+                            <i class="fa fa-braille"/>
+                        </div>
+                        <div class="title-box">
+                            <h1>نظام الرصد <span>المتقدم</span></h1>
+                            <p class="subtitle">الواجهة المركزية لأتمتة تتبع المبادرات التمويلية ونشرها</p>
+                        </div>
+                    </div>
+                    <div class="header-left-side">
+                        <div class="health-nav">
+                            <span class="status-pulse"></span> 350 جهة خاضعة للرصد
+                        </div>
+                        <button class="btn-primary-v4" t-on-click="toggleTracking" t-att-class="{'paused': !state.isTracking}">
+                            <i class="fa ms-2" t-att-class="state.isTracking ? 'fa-pause' : 'fa-play'"/>
+                            <t t-esc="state.isTracking ? 'إيقاف الرصد مؤقتاً' : 'تنشيط الاستكشاف'"/>
+                        </button>
+                        <button class="btn-icon-v4" t-on-click="fetchLatest" title="مزامنة فورية للبيانات">
+                            <i class="fa fa-refresh" t-att-class="{'fa-spin': state.isLoading}"/>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="sr-hero-card-v4">
+                    <div class="hero-content">
+                        <div class="ai-sparkle-v4"><i class="fa fa-magic"/></div>
+                        <div class="hero-text">
+                            <h2>محرك الاستكشاف والتحليل المتقدم نشط ويعمل بكفاءة.</h2>
+                            <p>
+                                تخضع حالياً <strong>350 منصة معتمدة</strong> للجهات المانحة للمراقبة اللحظية. تم بنجاح رصد <strong><t t-esc="state.grantsDiscovered"/> مبادرة تمويلية</strong> اليوم، 
+                                حيث تولى الذكاء الاصطناعي مهام إعادة الصياغة الاحترافية، وتم التوجيه <strong>تلقائياً وبشكل متزامن</strong> لتعميم النشر عبر النوافذ الرسمية للمؤسسة.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="hero-curve-bg"></div>
+                </div>
+
+                <!-- NEW: Live Targets Radar Section -->
+                <div class="sr-radar-listening-v4">
+                    <div class="listening-header">
+                        <span><i class="fa fa-crosshairs ms-1"/> خريطة الاستهداف الحية (شبكة الـ 350)</span>
+                        <div class="sweep-animation"></div>
+                    </div>
+                    <div class="targets-marquee-container">
+                        <div class="targets-marquee">
+                            <div class="target-pill"><span class="pulse-dot"></span> مؤسسة الوليد للإنسانية</div>
+                            <div class="target-pill"><span class="pulse-dot"></span> مركز الملك سلمان (KSRelief)</div>
+                            <div class="target-pill"><span class="pulse-dot"></span> USAID Middle East</div>
+                            <div class="target-pill"><span class="pulse-dot"></span> البنك الإسلامي للتنمية</div>
+                            <div class="target-pill"><span class="pulse-dot"></span> صندوق قطر للتنمية</div>
+                            <div class="target-pill"><span class="pulse-dot"></span> مؤسسة مسك الخيرية</div>
+                            <div class="target-pill"><span class="pulse-dot"></span> Bill &amp; Melinda Gates Found.</div>
+                            <div class="target-pill ghost"><i class="fa fa-plus ms-1"/> جاري المراقبة الشاملة لـ 343+ كيان معتمد...</div>
+                            <!-- Duplicate for infinite seamless scroll -->
+                            <div class="target-pill"><span class="pulse-dot"></span> مؤسسة الوليد للإنسانية</div>
+                            <div class="target-pill"><span class="pulse-dot"></span> مركز الملك سلمان (KSRelief)</div>
+                            <div class="target-pill"><span class="pulse-dot"></span> USAID Middle East</div>
+                            <div class="target-pill"><span class="pulse-dot"></span> البنك الإسلامي للتنمية</div>
+                            <div class="target-pill"><span class="pulse-dot"></span> صندوق قطر للتنمية</div>
+                            <div class="target-pill"><span class="pulse-dot"></span> مؤسسة مسك الخيرية</div>
+                            <div class="target-pill"><span class="pulse-dot"></span> Bill &amp; Melinda Gates Found.</div>
+                            <div class="target-pill ghost"><i class="fa fa-plus ms-1"/> جاري المراقبة الشاملة لـ 343+ كيان معتمد...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sr-kpi-grid-v4">
+                    <div class="kpi-card-v4">
+                        <div class="kpi-top">
+                            <div class="kpi-text">
+                                <span class="kpi-title">فرص المنح المكتشفة اليوم</span>
+                                <div class="kpi-value"><t t-esc="state.grantsDiscovered"/></div>
+                            </div>
+                            <div class="kpi-icon blue"><i class="fa fa-search-plus"/></div>
+                        </div>
+                        <div class="kpi-chart sparkline"><canvas t-ref="sparkline1"></canvas></div>
+                    </div>
+                    
+                    <div class="kpi-card-v4">
+                        <div class="kpi-top">
+                            <div class="kpi-text">
+                                <span class="kpi-title">المنشورات (موقع + X)</span>
+                                <div class="kpi-value"><t t-esc="state.publishedToday"/></div>
+                            </div>
+                            <div class="kpi-icon emerald"><i class="fa fa-paper-plane"/></div>
+                        </div>
+                        <div class="kpi-chart sparkline"><canvas t-ref="sparkline2"></canvas></div>
+                    </div>
+                    
+                    <div class="kpi-card-v4">
+                        <div class="kpi-top">
+                            <div class="kpi-text">
+                                <span class="kpi-title">مراقبة الجهات المانحة</span>
+                                <div class="kpi-value"><t t-esc="state.monitoredAccounts"/> <span>حساب</span></div>
+                            </div>
+                            <div class="kpi-icon indigo"><i class="fa fa-users"/></div>
+                        </div>
+                        <div class="kpi-chart sparkline">
+                            <!-- Visual placeholder for steady constant line -->
+                            <div style="height: 100%; border-bottom: 2px dashed #4f46e5; opacity: 0.3; margin-top: 25px;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="kpi-card-v4">
+                        <div class="kpi-top">
+                            <div class="kpi-text">
+                                <span class="kpi-title">دقة مطابقة برومبت الصياغة</span>
+                                <div class="kpi-value"><t t-esc="state.matchRate"/><span>%</span></div>
+                            </div>
+                            <div class="kpi-icon amber"><i class="fa fa-shield"/></div>
+                        </div>
+                        <div class="kpi-chart sparkline"><canvas t-ref="sparkline4"></canvas></div>
+                    </div>
+                </div>
+
+                <div class="sr-main-grid-v4">
+                    <div class="grid-primary">
+                        <div class="charts-row">
+                            <div class="chart-card-v4 w-65">
+                                <div class="card-header">
+                                    <h3>كثافة إعلانات التمويل حسب الوقت</h3>
+                                    <span class="badge-soft">مباشر</span>
+                                </div>
+                                <div class="chart-container">
+                                    <canvas t-ref="barChartCanvas"></canvas>
+                                </div>
+                            </div>
+                            <div class="chart-card-v4 w-35">
+                                <div class="card-header" style="margin-bottom: 8px;">
+                                    <h3>توجيه النشر الآلي</h3>
+                                </div>
+                                <div class="chart-container doughnut-container mt-2">
+                                    <canvas t-ref="gaugeChartCanvas"></canvas>
+                                    <div class="doughnut-center">
+                                        <span class="d-number">100%</span>
+                                        <span class="d-label">أتمتة مزدوجة</span>
+                                    </div>
+                                </div>
+                                <div class="custom-chart-legend">
+                                    <div class="legend-item">
+                                        <span class="legend-dot bg-indigo"></span>
+                                        <span class="legend-text">الموقع الرسمي (WordPress)</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <span class="legend-dot bg-blue"></span>
+                                        <span class="legend-text">حساب منصة X (Twitter)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="feed-card-v4 mt-4">
+                            <div class="card-header border-bottom">
+                                <h3><i class="fa fa-bolt ms-2"/>السجل اللحظي للعمليات الاستكشافية</h3>
+                            </div>
+                            <div class="feed-list-v4">
+                                <t t-if="state.feed.length === 0">
+                                    <div class="empty-state">
+                                        <i class="fa fa-microphone fa-2x mb-2 text-muted"/>
+                                        <p>محرك الاستكشاف يُجري عمليات مسح دقيقة للكيانات المعتمدة...</p>
+                                    </div>
+                                </t>
+                                <t t-else="">
+                                    <t t-foreach="state.feed" t-as="item" t-key="item.id">
+                                        <div class="conversation-row fade-scale-up">
+                                            
+                                            <div class="chat-bubble raw-bubble">
+                                                <div class="bubble-header">
+                                                    <span><i class="fa fa-twitter ms-1"/> المخرج الأولي الصادر عن المانح</span>
+                                                    <span class="time"><t t-esc="item.time"/></span>
+                                                </div>
+                                                <div class="bubble-text"><t t-esc="item.original"/></div>
+                                                <div class="source-tag">المعرف الرسمي: <t t-esc="item.donor"/></div>
+                                            </div>
+                                            
+                                            <div class="magic-arrow text-muted text-center" style="display: flex; flex-direction: column; gap: 8px;">
+                                                <i class="fa fa-cogs" title="معالجة ذكية" style="font-size: 16px;"/>
+                                                <i class="fa fa-angle-left" style="font-size: 24px;"/>
+                                                <i class="fa fa-share-alt" title="نشر مزدوج" style="font-size: 16px;"/>
+                                            </div>
+
+                                            <div class="chat-bubble ai-bubble">
+                                                <div class="bubble-header ai-header">
+                                                    <span><i class="fa fa-check-circle ms-1"/> المعالجة الذكية والاعتماد التلقائي</span>
+                                                    <div class="d-flex align-items-center">
+                                                        <span class="conf-badge ms-2"><i class="fa fa-globe ms-1"/> تم بالموقع</span>
+                                                        <span class="conf-badge ms-1" style="color: #1da1f2; background: #e8f5fe; border-color: #1da1f2;"><i class="fa fa-twitter ms-1"/> نُشر بـ X</span>
+                                                    </div>
+                                                </div>
+                                                <div class="bubble-text"><t t-esc="item.rewritten"/></div>
+                                                <div class="destination-tag"><a t-att-href="item.tweetLink" target="_blank" title="استعراض المادة المنشورة">إصدار التوثيق الحي <i class="fa fa-external-link"/></a></div>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid-secondary">
+                        <div class="timeline-card-v4">
+                            <div class="card-header border-bottom">
+                                <h3><i class="fa fa-server ms-2"/>القياسات التشغيلية اللحظية للنظام</h3>
+                            </div>
+                            <div class="timeline-container">
+                                <t t-foreach="state.logs" t-as="log" t-key="log.id">
+                                    <div class="timeline-item">
+                                        <div class="timeline-node" t-att-class="log.type"></div>
+                                        <div class="timeline-content">
+                                            <div class="timeline-time"><t t-esc="log.time"/></div>
+                                            <div class="timeline-title"><t t-esc="log.tag"/></div>
+                                            <div class="timeline-desc"><t t-esc="log.message"/></div>
+                                        </div>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>
