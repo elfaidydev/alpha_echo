@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Dummy Targets -->
+        <record id="target_usaid" model="smart.radar.target">
+            <field name="name">USAID Middle East</field>
+            <field name="handle">@USAIDMiddleEast</field>
+            <field name="category">general</field>
+            <field name="is_active" eval="True"/>
+        </record>
+        <record id="target_gates" model="smart.radar.target">
+            <field name="name">Gates Foundation</field>
+            <field name="handle">@gatesfoundation</field>
+            <field name="category">health</field>
+            <field name="is_active" eval="True"/>
+        </record>
+        <record id="target_ksrelief" model="smart.radar.target">
+            <field name="name">KSrelief - مركز الملك سلمان</field>
+            <field name="handle">@KSRelief</field>
+            <field name="category">health</field>
+            <field name="is_active" eval="True"/>
+        </record>
+        <record id="target_unicef" model="smart.radar.target">
+            <field name="name">UNICEF Education</field>
+            <field name="handle">@UNICEF</field>
+            <field name="category">education</field>
+            <field name="is_active" eval="False"/>
+        </record>
+
+        <!-- Dummy Posts -->
+        <record id="post_usaid_1" model="smart.radar.post">
+            <field name="target_id" ref="target_usaid"/>
+            <field name="source_url">https://twitter.com/USAIDMiddleEast/status/12345</field>
+            <field name="original_text">We are announcing a new $5M fund for tech startups in the MENA region. Apply by next month!</field>
+            <field name="ai_generated_text">فرصة تمويلية كبرى بقيمة 5 مليون دولار مقدمة من USAID لدعم الشركات التقنية الناشئة في الشرق الأوسط. بادر بالتقديم قبل نهاية الشهر.</field>
+            <field name="state">published</field>
+            <field name="published_web_url">https://yourwebsite.com/news/1</field>
+            <field name="published_x_url">https://x.com/YourSaaS/status/123</field>
+        </record>
+
+        <record id="post_gates_1" model="smart.radar.post">
+            <field name="target_id" ref="target_gates"/>
+            <field name="source_url">https://twitter.com/gatesfoundation/status/67890</field>
+            <field name="original_text">Our new global health initiative focuses on vaccine accessibility for rural areas. Grant applications open now.</field>
+            <field name="ai_generated_text">منحة دولية جديدة من مؤسسة بيل وميليندا غيتس تستهدف تعزيز الوصول للرعاية الصحية واللقاحات في المناطق الريفية. باب التقديم مفتوح الآن للمؤسسات الصحية.</field>
+            <field name="state">draft</field>
+        </record>
+
+        <record id="post_ksrelief_1" model="smart.radar.post">
+            <field name="target_id" ref="target_ksrelief"/>
+            <field name="source_url">https://twitter.com/KSRelief/status/112233</field>
+            <field name="original_text">وقع مركز الملك سلمان للإغاثة اتفاقية تعاون لدعم القطاع الطبي في مناطق النزاع.</field>
+            <field name="ai_generated_text">مبادرة إغاثية ضخمة وفرص تعاون استراتيجية مع مركز الملك سلمان للإغاثة لدعم القطاع الطبي وتأهيل المستشفيات في مناطق النزاع والأزمات.</field>
+            <field name="state">draft</field>
+        </record>
+
+        <record id="post_unicef_1" model="smart.radar.post">
+            <field name="target_id" ref="target_unicef"/>
+            <field name="source_url">https://twitter.com/UNICEF/status/445566</field>
+            <field name="original_text">Education is a right. We are funding 100 schools rebuilding pipeline.</field>
+            <field name="ai_generated_text">تمويل أممي من اليونيسف لدعم وإعادة بناء 100 مدرسة. فرصة للمؤسسات التعليمية وشركات المقاولات للمشاركة في هذه المبادرة الإقليمية للتعليم.</field>
+            <field name="state">failed</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="smart_radar.PostsPage" owl="1">
+        <div class="sr-posts-container h-100 overflow-auto">
+            <!-- Header section -->
+            <div class="sr-posts-header flex-wrap">
+                <div class="header-right-side mb-3 mb-md-0">
+                    <div class="logo-box">
+                        <i class="fa fa-magic"/>
+                    </div>
+                    <div class="title-box">
+                        <h1>الإدارة <span>الذكية للمنح</span></h1>
+                        <p class="subtitle">راجع الصياغة المعتمدة واعتمدها بنقرة واحدة للنشر الآلي.</p>
+                    </div>
+                </div>
+                
+                <div class="sr-header-actions d-flex gap-3 align-items-center flex-wrap">
+                    <div class="sr-search-bar">
+                        <i class="fa fa-search text-muted"/>
+                        <input type="text" placeholder="ابحث في المنح أو الجهات..." t-model="state.searchQuery"/>
+                    </div>
+                    <div class="sr-tabs">
+                        <button t-attf-class="sr-tab-btn {{ state.activeTab === 'draft' ? 'active' : '' }}" t-on-click="() => this.setTab('draft')">مسودات معلقة</button>
+                        <button t-attf-class="sr-tab-btn {{ state.activeTab === 'published' ? 'active' : '' }}" t-on-click="() => this.setTab('published')">تم النشر</button>
+                        <button t-attf-class="sr-tab-btn {{ state.activeTab === 'rejected' ? 'active' : '' }}" t-on-click="() => this.setTab('rejected')">مستبعدات</button>
+                        <button t-attf-class="sr-tab-btn {{ state.activeTab === 'all' ? 'active' : '' }}" t-on-click="() => this.setTab('all')">الكل</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Grid masonry -->
+            <div class="sr-posts-grid">
+                <t t-if="filteredPosts.length === 0">
+                    <div class="sr-empty-state" style="grid-column: 1 / -1;">
+                        <i class="fa fa-folder-open-o"/>
+                        <p>لا يوجد مبادرات مطابقة لبحثك في هذا التصنيف حالياً</p>
+                    </div>
+                </t>
+                <t t-foreach="filteredPosts" t-as="post" t-key="post.id">
+                    <div class="sr-post-card" t-on-click="() => this.openPostModal(post)">
+                        <div class="sr-card-head">
+                            <span class="sr-target-name">
+                                <i class="fa fa-institution"/> 
+                                <t t-esc="post.target_id[1]"/>
+                            </span>
+                            <span t-attf-class="sr-badge {{ post.state === 'draft' ? 'draft' : (post.state === 'published' ? 'published' : 'rejected') }}">
+                                <t t-esc="post.state === 'draft' ? 'مسودة معلقة' : (post.state === 'published' ? 'منشور' : 'مستبعد')"/>
+                            </span>
+                        </div>
+                        <div class="sr-card-body">
+                            <p class="sr-ai-preview"><t t-esc="post.ai_generated_text.substring(0, 180)"/>...</p>
+                        </div>
+                        <div class="sr-card-foot">
+                            <span class="sr-confidence" t-att-title="'Confidence: ' + post.ai_confidence + '%'"><i class="fa fa-bolt"/> <t t-esc="post.ai_confidence"/>%</span>
+                            <span class="sr-date"><i class="fa fa-calendar-o me-1"/> <t t-esc="post.create_date.split(' ')[0]"/></span>
+                        </div>
+                    </div>
+                </t>
+            </div>
+
+            <!-- Luxurious Review Modal - Light Edition -->
+            <t t-if="state.selectedPost">
+                <div class="sr-modal-overlay" t-on-click.self="closeModal">
+                    <div class="sr-modal-content">
+                        <!-- Top Bar inside Modal -->
+                        <div class="sr-modal-header">
+                            <div class="header-info">
+                                <div class="modal-icon">
+                                    <i class="fa fa-magic"/>
+                                </div>
+                                <div>
+                                    <h3><t t-esc="state.selectedPost.target_id[1]"/></h3>
+                                    <span class="sr-sub-date"><i class="fa fa-clock-o me-1"/> <t t-esc="state.selectedPost.create_date"/></span>
+                                </div>
+                            </div>
+                            <button class="sr-close-btn" t-on-click="closeModal"><i class="fa fa-times"/></button>
+                        </div>
+                        
+                        <!-- Side by Side Content -->
+                        <div class="sr-modal-body">
+                            <div class="sr-split-view">
+                                <div class="split-col">
+                                    <label>
+                                        <span class="badge-icon twitter"><i class="fa fa-twitter"/></span>
+                                        النص الخام من المصدر
+                                    </label>
+                                    <div class="sr-text-box raw">
+                                        <t t-esc="state.selectedPost.original_text"/>
+                                    </div>
+                                    <a t-att-href="state.selectedPost.source_url" target="_blank" class="sr-source-link">
+                                        عرض التغريدة الأصلية <i class="fa fa-external-link ms-1"/>
+                                    </a>
+                                </div>
+                                <div class="split-col">
+                                    <label>
+                                        <span class="badge-icon magic"><i class="fa fa-magic"/></span>
+                                        صياغة الذكاء الاصطناعي (أكمل التعديل واعتمد)
+                                    </label>
+                                    <textarea class="sr-text-box ai" t-model="state.selectedPost.ai_generated_text"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Footer Actions -->
+                        <div class="sr-modal-footer">
+                            <div class="sr-modal-confidence">
+                                مستوى ثقة التحليل:
+                                <span class="conf-pill"><i class="fa fa-bolt me-1"/> <t t-esc="state.selectedPost.ai_confidence"/>%</span>
+                            </div>
+                            <div class="sr-actions">
+                                <button class="btn-cancel" t-on-click="closeModal">إلغاء وإغلاق</button>
+                                <t t-if="state.selectedPost.state === 'draft'">
+                                    <button class="sr-danger-btn" t-on-click="rejectPost">
+                                        <i class="fa fa-trash-o me-1"/> استبعاد
+                                    </button>
+                                    <button class="sr-glow-btn" t-on-click="approveAndPublish">
+                                        <i class="fa fa-rocket"/> اعتماد ونشر فوراً
+                                    </button>
+                                </t>
+                                <t t-if="state.selectedPost.state === 'published'">
+                                    <button class="btn btn-secondary" disabled="1" style="font-weight: 800; border-radius: 12px; padding: 12px 24px;">
+                                        <i class="fa fa-check-circle me-1"/> تم النشر بنجاح
+                                    </button>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </div>
+    </t>
+</templates>

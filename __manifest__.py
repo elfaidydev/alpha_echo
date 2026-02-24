@@ -11,14 +11,21 @@
     'depends': ['base', 'web'],
     'data': [
         'security/ir.model.access.csv',
-        'views/client_config_views.xml',
+        'data/demo_data.xml',
+        'views/target_views.xml',
+        'views/post_views.xml',
+        'views/res_config_settings_views.xml',
         'views/menu.xml',
     ],
     'assets': {
         'web.assets_backend': [
+            'smart_radar/static/src/scss/backend_views.scss',
             'smart_radar/static/src/components/dashboard/**/*.js',
             'smart_radar/static/src/components/dashboard/**/*.xml',
             'smart_radar/static/src/components/dashboard/**/*.scss',
+            'smart_radar/static/src/components/posts/**/*.js',
+            'smart_radar/static/src/components/posts/**/*.xml',
+            'smart_radar/static/src/components/posts/**/*.scss',
         ],
     },
     'installable': True,

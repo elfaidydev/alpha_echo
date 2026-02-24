@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Premium Odoo Native Kanban View -->
+    <record id="view_smart_radar_post_kanban" model="ir.ui.view">
+        <field name="name">smart.radar.post.kanban</field>
+        <field name="model">smart.radar.post</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" class="o_kanban_mobile" sample="1">
+                <field name="target_id"/>
+                <field name="create_date"/>
+                <field name="state"/>
+                <field name="ai_confidence"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click oe_kanban_card">
+                            <div class="o_kanban_record_top mb-2">
+                                <div class="o_kanban_record_headings">
+                                    <strong class="o_kanban_record_title fs-5 text-primary">
+                                        <i class="fa fa-building-o me-1"/> <field name="target_id"/>
+                                    </strong>
+                                </div>
+                                <span class="badge rounded-pill text-bg-warning" t-if="record.state.raw_value == 'draft'">مسودة لجهة الاعتماد</span>
+                                <span class="badge rounded-pill text-bg-success" t-if="record.state.raw_value == 'published'"><i class="fa fa-check"/> تم النشر</span>
+                                <span class="badge rounded-pill text-bg-danger" t-if="record.state.raw_value == 'failed'">فشل النشر</span>
+                            </div>
+                            
+                            <div class="o_kanban_record_body mb-2">
+                                <div class="text-muted d-flex justify-content-between align-items-center">
+                                    <span>
+                                        <i class="fa fa-clock-o me-1" title="تاريخ الرصد"/> <field name="create_date" widget="date"/>
+                                    </span>
+                                    <span title="نسبة ثقة الذكاء الاصطناعي بأن هذا المنشور هو منحة حقيقية" class="text-success fw-bold">
+                                        <i class="fa fa-magic me-1"/> <field name="ai_confidence"/>%
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <div class="o_kanban_record_bottom mt-3 border-top pt-2">
+                                <div class="oe_kanban_bottom_left">
+                                    <button name="action_publish" type="object" class="btn btn-sm btn-outline-success" t-if="record.state.raw_value == 'draft'">
+                                        <i class="fa fa-rocket me-1"/> اعتماد ونشر
+                                    </button>
+                                </div>
+                                <div class="oe_kanban_bottom_right">
+                                    <field name="published_web_url" widget="url" text="الموقع" class="btn btn-sm btn-link" t-if="record.state.raw_value == 'published'"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Standard Tree View -->
+    <record id="view_smart_radar_post_tree" model="ir.ui.view">
+        <field name="name">smart.radar.post.tree</field>
+        <field name="model">smart.radar.post</field>
+        <field name="arch" type="xml">
+            <tree string="AI Formulated Posts" decoration-info="state == 'draft'" decoration-success="state == 'published'" decoration-danger="state == 'failed'">
+                <field name="target_id"/>
+                <field name="create_date" string="Detected On"/>
+                <field name="ai_confidence" widget="progressbar"/>
+                <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-success="state == 'published'" decoration-danger="state == 'failed'"/>
+                <button name="action_publish" type="object" string="Publish Now" class="btn-primary" invisible="state != 'draft'"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Premium Odoo Native Form View -->
+    <record id="view_smart_radar_post_form" model="ir.ui.view">
+        <field name="name">smart.radar.post.form</field>
+        <field name="model">smart.radar.post</field>
+        <field name="arch" type="xml">
+            <form string="AI Formulated Post">
+                <header>
+                    <button name="action_publish" type="object" string="اعتماد ونشر للويب و 𝕏" class="oe_highlight btn-success" icon="fa-rocket" invisible="state != 'draft'"/>
+                    <button name="action_revert_to_draft" type="object" string="إعادة للمسودات" invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,published"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" icon="fa-percent" title="AI Match Confidence" style="pointer-events: none;">
+                            <div class="o_stat_info">
+                                <span class="o_stat_value text-success"><field name="ai_confidence"/>%</span>
+                                <span class="o_stat_text">AI Confidence</span>
+                            </div>
+                        </button>
+                    </div>
+                    
+                    <widget name="web_ribbon" title="مُعتمد ومنشور" bg_color="bg-success" invisible="state != 'published'"/>
+                    <widget name="web_ribbon" title="ينتظر الاعتماد" bg_color="bg-warning" invisible="state != 'draft'"/>
+                    
+                    <div class="oe_title">
+                        <label for="target_id" class="oe_edit_only" string="الجهة المانحة المستهدفة"/>
+                        <h1>
+                            <field name="target_id" options="{'no_open': True}"/>
+                        </h1>
+                    </div>
+                    
+                    <group>
+                        <group string="بيانات الاستقطاب (المصدر)">
+                            <field name="create_date" string="تاريخ الرصد" readonly="1"/>
+                            <field name="source_url" widget="url" string="رابط التغريدة الأصلي"/>
+                        </group>
+                        <group string="روابط النشر الآلية" invisible="state != 'published'">
+                            <field name="published_web_url" widget="url" string="رابط موقعك"/>
+                            <field name="published_x_url" widget="url" string="رابط حسابك على 𝕏"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="صياغة الذكاء الاصطناعي ✨" name="ai_text_page">
+                            <field name="ai_generated_text" widget="text" placeholder="قم بتعديل وتنسيق صياغة المنحة هنا قبل الاعتماد..."/>
+                        </page>
+                        <page string="النص الخام الأصلي 📄" name="raw_text_page">
+                            <field name="original_text" widget="text" readonly="1" class="text-muted"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_smart_radar_post" model="ir.actions.act_window">
+        <field name="name">Grants &amp; Posts</field>
+        <field name="res_model">smart.radar.post</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            لا توجد منح مرصودة حتى الآن.
+          </p>
+          <p>
+            نظام الرادار الذكي بحالة استماع وتأهب للمنصات المستهدفة...
+          </p>
+        </field>
+    </record>
+</odoo>
