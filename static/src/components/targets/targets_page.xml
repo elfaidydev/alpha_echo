@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="smart_radar.TargetsPage" owl="1">
+        <div class="sr-targets-container h-100 overflow-auto" dir="rtl">
+            
+            <!-- Floating Background Orbs for Premium V4 Look -->
+            <div class="v4-bg-orb orb-primary"></div>
+            <div class="v4-bg-orb orb-emerald"></div>
+
+            <div class="sr-v4-targets-content">
+                <!-- Premium Glassmorphism Header -->
+                <div class="sr-targets-header flex-wrap">
+                    <div class="header-right-side mb-3 mb-md-0">
+                        <div class="logo-box">
+                            <i class="fa fa-crosshairs"/>
+                        </div>
+                        <div class="title-box">
+                            <h1>الكيانات <span>المستهدفة للرصد</span></h1>
+                            <p class="subtitle">شبكة الرصد الحية للجهات المانحة والمؤسسات المعتمدة.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="sr-header-actions d-flex gap-3 align-items-center flex-wrap">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="sr-search-bar">
+                                <i class="fa fa-search"/>
+                                <input type="text" t-model="state.searchQuery" class="form-control" placeholder="ابحث في الكيانات..."/>
+                            </div>
+                            <button class="sr-add-btn" t-on-click="openCreateModal">
+                                <i class="fa fa-plus"/> <span>إضافة جهة</span>
+                            </button>
+                        </div>
+                        <div class="sr-tabs">
+                            <button t-attf-class="sr-tab-btn {{ state.activeTab === 'all' ? 'active' : '' }}" t-on-click="() => this.setTab('all')">الكل</button>
+                            <button t-attf-class="sr-tab-btn {{ state.activeTab === 'general' ? 'active' : '' }}" t-on-click="() => this.setTab('general')">منح عامة</button>
+                            <button t-attf-class="sr-tab-btn {{ state.activeTab === 'health' ? 'active' : '' }}" t-on-click="() => this.setTab('health')">صحة وطب</button>
+                            <button t-attf-class="sr-tab-btn {{ state.activeTab === 'education' ? 'active' : '' }}" t-on-click="() => this.setTab('education')">تعليم وأبحاث</button>
+                            <button t-attf-class="sr-tab-btn {{ state.activeTab === 'tech' ? 'active' : '' }}" t-on-click="() => this.setTab('tech')">تقنية وابتكار</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Content Grid masonry -->
+                <div class="sr-targets-grid">
+                    <t t-if="state.isLoading">
+                        <div class="sr-loading-state" style="grid-column: 1 / -1;">
+                            <div class="dot-spin"></div>
+                            <p>جاري مزامنة شبكة الرصد...</p>
+                        </div>
+                    </t>
+                    <t t-elif="filteredTargets.length === 0">
+                        <div class="sr-empty-state" style="grid-column: 1 / -1;">
+                            <i class="fa fa-crosshairs"/>
+                            <p>لا يوجد جهات مستهدفة مطابقة لمعايير البحث حالياً</p>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <t t-foreach="filteredTargets" t-as="target" t-key="target.id">
+                            <div class="sr-target-card" t-on-click="() => this.openTargetAnalytics(target)">
+                                <div class="sr-card-bg-glow" t-att-class="target.is_active ? 'glow-success' : 'glow-warning'"></div>
+                                
+                                <div class="sr-card-head d-flex justify-content-between align-items-center">
+                                    <div class="sr-target-identity d-flex align-items-center gap-2">
+                                        <div class="sr-target-info d-flex flex-column align-items-start">
+                                            <h3 class="sr-target-name m-0">
+                                                <t t-esc="target.name"/>
+                                            </h3>
+                                            <span class="sr-target-handle" t-if="target.handle">
+                                                <i class="fa fa-twitter"/> <t t-esc="target.handle"/>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="sr-status-toggle" t-on-click.stop="() => this.toggleTracking(target)" t-att-title="target.is_active ? 'إيقاف المراقبة' : 'تنشيط المراقبة'">
+                                        <div class="toggle-track" t-att-class="target.is_active ? 'active' : 'inactive'">
+                                            <div class="toggle-knob"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="sr-card-body">
+                                    <div class="sr-stats-row">
+                                        <div class="sr-stat-box">
+                                            <span class="stat-label">التصنيف</span>
+                                            <span class="stat-value category-badge" t-attf-class="cat-{{target.category}}">
+                                                <i class="fa fa-tag"/> 
+                                                <t t-esc="target.category === 'general' ? 'عامة' : (target.category === 'health' ? 'صحة' : (target.category === 'education' ? 'تعليم' : 'تقنية'))"/>
+                                            </span>
+                                        </div>
+                                        <div class="sr-stat-box">
+                                            <span class="stat-label">المبادرات الملتقطة</span>
+                                            <span class="stat-value text-indigo">
+                                                <i class="fa fa-bolt"/> <t t-esc="target.posts_count"/>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="sr-card-foot">
+                                    <span class="sr-engine-status" t-att-class="target.is_active ? 'recording' : 'paused'">
+                                        <span class="pulse-dot"></span> 
+                                        <t t-esc="target.is_active ? 'محرك الاستكشاف نشط' : 'نظام الرصد متوقف'"/>
+                                    </span>
+                                </div>
+                            </div>
+                        </t>
+                    </t>
+                </div>
+
+                <!-- Ultra Premium Target Analytics Modal (Zero-Wait) -->
+                <t t-if="state.selectedTarget">
+                    <div class="sr-modal-overlay" t-on-click.self="closeTargetAnalytics">
+                        <div class="sr-modal-content fade-in-scale">
+                            <!-- Modal Header -->
+                            <div class="sr-modal-header">
+                                <!-- Title Info (no avatar, clean SaaS style) -->
+                                <div class="sr-modal-title-block">
+                                    <h2 class="sr-modal-title">
+                                        <t t-esc="state.selectedTarget.name"/>
+                                        <span t-if="state.modalMode === 'view'"
+                                              class="pulse-dot-small"
+                                              t-att-class="state.selectedTarget.is_active ? 'bg-success' : 'bg-secondary'"/>
+                                    </h2>
+
+                                    <!-- X Handle — shown in view/edit, below name -->
+                                    <span class="sr-modal-handle" t-if="state.selectedTarget.handle and state.modalMode !== 'create'">
+                                        <i class="fa fa-twitter"/> <t t-esc="state.selectedTarget.handle"/>
+                                    </span>
+
+                                    <!-- Mode Badge -->
+                                    <span class="sr-modal-mode-badge" t-if="state.modalMode === 'create'">إعداد كيان جديد للمراقبة</span>
+                                    <span class="sr-modal-mode-badge" t-if="state.modalMode === 'edit'">وضع التعديل</span>
+                                </div>
+
+                                <!-- X Close Button (top right) -->
+                                <button class="sr-close-btn" t-on-click="closeTargetAnalytics" title="إغلاق">
+                                    <i class="fa fa-times"/>
+                                </button>
+                            </div>
+                            
+                            <!-- Modal Body -->
+                            <div class="sr-modal-body bg-light-mesh">
+                                <!-- VIEW MODE (Analytics) -->
+                                <t t-if="state.modalMode === 'view'">
+                                    <t t-call="smart_radar.TargetsPage.AnalyticsView"/>
+                                </t>
+                                
+                                <!-- EDIT / CREATE MODE -->
+                                <t t-else="">
+                                    <t t-call="smart_radar.TargetsPage.EditForm"/>
+                                </t>
+                            </div>
+                            
+                            <!-- Modal Footer -->
+                            <div class="sr-modal-footer">
+                                <t t-if="state.modalMode === 'view'">
+                                    <!-- View mode: just the edit action -->
+                                    <button class="sr-clean-btn btn-advanced-setup" t-on-click="editTarget">
+                                        <i class="fa fa-pencil"/> تعديل البيانات
+                                    </button>
+                                </t>
+                                <t t-else="">
+                                    <!-- Create/Edit mode: cancel + save -->
+                                    <button class="sr-clean-btn btn-cancel-action" t-on-click="closeTargetAnalytics">
+                                        <i class="fa fa-times-circle"/> إلغاء
+                                    </button>
+                                    <button class="sr-clean-btn btn-save-action" t-on-click="saveTarget" t-att-disabled="!state.editForm.name">
+                                        <i class="fa fa-check"/> حفظ البيانات
+                                    </button>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </div>
+        </div>
+    </t>
+
+    <!-- ============================================== -->
+    <!-- SUB-TEMPLATE: Analytics View (VIEW MODE)       -->
+    <!-- ============================================== -->
+    <t t-name="smart_radar.TargetsPage.AnalyticsView" owl="1">
+        <div class="row g-4 m-0">
+            <!-- Left Analytics Card -->
+            <div class="col-md-5">
+                <div class="sr-insight-card p-4 bg-white rounded-4 shadow-sm h-100 border-0">
+                    <h4 class="fs-6 fw-bold text-muted mb-4 text-uppercase tracking-wide">نظرة عامة على الهدف</h4>
+                    
+                    <div class="d-flex justify-content-between align-items-center mb-3 pb-3 border-bottom">
+                        <span class="text-secondary fw-semibold">حالة الرصد (Engine)</span>
+                        <span t-attf-class="badge rounded-pill {{state.selectedTarget.is_active ? 'bg-success-subtle text-success' : 'bg-secondary-subtle text-secondary'}} fs-6 px-3 py-2">
+                            <i t-attf-class="fa fa-{{state.selectedTarget.is_active ? 'check-circle' : 'pause-circle'}} me-1"/> 
+                            <t t-esc="state.selectedTarget.is_active ? 'نشط ويلتقط البيانات' : 'موقف مؤقتاً'"/>
+                        </span>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mb-3 pb-3 border-bottom">
+                        <span class="text-secondary fw-semibold">تصنيف الجهة</span>
+                        <span class="fw-bold text-dark">
+                            <t t-esc="state.selectedTarget.category === 'general' ? 'عامة' : (state.selectedTarget.category === 'health' ? 'صحة وطب' : (state.selectedTarget.category === 'education' ? 'تعليم وأبحاث' : 'تقنية وابتكار'))"/>
+                        </span>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center bg-indigo-50 p-3 rounded-3 mt-4">
+                        <div>
+                            <span class="d-block text-indigo fw-bold fs-6">إجمالي الاكتشافات</span>
+                            <span class="text-muted small">المبادرات والمنح الملتقطة</span>
+                        </div>
+                        <h2 class="text-indigo mb-0 fw-black"><t t-esc="state.selectedTarget.posts_count"/></h2>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Live Feed Timeline -->
+            <div class="col-md-7">
+                <div class="sr-insight-card p-4 bg-white rounded-4 shadow-sm h-100 border-0">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h4 class="fs-6 fw-bold text-dark mb-0"><i class="fa fa-feed text-primary me-2"/> البث الحي (أحدث 5 منح)</h4>
+                        <div t-if="state.targetRecentPosts.length === 0" class="spinner-border spinner-border-sm text-primary" role="status"></div>
+                    </div>
+                    
+                    <div class="sr-timeline pe-2">
+                        <t t-if="state.targetRecentPosts.length === 0">
+                            <p class="text-muted text-center py-4">جاري تحميل البث الزمني...</p>
+                        </t>
+                        <t t-else="">
+                            <t t-foreach="state.targetRecentPosts" t-as="post" t-key="post.id">
+                                <div class="timeline-item slide-in-right" t-attf-style="animation-delay: {{post_index * 0.1}}s">
+                                    <div class="timeline-marker" t-att-class="post.state === 'published' ? 'bg-success' : (post.state === 'draft' ? 'bg-warning' : 'bg-danger')"></div>
+                                    <div class="timeline-content p-3 rounded-3 bg-light border border-light-subtle mb-3">
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span class="badge" t-att-class="post.state === 'published' ? 'text-bg-success' : (post.state === 'draft' ? 'text-bg-warning' : 'text-bg-danger')">
+                                                <t t-esc="post.state === 'published' ? 'منشور' : (post.state === 'draft' ? 'مسودة معلقة' : 'مستبعد')"/>
+                                            </span>
+                                            <small class="text-muted fw-bold"><i class="fa fa-clock-o me-1"/> <t t-esc="post.create_date.split(' ')[0]"/></small>
+                                        </div>
+                                        <p class="ai-text-snippet mb-2 text-dark fs-6" style="line-height: 1.7; font-weight: 500;">
+                                            <t t-esc="post.ai_generated_text ? post.ai_generated_text.substring(0, 130) + '...' : post.original_text.substring(0, 130) + '...'"/>
+                                        </p>
+                                        <div class="d-flex justify-content-end text-muted small fw-bold mt-3">
+                                            <span class="d-flex align-items-center gap-1">
+                                                <i class="fa fa-bolt text-warning"/> مؤشر ثقة المحرك: <t t-esc="post.ai_confidence"/>%
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <!-- ============================================== -->
+    <!-- SUB-TEMPLATE: Edit Form (EDIT/CREATE MODE)     -->
+    <!-- ============================================== -->
+    <t t-name="smart_radar.TargetsPage.EditForm" owl="1">
+        <div class="sr-custom-form-container mx-auto" style="max-width: 700px;">
+            <div class="sr-insight-card p-4 p-md-5 bg-white rounded-4 shadow-sm border-0">
+                <div class="row g-4">
+                    <div class="col-12">
+                        <div class="sr-form-group">
+                            <label class="sr-form-label">اسم الكيان أو المؤسسة</label>
+                            <input type="text" class="sr-form-input" t-att-value="state.editForm.name" t-on-input="(ev) => this.handleInputChange(ev, 'name')" placeholder="مثال: مؤسسة مسك الخيرية, USAID..."/>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="sr-form-group">
+                            <label class="sr-form-label">معرف منصة X (Twitter Handle)</label>
+                            <div class="sr-input-group">
+                                <span class="sr-input-prefix"><i class="fa fa-twitter text-info"/></span>
+                                <input type="text" class="sr-form-input with-prefix" t-att-value="state.editForm.handle" t-on-input="(ev) => this.handleInputChange(ev, 'handle')" placeholder="@username"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="sr-form-group">
+                            <label class="sr-form-label">القطاع / التصنيف</label>
+                            <select class="sr-form-select" t-att-value="state.editForm.category" t-on-change="(ev) => this.handleInputChange(ev, 'category')">
+                                <option value="general">عام / مؤسسة تنموية</option>
+                                <option value="health">صحة وطب</option>
+                                <option value="education">تعليم وأبحاث</option>
+                                <option value="tech">تقنية وابتكار</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-12 mt-4 mt-md-5">
+                        <div class="p-4 rounded-4 bg-light flex-wrap d-flex justify-content-between align-items-center border border-light-subtle gap-3">
+                            <div>
+                                <h5 class="fw-bold mb-1 text-dark">تشغيل محرك الرصد (Engine)</h5>
+                                <p class="text-muted small mb-0">قم بتفعيله لالتقاط المبادرات والمنح آلياً من هذه الجهة.</p>
+                            </div>
+                            <label class="sr-toggle-switch flex-shrink-0">
+                                <input type="checkbox" t-att-checked="state.editForm.is_active" t-on-change="(ev) => this.handleInputChange(ev, 'is_active')"/>
+                                <span class="sr-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

@@ -17,8 +17,11 @@
             <field name="tag">smart_radar.posts_client_action</field>
         </record>
         <menuitem id="menu_smart_radar_posts" name="Grants &amp; Posts" parent="menu_smart_radar_root" action="action_smart_radar_post_client" sequence="20"/>
-        
-        <menuitem id="menu_smart_radar_targets" name="Monitored Targets" parent="menu_smart_radar_root" action="action_smart_radar_target" sequence="30"/>
+        <record id="action_smart_radar_targets_client" model="ir.actions.client">
+            <field name="name">Monitored Targets</field>
+            <field name="tag">smart_radar.targets_client_action</field>
+        </record>
+        <menuitem id="menu_smart_radar_targets" name="Monitored Targets" parent="menu_smart_radar_root" action="action_smart_radar_targets_client" sequence="30"/>
 
         <!-- Settings Menu -->
         <menuitem id="menu_smart_radar_settings_root" name="Configuration" parent="menu_smart_radar_root" sequence="90"/>

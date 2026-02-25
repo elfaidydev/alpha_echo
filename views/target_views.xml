@@ -72,34 +72,42 @@
         <field name="name">smart.radar.target.form</field>
         <field name="model">smart.radar.target</field>
         <field name="arch" type="xml">
-            <form string="Managed Target">
-                <sheet>
+            <form string="Target Configuration" class="o_form_project_tasks">
+                <sheet class="pe-5 ps-5 pb-5 pt-4 bg-white rounded-4 shadow-sm border-0 mt-4 mb-4" style="max-width: 900px; margin: 0 auto;">
                     <div class="oe_button_box" name="button_box">
                         <button class="oe_stat_button" type="object" name="action_view_posts" icon="fa-file-text-o" invisible="posts_count == 0">
-                            <field string="المنح" name="posts_count" widget="statinfo"/>
+                            <field string="المنح المستكشفة" name="posts_count" widget="statinfo"/>
                         </button>
                     </div>
                     <widget name="web_ribbon" title="موقوف" bg_color="text-bg-warning" invisible="is_active"/>
                     <widget name="web_ribbon" title="مُراقب ومُفعل" bg_color="text-bg-success" invisible="not is_active"/>
                     
-                    <field name="image_1920" widget="image" class="oe_avatar" options="{'preview_image': 'image_128'}"/>
-                    <div class="oe_title">
-                        <label for="name" class="oe_edit_only" string="اسم الجهة (المنصة)"/>
-                        <h1>
-                            <field name="name" placeholder="Target Name (e.g., USAID)"/>
-                        </h1>
+                    <div class="d-flex align-items-center mb-5 pb-4 border-bottom">
+                        <div class="me-4 ms-2"> <!-- Added margin end and start for better spacing -->
+                            <field name="image_1920" widget="image" class="oe_avatar shadow-sm rounded-4 border border-light" options="{'preview_image': 'image_128'}" style="width: 100px; height: 100px; object-fit: contain; background: #fff; padding: 4px;"/>
+                        </div>
+                        <div class="oe_title flex-grow-1 ms-3">
+                            <label for="name" class="oe_edit_only text-muted fw-bold mb-2 fs-6 tracking-wide" string="اسم الكيان المستهدف"/>
+                            <h1 class="mb-0 text-dark" style="font-weight: 900; font-size: 2rem; color: #0f172a;">
+                                <field name="name" placeholder="مثال: مركز الملك سلمان للإغاثة"/>
+                            </h1>
+                        </div>
                     </div>
                     
-                    <group>
-                        <group name="Identity" string="هوية الجهة">
-                            <field name="handle" placeholder="e.g. @USAIDMiddleEast" widget="url"/>
-                            <field name="category"/>
-                        </group>
-                        <group name="Engine Status" string="حالة نظام الرصد الذكي">
-                            <field name="is_active" widget="boolean_toggle"/>
-                            <field name="last_scanned" readonly="1"/>
-                        </group>
-                    </group>
+                    <div class="row">
+                        <div class="col-md-6 pe-md-4 border-end">
+                            <group name="Identity" string="معرفات الربط الرقمي" class="fw-bold" style="color: #4338ca;">
+                                <field name="handle" placeholder="مثال: @KSRelief" widget="url" class="fw-medium text-dark mt-2 mb-3"/>
+                                <field name="category" class="fw-medium text-dark"/>
+                            </group>
+                        </div>
+                        <div class="col-md-6 ps-md-4">
+                            <group name="Engine" string="محرك الرصد الذكي" class="fw-bold text-success">
+                                <field name="is_active" widget="boolean_toggle" class="fw-medium text-dark mt-2 mb-3"/>
+                                <field name="last_scanned" readonly="1" class="text-muted"/>
+                            </group>
+                        </div>
+                    </div>
                 </sheet>
             </form>
         </field>

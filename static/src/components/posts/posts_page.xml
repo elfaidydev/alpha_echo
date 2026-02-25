@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
     <t t-name="smart_radar.PostsPage" owl="1">
-        <div class="sr-posts-container h-100 overflow-auto">
-            <!-- Header section -->
-            <div class="sr-posts-header flex-wrap">
+        <div class="sr-posts-container h-100 overflow-auto" dir="rtl">
+            
+            <!-- Floating Background Orbs for Premium V4 Look -->
+            <div class="v4-bg-orb orb-primary"></div>
+            <div class="v4-bg-orb orb-emerald"></div>
+
+            <div class="sr-v4-posts-content">
+                <!-- Header section -->
+                <div class="sr-posts-header flex-wrap">
                 <div class="header-right-side mb-3 mb-md-0">
                     <div class="logo-box">
                         <i class="fa fa-magic"/>
@@ -127,6 +133,7 @@
                     </div>
                 </div>
             </t>
+        </div>
         </div>
     </t>
 </templates>
