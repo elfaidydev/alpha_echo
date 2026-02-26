@@ -5,7 +5,7 @@
    ==========================================================================
 */
 
-@import url('https://fonts.googleapis.com/css2?family=Alexandria:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap');
 
 :root {
     /* --- V4 Brand Color Palette --- */
@@ -24,6 +24,18 @@
     --v4-amber: #f59e0b;
     --v4-rose: #f43f5e;
 
+    /* Semantic UI Colors */
+    --v4-danger-bg: #fef2f2;
+    --v4-danger-text: #ef4444;
+    --v4-danger-border: #fee2e2;
+    
+    --v4-warning-bg: #fffbeb;
+    --v4-warning-text: #f59e0b;
+    --v4-warning-border: #fef3c7;
+
+    --v4-twitter-blue: #1da1f2;
+    --v4-twitter-bg: #eff6ff;
+
     /* --- Universal Elevation & Radius --- */
     --v4-shadow-soft: 0 4px 20px -5px rgba(0, 0, 0, 0.05);
     --v4-shadow-hover: 0 12px 30px -10px rgba(0, 0, 0, 0.1);
@@ -33,7 +45,7 @@
     --v4-radius-sm: 8px;
 
     /* --- GLOBAL FONTS & WEIGHTS --- */
-    --v4-font-family: 'Alexandria', system-ui, -apple-system, sans-serif;
+    --v4-font-family: 'Montserrat', 'Montserrat Arabic', system-ui, -apple-system, sans-serif;
     --v4-w-regular: 400;
     --v4-w-medium: 500;
     --v4-w-semibold: 600;
