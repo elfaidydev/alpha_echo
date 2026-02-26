@@ -6,22 +6,22 @@
 
         <!-- Dashboard Menu -->
         <record id="action_smart_radar_dashboard" model="ir.actions.client">
-            <field name="name">مركز قيادة الرادار</field>
+            <field name="name">لوحة التحكم المركزية</field>
             <field name="tag">smart_radar.dashboard</field>
         </record>
         <menuitem id="menu_smart_radar_dashboard" name="لوحة التحكم" parent="menu_smart_radar_root" action="action_smart_radar_dashboard" sequence="10"/>
 
         <!-- Operational Menus -->
         <record id="action_smart_radar_post_client" model="ir.actions.client">
-            <field name="name">مراجعة الفرص والمنشورات</field>
+            <field name="name">مراجعة المحتوى والمنشورات</field>
             <field name="tag">smart_radar.posts_client_action</field>
         </record>
-        <menuitem id="menu_smart_radar_posts" name="الفرص والمنشورات" parent="menu_smart_radar_root" action="action_smart_radar_post_client" sequence="20"/>
+        <menuitem id="menu_smart_radar_posts" name="المحتوى والمنشورات" parent="menu_smart_radar_root" action="action_smart_radar_post_client" sequence="20"/>
         <record id="action_smart_radar_targets_client" model="ir.actions.client">
-            <field name="name">الأهداف المرصودة</field>
+            <field name="name">المصادر المرصودة</field>
             <field name="tag">smart_radar.targets_client_action</field>
         </record>
-        <menuitem id="menu_smart_radar_targets" name="إدارة الأهداف" parent="menu_smart_radar_root" action="action_smart_radar_targets_client" sequence="30"/>
+        <menuitem id="menu_smart_radar_targets" name="إدارة المصادر" parent="menu_smart_radar_root" action="action_smart_radar_targets_client" sequence="30"/>
 
         <!-- Settings Menu -->
         <record id="action_smart_radar_config_settings_client" model="ir.actions.client">

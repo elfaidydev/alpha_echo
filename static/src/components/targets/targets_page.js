@@ -71,7 +71,7 @@ export class TargetsPage extends Component {
     openCreateModal() {
         this.state.modalMode = 'create';
         this.state.editForm = { name: '', handle: '', category: 'general', is_active: true };
-        this.state.selectedTarget = { id: 'new', name: 'إضافة جهة جديدة' };
+        this.state.selectedTarget = { id: 'new', name: 'إضافة مصدر جديد' };
     }
 
     editTarget() {

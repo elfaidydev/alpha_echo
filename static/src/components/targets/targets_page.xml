@@ -9,15 +9,15 @@
                             <i class="fa fa-crosshairs"/>
                         </div>
                         <div class="title-box">
-                            <h1>الكيانات <span>المستهدفة للرصد</span></h1>
-                            <p class="subtitle">شبكة الرصد الحية للجهات المانحة والمؤسسات المعتمدة.</p>
+                            <h1>إدارة المصادر</h1>
+                            <p class="subtitle">شبكة الرصد الحية للمصادر والحسابات المعتمدة.</p>
                         </div>
                     </div>
                     
                     <div class="sr-header-actions">
                         <div class="sr-tabs">
                             <button t-attf-class="sr-tab-btn {{ state.activeTab === 'all' ? 'active' : '' }}" t-on-click="() => this.setTab('all')">الكل</button>
-                            <button t-attf-class="sr-tab-btn {{ state.activeTab === 'general' ? 'active' : '' }}" t-on-click="() => this.setTab('general')">منح عامة</button>
+                            <button t-attf-class="sr-tab-btn {{ state.activeTab === 'general' ? 'active' : '' }}" t-on-click="() => this.setTab('general')">محتوى عام</button>
                             <button t-attf-class="sr-tab-btn {{ state.activeTab === 'health' ? 'active' : '' }}" t-on-click="() => this.setTab('health')">صحة وطب</button>
                             <button t-attf-class="sr-tab-btn {{ state.activeTab === 'education' ? 'active' : '' }}" t-on-click="() => this.setTab('education')">تعليم وأبحاث</button>
                             <button t-attf-class="sr-tab-btn {{ state.activeTab === 'tech' ? 'active' : '' }}" t-on-click="() => this.setTab('tech')">تقنية وابتكار</button>
@@ -25,10 +25,10 @@
                         <div class="sr-desktop-actions">
                             <div class="sr-search-bar">
                                 <i class="fa fa-search"/>
-                                <input type="text" t-model="state.searchQuery" placeholder="ابحث في الكيانات..."/>
+                                <input type="text" t-model="state.searchQuery" placeholder="ابحث في المصادر..."/>
                             </div>
                             <button class="sr-add-btn" t-on-click="openCreateModal">
-                                <i class="fa fa-plus"/> <span>إضافة جهة</span>
+                                <i class="fa fa-plus"/> <span>إضافة مصدر</span>
                             </button>
                         </div>
                     </div>
@@ -45,7 +45,7 @@
                     <t t-elif="filteredTargets.length === 0">
                         <div class="sr-empty-state" style="grid-column: 1 / -1;">
                             <i class="fa fa-crosshairs"/>
-                            <p>لا يوجد جهات مستهدفة مطابقة لمعايير البحث حالياً</p>
+                            <p>لا توجد مصادر مطابقة لمعايير البحث حالياً</p>
                         </div>
                     </t>
                     <t t-else="">
@@ -81,7 +81,7 @@
                                             </span>
                                         </div>
                                         <div class="sr-stat-box">
-                                            <span class="stat-label">المبادرات الملتقطة</span>
+                                            <span class="stat-label">المحتوى الملتقط</span>
                                             <span class="stat-value text-indigo">
                                                 <i class="fa fa-bolt"/> <t t-esc="target.posts_count"/>
                                             </span>
@@ -184,7 +184,7 @@
                     </div>
 
                     <div class="d-flex justify-content-between align-items-center mb-3 pb-3 border-bottom">
-                        <span class="text-secondary fw-semibold">تصنيف الجهة</span>
+                        <span class="text-secondary fw-semibold">تصنيف المصدر</span>
                         <span class="fw-bold text-dark">
                             <t t-esc="state.selectedTarget.category === 'general' ? 'عامة' : (state.selectedTarget.category === 'health' ? 'صحة وطب' : (state.selectedTarget.category === 'education' ? 'تعليم وأبحاث' : 'تقنية وابتكار'))"/>
                         </span>
@@ -193,7 +193,7 @@
                     <div class="d-flex justify-content-between align-items-center bg-indigo-50 p-3 rounded-3 mt-4">
                         <div>
                             <span class="d-block text-indigo fw-bold fs-6">إجمالي الاكتشافات</span>
-                            <span class="text-muted small">المبادرات والمنح الملتقطة</span>
+                            <span class="text-muted small">الموضوعات والمحتوى الملتقط</span>
                         </div>
                         <h2 class="text-indigo mb-0 fw-black"><t t-esc="state.selectedTarget.posts_count"/></h2>
                     </div>
@@ -204,7 +204,7 @@
             <div class="col-md-7">
                 <div class="sr-insight-card p-4 bg-white rounded-4 shadow-sm h-100 border-0">
                     <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h4 class="fs-6 fw-bold text-dark mb-0"><i class="fa fa-feed text-primary me-2"/> البث الحي (أحدث 5 منح)</h4>
+                        <h4 class="fs-6 fw-bold text-dark mb-0"><i class="fa fa-feed text-primary me-2"/> البث الحي (أحدث 5 مواضيع)</h4>
                         <div t-if="state.targetRecentPosts.length === 0" class="spinner-border spinner-border-sm text-primary" role="status"></div>
                     </div>
                     
@@ -250,8 +250,8 @@
                 <div class="row g-4">
                     <div class="col-12">
                         <div class="sr-form-group">
-                            <label class="sr-form-label">اسم الكيان أو المؤسسة</label>
-                            <input type="text" class="sr-form-input" t-att-value="state.editForm.name" t-on-input="(ev) => this.handleInputChange(ev, 'name')" placeholder="مثال: مؤسسة مسك الخيرية, USAID..."/>
+                            <label class="sr-form-label">اسم المصدر أو الحساب</label>
+                            <input type="text" class="sr-form-input" t-att-value="state.editForm.name" t-on-input="(ev) => this.handleInputChange(ev, 'name')" placeholder="مثال: وزارة الاتصالات، مؤسسة مسك..."/>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -278,7 +278,7 @@
                         <div class="p-4 rounded-4 bg-light flex-wrap d-flex justify-content-between align-items-center border border-light-subtle gap-3">
                             <div>
                                 <h5 class="fw-bold mb-1 text-dark">تشغيل محرك الرصد (Engine)</h5>
-                                <p class="text-muted small mb-0">قم بتفعيله لالتقاط المبادرات والمنح آلياً من هذه الجهة.</p>
+                                <p class="text-muted small mb-0">قم بتفعيله لالتقاط المحتوى آلياً من هذا المصدر.</p>
                             </div>
                             <label class="sr-toggle-switch flex-shrink-0">
                                 <input type="checkbox" t-att-checked="state.editForm.is_active" t-on-change="(ev) => this.handleInputChange(ev, 'is_active')"/>

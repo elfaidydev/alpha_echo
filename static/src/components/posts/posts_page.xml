@@ -9,8 +9,8 @@
                             <i class="fa fa-magic"/>
                         </div>
                         <div class="title-box">
-                            <h1>الإدارة <span>الذكية للمنح</span></h1>
-                            <p class="subtitle">راجع الصياغة المعتمدة واعتمدها بنقرة واحدة للنشر الآلي.</p>
+                            <h1>المحتوى والمنشورات</h1>
+                            <p class="subtitle">راجع صياغة الذكاء الاصطناعي واعتمدها بنقرة واحدة للنشر الآلي.</p>
                         </div>
                     </div>
                     
@@ -23,7 +23,7 @@
                         </div>
                         <div class="sr-search-bar">
                             <i class="fa fa-search"/>
-                            <input type="text" placeholder="ابحث في المنح أو الجهات..." t-model="state.searchQuery" />
+                            <input type="text" placeholder="ابحث في المحتوى أو المصادر..." t-model="state.searchQuery" />
                         </div>
                     </div>
                 </div>
@@ -33,7 +33,7 @@
                 <t t-if="filteredPosts.length === 0">
                     <div class="sr-empty-state" style="grid-column: 1 / -1;">
                         <i class="fa fa-folder-open-o"/>
-                        <p>لا يوجد مبادرات مطابقة لبحثك في هذا التصنيف حالياً</p>
+                        <p>لا يوجد محتوى مطابق لبحثك في هذا التصنيف حالياً</p>
                     </div>
                 </t>
                 <t t-foreach="filteredPosts" t-as="post" t-key="post.id">

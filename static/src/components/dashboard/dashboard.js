@@ -122,7 +122,7 @@ export class SmartRadarDashboard extends Component {
                 data: {
                     labels: ['٨ ص', '١٠ ص', '١٢ م', '٢ م', '٤ م', '٦ م'],
                     datasets: [{
-                        label: 'إعلانات التمويل الملتقطة',
+                        label: 'الموضوعات والمحتوى الملتقط',
                         data: [2, 5, 8, 12, 6, 3],
                         backgroundColor: [
                             '#818cf8', '#6366f1', '#4f46e5', '#4338ca', '#3730a3', '#312e81'
