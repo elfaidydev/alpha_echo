@@ -12,18 +12,29 @@ export class ConfigPage extends Component {
         this.state = useState({
             ui: {
                 isSaving: false,
-                showTenantId: false,
                 showTwitterApiKey: false,
                 showTwitterApiSecret: false,
                 showTwitterAccessToken: false,
                 showTwitterAccessSecret: false,
                 newKeyword: "",
+                renderTrigger: 0,
             }
         });
 
         onWillStart(async () => {
             await this.radarService.fetchConfig();
+            this._initializeDefaultConfig();
         });
+    }
+
+    _initializeDefaultConfig() {
+        if (!this.config.scraping_interval) this.config.scraping_interval = 60;
+        if (!this.config.max_posts_per_day) this.config.max_posts_per_day = 10;
+        
+        // Ensure default tags if empty
+        if (!this.config.target_radar_focus) {
+             this.config.target_radar_focus = "Odoo, ERP, Business";
+        }
     }
 
     get config() {
@@ -62,22 +73,87 @@ export class ConfigPage extends Component {
         this.state.ui.isSaving = true;
         try {
             await this.radarService.saveConfig();
+            this.notification.add("تم حفط الإعدادات بنجاح", { type: "success" });
         } finally {
             this.state.ui.isSaving = false;
         }
     }
 
+    // --- Connectivity Checks ---
+    get isTwitterConnected() {
+        // Simplified check: assume connected if tokens exist
+        return !!(this.config.twitter_api_key && this.config.twitter_access_token);
+    }
+    
+    get isOdooBlogConnected() {
+        return !!this.config.odoo_blog_id;
+    }
+
+    disconnectTwitter() {
+        if(confirm("هل أنت متأكد من إلغاء ربط حساب تويتر المعرف حالياً؟")) {
+            this.onFieldChange("twitter_api_key", "");
+            this.onFieldChange("twitter_api_secret", "");
+            this.onFieldChange("twitter_access_token", "");
+            this.onFieldChange("twitter_access_secret", "");
+            this.notification.add("تم إلغاء ربط حساب تويتر", { type: "warning" });
+        }
+    }
+
+    // --- Slider Logic ---
+    onScrapingIntervalInput(ev) {
+        let val = parseInt(ev.target.value) || 15;
+        this.config.scraping_interval = val;
+        this.state.ui.renderTrigger++;
+        
+        if (this.saveTimeout) clearTimeout(this.saveTimeout);
+        this.saveTimeout = setTimeout(() => this.radarService.saveConfig(), 1500);
+    }
+
+    onMaxPostsInput(ev) {
+        let val = parseInt(ev.target.value) || 1;
+        this.config.max_posts_per_day = val;
+        this.state.ui.renderTrigger++;
+        
+        if (this.saveTimeout) clearTimeout(this.saveTimeout);
+        this.saveTimeout = setTimeout(() => this.radarService.saveConfig(), 1500);
+    }
+
+    getScrapingIntervalPercent() {
+        let val = this.config.scraping_interval;
+        if (val === undefined) val = 15;
+        // Max: 2880, Min: 15. Range: 2865
+        let percent = ((val - 15) / 2865) * 100;
+        return percent.toFixed(2);
+    }
+
+    getMaxPostsPercent() {
+        let val = this.config.max_posts_per_day;
+        if (val === undefined) val = 1;
+        // Max: 100, Min: 1. Range: 99
+        let percent = ((val - 1) / 99) * 100;
+        return percent.toFixed(2);
+    }
+
     // --- UI Helpers ---
     onFieldChange(fieldName, value) {
+        // Handle integer casting for sliders
+        if (['scraping_interval', 'max_posts_per_day', 'odoo_blog_id'].includes(fieldName)) {
+            value = parseInt(value) || 0;
+        }
+
         this.config[fieldName] = value;
+        
+        // Force component render to instantly update t-att-value and inline styles during fast dragging
+        this.state.ui.renderTrigger++;
         
         if (this.saveTimeout) {
             clearTimeout(this.saveTimeout);
         }
         
+        // Auto-save debounce
         this.saveTimeout = setTimeout(() => {
             this.radarService.saveConfig();
-        }, 1200);
+        }, 1500);
     }
     
     toggleVisibility(field) {
