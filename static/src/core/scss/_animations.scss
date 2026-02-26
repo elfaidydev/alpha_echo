@@ -1,0 +1,57 @@
+/* 
+   ==========================================================================
+   SMART RADAR CORE - Universal Animations (_animations.scss)
+   Professional Entrance & State Animations
+   ==========================================================================
+*/
+
+/* Professional Staggered Entrance */
+@keyframes sr-v4-slideUpFade { 
+    from { opacity: 0; transform: translateY(30px); } 
+    to { opacity: 1; transform: translateY(0); } 
+}
+
+@keyframes sr-v4-fadeScaleUp {
+    from { opacity: 0; transform: translateY(20px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Permanent Logo Shine Sweep */
+@keyframes sr-v4-shine {
+    0% { transform: translateX(-200%) skewX(-25deg); }
+    20% { transform: translateX(200%) skewX(-25deg); }
+    100% { transform: translateX(200%) skewX(-25deg); }
+}
+
+/* Subtle State Effects */
+@keyframes sr-v4-pulse-emerald {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+    70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+@keyframes sr-v4-spin { 100% { transform: rotate(360deg); } }
+
+@keyframes sr-v4-fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes sr-v4-marqueeRTL {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(100%); }
+}
+
+/* Shared Animation Classes */
+.sr-v4-animate-slide-up {
+    animation: sr-v4-slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@mixin sr-v4-fade-scale-up-mixin {
+    animation: sr-v4-fadeScaleUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
+}
+
+.sr-v4-fade-scale-up {
+    @include sr-v4-fade-scale-up-mixin;
+}

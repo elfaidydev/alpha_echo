@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
     <t t-name="smart_radar.TargetsPage" owl="1">
-        <div class="sr-targets-container h-100 overflow-auto" dir="rtl">
-            
-            <!-- Floating Background Orbs for Premium V4 Look -->
-            <div class="v4-bg-orb orb-primary"></div>
-            <div class="v4-bg-orb orb-emerald"></div>
-
-            <div class="sr-v4-targets-content">
+        <div class="sr-targets-container" dir="rtl">
                 <!-- Premium Glassmorphism Header -->
-                <div class="sr-targets-header flex-wrap">
-                    <div class="header-right-side mb-3 mb-md-0">
+                <div class="sr-targets-header">
+                    <div class="header-right-side">
                         <div class="logo-box">
                             <i class="fa fa-crosshairs"/>
                         </div>
@@ -20,22 +14,22 @@
                         </div>
                     </div>
                     
-                    <div class="sr-header-actions d-flex gap-3 align-items-center flex-wrap">
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="sr-search-bar">
-                                <i class="fa fa-search"/>
-                                <input type="text" t-model="state.searchQuery" class="form-control" placeholder="ابحث في الكيانات..."/>
-                            </div>
-                            <button class="sr-add-btn" t-on-click="openCreateModal">
-                                <i class="fa fa-plus"/> <span>إضافة جهة</span>
-                            </button>
-                        </div>
+                    <div class="sr-header-actions">
                         <div class="sr-tabs">
                             <button t-attf-class="sr-tab-btn {{ state.activeTab === 'all' ? 'active' : '' }}" t-on-click="() => this.setTab('all')">الكل</button>
                             <button t-attf-class="sr-tab-btn {{ state.activeTab === 'general' ? 'active' : '' }}" t-on-click="() => this.setTab('general')">منح عامة</button>
                             <button t-attf-class="sr-tab-btn {{ state.activeTab === 'health' ? 'active' : '' }}" t-on-click="() => this.setTab('health')">صحة وطب</button>
                             <button t-attf-class="sr-tab-btn {{ state.activeTab === 'education' ? 'active' : '' }}" t-on-click="() => this.setTab('education')">تعليم وأبحاث</button>
                             <button t-attf-class="sr-tab-btn {{ state.activeTab === 'tech' ? 'active' : '' }}" t-on-click="() => this.setTab('tech')">تقنية وابتكار</button>
+                        </div>
+                        <div class="sr-desktop-actions">
+                            <div class="sr-search-bar">
+                                <i class="fa fa-search"/>
+                                <input type="text" t-model="state.searchQuery" placeholder="ابحث في الكيانات..."/>
+                            </div>
+                            <button class="sr-add-btn" t-on-click="openCreateModal">
+                                <i class="fa fa-plus"/> <span>إضافة جهة</span>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -159,10 +153,7 @@
                                     </button>
                                 </t>
                                 <t t-else="">
-                                    <!-- Create/Edit mode: cancel + save -->
-                                    <button class="sr-clean-btn btn-cancel-action" t-on-click="closeTargetAnalytics">
-                                        <i class="fa fa-times-circle"/> إلغاء
-                                    </button>
+                                    <!-- Create/Edit mode: save only (X handles cancel) -->
                                     <button class="sr-clean-btn btn-save-action" t-on-click="saveTarget" t-att-disabled="!state.editForm.name">
                                         <i class="fa fa-check"/> حفظ البيانات
                                     </button>
@@ -172,7 +163,6 @@
                     </div>
                 </t>
             </div>
-        </div>
     </t>
 
     <!-- ============================================== -->

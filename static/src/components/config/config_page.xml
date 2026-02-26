@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="smart_radar.ConfigPage" owl="1">
+        <div class="o_smart_radar_config" dir="rtl">
+            <!-- Professional Ambient Lighting -->
+            <div class="v4-bg-orb orb-primary"></div>
+            <div class="v4-bg-orb orb-emerald"></div>
+
+            <div class="sr-v4-dashboard px-4 py-2">
+                
+                <!-- V4 Heritage Header -->
+                <div class="sr-header-v4 mb-2">
+                    <div class="header-right-side">
+                        <div class="logo-box">
+                            <i class="fa fa-sliders"/>
+                        </div>
+                        <div class="title-box">
+                            <h1>إعدادات <span>رادار الذكاء</span></h1>
+                            <p class="subtitle">تخصيص معايير البحث، تعليمات المعالجة، وبروتوكولات النشر</p>
+                        </div>
+                    </div>
+                    <div class="header-left-side">
+                        <button class="btn-primary-v4" t-on-click="saveConfig" t-att-disabled="state.ui.isSaving">
+                            <i t-if="state.ui.isSaving" class="fa fa-spinner fa-spin ms-2"/>
+                            <i t-else="" class="fa fa-save ms-2"/>
+                            <t t-if="state.ui.isSaving">جاري الحفظ...</t>
+                            <t t-else="">حفظ الإعدادات</t>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="sr-unified-panel mt-3">
+                    
+                    <!-- Section 1: Target Analytics & AI Logic -->
+                    <div class="sr-section-block">
+                        <div class="sr-section-title">
+                            <i class="fa fa-crosshairs text-primary"/> نطاق الاستهداف والمنطق التحليلي
+                        </div>
+                        <div class="row g-4 g-xl-5">
+                            <!-- Dynamic Tag System -->
+                            <div class="col-xl-5 col-lg-12">
+                                <label class="sr-label mb-3">الكلمات المفتاحية المستهدفة (اضغط Enter للاعتماد)</label>
+                                <div class="sr-tag-container mb-3">
+                                    <t t-foreach="keywords" t-as="keyword" t-key="keyword">
+                                        <span class="sr-tag">
+                                            <t t-esc="keyword"/>
+                                            <i class="fa fa-times-circle ms-1" t-on-click="() => this.removeKeyword(keyword)"/>
+                                        </span>
+                                    </t>
+                                    <input type="text" class="sr-tag-input" placeholder="أضف كلمة دلالية..." t-model="state.ui.newKeyword" t-on-keydown="addKeyword"/>
+                                </div>
+                                <div class="p-3 rounded-4 bg-light border-0" style="background: rgba(248, 250, 252, 0.8) !important;">
+                                    <small class="text-muted d-block mb-1">إحصائيات النطاق:</small>
+                                    <span class="font-weight-bold" style="color: var(--v4-indigo);">
+                                        يتم حالياً تتبع <t t-esc="keywords.length"/> محور تركيز ضمن قاعدة البيانات النشطة.
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <div class="col-xl-7 col-lg-12">
+                                <label class="sr-label mb-3">بروتوكول الصياغة والأسلوب التحريري</label>
+                                <textarea class="form-control" style="min-height: 140px;" t-model="config.custom_ai_instructions" t-on-input="(ev) => this.onFieldChange('custom_ai_instructions', ev.target.value)" placeholder="حدد القواعد التحريرية التي سيلتزم بها المحرك عند توليد المحتوى..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="sr-divider"/>
+
+                    <!-- Section 2: Security, Scheduling & AI -->
+                    <div class="sr-section-block">
+                        <div class="row g-4 g-xl-5">
+                            <div class="col-xl-6 col-lg-12 pr-xl-5 border-end-xl">
+                                <div class="sr-section-title">
+                                    <i class="fa fa-shield text-primary"/> التراخيص والأمن الرقمي
+                                </div>
+                                <div class="mb-4">
+                                     <label class="sr-label mb-3">معرف الترخيص (Tenant ID)</label>
+                                     <div class="input-group fancy-input-group">
+                                        <input t-att-type="state.ui.showTenantId ? 'text' : 'password'" class="form-control" t-model="config.tenant_id" t-on-input="(ev) => this.onFieldChange('tenant_id', ev.target.value)" placeholder="نظام التعريف الفريد"/>
+                                        <div class="btn-icon-v4 px-4" t-on-click="() => this.toggleVisibility('showTenantId')">
+                                            <i t-att-class="state.ui.showTenantId ? 'fa fa-eye-slash' : 'fa fa-eye'"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="fancy-switch">
+                                    <div class="form-check form-switch p-0 m-0 d-flex align-items-center justify-content-between">
+                                        <label class="form-check-label sr-label mb-0" for="autoApproveToggle">النشر التلقائي المباشر (تجاوز بروتوكول المراجعة)</label>
+                                        <input class="form-check-input m-0" type="checkbox" id="autoApproveToggle" t-model="config.auto_approve_drafts" t-on-change="(ev) => this.onFieldChange('auto_approve_drafts', ev.target.checked)"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-6 col-lg-12 pl-xl-5">
+                                <div class="sr-section-title">
+                                    <i class="fa fa-cogs text-warning"/> محرك الذكاء الاصطناعي وجدولة النشر
+                                </div>
+                                <div class="row g-4">
+                                    <div class="col-12">
+                                        <div class="scheduling-control-item">
+                                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                                <label class="sr-label mb-0">تواتر عمليات المسح</label>
+                                                <span class="badge rounded-pill bg-indigo-soft text-indigo"><t t-esc="config.scraping_interval"/> دقيقة</span>
+                                            </div>
+                                            <input type="range" class="form-range custom-v4-range" min="5" max="1440" step="5" t-model="config.scraping_interval" t-on-change="(ev) => this.onFieldChange('scraping_interval', ev.target.value)"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="scheduling-control-item">
+                                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                                <label class="sr-label mb-0">سقف النشر اليومي الأقصى</label>
+                                                <span class="badge rounded-pill bg-emerald-soft text-emerald"><t t-esc="config.max_posts_per_day"/> منشور</span>
+                                            </div>
+                                            <input type="range" class="form-range custom-v4-range-emerald" min="1" max="100" step="1" t-model="config.max_posts_per_day" t-on-change="(ev) => this.onFieldChange('max_posts_per_day', ev.target.value)"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="sr-divider"/>
+
+                    <!-- Section 3: Endpoints -->
+                    <div class="sr-section-block">
+                        <div class="sr-section-title">
+                            <i class="fa fa-share-alt text-primary"/> تكامل منصات التواصل والنشر
+                        </div>
+                        <div class="row g-4">
+                            <div class="col-xl-8 col-lg-12">
+                                <div class="p-4 rounded-4 bg-light border-0">
+                                    <h6 class="mb-4 font-weight-bold" style="color: #1da1f2;"><i class="fa fa-twitter ms-2"/>إعدادات منصة X (تويتر)</h6>
+                                    <div class="row g-4">
+                                        <div class="col-lg-6 border-end-lg">
+                                            <label class="sr-label x-small mb-1">API Key</label>
+                                            <input type="password" class="form-control form-control-sm mb-3" t-model="config.twitter_api_key" t-on-input="(ev) => this.onFieldChange('twitter_api_key', ev.target.value)"/>
+                                            <label class="sr-label x-small mb-1">API Secret</label>
+                                            <input type="password" class="form-control form-control-sm" t-model="config.twitter_api_secret" t-on-input="(ev) => this.onFieldChange('twitter_api_secret', ev.target.value)"/>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label class="sr-label x-small mb-1">Access Token</label>
+                                            <input type="password" class="form-control form-control-sm mb-3" t-model="config.twitter_access_token" t-on-input="(ev) => this.onFieldChange('twitter_access_token', ev.target.value)"/>
+                                            <label class="sr-label x-small mb-1">Access Secret</label>
+                                            <input type="password" class="form-control form-control-sm" t-model="config.twitter_access_secret" t-on-input="(ev) => this.onFieldChange('twitter_access_secret', ev.target.value)"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-12">
+                                <div class="p-4 rounded-4 h-100 bg-light border-0">
+                                    <h6 class="mb-4 font-weight-bold" style="color: var(--v4-indigo);"><i class="fa fa-rss ms-2"/>مدونة الموقع الرسمي</h6>
+                                    <div class="form-group text-center text-lg-start">
+                                        <label class="sr-label mb-2">رقم تعريف القسم (Blog ID)</label>
+                                        <input type="number" class="form-control" t-model="config.odoo_blog_id" t-on-input="(ev) => this.onFieldChange('odoo_blog_id', ev.target.value)"/>
+                                        <div class="mt-4 d-flex align-items-center justify-content-center gap-2 p-2 rounded-3" style="background: rgba(16, 185, 129, 0.1);">
+                                            <i class="fa fa-check-circle text-success"/> 
+                                            <span class="small font-weight-bold text-success">بروتوكول الربط نشط</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 text-center text-muted mt-5 pt-4">
+                        <p class="small opacity-50"><i class="fa fa-lock ms-1"/> جميع بروتوكولات الاتصال مؤمنة بتشفير طرفي متطور.</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
     <t t-name="smart_radar.Dashboard" owl="1">
-        <div class="o_smart_radar_dashboard" dir="rtl">
-            
-            <div class="v4-bg-orb orb-primary"></div>
-            <div class="v4-bg-orb orb-emerald"></div>
-
+        <div class="o_smart_radar_dashboard" t-ref="dashboardMain" dir="rtl">
             <div class="sr-v4-dashboard">
                 
                 <div class="sr-header-v4">
@@ -108,7 +104,7 @@
                         </div>
                         <div class="kpi-chart sparkline">
                             <!-- Visual placeholder for steady constant line -->
-                            <div style="height: 100%; border-bottom: 2px dashed #4f46e5; opacity: 0.3; margin-top: 25px;"></div>
+                            <div style="height: 100%; border-bottom: 2px dashed #4f46e5; opacity: 0.2; transform: translateY(-15px);"></div>
                         </div>
                     </div>
                     

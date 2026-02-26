@@ -16,7 +16,7 @@
                             <div class="o_kanban_record_top mb-2">
                                 <div class="o_kanban_record_headings">
                                     <strong class="o_kanban_record_title fs-5 text-primary">
-                                        <i class="fa fa-building-o me-1"/> <field name="target_id"/>
+                                        <i class="fa fa-building-o me-1" title="Organization"/> <field name="target_id"/>
                                     </strong>
                                 </div>
                                 <span class="badge rounded-pill text-bg-warning" t-if="record.state.raw_value == 'draft'">مسودة لجهة الاعتماد</span>

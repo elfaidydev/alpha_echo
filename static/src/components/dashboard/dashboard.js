@@ -16,50 +16,16 @@ export class SmartRadarDashboard extends Component {
         
         this.chartInstances = [];
         this.mockInterval = null;
+        this.dashboardRef = useRef("dashboardMain");
+        this.resizeObserver = null;
+        this.resizeHandler = () => {
+            this.chartInstances.forEach(c => c.resize());
+        };
 
-        // Custom Grant Tracking State
-        this.state = useState({
-            isTracking: true,
-            isLoading: false,
-            monitoredAccounts: 350,
-            grantsDiscovered: 4,
-            publishedToday: 8, // 4 to X + 4 to Website
-            matchRate: 98,
-            feed: [],
-            logs: []
-        });
+        this.radarService = useService("smart_radar.radar_service");
+        this.state = useState(this.radarService.state);
 
-        // ARABIC DATA - NGO/Donors specific context
-        this.dummyTexts = [
-            { 
-                donor: "@Alwaleed_Philan",
-                raw: "تعلن مؤسسة الوليد للإنسانية عن فتح باب التقديم للحصول على تمويل مشاريع الإسكان وتنمية المجتمع لعام ٢٠٢٤ عبر البوابة الإلكترونية. آخر موعد للتقديم نهاية الشهر.", 
-                ai: "إعلان استراتيجي: نُعلم شركاءنا بفتح نافذة التمويل لمشاريع الإسكان وتنمية المجتمع التابعة لمؤسسة الوليد للإنسانية (دورة 2024). يُرجى الاطلاع على المحددات والمعايير لضمان استيفاء الشروط وتوثيق الملفات قبل الموعد. [المرجع الرسمي]" 
-            },
-            { 
-                donor: "@USAIDMiddleEast",
-                raw: "USAID announces $5 million in new grant funding for climate resilience initiatives in the MENA region. Seeking local partners and NGOs.", 
-                ai: "مبادرة دولية: أطلقت الوكالة الأمريكية للتنمية الدولية محفظة دعم بقيمة 5 ملايين دولار مخصصة لبرامج الاستدامة والمناخ في الشرق الأوسط. ندعو كافة الجهات المعنية لمراجعة الآليات وبناء الشراكات. [الوثيقة الرسمية]" 
-            },
-            { 
-                donor: "@KSRelief",
-                raw: "يطلق مركز الملك سلمان للإغاثة والأعمال الإنسانية برنامج تمويل الشراكات لدعم المنظمات الصحية والتعليمية في الدول النامية. للمشاركة تفضل بالتسجيل.", 
-                ai: "فرصة شراكة إنسانية: أقر مركز الملك سلمان للإغاثة برنامجه الجديد لتمويل الشراكات الفاعلة في قطاعي الصحة والتعليم. تتوفر لدينا الآن إرشادات التسجيل ونماذج حوكمة التمويل للجهات المهتمة بالشراكة التشغيلية. [دليل البرنامج]" 
-            },
-            { 
-                donor: "@isdb_stories",
-                raw: "يسر البنك الإسلامي للتنمية دعوة المبتكرين للتقديم على صندوق دعم الاستدامة والابتكار لعام ٢٠٢٤.", 
-                ai: "دعوة تقديم: يعلن البنك الإسلامي للتنمية عن إطلاق صندوق المستجدات التمويلية لدعم الابتكار. نوفر لعملائنا تحليلاً دقيقاً لمتطلبات الصندوق لضمان التنافسية ورفع موثوقية العروض التقنية والمجتمعية. [رابط الاستعلام]" 
-            }
-        ];
-
-        this.dummyLogs = [
-            { tag: "مسح المعطيات", msg: "الفحص الدوري الشامل للكيانات النشطة.. لم تُرصد مستجدات ذات صلة في الدورة الحالية.", type: "info" },
-            { tag: "ترصد فرص", msg: "تم تسجيل مبادرة مستجدة مطابقة لمعايير الاستهداف الاستراتيجية المتفق عليها.", type: "success" },
-            { tag: "المعالجة (AI)", msg: "يتم تفعيل الخوارزمية اللغوية لإنتاج الصياغة المعتمدة لضمان أقصى موثوقية ممكنة (معدل: 99%).", type: "primary" },
-            { tag: "اعتماد النشر", msg: "المزامنة مكتملة؛ تم توجيه المادة المعالجة نحو قنوات النشر المعتمدة (WordPress و X).", type: "success" },
-            { tag: "إدارة الأحمال", msg: "تأخير طلب الاستعلام برمجيا لتبادل البيانات حفاظا على الاستقرار والسياسات (Rate Limit).", type: "warning" }
-        ];
+        // Dummy data moved to service
 
         onWillStart(async () => {
             await this.loadChartJs();
@@ -70,12 +36,26 @@ export class SmartRadarDashboard extends Component {
 
         onMounted(() => {
             this.initCharts();
+            
+            // Modern ResizeObserver for perfect "live" responsiveness
+            if (this.dashboardRef.el) {
+                this.resizeObserver = new ResizeObserver(() => {
+                    this.chartInstances.forEach(c => {
+                        if (c) {
+                            c.resize();
+                            c.update('none');
+                        }
+                    });
+                });
+                this.resizeObserver.observe(this.dashboardRef.el);
+            }
+
             this.startMockFeed();
-            this.addMockFeedItem(0); // init specific load
-            this.pushLog("جاهزية النظام", "محرك الاستكشاف ووحدة الصياغة الآلية في وضع التفعيل اللحظي. الاتصال نشط ومستقر.", "success");
+            this.radarService.pushLog("جاهزية النظام", "محرك الاستكشاف ووحدة الصياغة الآلية في وضع التفعيل اللحظي. الاتصال نشط ومستقر.", "success");
         });
 
         onWillUnmount(() => {
+            if (this.resizeObserver) this.resizeObserver.disconnect();
             if (this.mockInterval) clearInterval(this.mockInterval);
             this.chartInstances.forEach(c => c.destroy());
         });
@@ -87,7 +67,7 @@ export class SmartRadarDashboard extends Component {
             const script = document.createElement("script");
             script.src = "https://cdn.jsdelivr.net/npm/chart.js";
             script.onload = () => {
-                window.Chart.defaults.font.family = 'system-ui, -apple-system, sans-serif';
+                window.Chart.defaults.font.family = "'Alexandria', sans-serif";
                 resolve();
             };
             script.onerror = reject;
@@ -205,58 +185,17 @@ export class SmartRadarDashboard extends Component {
     startMockFeed() {
         this.mockInterval = setInterval(() => {
             if (this.state.isTracking) {
-                this.addMockFeedItem();
+                this.radarService.fetchFeed();
             }
         }, Math.floor(Math.random() * 4000) + 7000);
     }
 
-    pushLog(tag, message, type) {
-        const timeString = new Date().toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-        this.state.logs = [{ id: Date.now() + Math.random(), time: timeString, tag, message, type }, ...this.state.logs].slice(0, 8);
-    }
-
-    addMockFeedItem(indexOverride = -1) {
-        let template;
-        if (indexOverride >= 0 && indexOverride < this.dummyTexts.length) {
-            template = this.dummyTexts[indexOverride];
-        } else {
-            template = this.dummyTexts[Math.floor(Math.random() * this.dummyTexts.length)];
-        }
-        
-        const timeString = new Date().toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
-
-        const newItem = {
-            id: Date.now() + Math.random(),
-            time: timeString,
-            donor: template.donor,
-            original: template.raw,
-            rewritten: template.ai,
-            tweetLink: "https://your-website.com/new-grant-post"
-        };
-
-        this.state.feed = [newItem, ...this.state.feed].slice(0, 6);
-        
-        // Log the discovery -> rewrite -> publish sequence naturally
-        this.pushLog("تحديث تشغيلي", `رصد نشاط بيانات صادرة عن معرّف ${template.donor}.`, "info");
-        setTimeout(() => this.pushLog("تدخل المعالج (AI)", `يجري تطبيق معايير الصياغة المؤسسية والتهيئة للنشر...`, "primary"), 800);
-        setTimeout(() => {
-            this.pushLog("المزامنة الآلية", `تمت المصادقة وتصدير المحتوى بنجاح عبر البوابات الرسمية (Web & X).`, "success");
-            this.state.grantsDiscovered += 1;
-            this.state.publishedToday += 2; // Web + X
-        }, 1800);
-    }
-
     toggleTracking() {
-        this.state.isTracking = !this.state.isTracking;
-        this.pushLog("إجراء إداري", this.state.isTracking ? "تم تفعيل محرك الاستكشاف الشامل." : "تعليق المهام الاستكشافية وعمليات الفحص.", "warning");
+        this.radarService.toggleTracking();
     }
 
     fetchLatest() {
-        this.state.isLoading = true;
-        setTimeout(() => {
-            if(this.state.isTracking) this.addMockFeedItem();
-            this.state.isLoading = false;
-        }, 800);
+        this.radarService.fetchFeed();
     }
 }
 

@@ -1,38 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
     <t t-name="smart_radar.PostsPage" owl="1">
-        <div class="sr-posts-container h-100 overflow-auto" dir="rtl">
-            
-            <!-- Floating Background Orbs for Premium V4 Look -->
-            <div class="v4-bg-orb orb-primary"></div>
-            <div class="v4-bg-orb orb-emerald"></div>
-
-            <div class="sr-v4-posts-content">
+        <div class="sr-posts-container" dir="rtl">
                 <!-- Header section -->
-                <div class="sr-posts-header flex-wrap">
-                <div class="header-right-side mb-3 mb-md-0">
-                    <div class="logo-box">
-                        <i class="fa fa-magic"/>
+                <div class="sr-posts-header">
+                    <div class="header-right-side">
+                        <div class="logo-box">
+                            <i class="fa fa-magic"/>
+                        </div>
+                        <div class="title-box">
+                            <h1>الإدارة <span>الذكية للمنح</span></h1>
+                            <p class="subtitle">راجع الصياغة المعتمدة واعتمدها بنقرة واحدة للنشر الآلي.</p>
+                        </div>
                     </div>
-                    <div class="title-box">
-                        <h1>الإدارة <span>الذكية للمنح</span></h1>
-                        <p class="subtitle">راجع الصياغة المعتمدة واعتمدها بنقرة واحدة للنشر الآلي.</p>
+                    
+                    <div class="sr-header-actions">
+                        <div class="sr-tabs">
+                            <button t-attf-class="sr-tab-btn {{ state.activeTab === 'all' ? 'active' : '' }}" t-on-click="() => this.setTab('all')">الكل</button>
+                            <button t-attf-class="sr-tab-btn {{ state.activeTab === 'draft' ? 'active' : '' }}" t-on-click="() => this.setTab('draft')">مسودات معلقة</button>
+                            <button t-attf-class="sr-tab-btn {{ state.activeTab === 'published' ? 'active' : '' }}" t-on-click="() => this.setTab('published')">تم النشر</button>
+                            <button t-attf-class="sr-tab-btn {{ state.activeTab === 'rejected' ? 'active' : '' }}" t-on-click="() => this.setTab('rejected')">مستبعدات</button>
+                        </div>
+                        <div class="sr-search-bar">
+                            <i class="fa fa-search"/>
+                            <input type="text" placeholder="ابحث في المنح أو الجهات..." t-model="state.searchQuery" />
+                        </div>
                     </div>
                 </div>
-                
-                <div class="sr-header-actions d-flex gap-3 align-items-center flex-wrap">
-                    <div class="sr-search-bar">
-                        <i class="fa fa-search text-muted"/>
-                        <input type="text" placeholder="ابحث في المنح أو الجهات..." t-model="state.searchQuery"/>
-                    </div>
-                    <div class="sr-tabs">
-                        <button t-attf-class="sr-tab-btn {{ state.activeTab === 'draft' ? 'active' : '' }}" t-on-click="() => this.setTab('draft')">مسودات معلقة</button>
-                        <button t-attf-class="sr-tab-btn {{ state.activeTab === 'published' ? 'active' : '' }}" t-on-click="() => this.setTab('published')">تم النشر</button>
-                        <button t-attf-class="sr-tab-btn {{ state.activeTab === 'rejected' ? 'active' : '' }}" t-on-click="() => this.setTab('rejected')">مستبعدات</button>
-                        <button t-attf-class="sr-tab-btn {{ state.activeTab === 'all' ? 'active' : '' }}" t-on-click="() => this.setTab('all')">الكل</button>
-                    </div>
-                </div>
-            </div>
 
             <!-- Content Grid masonry -->
             <div class="sr-posts-grid">
@@ -114,7 +108,6 @@
                                 <span class="conf-pill"><i class="fa fa-bolt me-1"/> <t t-esc="state.selectedPost.ai_confidence"/>%</span>
                             </div>
                             <div class="sr-actions">
-                                <button class="btn-cancel" t-on-click="closeModal">إلغاء وإغلاق</button>
                                 <t t-if="state.selectedPost.state === 'draft'">
                                     <button class="sr-danger-btn" t-on-click="rejectPost">
                                         <i class="fa fa-trash-o me-1"/> استبعاد
@@ -133,7 +126,6 @@
                     </div>
                 </div>
             </t>
-        </div>
         </div>
     </t>
 </templates>

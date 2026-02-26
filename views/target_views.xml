@@ -25,7 +25,7 @@
                                         <strong class="o_kanban_record_title fs-5 mb-0">
                                             <field name="name"/>
                                         </strong>
-                                        <span class="text-muted small"><i class="fa fa-twitter text-info me-1"/> <field name="handle"/></span>
+                                        <span class="text-muted small"><i class="fa fa-twitter text-info me-1" title="Twitter Handle"/> <field name="handle"/></span>
                                     </div>
                                 </div>
                             </div>
