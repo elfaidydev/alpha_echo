@@ -27,16 +27,45 @@
                         </div>
                     </div>
                 </div>
-
             <!-- Content Grid masonry -->
             <div class="sr-posts-grid">
-                <t t-if="filteredPosts.length === 0">
-                    <div class="sr-empty-state" style="grid-column: 1 / -1;">
-                        <i class="fa fa-folder-open-o"/>
-                        <p>لا يوجد محتوى مطابق لبحثك في هذا التصنيف حالياً</p>
+                <t t-if="!state.service.config.twitterLinked">
+                    <div class="sr-premium-lock-screen full-width-lock">
+                        <div class="lock-bg-pattern"></div>
+                        <div class="lock-content fade-scale-up">
+                            <div class="lock-icon-wrapper">
+                                <div class="lock-shield"><i class="fa fa-shield"/></div>
+                                <div class="lock-main-icon"><i class="fa fa-lock"/></div>
+                            </div>
+                            <div class="lock-text">
+                                <h3>النظام مقفل! <span class="badge-locked">ربط الحساب مطلوب</span></h3>
+                                <p>للتمكن من استعراض المنشورات وإدارة بروتوكولات الصياغة، يجب عليك إتمام خطوات التأسيس من لوحة التحكم وربط حساب منصة X (Twitter) ليتمكن المحرك من العمل.</p>
+                            </div>
+                        </div>
                     </div>
                 </t>
-                <t t-foreach="filteredPosts" t-as="post" t-key="post.id">
+                <t t-elif="state.service.targets.length === 0">
+                    <div class="sr-premium-empty-state" style="grid-column: 1 / -1; margin-top: 40px; background: white; border: 1px dashed var(--v4-border); width: 100%; box-sizing: border-box;">
+                        <div class="empty-icon-wrap"><i class="fa fa-lock pulse-icon"/></div>
+                        <h2>نظام استقطاب المحتوى غير مفعل!</h2>
+                        <p>لكي يبدأ المحرك في جلب وصياغة وتجهيز المحتوى هنا، يرجى التوجه إلى لوحة التحكم وإضافة مصادر الرصد (Targets) أولاً.</p>
+                    </div>
+                </t>
+                <t t-elif="posts.length === 0 and !state.isLoading">
+                    <div class="sr-premium-empty-state" style="grid-column: 1 / -1;">
+                        <div class="empty-icon-wrap"><i class="fa fa-magic pulse-icon"/></div>
+                        <h2>لم يقم المحرك بإنتاج أي محتوى بعد!</h2>
+                        <p>بمجرد تشغيل المحرك الذكي من لوحة التحكم، سيتم التقاط الأخبار وصياغتها لتظهر هنا جاهزة لمراجعتك واعتمادك لضمان أعلى جودة.</p>
+                    </div>
+                </t>
+                <t t-elif="filteredPosts.length === 0 and !state.isLoading">
+                    <div class="sr-empty-state" style="grid-column: 1 / -1;">
+                        <i class="fa fa-folder-open-o"/>
+                        <p>لا يوجد محتوى مطابق لبحثك في هذا التصنيف حالياً.</p>
+                    </div>
+                </t>
+                <t t-else="">
+                    <t t-foreach="filteredPosts" t-as="post" t-key="post.id">
                     <div class="sr-post-card" t-on-click="() => this.openPostModal(post)">
                         <div class="sr-card-head">
                             <span class="sr-target-name">
@@ -55,6 +84,7 @@
                             <span class="sr-date"><i class="fa fa-calendar-o me-1"/> <t t-esc="post.create_date.split(' ')[0]"/></span>
                         </div>
                     </div>
+                </t>
                 </t>
             </div>
 

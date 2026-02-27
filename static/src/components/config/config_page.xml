@@ -179,19 +179,19 @@
                                         <div class="row g-3">
                                             <div class="col-md-6">
                                                 <label class="sr-label x-small mb-1">API Key</label>
-                                                <input type="password" class="form-control form-control-sm" t-model="config.twitter_api_key" t-on-input="(ev) => this.onFieldChange('twitter_api_key', ev.target.value)"/>
+                                                <input type="password" class="form-control form-control-sm" t-model="config.x_api_key" t-on-input="(ev) => this.onFieldChange('x_api_key', ev.target.value)"/>
                                             </div>
                                             <div class="col-md-6">
                                                 <label class="sr-label x-small mb-1">API Secret</label>
-                                                <input type="password" class="form-control form-control-sm" t-model="config.twitter_api_secret" t-on-input="(ev) => this.onFieldChange('twitter_api_secret', ev.target.value)"/>
+                                                <input type="password" class="form-control form-control-sm" t-model="config.x_api_secret" t-on-input="(ev) => this.onFieldChange('x_api_secret', ev.target.value)"/>
                                             </div>
                                             <div class="col-md-6">
                                                 <label class="sr-label x-small mb-1">Access Token</label>
-                                                <input type="password" class="form-control form-control-sm" t-model="config.twitter_access_token" t-on-input="(ev) => this.onFieldChange('twitter_access_token', ev.target.value)"/>
+                                                <input type="password" class="form-control form-control-sm" t-model="config.x_access_token" t-on-input="(ev) => this.onFieldChange('x_access_token', ev.target.value)"/>
                                             </div>
                                             <div class="col-md-6">
                                                 <label class="sr-label x-small mb-1">Access Secret</label>
-                                                <input type="password" class="form-control form-control-sm" t-model="config.twitter_access_secret" t-on-input="(ev) => this.onFieldChange('twitter_access_secret', ev.target.value)"/>
+                                                <input type="password" class="form-control form-control-sm" t-model="config.x_access_token_secret" t-on-input="(ev) => this.onFieldChange('x_access_token_secret', ev.target.value)"/>
                                             </div>
                                         </div>
                                         <div class="alert alert-warning mt-3 mb-0 p-2 small border-0"><i class="fa fa-exclamation-triangle ms-1"/> يرجى إدخال المفاتيح ليتم عرض حسابك المربوط وحجزه كحساب النشر المركزي.</div>

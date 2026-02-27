@@ -14,6 +14,7 @@
         'data/demo_data.xml',
         'views/target_views.xml',
         'views/post_views.xml',
+        'views/client_config_views.xml',
         'views/res_config_settings_views.xml',
         'views/menu.xml',
     ],

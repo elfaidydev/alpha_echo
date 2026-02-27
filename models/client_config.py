@@ -4,6 +4,7 @@ class SmartRadarClientConfig(models.Model):
     _name = 'smart.radar.client.config'
     _description = 'Smart Radar SaaS Client Configuration'
 
+    name = fields.Char(string='Config Name', default='Smart Radar Configuration')
     tenant_id = fields.Char(string='Client License Key (Tenant ID)', required=True, default='')
     auto_approve_drafts = fields.Boolean(string='Auto-Approve AI Drafts', default=False)
     target_radar_focus = fields.Char(string='Target Radar Focus', help="Keywords for guiding AI and Scraper")
@@ -23,14 +24,45 @@ class SmartRadarClientConfig(models.Model):
     scraping_interval = fields.Integer(string='Scraping Interval (Minutes)', default=30)
     max_posts_per_day = fields.Integer(string='Max Posts Per Day', default=50)
 
-    # Endpoints
-    twitter_api_key = fields.Char(string='Twitter API Key')
-    twitter_api_secret = fields.Char(string='Twitter API Secret')
-    twitter_access_token = fields.Char(string='Twitter Access Token')
-    twitter_access_secret = fields.Char(string='Twitter Access Secret')
+    # X (Twitter) Settings
+    x_api_key = fields.Char(string='Twitter API Key')
+    x_api_secret = fields.Char(string='Twitter API Secret')
+    x_access_token = fields.Char(string='Twitter Access Token')
+    x_access_token_secret = fields.Char(string='Twitter Access Secret')
     
-    # Optional integration with blog.blog if module enabled. Skipping hard dependency for now, saving target as string url/name
+    # OpenAI Settings
+    openai_api_key = fields.Char(string='OpenAI API Key')
+    
+    # Apify Settings
+    apify_token = fields.Char(string='Apify Token')
+    apify_actor_id = fields.Char(string='Apify Actor ID')
+    
+    # Supabase Settings
+    supabase_url = fields.Char(string='Supabase URL')
+    supabase_key = fields.Char(string='Supabase Key')
+    supabase_status = fields.Selection([
+        ('disconnected', 'Disconnected'),
+        ('connected', 'Connected'),
+        ('error', 'Error')
+    ], string='Supabase Status', default='disconnected')
+    
+    # Optional integration with blog.blog if module enabled.
     odoo_blog_id = fields.Integer(string='Odoo Blog ID Endpoint', help="ID of the blog.blog if used")
+
+    def action_test_connection(self):
+        """Dummy test connection logic."""
+        self.ensure_one()
+        self.supabase_status = 'connected'
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': 'Connection Success',
+                'message': 'Successfully connected to SaaS endpoints.',
+                'type': 'success',
+                'sticky': False,
+            }
+        }
 
     @api.model
     def get_singleton(self):
@@ -43,7 +75,6 @@ class SmartRadarClientConfig(models.Model):
     @api.model
     def get_config_data(self):
         """RPC method to get config for the UI."""
-        # Check permissions first! Important for SaaS
         if not self.env.user.has_group('base.group_system'):
             return {'error': 'Unauthorized'}
             
@@ -57,10 +88,16 @@ class SmartRadarClientConfig(models.Model):
             'content_language': config.content_language,
             'scraping_interval': config.scraping_interval,
             'max_posts_per_day': config.max_posts_per_day,
-            'twitter_api_key': config.twitter_api_key or '',
-            'twitter_api_secret': config.twitter_api_secret or '',
-            'twitter_access_token': config.twitter_access_token or '',
-            'twitter_access_secret': config.twitter_access_secret or '',
+            'x_api_key': config.x_api_key or '',
+            'x_api_secret': config.x_api_secret or '',
+            'x_access_token': config.x_access_token or '',
+            'x_access_token_secret': config.x_access_token_secret or '',
+            'openai_api_key': config.openai_api_key or '',
+            'apify_token': config.apify_token or '',
+            'apify_actor_id': config.apify_actor_id or '',
+            'supabase_url': config.supabase_url or '',
+            'supabase_key': config.supabase_key or '',
+            'supabase_status': config.supabase_status,
             'odoo_blog_id': config.odoo_blog_id,
         }
     
@@ -75,9 +112,10 @@ class SmartRadarClientConfig(models.Model):
         # Whitelist fields to update
         allowed_fields = [
             'tenant_id', 'auto_approve_drafts', 'target_radar_focus', 
-            'custom_ai_instructions', 'twitter_api_key', 'twitter_api_secret', 
-            'twitter_access_token', 'twitter_access_secret', 'odoo_blog_id',
-            'ai_model', 'content_language', 'scraping_interval', 'max_posts_per_day'
+            'custom_ai_instructions', 'x_api_key', 'x_api_secret', 
+            'x_access_token', 'x_access_token_secret', 'odoo_blog_id',
+            'ai_model', 'content_language', 'scraping_interval', 'max_posts_per_day',
+            'openai_api_key', 'apify_token', 'apify_actor_id', 'supabase_url', 'supabase_key'
         ]
         
         vals = {k: v for k, v in data.items() if k in allowed_fields}

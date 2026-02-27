@@ -34,7 +34,7 @@ export class SmartRadarDashboard extends Component {
             }
         });
 
-        onMounted(() => {
+        onMounted(async () => {
             this.initCharts();
             
             // Modern ResizeObserver for perfect "live" responsiveness
@@ -49,6 +49,10 @@ export class SmartRadarDashboard extends Component {
                 });
                 this.resizeObserver.observe(this.dashboardRef.el);
             }
+
+            // Load actual data from backend
+            await this.radarService.fetchConfig();
+            await this.radarService.loadTargets();
 
             this.startMockFeed();
             this.radarService.pushLog("جاهزية النظام", "محرك الاستكشاف ووحدة الصياغة الآلية في وضع التفعيل اللحظي. الاتصال نشط ومستقر.", "success");
@@ -196,6 +200,10 @@ export class SmartRadarDashboard extends Component {
 
     fetchLatest() {
         this.radarService.fetchFeed();
+    }
+
+    openSettings() {
+        this.action.doAction("smart_radar_action_config");
     }
 }
 

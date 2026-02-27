@@ -36,16 +36,41 @@
 
                 <!-- Content Grid masonry -->
                 <div class="sr-targets-grid">
-                    <t t-if="state.isLoading">
+                    <t t-if="!state.service.config.twitterLinked">
+                        <div class="sr-premium-lock-screen full-width-lock">
+                            <div class="lock-bg-pattern"></div>
+                            <div class="lock-content fade-scale-up">
+                                <div class="lock-icon-wrapper">
+                                    <div class="lock-shield"><i class="fa fa-shield"/></div>
+                                    <div class="lock-main-icon"><i class="fa fa-lock"/></div>
+                                </div>
+                                <div class="lock-text">
+                                    <h3>النظام مقفل! <span class="badge-locked">ربط الحساب مطلوب</span></h3>
+                                    <p>للتمكن من إضافة مصادر الرصد وإدارة النظام، يجب عليك الدخول للوحة التحكم أولاً وربط حساب منصة X (Twitter) ليتمكن المحرك من العمل والنشر.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                    <t t-elif="state.isLoading">
                         <div class="sr-loading-state" style="grid-column: 1 / -1;">
                             <div class="dot-spin"></div>
                             <p>جاري مزامنة شبكة الرصد...</p>
                         </div>
                     </t>
-                    <t t-elif="filteredTargets.length === 0">
+                    <t t-elif="targets.length === 0 and !state.isLoading">
+                        <div class="sr-premium-empty-state" style="grid-column: 1 / -1;">
+                            <div class="empty-icon-wrap"><i class="fa fa-satellite-dish pulse-icon"/></div>
+                            <h2>لم تقم بإضافة أي مصادر للرصد بعد!</h2>
+                            <p>محركنا الذكي بانتظار توجيهاتك. أضف حسابات تويتر أو روابط للاستهداف ليقوم النظام بمراقبتها وجلب وتحليل المحتوى منها فوراً وبشكل آلي.</p>
+                            <button class="sr-glow-btn mt-4 btn-add-first" t-on-click="openCreateModal">
+                                <i class="fa fa-plus ms-2"/> أضف أول مصدر رصد الآن
+                            </button>
+                        </div>
+                    </t>
+                    <t t-elif="filteredTargets.length === 0 and !state.isLoading">
                         <div class="sr-empty-state" style="grid-column: 1 / -1;">
                             <i class="fa fa-crosshairs"/>
-                            <p>لا توجد مصادر مطابقة لمعايير البحث حالياً</p>
+                            <p>لا توجد مصادر مطابقة لمعايير البحث الحالية.</p>
                         </div>
                     </t>
                     <t t-else="">

@@ -81,8 +81,7 @@ export class ConfigPage extends Component {
 
     // --- Connectivity Checks ---
     get isTwitterConnected() {
-        // Simplified check: assume connected if tokens exist
-        return !!(this.config.twitter_api_key && this.config.twitter_access_token);
+        return !!(this.config.x_api_key && this.config.x_access_token);
     }
     
     get isOdooBlogConnected() {
@@ -91,10 +90,10 @@ export class ConfigPage extends Component {
 
     disconnectTwitter() {
         if(confirm("هل أنت متأكد من إلغاء ربط حساب تويتر المعرف حالياً؟")) {
-            this.onFieldChange("twitter_api_key", "");
-            this.onFieldChange("twitter_api_secret", "");
-            this.onFieldChange("twitter_access_token", "");
-            this.onFieldChange("twitter_access_secret", "");
+            this.onFieldChange("x_api_key", "");
+            this.onFieldChange("x_api_secret", "");
+            this.onFieldChange("x_access_token", "");
+            this.onFieldChange("x_access_token_secret", "");
             this.notification.add("تم إلغاء ربط حساب تويتر", { type: "warning" });
         }
     }
@@ -143,6 +142,12 @@ export class ConfigPage extends Component {
 
         this.config[fieldName] = value;
         
+        // Real-time Linked Status Update
+        if (['x_api_key', 'x_api_secret', 'x_access_token', 'x_access_token_secret'].includes(fieldName)) {
+            this.config.twitterLinked = !!(this.config.x_api_key && this.config.x_api_secret && 
+                                          this.config.x_access_token && this.config.x_access_token_secret);
+        }
+
         // Force component render to instantly update t-att-value and inline styles during fast dragging
         this.state.ui.renderTrigger++;
         

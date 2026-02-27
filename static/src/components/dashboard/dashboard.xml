@@ -16,7 +16,7 @@
                     </div>
                     <div class="header-left-side">
                         <div class="health-nav">
-                            <span class="status-pulse"></span> 350 مصدر خاضع للرصد
+                            <span class="status-pulse"></span> <t t-esc="state.targets.length"/> مصدر خاضع للرصد
                         </div>
                         <button class="btn-primary-v4" t-on-click="toggleTracking" t-att-class="{'paused': !state.isTracking}">
                             <i class="fa ms-2" t-att-class="state.isTracking ? 'fa-pause' : 'fa-play'"/>
@@ -28,48 +28,111 @@
                     </div>
                 </div>
 
-                <div class="sr-hero-card-v4">
-                    <div class="hero-content">
-                        <div class="ai-sparkle-v4"><i class="fa fa-magic"/></div>
-                        <div class="hero-text">
-                            <h2>محرك الاستكشاف والتحليل المتقدم نشط ويعمل بكفاءة.</h2>
-                            <p>
-                                تخضع حالياً <strong>350 منصة معتمدة</strong> للمراقبة اللحظية. تم بنجاح رصد <strong><t t-esc="state.grantsDiscovered"/> موضوع جديد</strong> اليوم، 
-                                حيث تولى الذكاء الاصطناعي مهام إعادة الصياغة الاحترافية، وتم التوجيه <strong>تلقائياً وبشكل متزامن</strong> لتعميم النشر عبر النوافذ الرسمية للمؤسسة.
-                            </p>
+                <t t-if="!radarService.canStartEngine()">
+                    <div class="sr-onboarding-hero-v2">
+                        <div class="onboarding-bg-blobs">
+                            <div class="blob blob-1"></div>
+                            <div class="blob blob-2"></div>
                         </div>
-                    </div>
-                    <div class="hero-curve-bg"></div>
-                </div>
+                        
+                        <div class="onboarding-main">
+                            <div class="onboarding-header">
+                                <h2>مرحباً بك في مستقبل الرصد <span class="text-gradient">Smart Radar</span></h2>
+                                <p>أنت على بُعد خطوة واحدة من أتمتة جلب المحتوى وصياغته ونشره بالكامل برعاية الذكاء الاصطناعي. يرجى استكمال الخطوات التالية للبدء.</p>
+                            </div>
 
-                <!-- NEW: Live Targets Radar Section -->
-                <div class="sr-radar-listening-v4">
-                    <div class="listening-header">
-                        <span><i class="fa fa-crosshairs ms-1"/> خريطة الاستهداف الحية (شبكة الـ 350)</span>
-                        <div class="sweep-animation"></div>
-                    </div>
-                    <div class="targets-marquee-container">
-                        <div class="targets-marquee">
-                            <div class="target-pill"><span class="pulse-dot"></span> مؤسسة الوليد للإنسانية</div>
-                            <div class="target-pill"><span class="pulse-dot"></span> مركز الملك سلمان (KSRelief)</div>
-                            <div class="target-pill"><span class="pulse-dot"></span> USAID Middle East</div>
-                            <div class="target-pill"><span class="pulse-dot"></span> البنك الإسلامي للتنمية</div>
-                            <div class="target-pill"><span class="pulse-dot"></span> صندوق قطر للتنمية</div>
-                            <div class="target-pill"><span class="pulse-dot"></span> مؤسسة مسك الخيرية</div>
-                            <div class="target-pill"><span class="pulse-dot"></span> Bill &amp; Melinda Gates Found.</div>
-                            <div class="target-pill ghost"><i class="fa fa-plus ms-1"/> جاري المراقبة الشاملة لـ 343+ كيان معتمد...</div>
-                            <!-- Duplicate for infinite seamless scroll -->
-                            <div class="target-pill"><span class="pulse-dot"></span> مؤسسة الوليد للإنسانية</div>
-                            <div class="target-pill"><span class="pulse-dot"></span> مركز الملك سلمان (KSRelief)</div>
-                            <div class="target-pill"><span class="pulse-dot"></span> USAID Middle East</div>
-                            <div class="target-pill"><span class="pulse-dot"></span> البنك الإسلامي للتنمية</div>
-                            <div class="target-pill"><span class="pulse-dot"></span> صندوق قطر للتنمية</div>
-                            <div class="target-pill"><span class="pulse-dot"></span> مؤسسة مسك الخيرية</div>
-                            <div class="target-pill"><span class="pulse-dot"></span> Bill &amp; Melinda Gates Found.</div>
-                            <div class="target-pill ghost"><i class="fa fa-plus ms-1"/> جاري المراقبة الشاملة لـ 343+ كيان معتمد...</div>
+                            <div class="onboarding-grid">
+                                <div t-attf-class="onboarding-card {{ state.config.twitterLinked ? 'completed' : 'pending' }}" t-on-click="() => this.env.bus.trigger('open_settings')">
+                                    <div class="card-glow"></div>
+                                    <div class="card-content">
+                                        <div class="step-label">الخطوة الأولى</div>
+                                        <div class="step-main">
+                                            <div class="step-icon">
+                                                <i class="fa fa-twitter"/>
+                                                <div t-if="state.config.twitterLinked" class="check-badge"><i class="fa fa-check"/></div>
+                                            </div>
+                                            <div class="step-info">
+                                                <h4>ربط حساب النشر (Twitter)</h4>
+                                                <p>تخويل النظام لتعميم النشر تلقائياً عبر حسابك الرسمي.</p>
+                                            </div>
+                                        </div>
+                                        <div class="step-footer mt-3">
+                                            <span t-if="state.config.twitterLinked" class="status-done">تم الربط بنجاح <i class="fa fa-check-circle me-1"/></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div t-attf-class="onboarding-card {{ state.targets.length > 0 ? 'completed' : 'pending' }}" t-on-click="() => this.env.bus.trigger('open_settings')">
+                                    <div class="card-glow"></div>
+                                    <div class="card-content">
+                                        <div class="step-label">الخطوة الثانية</div>
+                                        <div class="step-main">
+                                            <div class="step-icon">
+                                                <i class="fa fa-crosshairs"/>
+                                                <div t-if="state.targets.length > 0" class="check-badge"><i class="fa fa-check"/></div>
+                                            </div>
+                                            <div class="step-info">
+                                                <h4>تغذية المحرك بالبيانات</h4>
+                                                <p>إضافة مصادر الرصد (Targets) ليتمكن الرادار من تتبعها.</p>
+                                            </div>
+                                        </div>
+                                        <div class="step-footer mt-3">
+                                            <span t-if="state.targets.length === 0" class="status-btn">إضافة مصادر <i class="fa fa-chevron-left me-1"/></span>
+                                            <span t-else="" class="status-done">تم إضافة <t t-esc="state.targets.length"/> مصادر <i class="fa fa-check-circle me-1"/></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="onboarding-action">
+                                <p class="helper-text">تحتاج مساعدة؟ راجع <a href="#">دليل التشغيل السريع</a></p>
+                                <button class="sr-premium-btn" t-on-click="openSettings">
+                                    <span>بدء عملية التفعيل الشامل</span>
+                                    <i class="fa fa-bolt"/>
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </t>
+                <t t-else="">
+                    <div class="sr-hero-card-v4">
+                        <div class="hero-content">
+                            <div class="ai-sparkle-v4"><i class="fa fa-magic"/></div>
+                            <div class="hero-text">
+                                <h2>محرك الاستكشاف والتحليل المتقدم نشط ويعمل بكفاءة.</h2>
+                                <p>
+                                    تخضع حالياً <strong><t t-esc="state.targets.length"/> منصة معتمدة</strong> للمراقبة اللحظية. تم بنجاح رصد <strong><t t-esc="state.grantsDiscovered"/> موضوع جديد</strong> اليوم، 
+                                    حيث تولى الذكاء الاصطناعي مهام إعادة الصياغة الاحترافية، وتم التوجيه <strong>تلقائياً وبشكل متزامن</strong> لتعميم النشر عبر النوافذ الرسمية للمؤسسة.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="hero-curve-bg"></div>
+                    </div>
+
+                    <!-- Live Targets Radar Section -->
+                    <div class="sr-radar-listening-v4">
+                        <div class="listening-header">
+                            <span><i class="fa fa-crosshairs ms-1"/> خريطة الاستهداف الحية (شبكة الـ <t t-esc="state.targets.length"/>)</span>
+                            <div class="sweep-animation"></div>
+                        </div>
+                        <div class="targets-marquee-container">
+                            <div class="targets-marquee">
+                                <t t-foreach="state.targets" t-as="target" t-key="target.id">
+                                    <div class="target-pill"><span class="pulse-dot"></span> <t t-esc="target.name"/></div>
+                                </t>
+                                <t t-if="state.targets.length === 0">
+                                    <div class="target-pill ghost"><i class="fa fa-plus ms-1"/> جاري البحث عن مصادر تطابق معاييرك...</div>
+                                </t>
+                                <!-- Duplicate for infinite seamless scroll -->
+                                <t t-foreach="state.targets" t-as="target" t-key="'dup_' + target.id">
+                                    <div class="target-pill"><span class="pulse-dot"></span> <t t-esc="target.name"/></div>
+                                </t>
+                                <t t-if="state.targets.length === 0">
+                                    <div class="target-pill ghost"><i class="fa fa-plus ms-1"/> جاري البحث عن مصادر تطابق معاييرك...</div>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
 
                 <div class="sr-kpi-grid-v4">
                     <div class="kpi-card-v4">
@@ -225,6 +288,7 @@
                     </div>
 
                 </div>
+                </t>
             </div>
         </div>
     </t>

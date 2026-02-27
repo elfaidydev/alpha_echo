@@ -13,20 +13,40 @@ export const radarService = {
     
     start(env, { rpc, notification }) {
         const state = reactive({
-            isTracking: true,
+            isTracking: false, // Default to OFF for new clients
             isLoading: false,
-            monitoredAccounts: 350,
-            grantsDiscovered: 7,
-            publishedToday: 14,
-            matchRate: 98,
+            monitoredAccounts: 0, // Starts at 0
+            grantsDiscovered: 0,
+            publishedToday: 0,
+            matchRate: 0,
             feed: [],
             logs: [],
             targets: [],
             posts: [],
             activeTab: 'all',
             searchQuery: '',
-            config: {}
+            config: {
+                x_api_key: "",
+                x_api_secret: "",
+                x_access_token: "",
+                x_access_token_secret: "",
+                openai_api_key: "",
+                apify_token: "",
+                apify_actor_id: "",
+                supabase_url: "",
+                supabase_key: "",
+                twitterLinked: false,
+                get isFullyConfigured() {
+                    return this.x_api_key && this.x_api_secret && this.x_access_token && this.x_access_token_secret;
+                },
+                systemPrompt: false
+            }
         });
+
+        const canStartEngine = () => {
+             // System can only "start" if linked AND targets exist
+             return state.config.twitterLinked && state.targets.length > 0;
+        };
 
         // NGO/Donor Mock Data
         const dummyTexts = [
@@ -97,6 +117,14 @@ export const radarService = {
         }
 
         function toggleTracking() {
+            if (!state.isTracking && !canStartEngine()) {
+                notification.add("لا يمكن تشغيل المحرك! تعذر العثور على مفاتيح المعالجة (APIs) أو لم يتم إدراج مصادر رصد (Targets) في النظام.", {
+                    type: "danger",
+                    title: "عملية مرفوضة 🔒",
+                    className: "sr-premium-toast"
+                });
+                return;
+            }
             state.isTracking = !state.isTracking;
             pushLog("إجراء إداري", state.isTracking ? "تم تفعيل محرك الاستكشاف الشامل." : "تعليق المهام الاستكشافية.", "warning");
         }
@@ -110,6 +138,7 @@ export const radarService = {
                     args: [domain, ["name", "handle", "category", "is_active", "posts_count"]],
                     kwargs: { order: "name asc" }
                 });
+                state.monitoredAccounts = state.targets.length;
             } finally {
                 state.isLoading = false;
             }
@@ -164,8 +193,11 @@ export const radarService = {
             try {
                 const data = await rpc("/smart_radar/config/get", {});
                 if (!data.error) {
-                    // Use Object.assign to keep the reactive reference intact
                     Object.assign(state.config, data);
+                    // Critical Fix: Require all 4 keys to consider it "linked"
+                    const hasAllKeys = !!(state.config.x_api_key && state.config.x_api_secret && 
+                                        state.config.x_access_token && state.config.x_access_token_secret);
+                    state.config.twitterLinked = hasAllKeys;
                 }
                 return data;
             } finally {
@@ -200,7 +232,8 @@ export const radarService = {
             saveTarget,
             toggleTarget,
             fetchConfig,
-            saveConfig
+            saveConfig,
+            canStartEngine
         };
     }
 };
