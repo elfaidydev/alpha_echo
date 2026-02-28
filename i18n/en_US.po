@@ -1,0 +1,2049 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* alpha_echo
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-28 20:48+0000\n"
+"PO-Revision-Date: 2026-02-28 20:48+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.view_alpha_echo_post_kanban
+msgid "<i class=\"fa fa-building-o me-1\" title=\"Organization\"/>"
+msgstr ""
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.view_alpha_echo_post_kanban
+msgid "<i class=\"fa fa-check\"/> تم النشر"
+msgstr "<i class=\"fa fa-check\"/> Published"
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.view_alpha_echo_target_kanban
+msgid "<i class=\"fa fa-check-circle me-1\"/> نشط للمراقبة"
+msgstr "<i class=\"fa fa-check-circle me-1\"/> Active for monitoring"
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.view_alpha_echo_post_kanban
+msgid "<i class=\"fa fa-clock-o me-1\" title=\"تاريخ الرصد\"/>"
+msgstr "<i class=\"fa fa-clock-o me-1\" title=\"observation date\"/>"
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.view_alpha_echo_target_kanban
+msgid "<i class=\"fa fa-pause-circle me-1\"/> موقوف"
+msgstr "<i class=\"fa fa-pause-circle me-1\"/> Deprecated"
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.view_alpha_echo_post_kanban
+msgid "<i class=\"fa fa-rocket me-1\"/> اعتماد ونشر"
+msgstr "<i class=\"fa fa-rocket me-1\"/> Adoption and publication"
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.view_alpha_echo_target_kanban
+msgid "<i class=\"fa fa-twitter text-info me-1\" title=\"Twitter Handle\"/>"
+msgstr ""
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.res_config_settings_view_form
+msgid "<span class=\"o_form_label\">API Credentials</span>"
+msgstr ""
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.res_config_settings_view_form
+msgid "<span class=\"o_form_label\">Bypass Drafts (Auto-Publish)</span>"
+msgstr ""
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.res_config_settings_view_form
+msgid "<span class=\"o_form_label\">System Prompt</span>"
+msgstr ""
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.res_config_settings_view_form
+msgid "<span class=\"o_form_label\">WordPress Connection</span>"
+msgstr ""
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.res_config_settings_view_form
+msgid "<span class=\"o_form_label\">X (Twitter) Authorization</span>"
+msgstr ""
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.view_alpha_echo_post_form
+msgid "<span class=\"o_stat_text\">AI Confidence</span>"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "@username"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_post__ai_generated_text
+msgid "AI Formulated Draft"
+msgstr ""
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.view_alpha_echo_post_form
+msgid "AI Formulated Post"
+msgstr ""
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.view_alpha_echo_post_tree
+msgid "AI Formulated Posts"
+msgstr ""
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.res_config_settings_view_form
+msgid "AI Formulation &amp; Engine Settings"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_post__ai_confidence
+#: model_terms:ir.ui.view,arch_db:alpha_echo.view_alpha_echo_post_form
+msgid "AI Match Confidence"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_client_config__ai_model
+msgid "AI Model"
+msgstr ""
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.res_config_settings_view_form
+msgid "AI Personality Prompts"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "API Key"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "API Secret"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "Access Secret"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "Access Token"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,help:alpha_echo.field_res_config_settings__alpha_echo_x_api_key
+msgid "Access token for X API publishing"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_target__is_active
+msgid "Active for Monitoring"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#: model:ir.ui.menu,name:alpha_echo.menu_alpha_echo_root
+#: model_terms:ir.ui.view,arch_db:alpha_echo.res_config_settings_view_form
+#, python-format
+msgid "Alpha Echo"
+msgstr ""
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.view_alpha_echo_client_config_form
+msgid "Alpha Echo Configuration"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model,name:alpha_echo.model_alpha_echo_client_config
+msgid "Alpha Echo: Autonomous AI Social Presence Engine"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.actions.server,name:alpha_echo.ir_cron_alpha_echo_fetch_ir_actions_server
+msgid "Alpha Echo: Fetch & Process Tweets"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model,name:alpha_echo.model_alpha_echo_post
+msgid "Alpha Echo: Formulated Grants"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model,name:alpha_echo.model_alpha_echo_target
+msgid "Alpha Echo: Managed Targets"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model,name:alpha_echo.model_alpha_echo_apify_service
+msgid "Apify Integration Service"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields.selection,name:alpha_echo.selection__alpha_echo_client_config__content_language__ar
+msgid "Arabic Only"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,help:alpha_echo.field_res_config_settings__alpha_echo_wp_token
+msgid "Auth token for WordPress REST API"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_client_config__auto_approve_drafts
+msgid "Auto-Approve AI Drafts"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,field_description:alpha_echo.field_res_config_settings__alpha_echo_auto_publish
+msgid "Automate Dual Publishing (Bypass Drafts)"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields.selection,name:alpha_echo.selection__alpha_echo_client_config__content_language__both
+msgid "Bilingual (Arabic/English)"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields.selection,name:alpha_echo.selection__alpha_echo_client_config__ai_model__claude-3-5-sonnet
+msgid "Claude 3.5 Sonnet"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_client_config__tenant_id
+msgid "Client License Key (Tenant ID)"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_client_config__name
+msgid "Config Name"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model,name:alpha_echo.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.actions.act_window,name:alpha_echo.action_alpha_echo_client_config
+msgid "Configuration"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.actions.act_window,name:alpha_echo.action_alpha_echo_config_settings
+msgid "Configurations"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields.selection,name:alpha_echo.selection__alpha_echo_client_config__supabase_status__connected
+msgid "Connected"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_client_config__content_language
+msgid "Content Language"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_client_config__create_uid
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_post__create_uid
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_target__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_client_config__create_date
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_post__create_date
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_target__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_client_config__custom_ai_instructions
+msgid "Custom AI Instructions"
+msgstr ""
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.view_alpha_echo_post_tree
+msgid "Detected On"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields.selection,name:alpha_echo.selection__alpha_echo_client_config__supabase_status__disconnected
+msgid "Disconnected"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_client_config__display_name
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_post__display_name
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_target__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields.selection,name:alpha_echo.selection__alpha_echo_post__state__draft
+msgid "Draft (Needs Review)"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields.selection,name:alpha_echo.selection__alpha_echo_target__category__education
+msgid "Education & Research"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields.selection,name:alpha_echo.selection__alpha_echo_client_config__content_language__en
+msgid "English Only"
+msgstr ""
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.res_config_settings_view_form
+msgid "Enter your WP application password."
+msgstr ""
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.res_config_settings_view_form
+msgid "Enter your X developer API token."
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_target__image_1920
+msgid "Entity Logo"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_target__name
+msgid "Entity Name"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields.selection,name:alpha_echo.selection__alpha_echo_client_config__supabase_status__error
+msgid "Error"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields.selection,name:alpha_echo.selection__alpha_echo_post__state__rejected
+msgid "Excluded / Rejected"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_target__category
+msgid "Focus Area"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields.selection,name:alpha_echo.selection__alpha_echo_client_config__ai_model__gpt-4o
+msgid "GPT-4o (High Quality)"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields.selection,name:alpha_echo.selection__alpha_echo_client_config__ai_model__gpt-4o-mini
+msgid "GPT-4o Mini (Fast/Cheap)"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields.selection,name:alpha_echo.selection__alpha_echo_target__category__general
+msgid "General Grants"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_target__post_ids
+msgid "Grants"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.actions.act_window,name:alpha_echo.action_alpha_echo_post
+msgid "Grants & Posts"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields.selection,name:alpha_echo.selection__alpha_echo_target__category__health
+msgid "Health & Medicine"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,help:alpha_echo.field_alpha_echo_post__ai_confidence
+msgid "How confident the AI is that this is a relevant grant."
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_client_config__id
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_post__id
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_target__id
+msgid "ID"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,help:alpha_echo.field_alpha_echo_client_config__odoo_blog_id
+msgid "ID of the blog.blog if used"
+msgstr ""
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.res_config_settings_view_form
+msgid ""
+"If enabled, AI generated content will be sent immediately to publication "
+"channels without manual review."
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,help:alpha_echo.field_res_config_settings__alpha_echo_auto_publish
+msgid ""
+"If enabled, AI generated posts will bypass the draft state and be pushed "
+"directly to configured platforms."
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_client_config__is_engine_active
+msgid "Is Tracking Engine Active"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,help:alpha_echo.field_alpha_echo_client_config__target_radar_focus
+msgid "Keywords for guiding AI and Scraper"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_target__last_scanned
+msgid "Last Scanned Date"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_client_config__write_uid
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_post__write_uid
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_target__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_client_config__write_date
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_post__write_date
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_target__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.view_alpha_echo_target_kanban
+msgid "Logo"
+msgstr ""
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.view_alpha_echo_target_tree
+msgid "Managed Targets"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_client_config__max_posts_per_day
+msgid "Max Posts Per Day"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,help:alpha_echo.field_alpha_echo_target__name
+msgid "Name of the organization, e.g. USAID"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_client_config__odoo_blog_id
+msgid "Odoo Blog ID Endpoint"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,field_description:alpha_echo.field_res_config_settings__alpha_echo_openai_key
+msgid "OpenAI API Key"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model,name:alpha_echo.model_alpha_echo_openai_service
+msgid "OpenAI Integration Service"
+msgstr ""
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.res_config_settings_view_form
+msgid "Platform Authorizations (Dual Publish)"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,help:alpha_echo.field_res_config_settings__alpha_echo_ai_prompt
+msgid "Provide instructions for the AI on tone and style."
+msgstr ""
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.view_alpha_echo_post_tree
+msgid "Publish Now"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields.selection,name:alpha_echo.selection__alpha_echo_post__state__published
+msgid "Published Successfully"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_post__published_web_url
+msgid "Published Website URL"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_post__published_x_url
+msgid "Published X URL"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields.selection,name:alpha_echo.selection__alpha_echo_post__state__failed
+msgid "Publishing Failed"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_post__original_text
+msgid "Raw Extracted Material"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,help:alpha_echo.field_res_config_settings__alpha_echo_openai_key
+msgid "Required for dynamic NLP text formulation"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,help:alpha_echo.field_res_config_settings__alpha_echo_supabase_key
+msgid "Required for edge functions connection"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_client_config__scraping_interval
+msgid "Scraping Interval (Minutes)"
+msgstr ""
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.res_config_settings_view_form
+msgid "Set keys for OpenAI and Supabase Engine"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_post__source_tweet_id
+msgid "Source Tweet ID"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_post__source_url
+msgid "Source Tweet URL"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_post__state
+msgid "Status"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,field_description:alpha_echo.field_res_config_settings__alpha_echo_ai_prompt
+msgid "Strategic Formulation Prompt (System Prompt)"
+msgstr ""
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.res_config_settings_view_form
+msgid ""
+"Strategic guidelines for AI on how to format the scraped tweets, the tone of"
+" voice, and the vocabulary to use."
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,field_description:alpha_echo.field_res_config_settings__alpha_echo_supabase_key
+msgid "Supabase API Key"
+msgstr ""
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.view_alpha_echo_client_config_form
+msgid "Supabase Cloud Sync"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_client_config__supabase_key
+msgid "Supabase Key"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_client_config__supabase_status
+msgid "Supabase Status"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_client_config__supabase_url
+msgid "Supabase URL"
+msgstr ""
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.view_alpha_echo_target_form
+msgid "Target Configuration"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_post__target_id
+msgid "Target Entity"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_client_config__target_radar_focus
+msgid "Target Radar Focus"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields.selection,name:alpha_echo.selection__alpha_echo_target__category__tech
+msgid "Technology & Startups"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,help:alpha_echo.field_alpha_echo_client_config__custom_ai_instructions
+msgid "Tenant-specific AI formatting rules"
+msgstr ""
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.view_alpha_echo_client_config_form
+msgid "Test Connection"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_target__posts_count
+#: model_terms:ir.ui.view,arch_db:alpha_echo.view_alpha_echo_target_kanban
+msgid "Total Grants Detected"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_client_config__x_api_key
+msgid "Twitter API Key"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_client_config__x_api_secret
+msgid "Twitter API Secret"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_client_config__x_access_token_secret
+msgid "Twitter Access Secret"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_client_config__x_access_token
+msgid "Twitter Access Token"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,field_description:alpha_echo.field_res_config_settings__alpha_echo_wp_token
+msgid "WordPress Application Password"
+msgstr ""
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.view_alpha_echo_client_config_form
+msgid "X (Twitter) API"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,field_description:alpha_echo.field_res_config_settings__alpha_echo_x_api_key
+msgid "X (Twitter) API Token"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model,name:alpha_echo.model_alpha_echo_x_service
+msgid "X (Twitter) Integration Service"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,field_description:alpha_echo.field_alpha_echo_target__handle
+msgid "X/Twitter Handle"
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.model.fields,help:alpha_echo.field_alpha_echo_target__handle
+msgid "e.g. @USAIDMiddleEast"
+msgstr ""
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.res_config_settings_view_form
+msgid "trap"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "أتمتة مزدوجة"
+msgstr "Double automation"
+
+#. module: alpha_echo
+#: model_terms:ir.actions.act_window,help:alpha_echo.action_alpha_echo_target
+msgid "أضف أول جهة مانحة أو منظمة للبدء!"
+msgstr "Add your first donor or organization to get started!"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "أضف أول مصدر رصد الآن"
+msgstr "Add your first monitoring source now"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid ""
+"أنت على بُعد خطوات بسيطة من أتمتة جلب المحتوى وصياغته ونشره بالكامل برعاية "
+"الذكاء الاصطناعي. يرجى استكمال الخطوات التالية للبدء."
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "إجمالي الاكتشافات"
+msgstr "Total discoveries"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#: model:ir.ui.menu,name:alpha_echo.menu_alpha_echo_targets
+#, python-format
+msgid "إدارة المصادر"
+msgstr "Resource management"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "إصدار التوثيق الحي"
+msgstr "Live documentation version"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "إضافة حسابات"
+msgstr "Add accounts"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "إضافة فلاتر"
+msgstr "Add filters"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "إضافة مصادر الرصد التي سيتابعها الرادار."
+msgstr "Add monitoring sources that the radar will follow."
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "إضافة مصدر"
+msgstr "Add Source"
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.view_alpha_echo_post_form
+msgid "إعادة للمسودات"
+msgstr "Return to drafts"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "إعداد كيان جديد للمراقبة"
+msgstr "Set up a new monitoring entity"
+
+#. module: alpha_echo
+#: model:ir.ui.menu,name:alpha_echo.menu_alpha_echo_client_config
+msgid "إعدادات النظام"
+msgstr "System settings"
+
+#. module: alpha_echo
+#: model:ir.actions.client,name:alpha_echo.action_alpha_echo_config_settings_client
+msgid "إعدادات النظام المركزية"
+msgstr "Central system settings"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "إغلاق"
+msgstr "Closing"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/posts/posts_page.xml:0
+#, python-format
+msgid "ابحث في المحتوى أو المصادر..."
+msgstr "Search the content or sources..."
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "ابحث في المصادر..."
+msgstr "Search sources..."
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "اختر الفاصل الزمني بين كل عملية فحص للبحث عن محتوى جديد."
+msgstr "Choose the time interval between each scan to search for new content."
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/posts/posts_page.xml:0
+#, python-format
+msgid "استبعاد"
+msgstr "Exclude"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "استعراض المادة المنشورة"
+msgstr "Review published material"
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.view_alpha_echo_target_form
+msgid "اسم الكيان المستهدف"
+msgstr "Name of the target entity"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "اسم المصدر أو الحساب"
+msgstr "Source or account name"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/posts/posts_page.xml:0
+#, python-format
+msgid "اعتماد ونشر فوراً"
+msgstr "Adopt and publish immediately"
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.view_alpha_echo_post_form
+msgid "اعتماد ونشر للويب و 𝕏"
+msgstr "Adoption and deployment for the web and 𝕏"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "اكتب واضغط Enter..."
+msgstr "Type and press Enter..."
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "البث الحي (أحدث 5 مواضيع)"
+msgstr "Live broadcast (latest 5 topics)"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "البحث والذكاء الاصطناعي"
+msgstr "Research and artificial intelligence"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "التحكم في مصادر البحث، الذكاء الاصطناعي، وربط حسابات النشر"
+msgstr "Controlling research sources, artificial intelligence, and linking publishing accounts"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "التصنيف"
+msgstr "Classification"
+
+#. module: alpha_echo
+#: model:ir.actions.act_window,name:alpha_echo.action_alpha_echo_target
+msgid "الجهات المستهدفة (Targets)"
+msgstr "Targets"
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.view_alpha_echo_post_form
+msgid "الجهة المانحة المستهدفة"
+msgstr "Target donor"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "الحالة: متصل"
+msgstr "Status: Online"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "الحالة: معطل"
+msgstr "Status: Disabled"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "الحد الأدنى: 5 د | الأقصى: 48 ساعة"
+msgstr "Minimum: 5 D | Maximum: 48 hours"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "الحد الأقصى للنشر في اليوم"
+msgstr "Maximum posting per day"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "الحسابات المستهدفة"
+msgstr "Target accounts"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "الخطوة الأولى"
+msgstr "First step"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "الخطوة الثالثة"
+msgstr "Step three"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "الخطوة الثانية"
+msgstr "Step two"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "الخطوة الرابعة"
+msgstr "Step four"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "الربط والإعدادات"
+msgstr "Connectivity and settings"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "السجل اللحظي للعمليات الاستكشافية"
+msgstr "Real-time record of exploratory operations"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "القطاع / التصنيف"
+msgstr "Sector/classification"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "القياسات التشغيلية اللحظية للنظام"
+msgstr "Daily Autopilot Limits"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/posts/posts_page.xml:0
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "الكل"
+msgstr "All"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "الكلمات المفتاحية للبحث والفترة"
+msgstr "Search keywords and period"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "المحتوى الأولي (الخام) من المصدر"
+msgstr "The raw (raw) content of the source"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "المحتوى الجديد المكتشف اليوم"
+msgstr "New content discovered today"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "المحتوى الملتقط"
+msgstr "Captured content"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/posts/posts_page.xml:0
+#: model:ir.ui.menu,name:alpha_echo.menu_alpha_echo_posts
+#, python-format
+msgid "المحتوى والمنشورات"
+msgstr "Content and publications"
+
+#. module: alpha_echo
+#: model:ir.actions.client,name:alpha_echo.action_alpha_echo_targets_client
+msgid "المصادر المرصودة"
+msgstr "Observed sources"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "المعالجة الذكية والاعتماد التلقائي"
+msgstr "Intelligent processing and automatic approval"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "المعرف الرسمي للمصدر:"
+msgstr "Official ID of the source:"
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.view_alpha_echo_target_form
+msgid "المنح المستكشفة"
+msgstr "Explorer Grants"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "المنشورات (موقع + X)"
+msgstr "Publications (location + X)"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "الموضوعات والمحتوى الملتقط"
+msgstr "Topics and content captured"
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.view_alpha_echo_post_kanban
+msgid "الموقع"
+msgstr "The site"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "الموقع الرسمي (WordPress)"
+msgstr "Official website (WordPress)"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "النشر التلقائي المباشر"
+msgstr "Automated live publishing"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "النشر التلقائي على مدونة الموقع"
+msgstr "Automatic publishing on the site blog"
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.view_alpha_echo_post_form
+msgid "النص الخام الأصلي 📄"
+msgstr "Original raw text 📄"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/posts/posts_page.xml:0
+#, python-format
+msgid "النص الخام من المصدر"
+msgstr "Raw text from the source"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/posts/posts_page.xml:0
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "النظام مقفل!"
+msgstr "The system is locked!"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "الواجهة المركزية لأتمتة تتبع المحتوى وإعادة صياغته ونشره"
+msgstr "The central interface for automating content tracking, reworking, and publishing"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid ""
+"اليوم، \n"
+"                                    حيث تولى الذكاء الاصطناعي مهام إعادة الصياغة الاحترافية، وتم التوجيه"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "بحد أقصى"
+msgstr "Max"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "برومبت الذكاء الاصطناعي"
+msgstr "Prompt Artificial Intelligence"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/posts/posts_page.xml:0
+#, python-format
+msgid ""
+"بمجرد تشغيل المحرك الذكي من لوحة التحكم، سيتم التقاط الأخبار وصياغتها لتظهر "
+"هنا جاهزة لمراجعتك واعتمادك لضمان أعلى جودة."
+msgstr ""
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.view_alpha_echo_post_form
+msgid "بيانات الاستقطاب (المصدر)"
+msgstr "Polarization data (source)"
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.view_alpha_echo_post_form
+msgid "تاريخ الرصد"
+msgstr "Monitoring history"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "تحتاج مساعدة؟ راجع"
+msgstr "Need help? See"
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.view_alpha_echo_target_form
+msgid "تحديث البيانات الآن"
+msgstr "Update data now"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "تحديد أسلوب الصياغة والتعليمات لمحرك المعالجة."
+msgstr "Determine the formulation and instructions for the processing engine."
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "تحديد الكلمات الأساسية لفلترة المحتوى المكتشف."
+msgstr "Define keywords to filter detected content."
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "تحكم في عدد المنشورات اليومية لتجنب الحظر أو إزعاج المتابعين."
+msgstr "Control the number of daily posts to avoid getting banned or annoying followers."
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "تخضع حالياً"
+msgstr "Currently subject"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "تخويل النظام لتعميم النشر تلقائياً عبر حسابك الرسمي."
+msgstr "Authorizing the system to automatically circulate the publication through your official account."
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "تشغيل محرك الرصد (Engine)"
+msgstr "Running the monitoring engine"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "تصنيف المصدر"
+msgstr "Source classification"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "تعديل البيانات"
+msgstr "Modify data"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "تعليم وأبحاث"
+msgstr "Education"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "تعليمات الذكاء الاصطناعي (AI Prompt)"
+msgstr "AI Prompt"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "تغريدة."
+msgstr "Tweet."
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "تقنية وابتكار"
+msgstr "Tech & Startups"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "تلقائياً وبشكل متزامن"
+msgstr "Automatically and simultaneously"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "تم إضافة"
+msgstr "Has been added"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "تم الإعداد"
+msgstr "Set up"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "تم التحديد"
+msgstr "Selected"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "تم الربط"
+msgstr "Linked"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/posts/posts_page.xml:0
+#, python-format
+msgid "تم النشر"
+msgstr "Published"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/posts/posts_page.xml:0
+#, python-format
+msgid "تم النشر بنجاح"
+msgstr "Published successfully"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "تم بالموقع"
+msgstr "Done on site"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "تنشيط الاستكشاف الشامل"
+msgstr "Start Exploration"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "توجيه النشر الآلي"
+msgstr "Automated deployment guidance"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "جاري البحث عن مصادر تطابق معاييرك..."
+msgstr "Searching for sources that match your criteria..."
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "جاري تحميل البث الزمني..."
+msgstr "Loading stream..."
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "جاري مزامنة شبكة الرصد..."
+msgstr "Monitoring network synchronization..."
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "حالة الرصد (Engine)"
+msgstr "Monitoring status (Engine)"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid ""
+"حدد الكلمات المفتاحية الأساسية للبحث؛ سيتم تجاهل التغريدات التي لا تحتوي "
+"عليها لترشيد استهلاك الرصيد."
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "حساب منصة X (Twitter)"
+msgstr "X platform account (Twitter)"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "حسابات النشر والربط"
+msgstr "Publishing and linking accounts"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "حفظ البيانات"
+msgstr "Save data"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "خريطة الاستهداف الحية (شبكة الـ"
+msgstr "Live targeting map (network)."
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "دقة مطابقة برومبت الصياغة"
+msgstr "Accuracy matching prompt wording"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "دقيقة"
+msgstr "Minute"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "دليل التشغيل السريع"
+msgstr "Quick start guide"
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.view_alpha_echo_post_form
+msgid "رابط التغريدة الأصلي"
+msgstr "Original tweet link"
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.view_alpha_echo_post_form
+msgid "رابط حسابك على 𝕏"
+msgstr "Link to your account on 𝕏"
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.view_alpha_echo_post_form
+msgid "رابط موقعك"
+msgstr "Your website link"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/posts/posts_page.xml:0
+#, python-format
+msgid "راجع صياغة الذكاء الاصطناعي واعتمدها بنقرة واحدة للنشر الآلي."
+msgstr "Review and approve AI syntax with one click for automated deployment."
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "ربط الحساب"
+msgstr "Link account"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "ربط الحساب الآن"
+msgstr "Link your account now"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/posts/posts_page.xml:0
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "ربط الحساب مطلوب"
+msgstr "Account linking required"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "ربط حساب النشر (X)"
+msgstr "Link publishing account (X)"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "ربط حساب تويتر (منصة X)"
+msgstr "Link Twitter account (X platform)"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "رقم المدونة في الموقع (Odoo Blog ID)"
+msgstr "Blog number on the site (Odoo Blog ID)"
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.view_alpha_echo_post_form
+msgid "روابط النشر الآلية"
+msgstr "Automated publishing links"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "ساعة"
+msgstr "Hour"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "سرعة البحث الحالية:"
+msgstr "Current search speed:"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "سرعة البحث عن محتوى جديد"
+msgstr "Scraping Frequency"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "سرعة العمل وحدود النشر"
+msgstr "Speed ​​of work and publishing limits"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "سيتوقف النشر تلقائياً عند الوصول لـ"
+msgstr "Publishing will stop automatically when"
+
+#. module: alpha_echo
+#: model_terms:ir.actions.act_window,help:alpha_echo.action_alpha_echo_target
+msgid "سيقوم النظام بمراقبة نشاطهم والتقاط المبادرات آلياً."
+msgstr "The system will monitor their activity and capture initiatives automatically."
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "شبكة الرصد الحية للمصادر والحسابات المعتمدة."
+msgstr "Live monitoring network of approved sources and accounts."
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "صحة وطب"
+msgstr "Health"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/posts/posts_page.xml:0
+#, python-format
+msgid "صياغة الذكاء الاصطناعي (أكمل التعديل واعتمد)"
+msgstr "Artificial Intelligence formulation (edit completed and approved)"
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.view_alpha_echo_post_form
+msgid "صياغة الذكاء الاصطناعي ✨"
+msgstr "Artificial intelligence formulation ✨"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "ضبط التعليمات"
+msgstr "Set instructions"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "عام / مؤسسة تنموية"
+msgstr "General/development institution"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "عدد الفلاتر النشطة حالياً:"
+msgstr "Number of currently active filters:"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/posts/posts_page.xml:0
+#, python-format
+msgid "عرض التغريدة الأصلية"
+msgstr "View the original tweet"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid ""
+"عند إضافة معرف المدونة (Blog ID)، سيقوم النظام بتحويل التغريدات إلى مقالات "
+"متكاملة ونشرها تلقائياً على مدونتك لتحسين ظهورك في محركات البحث (SEO)."
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid ""
+"عند تفعيل هذا الخيار، سيقوم النظام بنشر المحتوى المعالج فوراً دون الحاجة "
+"لمراجعتك المسبقة."
+msgstr ""
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.view_alpha_echo_post_kanban
+msgid "فشل النشر"
+msgstr "Deployment failed"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "فلاتر."
+msgstr "Filters."
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "قطع الارتباط"
+msgstr "Break the link"
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.view_alpha_echo_post_form
+msgid "قم بتعديل وتنسيق صياغة المنحة هنا قبل الاعتماد..."
+msgstr "Edit and format the grant wording here before approval..."
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "قم بتفعيله لالتقاط المحتوى آلياً من هذا المصدر."
+msgstr "Enable it to automatically grab content from this source."
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid ""
+"قم بكتابة التعليمات التي سيتبعها الذكاء الاصطناعي عند إعادة صياغة التغريدات "
+"لتناسب أهدافك."
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "قيد الانتظار"
+msgstr "On hold"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "كثافة تدفق المحتوى حسب الوقت"
+msgstr "Content flow density by time"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "كلمات مفتاحية البحث"
+msgstr "Search keywords"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "لا توجد مصادر مطابقة لمعايير البحث الحالية."
+msgstr "There are no sources matching the current search criteria."
+
+#. module: alpha_echo
+#: model_terms:ir.actions.act_window,help:alpha_echo.action_alpha_echo_post
+msgid "لا توجد منح مرصودة حتى الآن."
+msgstr "There are no grants allocated yet."
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/posts/posts_page.xml:0
+#, python-format
+msgid "لا يوجد محتوى مطابق لبحثك في هذا التصنيف حالياً."
+msgstr "There is currently no content matching your search in this category."
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "لتعميم النشر عبر النوافذ الرسمية للمؤسسة."
+msgstr "To circulate the publication through the official windows of the institution."
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/posts/posts_page.xml:0
+#, python-format
+msgid ""
+"لكي يبدأ المحرك في جلب وصياغة وتجهيز المحتوى هنا، يرجى التوجه إلى لوحة "
+"التحكم وإضافة مصادر الرصد (Targets) أولاً."
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid ""
+"للتمكن من إضافة مصادر الرصد وإدارة النظام، يجب عليك الدخول للوحة التحكم "
+"أولاً وربط حساب منصة X (Twitter) ليتمكن المحرك من العمل والنشر."
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/posts/posts_page.xml:0
+#, python-format
+msgid ""
+"للتمكن من استعراض المنشورات وإدارة بروتوكولات الصياغة، يجب عليك إتمام خطوات "
+"التأسيس من لوحة التحكم وربط حساب منصة X (Twitter) ليتمكن المحرك من العمل."
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "للمراقبة اللحظية. تم بنجاح رصد"
+msgstr "For real-time monitoring. Successfully monitored"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "لم تقم بإضافة أي مصادر للرصد بعد!"
+msgstr "You haven't added any monitoring sources yet!"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/posts/posts_page.xml:0
+#, python-format
+msgid "لم يقم المحرك بإنتاج أي محتوى بعد!"
+msgstr "The engine has not produced any content yet!"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#: model:ir.ui.menu,name:alpha_echo.menu_alpha_echo_dashboard
+#, python-format
+msgid "لوحة التحكم"
+msgstr "Control panel"
+
+#. module: alpha_echo
+#: model:ir.actions.client,name:alpha_echo.action_alpha_echo_dashboard
+msgid "لوحة التحكم المركزية"
+msgstr "Central control panel"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "مؤشر ثقة المحرك:"
+msgstr "Engine Confidence Index:"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "مباشر"
+msgstr "Direct"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "متصل وحصري"
+msgstr "Online and exclusive"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "متصل ومفعل"
+msgstr "Connected and activated"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "مثال: 1"
+msgstr "Example: 1"
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.view_alpha_echo_target_form
+msgid "مثال: @KSRelief"
+msgstr "Example: @KSRelief"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid ""
+"مثال: لخص التغريدات التقنية دي واكتبها كخبر صحفي بسيط وواضح بأسلوب "
+"احترافي..."
+msgstr ""
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.view_alpha_echo_target_form
+msgid "مثال: مركز الملك سلمان للإغاثة"
+msgstr "Example: King Salman Relief Center"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "مثال: وزارة الاتصالات، مؤسسة مسك..."
+msgstr "Example: Ministry of Communications, Misk Foundation..."
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "محتوى عام"
+msgstr "General"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "محرك الاستكشاف والتحليل المتقدم نشط ويعمل بكفاءة."
+msgstr "The advanced exploration and analysis engine is active and working efficiently."
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "محرك الاستكشاف يُجري عمليات مسح دقيقة للكيانات المعتمدة..."
+msgstr "The exploration engine performs precise scans of approved entities..."
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.view_alpha_echo_target_form
+msgid "محرك الرصد الذكي"
+msgstr "Intelligent monitoring engine"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid ""
+"محركنا الذكي بانتظار توجيهاتك. أضف حسابات تويتر أو روابط للاستهداف ليقوم "
+"النظام بمراقبتها وجلب وتحليل المحتوى منها فوراً وبشكل آلي."
+msgstr ""
+
+#. module: alpha_echo
+#: model:ir.actions.client,name:alpha_echo.action_alpha_echo_post_client
+msgid "مراجعة المحتوى والمنشورات"
+msgstr "Review content and posts"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "مراقبة حسابات المصادر"
+msgstr "Monitoring source accounts"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "مرحباً بك في مستقبل الرصد"
+msgstr "Welcome to the future of monitoring"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "مزامنة فورية للبيانات"
+msgstr "Instant data synchronization"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/posts/posts_page.xml:0
+#, python-format
+msgid "مستبعدات"
+msgstr "Discarded"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/posts/posts_page.xml:0
+#, python-format
+msgid "مستوى ثقة التحليل:"
+msgstr "Analysis confidence level:"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/posts/posts_page.xml:0
+#, python-format
+msgid "مسودات معلقة"
+msgstr "Pending Drafts"
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.view_alpha_echo_post_kanban
+msgid "مسودة لجهة الاعتماد"
+msgstr "A draft for the accrediting body"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "مصدر خاضع للرصد"
+msgstr "Monitored source"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "مصدراً"
+msgstr "A source"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "معالجة ذكية"
+msgstr "Intelligent processing"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "معرف منصة X (Twitter Handle)"
+msgstr "X Platform ID (Twitter Handle)"
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.view_alpha_echo_target_form
+msgid "معرفات الربط الرقمي"
+msgstr "Digital link identifiers"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "منشور / يوم"
+msgstr "Post/day"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "منصة معتمدة"
+msgstr "Certified platform"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "موضوع جديد"
+msgstr "New topic"
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.view_alpha_echo_target_form
+msgid "موقوف"
+msgstr "Suspended"
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.view_alpha_echo_target_form
+msgid "مُراقب ومُفعل"
+msgstr "Monitored and activated"
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.view_alpha_echo_post_form
+msgid "مُعتمد ومنشور"
+msgstr "Approved and published"
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.view_alpha_echo_post_kanban
+msgid "نسبة ثقة الذكاء الاصطناعي بأن هذا المنشور هو منحة حقيقية"
+msgstr "The percentage of AI confidence that this post is a real grant"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "نشر مزدوج"
+msgstr "Double posting"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/posts/posts_page.xml:0
+#, python-format
+msgid "نظام استقطاب المحتوى غير مفعل!"
+msgstr "The content recruitment system is not activated!"
+
+#. module: alpha_echo
+#: model_terms:ir.actions.act_window,help:alpha_echo.action_alpha_echo_post
+msgid "نظام الرادار الذكي بحالة استماع وتأهب للمنصات المستهدفة..."
+msgstr "The smart radar system is listening and alert for target platforms..."
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "نظام الرصد سيعمل بكامل طاقته في وضعية النشر المفتوح."
+msgstr "The monitoring system will be fully operational in open deployment mode."
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "نظرة عامة على الهدف"
+msgstr "Goal overview"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "نُشر بـ X"
+msgstr "Published by X"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "وضع التعديل"
+msgstr "Edit mode"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "وضعية النشر المفتوح ∞"
+msgstr "Open publishing mode ∞"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "يرجى إدخال كافة المفاتيح ثم الضغط على \"ربط الحساب الآن\"."
+msgstr "Please enter all keys and then click “Link Account Now”."
+
+#. module: alpha_echo
+#: model_terms:ir.ui.view,arch_db:alpha_echo.view_alpha_echo_post_form
+msgid "ينتظر الاعتماد"
+msgstr "Pending Review"
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "أنت على بُعد خطوات بسيطة من أتمتة جلب المحتوى وصياغته ونشره بالكامل برعاية الذكاء الاصطناعي. يرجى استكمال الخطوات التالية للبدء."
+msgstr "You are just a few steps away from fully automating content fetching, drafting, and publishing powered by AI. Please complete the following steps to begin."
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "مرحباً بك في مستقبل الرصد"
+msgstr "Welcome to the future of monitoring"
+

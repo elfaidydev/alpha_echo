@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
     <t t-name="alpha_echo.Dashboard" owl="1">
-        <div class="o_alpha_echo_dashboard" t-ref="dashboardMain" dir="rtl">
+        <div class="o_alpha_echo_dashboard" t-ref="dashboardMain">
             <div class="sr-v4-dashboard">
                 
                 <div class="sr-header-v4">
@@ -57,7 +57,7 @@
                                                 <p>تخويل النظام لتعميم النشر تلقائياً عبر حسابك الرسمي.</p>
                                             </div>
                                         </div>
-                                        <div class="step-footer mt-2 text-end">
+                                        <div class="step-footer mt-2 text-start">
                                             <span t-if="state.config.twitterLinked" class="status-done">تم الربط <i class="fa fa-check-circle me-1"/></span>
                                             <span t-else="" class="status-btn">ربط الحساب <i class="fa fa-link me-1"/></span>
                                         </div>
@@ -80,7 +80,7 @@
                                                 <p>تحديد أسلوب الصياغة والتعليمات لمحرك المعالجة.</p>
                                             </div>
                                         </div>
-                                        <div class="step-footer mt-2 text-end">
+                                        <div class="step-footer mt-2 text-start">
                                             <span t-if="isPromptDone" class="status-done">تم الإعداد <i class="fa fa-check-circle me-1"/></span>
                                             <span t-else="" class="status-btn">ضبط التعليمات <i class="fa fa-edit me-1"/></span>
                                         </div>
@@ -103,7 +103,7 @@
                                                 <p>تحديد الكلمات الأساسية لفلترة المحتوى المكتشف.</p>
                                             </div>
                                         </div>
-                                        <div class="step-footer mt-2 text-end">
+                                        <div class="step-footer mt-2 text-start">
                                             <span t-if="isKeywordsDone" class="status-done">تم التحديد <i class="fa fa-check-circle me-1"/></span>
                                             <span t-else="" class="status-btn">إضافة فلاتر <i class="fa fa-tags me-1"/></span>
                                         </div>
@@ -126,7 +126,7 @@
                                                 <p>إضافة مصادر الرصد التي سيتابعها الرادار.</p>
                                             </div>
                                         </div>
-                                        <div class="step-footer mt-2 text-end">
+                                        <div class="step-footer mt-2 text-start">
                                             <span t-if="isTargetsDone" class="status-done">تم إضافة <t t-esc="state.targets.length"/> <i class="fa fa-check-circle me-1"/></span>
                                             <span t-else="" class="status-btn">إضافة حسابات <i class="fa fa-plus me-1"/></span>
                                         </div>

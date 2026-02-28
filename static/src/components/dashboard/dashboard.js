@@ -2,6 +2,7 @@
 
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
+import { localization } from "@web/core/l10n/localization";
 import { Component, useState, onWillStart, onMounted, onWillUnmount, useRef } from "@odoo/owl";
 
 export class SmartRadarDashboard extends Component {
@@ -144,7 +145,7 @@ export class SmartRadarDashboard extends Component {
                     },
                     responsive: true,
                     maintainAspectRatio: false,
-                    rtl: true,
+                    rtl: localization.direction === "rtl",
                     plugins: { legend: { display: false } },
                     scales: {
                         x: { grid: { display: false, drawBorder: false }, ticks: { color: '#94a3b8' } },

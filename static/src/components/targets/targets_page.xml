@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
     <t t-name="alpha_echo.TargetsPage" owl="1">
-        <div class="sr-targets-container" dir="rtl">
+        <div class="sr-targets-container">
                 <!-- Premium Glassmorphism Header -->
                 <div class="sr-targets-header">
                     <div class="header-right-side">
@@ -28,7 +28,7 @@
                                 <input type="text" t-model="state.searchQuery" placeholder="ابحث في المصادر..."/>
                             </div>
                             <button class="sr-add-btn" t-on-click="openCreateModal">
-                                <i class="fa fa-plus"/> <span>إضافة مصدر</span>
+                                <i class="fa fa-plus me-2"/> <span class="text-nowrap font-weight-bold">إضافة مصدر</span>
                             </button>
                         </div>
                     </div>
