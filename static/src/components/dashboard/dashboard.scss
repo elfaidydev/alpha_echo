@@ -110,16 +110,16 @@ html, body {
             align-items: center;
             gap: 16px; /* Reduced from 20px */
             .logo-box {
-                width: 48px; /* Reduced from 54px */
-                height: 48px;
+                width: 56px;
+                height: 56px;
                 background: linear-gradient(135deg, #1e1b4b, var(--v4-indigo));
                 color: white;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                font-size: var(--v4-font-h3); /* Smaller icon */
+                font-size: var(--v4-font-h2);
                 border-radius: var(--v4-radius-md);
-                box-shadow: 0 8px 16px rgba(67, 56, 202, 0.15);
+                box-shadow: 0 10px 25px rgba(67, 56, 202, 0.2);
                 position: relative;
                 overflow: hidden;
                 

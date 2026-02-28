@@ -705,7 +705,7 @@ msgstr "Add your first monitoring source now"
 msgid ""
 "أنت على بُعد خطوات بسيطة من أتمتة جلب المحتوى وصياغته ونشره بالكامل برعاية "
 "الذكاء الاصطناعي. يرجى استكمال الخطوات التالية للبدء."
-msgstr ""
+msgstr "You are just a few steps away from fully automating content fetching, drafting, and publishing powered by AI. Please complete the following steps to begin."
 
 #. module: alpha_echo
 #. odoo-javascript
@@ -1709,7 +1709,7 @@ msgstr ""
 msgid ""
 "للتمكن من استعراض المنشورات وإدارة بروتوكولات الصياغة، يجب عليك إتمام خطوات "
 "التأسيس من لوحة التحكم وربط حساب منصة X (Twitter) ليتمكن المحرك من العمل."
-msgstr ""
+msgstr "To browse posts and manage drafting protocols, you must complete the onboarding steps from the dashboard and link your X (Twitter) account for the engine to function."
 
 #. module: alpha_echo
 #. odoo-javascript
@@ -2047,3 +2047,143 @@ msgstr "You are just a few steps away from fully automating content fetching, dr
 msgid "مرحباً بك في مستقبل الرصد"
 msgstr "Welcome to the future of monitoring"
 
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "إيقاف الرصد مؤقتاً"
+msgstr "Pause Monitoring"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "تنشيط الاستكشاف"
+msgstr "Start Exploration"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "للتمكن من إضافة مصادر الرصد وإدارة النظام، يجب عليك الدخول للوحة التحكم أولاً وربط حساب منصة X (Twitter) ليتمكن المحرك من العمل والنشر."
+msgstr "To add monitoring sources and manage the system, please go to the Dashboard and link your X (Twitter) account so the engine can operate and publish."
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "محركنا الذكي بانتظار توجيهاتك. أضف حسابات تويتر أو روابط للاستهداف ليقوم النظام بمراقبتها وجلب وتحليل المحتوى منها فوراً وبشكل آلي."
+msgstr "Our AI engine is waiting for your direction. Add Twitter accounts or URLs so the system can monitor, fetch, and analyze content automatically."
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "محرك الاستكشاف نشط"
+msgstr "Discovery Engine Active"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "نظام الرصد متوقف"
+msgstr "Monitoring Paused"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "إيقاف المراقبة"
+msgstr "Pause Monitoring"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "تنشيط المراقبة"
+msgstr "Activate Monitoring"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "نشط ويلتقط البيانات"
+msgstr "Active & Capturing"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "موقف مؤقتاً"
+msgstr "Paused"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "منشور"
+msgstr "Published"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "مسودة معلقة"
+msgstr "Pending Draft"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "مستبعد"
+msgstr "Discarded"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "الإعدادات والتكوين"
+msgstr "Settings & Configuration"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "ضبط نظام الرصد والذكاء الاصطناعي والتكاملات."
+msgstr "Configure the monitoring system, AI engine, and integrations."
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "حفظ الإعدادات"
+msgstr "Save Settings"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "الكلمات المفتاحية للبحث"
+msgstr "Search Keywords"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "كلمات البحث (Keywords)"
+msgstr "Search Keywords"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "تعليمات الذكاء الاصطناعي المخصصة"
+msgstr "Custom AI Instructions"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "برومبت النظام للـ AI"
+msgstr "AI System Prompt"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "أدخل كلمات مفتاحية مفصولة بفواصل..."
+msgstr "Enter comma-separated keywords..."
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "اكتب تعليماتك للـ AI هنا..."
+msgstr "Write your AI instructions here..."
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "متصل"
+msgstr "Connected"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "غير مرتبط"
+msgstr "Not Linked"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "عامة"
+msgstr "General"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "صحة"
+msgstr "Health"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "تعليم"
+msgstr "Education"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "تقنية"
+msgstr "Tech"

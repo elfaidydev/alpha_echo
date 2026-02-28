@@ -3,8 +3,11 @@
 import { Component, useState, onWillStart } from "@odoo/owl";
 import { useService } from "@web/core/utils/hooks";
 import { registry } from "@web/core/registry";
+import { localization } from "@web/core/l10n/localization";
 
 export class ConfigPage extends Component {
+    get isRTL() { return localization.direction === "rtl"; }
+
     setup() {
         this.radarService = useService("alpha_echo.radar_service");
         this.notification = useService("notification");

@@ -66,6 +66,15 @@ export class SmartRadarDashboard extends Component {
         });
     }
 
+    get isRTL() { return localization.direction === "rtl"; }
+
+    get trackingBtnLabel() {
+        if (this.state.isTracking) {
+            return this.isRTL ? "إيقاف الرصد مؤقتاً" : "Pause Monitoring";
+        }
+        return this.isRTL ? "تنشيط الاستكشاف" : "Start Exploration";
+    }
+
     async loadChartJs() {
         return new Promise((resolve, reject) => {
             if (window.Chart) { resolve(); return; }

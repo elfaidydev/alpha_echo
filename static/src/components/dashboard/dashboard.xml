@@ -20,7 +20,7 @@
                         </div>
                         <button class="btn-primary-v4" t-on-click="toggleTracking" t-att-class="{'paused': !state.isTracking}">
                             <i class="fa ms-2" t-att-class="state.isTracking ? 'fa-pause' : 'fa-play'"/>
-                            <t t-esc="state.isTracking ? 'إيقاف الرصد مؤقتاً' : 'تنشيط الاستكشاف'"/>
+                            <t t-esc="trackingBtnLabel"/>
                         </button>
                         <button class="btn-icon-v4" t-on-click="fetchLatest" title="مزامنة فورية للبيانات">
                             <i class="fa fa-refresh" t-att-class="{'fa-spin': state.isLoading}"/>
