@@ -6,7 +6,7 @@ import { registry } from "@web/core/registry";
 
 export class ConfigPage extends Component {
     setup() {
-        this.radarService = useService("smart_radar.radar_service");
+        this.radarService = useService("alpha_echo.radar_service");
         this.notification = useService("notification");
         
         // Track the entire service state for reactive UI updates
@@ -136,10 +136,8 @@ export class ConfigPage extends Component {
 
     getMaxPostsPercent() {
         let val = this.config.max_posts_per_day;
-        // If 0, it means Unlimited, so fill the WHOLE bar (100%)
-        if (val === 0 || val === undefined) return 100;
-        // Otherwise, 1-100%
-        return Math.min(100, Math.max(1, val)).toFixed(0);
+        if (val === undefined) val = 0;
+        return Math.min(100, Math.max(0, val)).toFixed(0);
     }
 
     // --- UI Helpers ---
@@ -176,6 +174,6 @@ export class ConfigPage extends Component {
     }
 }
 
-ConfigPage.template = "smart_radar.ConfigPage";
+ConfigPage.template = "alpha_echo.ConfigPage";
 
-registry.category("actions").add("smart_radar_action_config", ConfigPage);
+registry.category("actions").add("alpha_echo_action_config", ConfigPage);

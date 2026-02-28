@@ -1,11 +1,11 @@
 from odoo import models, fields, api
 
 class SmartRadarPost(models.Model):
-    _name = 'smart.radar.post'
-    _description = 'Smart Radar Formulated Grants'
+    _name = 'alpha.echo.post'
+    _description = 'Alpha Echo: Formulated Grants'
     _order = 'create_date desc'
 
-    target_id = fields.Many2one('smart.radar.target', string='Target Entity', required=True, ondelete='cascade')
+    target_id = fields.Many2one('alpha.echo.target', string='Target Entity', required=True, ondelete='cascade')
     source_url = fields.Char(string='Source Tweet URL', required=True)
     source_tweet_id = fields.Char(string='Source Tweet ID', index=True)
     original_text = fields.Text(string='Raw Extracted Material', required=True)
@@ -25,7 +25,7 @@ class SmartRadarPost(models.Model):
 
     def action_publish(self):
         for record in self:
-            success, result = self.env['smart.radar.x.service'].publish_tweet(record.ai_generated_text)
+            success, result = self.env['alpha.echo.x.service'].publish_tweet(record.ai_generated_text)
             if success:
                 record.write({
                     'state': 'published',

@@ -13,7 +13,7 @@ _logger = logging.getLogger(__name__)
 APIFY_TOKEN = "apify_api_CNaYglOmQwzMHpkdK8Hx7U2GueoZNt4wxa5J"
 
 class SmartRadarApifyService(models.AbstractModel):
-    _name = 'smart.radar.apify.service'
+    _name = 'alpha.echo.apify.service'
     _description = 'Apify Integration Service'
 
     @api.model

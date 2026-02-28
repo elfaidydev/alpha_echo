@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
-    <t t-name="smart_radar.TargetsPage" owl="1">
+    <t t-name="alpha_echo.TargetsPage" owl="1">
         <div class="sr-targets-container" dir="rtl">
                 <!-- Premium Glassmorphism Header -->
                 <div class="sr-targets-header">
@@ -160,12 +160,12 @@
                             <div class="sr-modal-body bg-light-mesh">
                                 <!-- VIEW MODE (Analytics) -->
                                 <t t-if="state.modalMode === 'view'">
-                                    <t t-call="smart_radar.TargetsPage.AnalyticsView"/>
+                                    <t t-call="alpha_echo.TargetsPage.AnalyticsView"/>
                                 </t>
                                 
                                 <!-- EDIT / CREATE MODE -->
                                 <t t-else="">
-                                    <t t-call="smart_radar.TargetsPage.EditForm"/>
+                                    <t t-call="alpha_echo.TargetsPage.EditForm"/>
                                 </t>
                             </div>
                             
@@ -193,7 +193,7 @@
     <!-- ============================================== -->
     <!-- SUB-TEMPLATE: Analytics View (VIEW MODE)       -->
     <!-- ============================================== -->
-    <t t-name="smart_radar.TargetsPage.AnalyticsView" owl="1">
+    <t t-name="alpha_echo.TargetsPage.AnalyticsView" owl="1">
         <div class="row g-4 m-0">
             <!-- Left Analytics Card -->
             <div class="col-md-5">
@@ -269,7 +269,7 @@
     <!-- ============================================== -->
     <!-- SUB-TEMPLATE: Edit Form (EDIT/CREATE MODE)     -->
     <!-- ============================================== -->
-    <t t-name="smart_radar.TargetsPage.EditForm" owl="1">
+    <t t-name="alpha_echo.TargetsPage.EditForm" owl="1">
         <div class="sr-custom-form-container mx-auto" style="max-width: 700px;">
             <div class="sr-insight-card p-4 p-md-5 bg-white rounded-4 shadow-sm border-0">
                 <div class="row g-4">

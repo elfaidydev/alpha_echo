@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <record id="view_smart_radar_client_config_form" model="ir.ui.view">
-            <field name="name">smart.radar.client.config.form</field>
-            <field name="model">smart.radar.client.config</field>
+        <record id="view_alpha_echo_client_config_form" model="ir.ui.view">
+            <field name="name">alpha.echo.client.config.form</field>
+            <field name="model">alpha.echo.client.config</field>
             <field name="arch" type="xml">
-                <form string="Smart Radar Configuration">
+                <form string="Alpha Echo Configuration">
                     <header>
                         <button name="action_test_connection" string="Test Connection" type="object" class="oe_highlight"/>
                         <field name="supabase_status" widget="statusbar" statusbar_visible="disconnected,connected,error"/>
@@ -35,9 +35,9 @@
             </field>
         </record>
 
-        <record id="action_smart_radar_client_config" model="ir.actions.act_window">
+        <record id="action_alpha_echo_client_config" model="ir.actions.act_window">
             <field name="name">Configuration</field>
-            <field name="res_model">smart.radar.client.config</field>
+            <field name="res_model">alpha.echo.client.config</field>
             <field name="view_mode">tree,form</field>
         </record>
     </data>

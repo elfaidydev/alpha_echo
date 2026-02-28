@@ -6,7 +6,7 @@ import { registry } from "@web/core/registry";
 
 export class TargetsPage extends Component {
     setup() {
-        this.radarService = useService("smart_radar.radar_service");
+        this.radarService = useService("alpha_echo.radar_service");
         this.orm = useService("orm"); // Keep orm for custom modal fetches if needed
         
         this.state = useState({
@@ -50,7 +50,7 @@ export class TargetsPage extends Component {
         this.state.targetRecentPosts = [];
         
         const posts = await this.orm.searchRead(
-            "smart.radar.post",
+            "alpha.echo.post",
             [['target_id', '=', target.id]],
             ["original_text", "ai_generated_text", "ai_confidence", "state", "create_date"],
             { limit: 5, order: "create_date desc" }
@@ -99,5 +99,5 @@ export class TargetsPage extends Component {
     }
 }
 
-TargetsPage.template = "smart_radar.TargetsPage";
-registry.category("actions").add("smart_radar.targets_client_action", TargetsPage);
+TargetsPage.template = "alpha_echo.TargetsPage";
+registry.category("actions").add("alpha_echo.targets_client_action", TargetsPage);

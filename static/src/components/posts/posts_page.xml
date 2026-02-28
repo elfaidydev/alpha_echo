@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
-    <t t-name="smart_radar.PostsPage" owl="1">
+    <t t-name="alpha_echo.PostsPage" owl="1">
         <div class="sr-posts-container" dir="rtl">
                 <!-- Header section -->
                 <div class="sr-posts-header">

@@ -6,7 +6,7 @@ import { registry } from "@web/core/registry";
 
 export class PostsPage extends Component {
     setup() {
-        this.radarService = useService("smart_radar.radar_service");
+        this.radarService = useService("alpha_echo.radar_service");
         this.orm = useService("orm"); // Keep orm for custom actions
         
         this.state = useState({
@@ -53,11 +53,11 @@ export class PostsPage extends Component {
     async approveAndPublish() {
         if (!this.state.selectedPost) return;
         
-        await this.orm.write("smart.radar.post", [this.state.selectedPost.id], {
+        await this.orm.write("alpha.echo.post", [this.state.selectedPost.id], {
             ai_generated_text: this.state.selectedPost.ai_generated_text
         });
 
-        await this.orm.call("smart.radar.post", "action_publish", [[this.state.selectedPost.id]]);
+        await this.orm.call("alpha.echo.post", "action_publish", [[this.state.selectedPost.id]]);
         
         this.closeModal();
         await this.radarService.loadPosts(); 
@@ -66,12 +66,12 @@ export class PostsPage extends Component {
     async rejectPost() {
         if (!this.state.selectedPost) return;
         
-        await this.orm.call("smart.radar.post", "action_reject", [[this.state.selectedPost.id]]);
+        await this.orm.call("alpha.echo.post", "action_reject", [[this.state.selectedPost.id]]);
         
         this.closeModal();
         await this.radarService.loadPosts();
     }
 }
 
-PostsPage.template = "smart_radar.PostsPage";
-registry.category("actions").add("smart_radar.posts_client_action", PostsPage);
+PostsPage.template = "alpha_echo.PostsPage";
+registry.category("actions").add("alpha_echo.posts_client_action", PostsPage);

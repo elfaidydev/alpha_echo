@@ -1,38 +1,39 @@
 from odoo import models, fields, api
 
 class SmartRadarClientConfig(models.Model):
-    _name = 'smart.radar.client.config'
-    _description = 'Smart Radar SaaS Client Configuration'
+    _name = 'alpha.echo.client.config'
+    _description = 'Alpha Echo: Autonomous AI Social Presence Engine'
 
-    name = fields.Char(string='Config Name', default='Smart Radar Configuration')
+    name = fields.Char(string='Config Name', default='Alpha Echo Configuration')
     tenant_id = fields.Char(string='Client License Key (Tenant ID)', required=True, default='')
     auto_approve_drafts = fields.Boolean(string='Auto-Approve AI Drafts', default=False)
-    target_radar_focus = fields.Char(string='Target Radar Focus', help="Keywords for guiding AI and Scraper")
-    custom_ai_instructions = fields.Text(string='Custom AI Instructions', help="Tenant-specific AI formatting rules")
+    is_engine_active = fields.Boolean(string='Is Tracking Engine Active', default=False)
+    target_radar_focus = fields.Char(string='Target Radar Focus', default='', help="Keywords for guiding AI and Scraper")
+    custom_ai_instructions = fields.Text(string='Custom AI Instructions', default='', help="Tenant-specific AI formatting rules")
     
     # Engine Settings
     ai_model = fields.Selection([
         ('gpt-4o', 'GPT-4o (High Quality)'),
         ('gpt-4o-mini', 'GPT-4o Mini (Fast/Cheap)'),
         ('claude-3-5-sonnet', 'Claude 3.5 Sonnet')
-    ], string='AI Model', default='gpt-4o')
+    ], string='AI Model', default='gpt-4o-mini')
     content_language = fields.Selection([
         ('ar', 'Arabic Only'),
         ('en', 'English Only'),
         ('both', 'Bilingual (Arabic/English)')
     ], string='Content Language', default='both')
     scraping_interval = fields.Integer(string='Scraping Interval (Minutes)', default=180)
-    max_posts_per_day = fields.Integer(string='Max Posts Per Day', default=0)
+    max_posts_per_day = fields.Integer(string='Max Posts Per Day', default=100)
 
     # X (Twitter) Settings (Restricted to Admin for security)
     x_api_key = fields.Char(string='Twitter API Key', groups='base.group_system')
-    x_api_secret = fields.Char(string='Twitter API Secret', groups='base.group_system', password='True')
+    x_api_secret = fields.Char(string='Twitter API Secret', groups='base.group_system')
     x_access_token = fields.Char(string='Twitter Access Token', groups='base.group_system')
-    x_access_token_secret = fields.Char(string='Twitter Access Secret', groups='base.group_system', password='True')
+    x_access_token_secret = fields.Char(string='Twitter Access Secret', groups='base.group_system')
     
     # Supabase Settings (Restricted to Admin for security)
     supabase_url = fields.Char(string='Supabase URL', groups='base.group_system')
-    supabase_key = fields.Char(string='Supabase Key', groups='base.group_system', password='True')
+    supabase_key = fields.Char(string='Supabase Key', groups='base.group_system')
     supabase_status = fields.Selection([
         ('disconnected', 'Disconnected'),
         ('connected', 'Connected'),
@@ -78,6 +79,7 @@ class SmartRadarClientConfig(models.Model):
         return {
             'tenant_id': config.tenant_id or '',
             'auto_approve_drafts': config.auto_approve_drafts,
+            'is_engine_active': config.is_engine_active,
             'target_radar_focus': focus,
             'custom_ai_instructions': config.custom_ai_instructions or '',
             'ai_model': config.ai_model,
@@ -104,7 +106,7 @@ class SmartRadarClientConfig(models.Model):
         
         # Whitelist fields to update
         allowed_fields = [
-            'tenant_id', 'auto_approve_drafts', 'target_radar_focus', 
+            'tenant_id', 'auto_approve_drafts', 'target_radar_focus', 'is_engine_active',
             'custom_ai_instructions', 'x_api_key', 'x_api_secret', 
             'x_access_token', 'x_access_token_secret', 'odoo_blog_id',
             'ai_model', 'content_language', 'scraping_interval', 'max_posts_per_day',
@@ -117,7 +119,7 @@ class SmartRadarClientConfig(models.Model):
 
         # Sync Scan Frequency with the Odoo Cron Job
         if 'scraping_interval' in vals:
-            cron = self.env.ref('smart_radar.ir_cron_smart_radar_fetch', raise_if_not_found=False)
+            cron = self.env.ref('alpha_echo.ir_cron_alpha_echo_fetch', raise_if_not_found=False)
             if cron:
                 cron.write({
                     'interval_number': max(5, vals['scraping_interval']),

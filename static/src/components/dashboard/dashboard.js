@@ -22,7 +22,7 @@ export class SmartRadarDashboard extends Component {
             this.chartInstances.forEach(c => c.resize());
         };
 
-        this.radarService = useService("smart_radar.radar_service");
+        this.radarService = useService("alpha_echo.radar_service");
         this.state = useState(this.radarService.state);
 
         // Dummy data moved to service
@@ -203,9 +203,9 @@ export class SmartRadarDashboard extends Component {
     }
 
     openSettings() {
-        this.action.doAction("smart_radar_action_config");
+        this.action.doAction("alpha_echo_action_config");
     }
 }
 
-SmartRadarDashboard.template = "smart_radar.Dashboard";
-registry.category("actions").add("smart_radar.dashboard", SmartRadarDashboard);
+SmartRadarDashboard.template = "alpha_echo.Dashboard";
+registry.category("actions").add("alpha_echo.dashboard", SmartRadarDashboard);

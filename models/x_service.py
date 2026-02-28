@@ -9,7 +9,7 @@ except ImportError:
 _logger = logging.getLogger(__name__)
 
 class SmartRadarXService(models.AbstractModel):
-    _name = 'smart.radar.x.service'
+    _name = 'alpha.echo.x.service'
     _description = 'X (Twitter) Integration Service'
 
     @api.model
@@ -18,7 +18,7 @@ class SmartRadarXService(models.AbstractModel):
         if not tweepy:
             return None, "Tweepy library not installed."
             
-        config = self.env['smart.radar.client.config'].get_singleton()
+        config = self.env['alpha.echo.client.config'].get_singleton()
         
         # Validate that all keys are present
         if not (config.x_api_key and config.x_api_secret and config.x_access_token and config.x_access_token_secret):

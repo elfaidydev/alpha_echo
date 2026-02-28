@@ -12,7 +12,7 @@ _logger = logging.getLogger(__name__)
 OPENAI_API_KEY = "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"
 
 class SmartRadarOpenAIService(models.AbstractModel):
-    _name = 'smart.radar.openai.service'
+    _name = 'alpha.echo.openai.service'
     _description = 'OpenAI Integration Service'
 
     @api.model
@@ -27,7 +27,7 @@ class SmartRadarOpenAIService(models.AbstractModel):
         client = OpenAI(api_key=OPENAI_API_KEY)
         
         # Retrieve model from config (default to gpt-4o-mini as requested)
-        config = self.env['smart.radar.client.config'].get_singleton()
+        config = self.env['alpha.echo.client.config'].get_singleton()
         model_choice = config.ai_model or 'gpt-4o-mini'
 
         try:

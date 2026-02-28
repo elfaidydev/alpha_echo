@@ -1,4 +1,4 @@
-.o_smart_radar_dashboard {
+.o_alpha_echo_dashboard {
     /* RTL Setup & Typography */
     direction: rtl;
     font-family: var(--v4-font-family);
@@ -26,7 +26,7 @@
 }
 
 /* ============================================================================ */
-/* GLOBAL PREMIUM TOASTS (Odoo Notification Override for Smart Radar)
+/* GLOBAL PREMIUM TOASTS (Odoo Notification Override for Alpha Echo)
 /* ============================================================================ */
 .o_notification_manager .o_notification.sr-premium-toast {
     background: rgba(255, 255, 255, 0.95) !important;
@@ -78,7 +78,7 @@ html, body {
     padding: 0;
 }
 
-.o_smart_radar_dashboard {
+.o_alpha_echo_dashboard {
     .sr-v4-dashboard {
         width: 100%;
         flex: 1;
@@ -430,7 +430,7 @@ html, body {
 
         .onboarding-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(2, 1fr); /* Force 2 columns for a balanced 2x2 look */
             gap: 20px;
             width: 100%;
             animation: sr-v4-slideUpFade 0.8s 0.3s backwards;
@@ -791,12 +791,12 @@ html, body {
 
 /* PROFESSIONAL RESPONSIVE DESIGN - Standardized Structure */
 @media (max-width: 1400px) {
-    .o_smart_radar_dashboard .sr-main-grid-v4 {
+    .o_alpha_echo_dashboard .sr-main-grid-v4 {
         grid-template-columns: 2fr 1fr;
     }
 }
 @media (max-width: 1200px) {
-    .o_smart_radar_dashboard {
+    .o_alpha_echo_dashboard {
         .sr-main-grid-v4 {
             grid-template-columns: 1fr; gap: 32px;
         }
@@ -808,7 +808,7 @@ html, body {
     }
 }
 @media (max-width: 992px) {
-    .o_smart_radar_dashboard {
+    .o_alpha_echo_dashboard {
         padding: 0;
         .sr-v4-dashboard { padding: 32px 24px; }
         .sr-kpi-grid-v4 {
@@ -838,7 +838,7 @@ html, body {
     }
 }
 @media (max-width: 768px) {
-    .o_smart_radar_dashboard {
+    .o_alpha_echo_dashboard {
         .sr-v4-dashboard {
             padding: 16px 12px;
             gap: 24px;
@@ -930,7 +930,7 @@ html, body {
 }
 
 /* Staggered Entrance Animations */
-.o_smart_radar_dashboard {
+.o_alpha_echo_dashboard {
     .sr-header-v4 { animation: sr-v4-slideUpFade 0.6s 0.1s ease-out both; }
     .sr-hero-card-v4 { animation: sr-v4-slideUpFade 0.6s 0.2s ease-out both; }
     .sr-radar-listening-v4 { animation: sr-v4-slideUpFade 0.6s 0.3s ease-out both; }
@@ -950,7 +950,7 @@ html, body {
 
 /* Unified Responsive Typography & Spacing */
 @media (max-width: 991px) {
-    .o_smart_radar_dashboard {
+    .o_alpha_echo_dashboard {
         .sr-header-v4 .title-box h1 { font-size: 24px; }
         .sr-header-v4 .title-box .subtitle { font-size: 13px !important; }
         .hero-text h2 { font-size: 22px; }
@@ -961,7 +961,7 @@ html, body {
     }
 }
 @media (max-width: 768px) {
-    .o_smart_radar_dashboard {
+    .o_alpha_echo_dashboard {
         .sr-header-v4 .title-box h1 { font-size: 20px !important; font-weight: 700 !important; }
         .sr-header-v4 .title-box .subtitle { font-size: 13px !important; font-weight: 500 !important; line-height: 1.4; }
         .hero-text h2 { font-size: 16px !important; font-weight: 700 !important; }

@@ -1,32 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record id="res_config_settings_view_form" model="ir.ui.view">
-        <field name="name">res.config.settings.view.form.inherit.smart.radar</field>
+        <field name="name">res.config.settings.view.form.inherit.alpha.echo</field>
         <field name="model">res.config.settings</field>
         <field name="priority" eval="90"/>
         <field name="inherit_id" ref="base.res_config_settings_view_form"/>
         <field name="arch" type="xml">
             <xpath expr="//form" position="inside">
-                <app data-string="Smart Radar" string="Smart Radar" name="smart_radar">
+                <app data-string="Alpha Echo" string="Alpha Echo" name="alpha_echo">
+                    <!-- Trap for Browser Autofill (Honeypot) -->
+                    <div style="position: absolute; left: -9999px; height: 1px; width: 1px; overflow: hidden;" aria-hidden="true">
+                        <input type="text" name="username_autofill_trap_settings" value="trap" tabindex="-1"/>
+                        <input type="password" name="password_autofill_trap_settings" value="trap" tabindex="-1"/>
+                    </div>
                     
                     <h2>AI Formulation &amp; Engine Settings</h2>
-                    <div class="row mt16 o_settings_container" name="smart_radar_ai_setting_container">
-                        <div class="col-12 col-lg-6 o_setting_box" id="smart_radar_keys">
+                    <div class="row mt16 o_settings_container" name="alpha_echo_ai_setting_container">
+                        <div class="col-12 col-lg-6 o_setting_box" id="alpha_echo_keys">
                             <div class="o_setting_right_pane">
                                 <span class="o_form_label">API Credentials</span>
                                 <div class="text-muted">Set keys for OpenAI and Supabase Engine</div>
                                 <div class="content-group mt-2">
                                     <div class="row mt16">
-                                        <label for="smart_radar_supabase_key" class="col-lg-4 o_light_label"/>
-                                        <field name="smart_radar_supabase_key" password="True" class="col-lg-8"/>
+                                        <label for="alpha_echo_supabase_key" class="col-lg-4 o_light_label"/>
+                                        <field name="alpha_echo_supabase_key" password="True" autocomplete="new-password" class="col-lg-8"/>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-12 col-lg-6 o_setting_box" id="smart_radar_auto_publish">
+                        <div class="col-12 col-lg-6 o_setting_box" id="alpha_echo_auto_publish">
                             <div class="o_setting_left_pane">
-                                <field name="smart_radar_auto_publish"/>
+                                <field name="alpha_echo_auto_publish"/>
                             </div>
                             <div class="o_setting_right_pane">
                                 <span class="o_form_label">Bypass Drafts (Auto-Publish)</span>
@@ -38,22 +43,22 @@
                     </div>
 
                     <h2>Platform Authorizations (Dual Publish)</h2>
-                    <div class="row mt16 o_settings_container" name="smart_radar_publish_setting_container">
-                        <div class="col-12 col-lg-6 o_setting_box" id="smart_radar_x_auth">
+                    <div class="row mt16 o_settings_container" name="alpha_echo_publish_setting_container">
+                        <div class="col-12 col-lg-6 o_setting_box" id="alpha_echo_x_auth">
                             <div class="o_setting_right_pane">
                                 <span class="o_form_label">X (Twitter) Authorization</span>
                                 <div class="text-muted">Enter your X developer API token.</div>
                                 <div class="content-group mt-2">
-                                    <field name="smart_radar_x_api_key" password="True"/>
+                                    <field name="alpha_echo_x_api_key" password="True" autocomplete="new-password"/>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-lg-6 o_setting_box" id="smart_radar_wp_auth">
+                        <div class="col-12 col-lg-6 o_setting_box" id="alpha_echo_wp_auth">
                             <div class="o_setting_right_pane">
                                 <span class="o_form_label">WordPress Connection</span>
                                 <div class="text-muted">Enter your WP application password.</div>
                                 <div class="content-group mt-2">
-                                    <field name="smart_radar_wp_token" password="True"/>
+                                    <field name="alpha_echo_wp_token" password="True" autocomplete="new-password"/>
                                 </div>
                             </div>
                         </div>
@@ -61,14 +66,14 @@
 
                     <h2>AI Personality Prompts</h2>
                     <div class="row mt16 o_settings_container">
-                        <div class="col-12 o_setting_box" id="smart_radar_prompt_box">
+                        <div class="col-12 o_setting_box" id="alpha_echo_prompt_box">
                             <div class="o_setting_right_pane">
                                 <span class="o_form_label">System Prompt</span>
                                 <div class="text-muted">
                                     Strategic guidelines for AI on how to format the scraped tweets, the tone of voice, and the vocabulary to use.
                                 </div>
                                 <div class="content-group mt-2">
-                                    <field name="smart_radar_ai_prompt" widget="text" rows="5" class="w-100"/>
+                                    <field name="alpha_echo_ai_prompt" widget="text" rows="5" class="w-100"/>
                                 </div>
                             </div>
                         </div>
@@ -79,11 +84,11 @@
         </field>
     </record>
 
-    <record id="action_smart_radar_config_settings" model="ir.actions.act_window">
+    <record id="action_alpha_echo_config_settings" model="ir.actions.act_window">
         <field name="name">Configurations</field>
         <field name="res_model">res.config.settings</field>
         <field name="view_mode">form</field>
         <field name="target">inline</field>
-        <field name="context">{'module' : 'smart_radar', 'bin_size': False}</field>
+        <field name="context">{'module' : 'alpha_echo', 'bin_size': False}</field>
     </record>
 </odoo>

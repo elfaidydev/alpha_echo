@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <!-- Premium Target Kanban View -->
-    <record id="view_smart_radar_target_kanban" model="ir.ui.view">
-        <field name="name">smart.radar.target.kanban</field>
-        <field name="model">smart.radar.target</field>
+    <record id="view_alpha_echo_target_kanban" model="ir.ui.view">
+        <field name="name">alpha.echo.target.kanban</field>
+        <field name="model">alpha.echo.target</field>
         <field name="arch" type="xml">
             <kanban default_group_by="category" class="o_kanban_mobile" sample="1">
                 <field name="id"/>
@@ -19,7 +19,7 @@
                             <div class="o_kanban_record_top mb-2">
                                 <div class="o_kanban_record_headings d-flex align-items-center">
                                     <div class="o_kanban_image me-2">
-                                        <img t-att-src="kanban_image('smart.radar.target', 'image_1920', record.id.raw_value)" alt="Logo" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover; border: 1px solid #dee2e6;"/>
+                                        <img t-att-src="kanban_image('alpha.echo.target', 'image_1920', record.id.raw_value)" alt="Logo" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover; border: 1px solid #dee2e6;"/>
                                     </div>
                                     <div class="d-flex flex-column">
                                         <strong class="o_kanban_record_title fs-5 mb-0">
@@ -52,9 +52,9 @@
     </record>
 
     <!-- Standard Tree View -->
-    <record id="view_smart_radar_target_tree" model="ir.ui.view">
-        <field name="name">smart.radar.target.tree</field>
-        <field name="model">smart.radar.target</field>
+    <record id="view_alpha_echo_target_tree" model="ir.ui.view">
+        <field name="name">alpha.echo.target.tree</field>
+        <field name="model">alpha.echo.target</field>
         <field name="arch" type="xml">
             <tree string="Managed Targets" decoration-muted="not is_active">
                 <field name="name"/>
@@ -68,9 +68,9 @@
     </record>
 
     <!-- Premium Form View -->
-    <record id="view_smart_radar_target_form" model="ir.ui.view">
-        <field name="name">smart.radar.target.form</field>
-        <field name="model">smart.radar.target</field>
+    <record id="view_alpha_echo_target_form" model="ir.ui.view">
+        <field name="name">alpha.echo.target.form</field>
+        <field name="model">alpha.echo.target</field>
         <field name="arch" type="xml">
             <form string="Target Configuration" class="o_form_project_tasks">
                 <header>
@@ -116,9 +116,9 @@
         </field>
     </record>
 
-    <record id="action_smart_radar_target" model="ir.actions.act_window">
+    <record id="action_alpha_echo_target" model="ir.actions.act_window">
         <field name="name">الجهات المستهدفة (Targets)</field>
-        <field name="res_model">smart.radar.target</field>
+        <field name="res_model">alpha.echo.target</field>
         <field name="view_mode">kanban,tree,form</field>
         <field name="help" type="html">
           <p class="o_view_nocontent_smiling_face">
