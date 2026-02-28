@@ -28,7 +28,7 @@
                     </div>
                 </div>
 
-                <t t-if="!radarService.canStartEngine()">
+                <t t-if="!state.config.twitterLinked">
                     <div class="sr-onboarding-hero-v2">
                         <div class="onboarding-bg-blobs">
                             <div class="blob blob-1"></div>

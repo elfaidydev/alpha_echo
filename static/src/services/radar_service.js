@@ -26,6 +26,8 @@ export const radarService = {
             activeTab: 'all',
             searchQuery: '',
             config: {
+                scraping_interval: 180,
+                max_posts_per_day: 100,
                 x_api_key: "",
                 x_api_secret: "",
                 x_access_token: "",
@@ -37,9 +39,11 @@ export const radarService = {
                 supabase_key: "",
                 twitterLinked: false,
                 get isFullyConfigured() {
-                    return this.x_api_key && this.x_api_secret && this.x_access_token && this.x_access_token_secret;
+                    return !!(this.x_api_key && this.x_api_secret && this.x_access_token && this.x_access_token_secret);
                 },
-                systemPrompt: false
+                systemPrompt: false,
+                target_radar_focus: "",
+                twitterUser: null
             }
         });
 
@@ -48,29 +52,8 @@ export const radarService = {
              return state.config.twitterLinked && state.targets.length > 0;
         };
 
-        // NGO/Donor Mock Data
-        const dummyTexts = [
-            { 
-                donor: "@Alwaleed_Philan",
-                raw: "تعلن مؤسسة الوليد للإنسانية عن فتح باب التقديم للحصول على تمويل مشاريع الإسكان وتنمية المجتمع لعام ٢٠٢٤ عبر البوابة الإلكترونية. آخر موعد للتقديم نهاية الشهر.", 
-                ai: "إعلان استراتيجي: نُعلم شركاءنا بفتح نافذة التمويل لمشاريع الإسكان وتنمية المجتمع التابعة لمؤسسة الوليد للإنسانية (دورة 2024). يُرجى الاطلاع على المحددات والمعايير لضمان استيفاء الشروط وتوثيق الملفات قبل الموعد. [المرجع الرسمي]" 
-            },
-            { 
-                donor: "@USAIDMiddleEast",
-                raw: "USAID announces $5 million in new grant funding for climate resilience initiatives in the MENA region. Seeking local partners and NGOs.", 
-                ai: "مبادرة دولية: أطلقت الوكالة الأمريكية للتنمية الدولية محفظة دعم بقيمة 5 ملايين دولار مخصصة لبرامج الاستدامة والمناخ في الشرق الأوسط. ندعو كافة الجهات المعنية لمراجعة الآليات وبناء الشراكات. [الوثيقة الرسمية]" 
-            },
-            { 
-                donor: "@KSRelief",
-                raw: "يطلق مركز الملك سلمان للإغاثة والأعمال الإنسانية برنامج تمويل الشراكات لدعم المنظمات الصحية والتعليمية في الدول النامية. للمشاركة تفضل بالتسجيل.", 
-                ai: "فرصة شراكة إنسانية: أقر مركز الملك سلمان للإغاثة برنامجه الجديد لتمويل الشراكات الفاعلة في قطاعي الصحة والتعليم. تتوفر لدينا الآن إرشادات التسجيل ونماذج حوكمة التمويل للجهات المهتمة بالشراكة التشغيلية. [دليل البرنامج]" 
-            },
-            { 
-                donor: "@isdb_stories",
-                raw: "يسر البنك الإسلامي للتنمية دعوة المبتكرين للتقديم على صندوق دعم الاستدامة والابتكار لعام ٢٠٢٤.", 
-                ai: "دعوة تقديم: يعلن البنك الإسلامي للتنمية عن إطلاق صندوق المستجدات التمويلية لدعم الابتكار. نوفر لعملائنا تحليلاً دقيقاً لمتطلبات الصندوق لضمان التنافسية ورفع موثوقية العروض التقنية والمجتمعية. [رابط الاستعلام]" 
-            }
-        ];
+        // Live Data Mode: Empty initial arrays
+        const dummyTexts = [];
 
         function pushLog(tag, message, type = "info") {
             const timeString = new Date().toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
@@ -83,34 +66,26 @@ export const radarService = {
         async function fetchFeed() {
             state.isLoading = true;
             try {
-                // In production, this would be an RPC call to Odoo or a Supabase Fetch
-                // await rpc("/smart_radar/fetch_feed", {});
+                notification.add("بدأت عملية البحث والاستكشاف (Apify)...", { type: "info" });
                 
-                // For now, mock a delay
-                await new Promise(r => setTimeout(r, 800));
+                // Call the real backend coordination logic
+                await rpc("/web/dataset/call_kw/smart.radar.target/cron_fetch_all_targets", {
+                    model: "smart.radar.target",
+                    method: "cron_fetch_all_targets",
+                    args: [],
+                    kwargs: {}
+                });
                 
-                const template = dummyTexts[Math.floor(Math.random() * dummyTexts.length)];
-                const timeString = new Date().toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
-
-                const newItem = {
-                    id: Math.random(),
-                    time: timeString,
-                    donor: template.donor,
-                    original: template.raw,
-                    rewritten: template.ai,
-                    tweetLink: "https://twitter.com/odoo"
-                };
-
-                state.feed = [newItem, ...state.feed].slice(0, 8);
+                // Reload data to reflect changes
+                await loadPosts();
+                await loadTargets();
                 
-                pushLog("تحديث تشغيلي", `رصد نشاط بيانات صادرة عن معرّف ${template.donor}.`, "info");
-                setTimeout(() => pushLog("تدخل المعالج (AI)", `يجري تطبيق معايير الصياغة المؤسسية والتهيئة للنشر...`, "primary"), 800);
-                setTimeout(() => {
-                    pushLog("المزامنة الآلية", `تمت المصادقة وتصدير المحتوى بنجاح عبر البوابات الرسمية.`, "success");
-                    state.grantsDiscovered += 1;
-                    state.publishedToday += 2;
-                }, 1800);
+                notification.add("اكتملت مراجعة المصادر وصياغة المحتوى الجديد بنجاح.", { type: "success" });
+                pushLog("تزامن يدوي", "تم الانتهاء من فحص كافة المصادر النشطة وجلب التحديثات.", "success");
 
+            } catch (error) {
+                notification.add("فشلت عملية الجلب التلقائي. تأكد من إعدادات الربط والإنترنت.", { type: "danger" });
+                pushLog("خطأ في المزامنة", error.message || "فشل الاتصال بـ Apify أو OpenAI.", "danger");
             } finally {
                 state.isLoading = false;
             }
@@ -194,10 +169,26 @@ export const radarService = {
                 const data = await rpc("/smart_radar/config/get", {});
                 if (!data.error) {
                     Object.assign(state.config, data);
-                    // Critical Fix: Require all 4 keys to consider it "linked"
-                    const hasAllKeys = !!(state.config.x_api_key && state.config.x_api_secret && 
-                                        state.config.x_access_token && state.config.x_access_token_secret);
-                    state.config.twitterLinked = hasAllKeys;
+                    
+                    // Critical Fix: Automatically verify connection if keys exist to populate profile info
+                    if (state.config.isFullyConfigured) {
+                        try {
+                            const testResult = await rpc("/smart_radar/config/test_twitter", {});
+                            if (testResult && testResult.success) {
+                                state.config.twitterLinked = true;
+                                state.config.twitterUser = testResult;
+                            } else {
+                                state.config.twitterLinked = false;
+                                state.config.twitterUser = null;
+                            }
+                        } catch (e) {
+                            state.config.twitterLinked = false;
+                            state.config.twitterUser = null;
+                        }
+                    } else {
+                        state.config.twitterLinked = false;
+                        state.config.twitterUser = null;
+                    }
                 }
                 return data;
             } finally {
@@ -212,11 +203,28 @@ export const radarService = {
                 if (data.error) {
                     notification.add(data.error, { type: "danger" });
                 } else {
-                    notification.add("تم تحديث بروتوكولات النظام بنجاح.", { type: "success" });
+                    notification.add("تم حفظ الإعدادات بنجاح. جاري اختبار الاتصال بحساب X...", { type: "info" });
+                    
+                    // Immediately test the connection if keys are present
+                    if (state.config.isFullyConfigured) {
+                        const testResult = await rpc("/smart_radar/config/test_twitter", {});
+                        if (testResult.success) {
+                            state.config.twitterLinked = true;
+                            state.config.twitterUser = testResult;
+                            notification.add(`تم الربط بنجاح مع حساب: @${testResult.username}`, { type: "success" });
+                        } else {
+                            state.config.twitterLinked = false;
+                            state.config.twitterUser = null;
+                            notification.add(`فشل الربط بحساب X: ${testResult.error || 'تأكد من صحة المفاتيح.'}`, { type: "danger" });
+                        }
+                    } else {
+                        state.config.twitterLinked = false;
+                        state.config.twitterUser = null;
+                    }
                 }
                 return data;
             } catch (error) {
-                notification.add("حدث خطأ أثناء محاولة حفظ الإعدادات.", { type: "danger" });
+                notification.add("حدث خطأ أثناء محاولة حفظ الإعدادات أو اختبار الاتصال.", { type: "danger" });
             } finally {
                 state.isLoading = false;
             }

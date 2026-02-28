@@ -9,6 +9,9 @@ export class ConfigPage extends Component {
         this.radarService = useService("smart_radar.radar_service");
         this.notification = useService("notification");
         
+        // Track the entire service state for reactive UI updates
+        this.serviceState = useState(this.radarService.state);
+        
         this.state = useState({
             ui: {
                 isSaving: false,
@@ -28,21 +31,21 @@ export class ConfigPage extends Component {
     }
 
     _initializeDefaultConfig() {
-        if (!this.config.scraping_interval) this.config.scraping_interval = 60;
-        if (!this.config.max_posts_per_day) this.config.max_posts_per_day = 10;
+        if (this.config.scraping_interval === undefined) this.config.scraping_interval = 180;
+        if (this.config.max_posts_per_day === undefined) this.config.max_posts_per_day = 0;
         
         // Ensure default tags if empty
         if (!this.config.target_radar_focus) {
-             this.config.target_radar_focus = "Odoo, ERP, Business";
+             this.config.target_radar_focus = "";
         }
     }
 
     get config() {
-        return this.radarService.state.config;
+        return this.serviceState.config;
     }
 
     get isLoading() {
-        return this.radarService.state.isLoading;
+        return this.serviceState.isLoading;
     }
 
     // --- Keyword Tag Logic ---
@@ -81,26 +84,32 @@ export class ConfigPage extends Component {
 
     // --- Connectivity Checks ---
     get isTwitterConnected() {
-        return !!(this.config.x_api_key && this.config.x_access_token);
+        // Only consider it connected if the backend successfully verified the account
+        return !!(this.config.twitterLinked && this.config.twitterUser);
     }
     
     get isOdooBlogConnected() {
         return !!this.config.odoo_blog_id;
     }
 
-    disconnectTwitter() {
-        if(confirm("هل أنت متأكد من إلغاء ربط حساب تويتر المعرف حالياً؟")) {
-            this.onFieldChange("x_api_key", "");
-            this.onFieldChange("x_api_secret", "");
-            this.onFieldChange("x_access_token", "");
-            this.onFieldChange("x_access_token_secret", "");
-            this.notification.add("تم إلغاء ربط حساب تويتر", { type: "warning" });
+    async disconnectTwitter() {
+        if(confirm("هل أنت متأكد من إلغاء ربط حساب تويتر المعرف حالياً؟ سيؤدي ذلك لتوقف النشر الآلي.")) {
+            this.config.x_api_key = "";
+            this.config.x_api_secret = "";
+            this.config.x_access_token = "";
+            this.config.x_access_token_secret = "";
+            this.config.twitterLinked = false;
+            this.config.twitterUser = null;
+            
+            // Persist the disconnection
+            await this.radarService.saveConfig();
+            this.notification.add("تم إلغاء ربط الحساب بنجاح.", { type: "info" });
         }
     }
 
     // --- Slider Logic ---
     onScrapingIntervalInput(ev) {
-        let val = parseInt(ev.target.value) || 15;
+        let val = parseInt(ev.target.value) || 60;
         this.config.scraping_interval = val;
         this.state.ui.renderTrigger++;
         
@@ -119,18 +128,18 @@ export class ConfigPage extends Component {
 
     getScrapingIntervalPercent() {
         let val = this.config.scraping_interval;
-        if (val === undefined) val = 15;
-        // Max: 2880, Min: 15. Range: 2865
-        let percent = ((val - 15) / 2865) * 100;
+        if (val === undefined) val = 60;
+        // Max: 2880, Min: 5. Range: 2875
+        let percent = ((val - 5) / 2875) * 100;
         return percent.toFixed(2);
     }
 
     getMaxPostsPercent() {
         let val = this.config.max_posts_per_day;
-        if (val === undefined) val = 1;
-        // Max: 100, Min: 1. Range: 99
-        let percent = ((val - 1) / 99) * 100;
-        return percent.toFixed(2);
+        // If 0, it means Unlimited, so fill the WHOLE bar (100%)
+        if (val === 0 || val === undefined) return 100;
+        // Otherwise, 1-100%
+        return Math.min(100, Math.max(1, val)).toFixed(0);
     }
 
     // --- UI Helpers ---
@@ -142,11 +151,8 @@ export class ConfigPage extends Component {
 
         this.config[fieldName] = value;
         
-        // Real-time Linked Status Update
-        if (['x_api_key', 'x_api_secret', 'x_access_token', 'x_access_token_secret'].includes(fieldName)) {
-            this.config.twitterLinked = !!(this.config.x_api_key && this.config.x_api_secret && 
-                                          this.config.x_access_token && this.config.x_access_token_secret);
-        }
+        // Update linked status logic removed from here as it should be handled by the service test_twitter result
+        // to avoid UI flicker while typing.
 
         // Force component render to instantly update t-att-value and inline styles during fast dragging
         this.state.ui.renderTrigger++;
@@ -154,11 +160,15 @@ export class ConfigPage extends Component {
         if (this.saveTimeout) {
             clearTimeout(this.saveTimeout);
         }
+
+        // Auto-save debounce (Skip for Twitter keys to allow manual linking via button)
+        const isTwitterField = ['x_api_key', 'x_api_secret', 'x_access_token', 'x_access_token_secret'].includes(fieldName);
         
-        // Auto-save debounce
-        this.saveTimeout = setTimeout(() => {
-            this.radarService.saveConfig();
-        }, 1500);
+        if (!isTwitterField) {
+            this.saveTimeout = setTimeout(() => {
+                this.radarService.saveConfig();
+            }, 2000);
+        }
     }
     
     toggleVisibility(field) {

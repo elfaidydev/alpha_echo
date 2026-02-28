@@ -13,3 +13,8 @@ class SmartRadarConfigController(http.Controller):
     def save_config(self, **kw):
         """Save the updated configuration from the OWL UI."""
         return request.env['smart.radar.client.config'].save_config_data(kw)
+
+    @http.route('/smart_radar/config/test_twitter', type='json', auth='user')
+    def test_twitter(self):
+        """Test the Twitter connection using saved config."""
+        return request.env['smart.radar.x.service'].test_connection()

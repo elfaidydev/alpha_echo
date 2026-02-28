@@ -36,3 +36,61 @@ class SmartRadarTarget(models.Model):
             'context': {'default_target_id': self.id},
             'type': 'ir.actions.act_window',
         }
+
+    @api.model
+    def cron_fetch_all_targets(self):
+        """Called by Odoo Cron to fetch latest from all active targets."""
+        targets = self.search([('is_active', '=', True)])
+        if not targets:
+            return
+        
+        handles = [t.handle.strip().replace('@', '') for t in targets]
+        # Use our Apify Service (Hardcoded keys inside)
+        tweets = self.env['smart.radar.apify.service'].run_actor_and_fetch(handles, limit_per_handle=4)
+        
+        if tweets:
+            self._process_retrieved_tweets(tweets)
+
+    @api.model
+    def _process_retrieved_tweets(self, tweets):
+        """Filters tweets by keywords and sends them to AI."""
+        config = self.env['smart.radar.client.config'].get_singleton()
+        keywords = (config.target_radar_focus or "").split(',')
+        keywords = [k.strip().lower() for k in keywords if k.strip()]
+        
+        system_prompt = config.custom_ai_instructions or "Reformulate this grant opportunity into a professional post."
+        
+        PostObj = self.env['smart.radar.post']
+        TargetObj = self.env['smart.radar.target']
+
+        for tweet in tweets:
+            # 1. Duplicate Check
+            existing = PostObj.search([('source_tweet_id', '=', tweet['id'])], limit=1)
+            if existing:
+                continue
+
+            # 2. Keyword Filtering (Zero-Touch logic)
+            text_lower = tweet['text'].lower()
+            if keywords and not any(k in text_lower for k in keywords):
+                continue
+            
+            # 3. Identify Target
+            target = TargetObj.search([('handle', 'ilike', tweet['author'])], limit=1)
+            if not target:
+                continue
+
+            # 4. AI Drafting
+            success, ai_text = self.env['smart.radar.openai.service'].draft_post(tweet['text'], system_prompt)
+            if success:
+                new_post = PostObj.create({
+                    'target_id': target.id,
+                    'source_tweet_id': tweet['id'],
+                    'source_url': tweet['url'],
+                    'original_text': tweet['text'],
+                    'ai_generated_text': ai_text,
+                    'state': 'draft'
+                })
+                
+                # 5. Auto Publish if enabled
+                if config.auto_approve_drafts:
+                    new_post.action_publish()

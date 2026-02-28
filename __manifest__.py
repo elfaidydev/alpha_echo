@@ -12,6 +12,7 @@
     'data': [
         'security/ir.model.access.csv',
         'data/demo_data.xml',
+        'data/ir_cron_data.xml',
         'views/target_views.xml',
         'views/post_views.xml',
         'views/client_config_views.xml',

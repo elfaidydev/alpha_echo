@@ -21,30 +21,23 @@ class SmartRadarClientConfig(models.Model):
         ('en', 'English Only'),
         ('both', 'Bilingual (Arabic/English)')
     ], string='Content Language', default='both')
-    scraping_interval = fields.Integer(string='Scraping Interval (Minutes)', default=30)
-    max_posts_per_day = fields.Integer(string='Max Posts Per Day', default=50)
+    scraping_interval = fields.Integer(string='Scraping Interval (Minutes)', default=180)
+    max_posts_per_day = fields.Integer(string='Max Posts Per Day', default=0)
 
-    # X (Twitter) Settings
-    x_api_key = fields.Char(string='Twitter API Key')
-    x_api_secret = fields.Char(string='Twitter API Secret')
-    x_access_token = fields.Char(string='Twitter Access Token')
-    x_access_token_secret = fields.Char(string='Twitter Access Secret')
+    # X (Twitter) Settings (Restricted to Admin for security)
+    x_api_key = fields.Char(string='Twitter API Key', groups='base.group_system')
+    x_api_secret = fields.Char(string='Twitter API Secret', groups='base.group_system', password='True')
+    x_access_token = fields.Char(string='Twitter Access Token', groups='base.group_system')
+    x_access_token_secret = fields.Char(string='Twitter Access Secret', groups='base.group_system', password='True')
     
-    # OpenAI Settings
-    openai_api_key = fields.Char(string='OpenAI API Key')
-    
-    # Apify Settings
-    apify_token = fields.Char(string='Apify Token')
-    apify_actor_id = fields.Char(string='Apify Actor ID')
-    
-    # Supabase Settings
-    supabase_url = fields.Char(string='Supabase URL')
-    supabase_key = fields.Char(string='Supabase Key')
+    # Supabase Settings (Restricted to Admin for security)
+    supabase_url = fields.Char(string='Supabase URL', groups='base.group_system')
+    supabase_key = fields.Char(string='Supabase Key', groups='base.group_system', password='True')
     supabase_status = fields.Selection([
         ('disconnected', 'Disconnected'),
         ('connected', 'Connected'),
         ('error', 'Error')
-    ], string='Supabase Status', default='disconnected')
+    ], string='Supabase Status', default='disconnected', groups='base.group_system')
     
     # Optional integration with blog.blog if module enabled.
     odoo_blog_id = fields.Integer(string='Odoo Blog ID Endpoint', help="ID of the blog.blog if used")
@@ -79,10 +72,13 @@ class SmartRadarClientConfig(models.Model):
             return {'error': 'Unauthorized'}
             
         config = self.get_singleton()
+        focus = config.target_radar_focus or ''
+        if focus in ['Odoo, ERP, Business', 'Odoo,ERP,Business']:
+            focus = ''
         return {
             'tenant_id': config.tenant_id or '',
             'auto_approve_drafts': config.auto_approve_drafts,
-            'target_radar_focus': config.target_radar_focus or '',
+            'target_radar_focus': focus,
             'custom_ai_instructions': config.custom_ai_instructions or '',
             'ai_model': config.ai_model,
             'content_language': config.content_language,
@@ -92,9 +88,6 @@ class SmartRadarClientConfig(models.Model):
             'x_api_secret': config.x_api_secret or '',
             'x_access_token': config.x_access_token or '',
             'x_access_token_secret': config.x_access_token_secret or '',
-            'openai_api_key': config.openai_api_key or '',
-            'apify_token': config.apify_token or '',
-            'apify_actor_id': config.apify_actor_id or '',
             'supabase_url': config.supabase_url or '',
             'supabase_key': config.supabase_key or '',
             'supabase_status': config.supabase_status,
@@ -115,10 +108,20 @@ class SmartRadarClientConfig(models.Model):
             'custom_ai_instructions', 'x_api_key', 'x_api_secret', 
             'x_access_token', 'x_access_token_secret', 'odoo_blog_id',
             'ai_model', 'content_language', 'scraping_interval', 'max_posts_per_day',
-            'openai_api_key', 'apify_token', 'apify_actor_id', 'supabase_url', 'supabase_key'
+            'supabase_url', 'supabase_key'
         ]
         
         vals = {k: v for k, v in data.items() if k in allowed_fields}
                 
         config.write(vals)
+
+        # Sync Scan Frequency with the Odoo Cron Job
+        if 'scraping_interval' in vals:
+            cron = self.env.ref('smart_radar.ir_cron_smart_radar_fetch', raise_if_not_found=False)
+            if cron:
+                cron.write({
+                    'interval_number': max(5, vals['scraping_interval']),
+                    'interval_type': 'minutes'
+                })
+
         return {'success': True}

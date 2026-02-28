@@ -17,10 +17,6 @@
                                 <div class="text-muted">Set keys for OpenAI and Supabase Engine</div>
                                 <div class="content-group mt-2">
                                     <div class="row mt16">
-                                        <label for="smart_radar_openai_key" class="col-lg-4 o_light_label"/>
-                                        <field name="smart_radar_openai_key" password="True" class="col-lg-8"/>
-                                    </div>
-                                    <div class="row mt16">
                                         <label for="smart_radar_supabase_key" class="col-lg-4 o_light_label"/>
                                         <field name="smart_radar_supabase_key" password="True" class="col-lg-8"/>
                                     </div>

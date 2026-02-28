@@ -73,6 +73,9 @@
         <field name="model">smart.radar.target</field>
         <field name="arch" type="xml">
             <form string="Target Configuration" class="o_form_project_tasks">
+                <header>
+                    <button name="cron_fetch_all_targets" string="تحديث البيانات الآن" type="object" class="btn-primary" icon="fa-refresh"/>
+                </header>
                 <sheet class="pe-5 ps-5 pb-5 pt-4 bg-white rounded-4 shadow-sm border-0 mt-4 mb-4" style="max-width: 900px; margin: 0 auto;">
                     <div class="oe_button_box" name="button_box">
                         <button class="oe_stat_button" type="object" name="action_view_posts" icon="fa-file-text-o" invisible="posts_count == 0">
