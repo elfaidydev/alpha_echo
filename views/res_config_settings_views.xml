@@ -19,8 +19,16 @@
                         <div class="col-12 col-lg-6 o_setting_box" id="alpha_echo_keys">
                             <div class="o_setting_right_pane">
                                 <span class="o_form_label">API Credentials</span>
-                                <div class="text-muted">Set keys for OpenAI and Supabase Engine</div>
+                                <div class="text-muted">Set keys for OpenAI, Apify, and Supabase Engine</div>
                                 <div class="content-group mt-2">
+                                    <div class="row mt16">
+                                        <label for="alpha_echo_openai_key" class="col-lg-4 o_light_label"/>
+                                        <field name="alpha_echo_openai_key" password="True" autocomplete="new-password" class="col-lg-8"/>
+                                    </div>
+                                    <div class="row mt16">
+                                        <label for="alpha_echo_apify_token" class="col-lg-4 o_light_label"/>
+                                        <field name="alpha_echo_apify_token" password="True" autocomplete="new-password" class="col-lg-8"/>
+                                    </div>
                                     <div class="row mt16">
                                         <label for="alpha_echo_supabase_key" class="col-lg-4 o_light_label"/>
                                         <field name="alpha_echo_supabase_key" password="True" autocomplete="new-password" class="col-lg-8"/>

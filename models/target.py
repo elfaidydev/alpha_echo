@@ -1,25 +1,25 @@
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 
 class SmartRadarTarget(models.Model):
     _name = 'alpha.echo.target'
     _description = 'Alpha Echo: Managed Targets'
     _rec_name = 'name'
 
-    name = fields.Char(string='Entity Name', required=True, help='Name of the organization, e.g. USAID')
-    handle = fields.Char(string='X/Twitter Handle', required=True, help='e.g. @USAIDMiddleEast')
+    name = fields.Char(string=_('Entity Name'), required=True, help=_('Name of the organization, e.g. USAID'))
+    handle = fields.Char(string=_('X/Twitter Handle'), required=True, help=_('e.g. @USAIDMiddleEast'))
     category = fields.Selection([
-        ('general', 'General Grants'),
-        ('health', 'Health & Medicine'),
-        ('education', 'Education & Research'),
-        ('tech', 'Technology & Startups')
-    ], string='Focus Area', default='general')
-    is_active = fields.Boolean(string='Active for Monitoring', default=True)
-    last_scanned = fields.Datetime(string='Last Scanned Date', readonly=True)
+        ('general', _('General Grants')),
+        ('health', _('Health & Medicine')),
+        ('education', _('Education & Research')),
+        ('tech', _('Technology & Startups'))
+    ], string=_('Focus Area'), default='general')
+    is_active = fields.Boolean(string=_('Active for Monitoring'), default=True)
+    last_scanned = fields.Datetime(string=_('Last Scanned Date'), readonly=True)
     
     # Premium Fields for Advanced UI
-    image_1920 = fields.Image(string="Entity Logo")
-    post_ids = fields.One2many('alpha.echo.post', 'target_id', string="Grants")
-    posts_count = fields.Integer(compute='_compute_posts_count', string='Total Grants Detected')
+    image_1920 = fields.Image(string=_("Entity Logo"))
+    post_ids = fields.One2many('alpha.echo.post', 'target_id', string=_("Grants"))
+    posts_count = fields.Integer(compute='_compute_posts_count', string=_('Total Grants Detected'))
 
     @api.depends('post_ids')
     def _compute_posts_count(self):
@@ -29,7 +29,7 @@ class SmartRadarTarget(models.Model):
     def action_view_posts(self):
         self.ensure_one()
         return {
-            'name': 'Grants & Posts',
+            'name': _('Grants & Posts'),
             'res_model': 'alpha.echo.post',
             'view_mode': 'tree,form',
             'domain': [('target_id', '=', self.id)],

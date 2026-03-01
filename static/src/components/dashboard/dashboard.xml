@@ -10,19 +10,19 @@
                             <i class="fa fa-braille"/>
                         </div>
                         <div class="title-box">
-                            <h1>لوحة التحكم</h1>
-                            <p class="subtitle">الواجهة المركزية لأتمتة تتبع المحتوى وإعادة صياغته ونشره</p>
+                            <h1>Dashboard</h1>
+                            <p class="subtitle">Central interface for tracking, reformulating, and publishing content</p>
                         </div>
                     </div>
                     <div class="header-left-side">
                         <div class="health-nav">
-                            <span class="status-pulse"></span> <t t-esc="state.targets.length"/> مصدر خاضع للرصد
+                            <span class="status-pulse"></span> <t t-esc="state.targets.length"/> monitoed sources
                         </div>
                         <button class="btn-primary-v4" t-on-click="toggleTracking" t-att-class="{'paused': !state.isTracking}">
                             <i class="fa ms-2" t-att-class="state.isTracking ? 'fa-pause' : 'fa-play'"/>
                             <t t-esc="trackingBtnLabel"/>
                         </button>
-                        <button class="btn-icon-v4" t-on-click="fetchLatest" title="مزامنة فورية للبيانات">
+                        <button class="btn-icon-v4" t-on-click="fetchLatest" title="Instant Sync">
                             <i class="fa fa-refresh" t-att-class="{'fa-spin': state.isLoading}"/>
                         </button>
                     </div>
@@ -37,8 +37,8 @@
                         
                         <div class="onboarding-main">
                             <div class="onboarding-header">
-                                <h2>مرحباً بك في مستقبل الرصد <span class="text-gradient">Alpha Echo</span></h2>
-                                <p>أنت على بُعد خطوات بسيطة من أتمتة جلب المحتوى وصياغته ونشره بالكامل برعاية الذكاء الاصطناعي. يرجى استكمال الخطوات التالية للبدء.</p>
+                                <h2>Welcome to <span class="text-gradient">Alpha Echo</span></h2>
+                                <p>Automate content harvesting, formulation, and publishing with AI. Follow these steps to begin.</p>
                             </div>
 
                             <div class="onboarding-grid grid-4-steps">
@@ -46,66 +46,66 @@
                                 <div t-attf-class="onboarding-card {{ state.config.twitterLinked ? 'completed' : 'pending' }}" t-on-click="openSettings">
                                     <div class="card-glow"></div>
                                     <div class="card-content">
-                                        <div class="step-label">الخطوة الأولى</div>
+                                        <div class="step-label">Step 1</div>
                                         <div class="step-main">
                                             <div class="step-icon">
                                                 <i class="fa fa-twitter"/>
                                                 <div t-if="state.config.twitterLinked" class="check-badge"><i class="fa fa-check"/></div>
                                             </div>
                                             <div class="step-info">
-                                                <h4>ربط حساب النشر (X)</h4>
-                                                <p>تخويل النظام لتعميم النشر تلقائياً عبر حسابك الرسمي.</p>
+                                                <h4>Link X (Twitter)</h4>
+                                                <p>Authorize the system to publish via your account.</p>
                                             </div>
                                         </div>
                                         <div class="step-footer mt-2 text-start">
-                                            <span t-if="state.config.twitterLinked" class="status-done">تم الربط <i class="fa fa-check-circle me-1"/></span>
-                                            <span t-else="" class="status-btn">ربط الحساب <i class="fa fa-link me-1"/></span>
+                                            <span t-if="state.config.twitterLinked" class="status-done">Linked <i class="fa fa-check-circle me-1"/></span>
+                                            <span t-else="" class="status-btn">Connect <i class="fa fa-link me-1"/></span>
                                         </div>
                                     </div>
                                 </div>
 
                                 <!-- Step 2: AI Prompt -->
-                                <t t-set="isPromptDone" t-value="state.config.custom_ai_instructions and state.config.custom_ai_instructions.length > 5"/>
+                                <t t-set="isPromptDone" t-value="state.config.custom_ai_instructions and state.config.custom_ai_instructions.length > 0"/>
                                 <div t-attf-class="onboarding-card {{ isPromptDone ? 'completed' : 'pending' }}" t-on-click="openSettings">
                                     <div class="card-glow"></div>
                                     <div class="card-content">
-                                        <div class="step-label">الخطوة الثانية</div>
+                                        <div class="step-label">Step 2</div>
                                         <div class="step-main">
                                             <div class="step-icon">
                                                 <i class="fa fa-magic"/>
                                                 <div t-if="isPromptDone" class="check-badge"><i class="fa fa-check"/></div>
                                             </div>
                                             <div class="step-info">
-                                                <h4>برومبت الذكاء الاصطناعي</h4>
-                                                <p>تحديد أسلوب الصياغة والتعليمات لمحرك المعالجة.</p>
+                                                <h4>AI Prompt</h4>
+                                                <p>Define the tone and instructions for the AI engine.</p>
                                             </div>
                                         </div>
                                         <div class="step-footer mt-2 text-start">
-                                            <span t-if="isPromptDone" class="status-done">تم الإعداد <i class="fa fa-check-circle me-1"/></span>
-                                            <span t-else="" class="status-btn">ضبط التعليمات <i class="fa fa-edit me-1"/></span>
+                                            <span t-if="isPromptDone" class="status-done">Set <i class="fa fa-check-circle me-1"/></span>
+                                            <span t-else="" class="status-btn">Configure <i class="fa fa-edit me-1"/></span>
                                         </div>
                                     </div>
                                 </div>
 
                                 <!-- Step 3: Keywords -->
-                                <t t-set="isKeywordsDone" t-value="state.config.target_radar_focus and state.config.target_radar_focus.length > 2"/>
+                                <t t-set="isKeywordsDone" t-value="state.config.target_radar_focus and state.config.target_radar_focus.length > 0"/>
                                 <div t-attf-class="onboarding-card {{ isKeywordsDone ? 'completed' : 'pending' }}" t-on-click="openSettings">
                                     <div class="card-glow"></div>
                                     <div class="card-content">
-                                        <div class="step-label">الخطوة الثالثة</div>
+                                        <div class="step-label">Step 3</div>
                                         <div class="step-main">
                                             <div class="step-icon">
                                                 <i class="fa fa-filter"/>
                                                 <div t-if="isKeywordsDone" class="check-badge"><i class="fa fa-check"/></div>
                                             </div>
                                             <div class="step-info">
-                                                <h4>كلمات مفتاحية البحث</h4>
-                                                <p>تحديد الكلمات الأساسية لفلترة المحتوى المكتشف.</p>
+                                                <h4>Search Keywords</h4>
+                                                <p>Set primary filters for discovered content.</p>
                                             </div>
                                         </div>
                                         <div class="step-footer mt-2 text-start">
-                                            <span t-if="isKeywordsDone" class="status-done">تم التحديد <i class="fa fa-check-circle me-1"/></span>
-                                            <span t-else="" class="status-btn">إضافة فلاتر <i class="fa fa-tags me-1"/></span>
+                                            <span t-if="isKeywordsDone" class="status-done">Defined <i class="fa fa-check-circle me-1"/></span>
+                                            <span t-else="" class="status-btn">Add Filters <i class="fa fa-tags me-1"/></span>
                                         </div>
                                     </div>
                                 </div>
@@ -115,29 +115,29 @@
                                 <div t-attf-class="onboarding-card {{ isTargetsDone ? 'completed' : 'pending' }}" t-on-click="openSettings">
                                     <div class="card-glow"></div>
                                     <div class="card-content">
-                                        <div class="step-label">الخطوة الرابعة</div>
+                                        <div class="step-label">Step 4</div>
                                         <div class="step-main">
                                             <div class="step-icon">
                                                 <i class="fa fa-crosshairs"/>
                                                 <div t-if="isTargetsDone" class="check-badge"><i class="fa fa-check"/></div>
                                             </div>
                                             <div class="step-info">
-                                                <h4>الحسابات المستهدفة</h4>
-                                                <p>إضافة مصادر الرصد التي سيتابعها الرادار.</p>
+                                                <h4>Monitored Sources</h4>
+                                                <p>Add the accounts the radar will track.</p>
                                             </div>
                                         </div>
                                         <div class="step-footer mt-2 text-start">
-                                            <span t-if="isTargetsDone" class="status-done">تم إضافة <t t-esc="state.targets.length"/> <i class="fa fa-check-circle me-1"/></span>
-                                            <span t-else="" class="status-btn">إضافة حسابات <i class="fa fa-plus me-1"/></span>
+                                            <span t-if="isTargetsDone" class="status-done">Added <t t-esc="state.targets.length"/> <i class="fa fa-check-circle me-1"/></span>
+                                            <span t-else="" class="status-btn">Add Targets <i class="fa fa-plus me-1"/></span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="onboarding-action">
-                                <p class="helper-text">تحتاج مساعدة؟ راجع <a href="#">دليل التشغيل السريع</a></p>
+                                <p class="helper-text">Need help? Read the <a href="#">Quick Start Guide</a></p>
                                 <button class="sr-premium-btn" t-on-click="toggleTracking" t-att-disabled="!state.isOnboarded">
-                                    <span>تنشيط الاستكشاف الشامل</span>
+                                    <span>Activate Full Radar</span>
                                     <i class="fa fa-bolt"/>
                                 </button>
                             </div>
@@ -149,10 +149,10 @@
                         <div class="hero-content">
                             <div class="ai-sparkle-v4"><i class="fa fa-magic"/></div>
                             <div class="hero-text">
-                                <h2>محرك الاستكشاف والتحليل المتقدم نشط ويعمل بكفاءة.</h2>
+                                <h2>Advanced exploration and analysis engine is active.</h2>
                                 <p>
-                                    تخضع حالياً <strong><t t-esc="state.targets.length"/> منصة معتمدة</strong> للمراقبة اللحظية. تم بنجاح رصد <strong><t t-esc="state.grantsDiscovered"/> موضوع جديد</strong> اليوم، 
-                                    حيث تولى الذكاء الاصطناعي مهام إعادة الصياغة الاحترافية، وتم التوجيه <strong>تلقائياً وبشكل متزامن</strong> لتعميم النشر عبر النوافذ الرسمية للمؤسسة.
+                                    Currently <strong><t t-esc="state.targets.length"/> certified sources</strong> are under real-time monitoring. Successfully discovered <strong><t t-esc="state.grantsDiscovered"/> new topics</strong> today. 
+                                    AI has handled professional reformulation and content has been <strong>automatically and simultaneously</strong> published across official channels.
                                 </p>
                             </div>
                         </div>
@@ -162,7 +162,7 @@
                     <!-- Live Targets Radar Section -->
                     <div class="sr-radar-listening-v4">
                         <div class="listening-header">
-                            <span><i class="fa fa-crosshairs ms-1"/> خريطة الاستهداف الحية (شبكة الـ <t t-esc="state.targets.length"/>)</span>
+                            <span><i class="fa fa-crosshairs ms-1"/> Live Target Map (Net of <t t-esc="state.targets.length"/>)</span>
                             <div class="sweep-animation"></div>
                         </div>
                         <div class="targets-marquee-container">
@@ -171,14 +171,14 @@
                                     <div class="target-pill"><span class="pulse-dot"></span> <t t-esc="target.name"/></div>
                                 </t>
                                 <t t-if="state.targets.length === 0">
-                                    <div class="target-pill ghost"><i class="fa fa-plus ms-1"/> جاري البحث عن مصادر تطابق معاييرك...</div>
+                                    <div class="target-pill ghost"><i class="fa fa-plus ms-1"/> Searching for sources matching your criteria...</div>
                                 </t>
                                 <!-- Duplicate for infinite seamless scroll -->
                                 <t t-foreach="state.targets" t-as="target" t-key="'dup_' + target.id">
                                     <div class="target-pill"><span class="pulse-dot"></span> <t t-esc="target.name"/></div>
                                 </t>
                                 <t t-if="state.targets.length === 0">
-                                    <div class="target-pill ghost"><i class="fa fa-plus ms-1"/> جاري البحث عن مصادر تطابق معاييرك...</div>
+                                    <div class="target-pill ghost"><i class="fa fa-plus ms-1"/> Searching for sources matching your criteria...</div>
                                 </t>
                             </div>
                         </div>
@@ -188,7 +188,7 @@
                     <div class="kpi-card-v4">
                         <div class="kpi-top">
                             <div class="kpi-text">
-                                <span class="kpi-title">المحتوى الجديد المكتشف اليوم</span>
+                                <span class="kpi-title">New Content Discovered Today</span>
                                 <div class="kpi-value"><t t-esc="state.grantsDiscovered"/></div>
                             </div>
                             <div class="kpi-icon blue"><i class="fa fa-search-plus"/></div>
@@ -199,7 +199,7 @@
                     <div class="kpi-card-v4">
                         <div class="kpi-top">
                             <div class="kpi-text">
-                                <span class="kpi-title">المنشورات (موقع + X)</span>
+                                <span class="kpi-title">Publications (Website + X)</span>
                                 <div class="kpi-value"><t t-esc="state.publishedToday"/></div>
                             </div>
                             <div class="kpi-icon emerald"><i class="fa fa-paper-plane"/></div>
@@ -210,8 +210,8 @@
                     <div class="kpi-card-v4">
                         <div class="kpi-top">
                             <div class="kpi-text">
-                                <span class="kpi-title">مراقبة حسابات المصادر</span>
-                                <div class="kpi-value"><t t-esc="state.monitoredAccounts"/> <span>مصدراً</span></div>
+                                <span class="kpi-title">Monitored Source Accounts</span>
+                                <div class="kpi-value"><t t-esc="state.monitoredAccounts"/> <span>sources</span></div>
                             </div>
                             <div class="kpi-icon indigo"><i class="fa fa-users"/></div>
                         </div>
@@ -224,7 +224,7 @@
                     <div class="kpi-card-v4">
                         <div class="kpi-top">
                             <div class="kpi-text">
-                                <span class="kpi-title">دقة مطابقة برومبت الصياغة</span>
+                                <span class="kpi-title">Formulation Prompt Accuracy</span>
                                 <div class="kpi-value"><t t-esc="state.matchRate"/><span>%</span></div>
                             </div>
                             <div class="kpi-icon amber"><i class="fa fa-shield"/></div>
@@ -238,8 +238,8 @@
                         <div class="charts-row">
                             <div class="chart-card-v4 w-65">
                                 <div class="card-header">
-                                    <h3>كثافة تدفق المحتوى حسب الوقت</h3>
-                                    <span class="badge-soft">مباشر</span>
+                                    <h3>Content Flow Density by Time</h3>
+                                    <span class="badge-soft">Live</span>
                                 </div>
                                 <div class="chart-container">
                                     <canvas t-ref="barChartCanvas"></canvas>
@@ -247,23 +247,23 @@
                             </div>
                             <div class="chart-card-v4 w-35">
                                 <div class="card-header" style="margin-bottom: 8px;">
-                                    <h3>توجيه النشر الآلي</h3>
+                                    <h3>Automated Publishing Routing</h3>
                                 </div>
                                 <div class="chart-container doughnut-container mt-2">
                                     <canvas t-ref="gaugeChartCanvas"></canvas>
                                     <div class="doughnut-center">
                                         <span class="d-number">100%</span>
-                                        <span class="d-label">أتمتة مزدوجة</span>
+                                        <span class="d-label">Dual Automation</span>
                                     </div>
                                 </div>
                                 <div class="custom-chart-legend">
                                     <div class="legend-item">
                                         <span class="legend-dot bg-indigo"></span>
-                                        <span class="legend-text">الموقع الرسمي (WordPress)</span>
+                                        <span class="legend-text">Official Website (WordPress)</span>
                                     </div>
                                     <div class="legend-item">
                                         <span class="legend-dot bg-blue"></span>
-                                        <span class="legend-text">حساب منصة X (Twitter)</span>
+                                        <span class="legend-text">X Account (Twitter)</span>
                                     </div>
                                 </div>
                             </div>
@@ -271,13 +271,13 @@
 
                         <div class="feed-card-v4 mt-4">
                             <div class="card-header border-bottom">
-                                <h3><i class="fa fa-bolt ms-2"/>السجل اللحظي للعمليات الاستكشافية</h3>
+                                <h3><i class="fa fa-bolt ms-2"/>Real-time Exploration Log</h3>
                             </div>
                             <div class="feed-list-v4">
                                 <t t-if="state.feed.length === 0">
                                     <div class="empty-state">
                                         <i class="fa fa-microphone fa-2x mb-2 text-muted"/>
-                                        <p>محرك الاستكشاف يُجري عمليات مسح دقيقة للكيانات المعتمدة...</p>
+                                        <p>Exploration engine is performing deep scans of certified entities...</p>
                                     </div>
                                 </t>
                                 <t t-else="">
@@ -286,29 +286,29 @@
                                             
                                             <div class="chat-bubble raw-bubble">
                                                 <div class="bubble-header">
-                                                    <span><i class="fa fa-twitter ms-1"/> المحتوى الأولي (الخام) من المصدر</span>
+                                                    <span><i class="fa fa-twitter ms-1"/> Raw Content from Source</span>
                                                     <span class="time"><t t-esc="item.time"/></span>
                                                 </div>
                                                 <div class="bubble-text"><t t-esc="item.original"/></div>
-                                                <div class="source-tag">المعرف الرسمي للمصدر: <t t-esc="item.donor"/></div>
+                                                <div class="source-tag">Source ID: <t t-esc="item.donor"/></div>
                                             </div>
                                             
                                             <div class="magic-arrow text-muted text-center" style="display: flex; flex-direction: column; gap: 8px;">
-                                                <i class="fa fa-cogs" title="معالجة ذكية" style="font-size: 16px;"/>
+                                                <i class="fa fa-cogs" title="Smart Processing" style="font-size: 16px;"/>
                                                 <i class="fa fa-angle-left" style="font-size: 24px;"/>
-                                                <i class="fa fa-share-alt" title="نشر مزدوج" style="font-size: 16px;"/>
+                                                <i class="fa fa-share-alt" title="Dual Publishing" style="font-size: 16px;"/>
                                             </div>
 
                                             <div class="chat-bubble ai-bubble">
                                                 <div class="bubble-header ai-header">
-                                                    <span><i class="fa fa-check-circle ms-1"/> المعالجة الذكية والاعتماد التلقائي</span>
+                                                    <span><i class="fa fa-check-circle ms-1"/> Smart Processing &amp; Auto-Approval</span>
                                                     <div class="d-flex align-items-center">
-                                                        <span class="conf-badge ms-2"><i class="fa fa-globe ms-1"/> تم بالموقع</span>
-                                                        <span class="conf-badge ms-1" style="color: #1da1f2; background: #e8f5fe; border-color: #1da1f2;"><i class="fa fa-twitter ms-1"/> نُشر بـ X</span>
+                                                        <span class="conf-badge ms-2"><i class="fa fa-globe ms-1"/> On Website</span>
+                                                        <span class="conf-badge ms-1" style="color: #1da1f2; background: #e8f5fe; border-color: #1da1f2;"><i class="fa fa-twitter ms-1"/> Published to X</span>
                                                     </div>
                                                 </div>
                                                 <div class="bubble-text"><t t-esc="item.rewritten"/></div>
-                                                <div class="destination-tag"><a t-att-href="item.tweetLink" target="_blank" title="استعراض المادة المنشورة">إصدار التوثيق الحي <i class="fa fa-external-link"/></a></div>
+                                                <div class="destination-tag"><a t-att-href="item.tweetLink" target="_blank" title="View Published Material">Live Verification <i class="fa fa-external-link"/></a></div>
                                             </div>
                                         </div>
                                     </t>
@@ -320,7 +320,7 @@
                     <div class="grid-secondary">
                         <div class="timeline-card-v4">
                             <div class="card-header border-bottom">
-                                <h3><i class="fa fa-server ms-2"/>القياسات التشغيلية اللحظية للنظام</h3>
+                                <h3><i class="fa fa-server ms-2"/>Real-time Operational Metrics</h3>
                             </div>
                             <div class="timeline-container">
                                 <t t-foreach="state.logs" t-as="log" t-key="log.id">

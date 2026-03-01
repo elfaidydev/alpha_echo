@@ -204,7 +204,7 @@
         }
     }
 
-    .primary-range { @include custom-v4-range-mixin(#10b981); }
+    .primary-range { @include custom-v4-range-mixin(var(--v4-indigo)); }
     .secondary-range { @include custom-v4-range-mixin(#10b981); }
 
     .fancy-auto-switch .form-switch .form-check-input { width: 4em; height: 2em; cursor: pointer; border-radius: 2em; background-color: rgba(0,0,0,0.1); border: 2px solid rgba(255,255,255,0.2); transition: 0.3s; &:checked { background-color: #10b981; border-color: #fff; } }
@@ -243,10 +243,24 @@
 }
 
 /* --- PROFESSIONAL RESPONSIVE DESIGN --- */
-@media (max-width: 991px) {
+@media (max-width: 1200px) {
     .o_alpha_echo_config {
-        .sr-page-content { padding: 20px; }
-        .sr-unified-panel { padding: 30px; border-radius: 20px; }
+        .sr-header-v4 {
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+            text-align: center;
+            padding-bottom: 24px;
+            .header-right-side {
+                flex-direction: column;
+                gap: 12px;
+                width: 100%;
+                justify-content: center;
+                .logo-box { width: 52px; height: 52px; font-size: 20px; margin: 0 auto; }
+                .title-box { display: flex; flex-direction: column; align-items: center; h1 { font-size: 24px; } .subtitle { font-size: 13px; } }
+            }
+        }
+        .sr-unified-panel { padding: 32px; border-radius: 20px; }
         .sr-section-title { font-size: 1.15rem; margin-bottom: 20px; }
         .sr-label { font-size: 13.5px; }
         .border-end-xl, .border-end-lg { border: none !important; border-bottom: 1px dashed rgba(226, 232, 240, 0.8) !important; padding-bottom: 24px; margin-bottom: 24px; }

@@ -3,33 +3,38 @@
     <t t-name="alpha_echo.TargetsPage" owl="1">
         <div class="sr-targets-container">
                 <!-- Premium Glassmorphism Header -->
-                <div class="sr-targets-header">
-                    <div class="header-right-side">
+                <!-- Premium 3-Row Header -->
+                <div class="sr-targets-header vertical-layout">
+                    <!-- Row 1: Logo and Title -->
+                    <div class="sr-header-row info-row">
                         <div class="logo-box">
                             <i class="fa fa-crosshairs"/>
                         </div>
                         <div class="title-box">
-                            <h1>إدارة المصادر</h1>
-                            <p class="subtitle">شبكة الرصد الحية للمصادر والحسابات المعتمدة.</p>
+                            <h1>Resource Management</h1>
+                            <p class="subtitle">Live monitoring network for approved sources and accounts.</p>
                         </div>
                     </div>
                     
-                    <div class="sr-header-actions">
-                        <div class="sr-tabs">
-                            <button t-attf-class="sr-tab-btn {{ state.activeTab === 'all' ? 'active' : '' }}" t-on-click="() => this.setTab('all')">الكل</button>
-                            <button t-attf-class="sr-tab-btn {{ state.activeTab === 'general' ? 'active' : '' }}" t-on-click="() => this.setTab('general')">محتوى عام</button>
-                            <button t-attf-class="sr-tab-btn {{ state.activeTab === 'health' ? 'active' : '' }}" t-on-click="() => this.setTab('health')">صحة وطب</button>
-                            <button t-attf-class="sr-tab-btn {{ state.activeTab === 'education' ? 'active' : '' }}" t-on-click="() => this.setTab('education')">تعليم وأبحاث</button>
-                            <button t-attf-class="sr-tab-btn {{ state.activeTab === 'tech' ? 'active' : '' }}" t-on-click="() => this.setTab('tech')">تقنية وابتكار</button>
+                    <!-- Row 2: Search and Add Button -->
+                    <div class="sr-header-row search-row">
+                        <div class="sr-search-bar flex-grow-1">
+                            <i class="fa fa-search"/>
+                            <input type="text" t-model="state.searchQuery" placeholder="Search sources..."/>
                         </div>
-                        <div class="sr-desktop-actions">
-                            <div class="sr-search-bar">
-                                <i class="fa fa-search"/>
-                                <input type="text" t-model="state.searchQuery" placeholder="ابحث في المصادر..."/>
-                            </div>
-                            <button class="sr-add-btn" t-on-click="openCreateModal">
-                                <i class="fa fa-plus me-2"/> <span class="text-nowrap font-weight-bold">إضافة مصدر</span>
-                            </button>
+                        <button class="sr-add-btn shrink-0" t-on-click="openCreateModal">
+                            <i class="fa fa-plus me-2"/> <span class="text-nowrap font-weight-bold">Add Source</span>
+                        </button>
+                    </div>
+
+                    <!-- Row 3: Categories (Tabs) -->
+                    <div class="sr-header-row tabs-row">
+                        <div class="sr-tabs">
+                            <button t-attf-class="sr-tab-btn {{ state.activeTab === 'all' ? 'active' : '' }}" t-on-click="() => this.setTab('all')">All</button>
+                            <button t-attf-class="sr-tab-btn {{ state.activeTab === 'general' ? 'active' : '' }}" t-on-click="() => this.setTab('general')">General Content</button>
+                            <button t-attf-class="sr-tab-btn {{ state.activeTab === 'health' ? 'active' : '' }}" t-on-click="() => this.setTab('health')">Health &amp; Medicine</button>
+                            <button t-attf-class="sr-tab-btn {{ state.activeTab === 'education' ? 'active' : '' }}" t-on-click="() => this.setTab('education')">Education &amp; Research</button>
+                            <button t-attf-class="sr-tab-btn {{ state.activeTab === 'tech' ? 'active' : '' }}" t-on-click="() => this.setTab('tech')">Tech &amp; Innovation</button>
                         </div>
                     </div>
                 </div>
@@ -45,8 +50,8 @@
                                     <div class="lock-main-icon"><i class="fa fa-lock"/></div>
                                 </div>
                                 <div class="lock-text">
-                                    <h3>النظام مقفل! <span class="badge-locked">ربط الحساب مطلوب</span></h3>
-                                    <p>للتمكن من إضافة مصادر الرصد وإدارة النظام، يجب عليك الدخول للوحة التحكم أولاً وربط حساب منصة X (Twitter) ليتمكن المحرك من العمل والنشر.</p>
+                                    <h3>System Locked! <span class="badge-locked">Account Link Required</span></h3>
+                                    <p>To add monitored sources and manage the system, you must first access the dashboard and link your X (Twitter) account for the engine to operate and publish.</p>
                                 </div>
                             </div>
                         </div>
@@ -54,23 +59,23 @@
                     <t t-elif="state.isLoading">
                         <div class="sr-loading-state" style="grid-column: 1 / -1;">
                             <div class="dot-spin"></div>
-                            <p>جاري مزامنة شبكة الرصد...</p>
+                            <p>Synchronizing monitoring network...</p>
                         </div>
                     </t>
                     <t t-elif="targets.length === 0 and !state.isLoading">
                         <div class="sr-premium-empty-state" style="grid-column: 1 / -1;">
                             <div class="empty-icon-wrap"><i class="fa fa-satellite-dish pulse-icon"/></div>
-                            <h2>لم تقم بإضافة أي مصادر للرصد بعد!</h2>
-                            <p>محركنا الذكي بانتظار توجيهاتك. أضف حسابات تويتر أو روابط للاستهداف ليقوم النظام بمراقبتها وجلب وتحليل المحتوى منها فوراً وبشكل آلي.</p>
+                            <h2>No monitored sources added yet!</h2>
+                            <p>Our smart engine is waiting for your directions. Add Twitter accounts or links for targeting so the system can monitor them and fetch/analyze content immediately and automatically.</p>
                             <button class="sr-glow-btn mt-4 btn-add-first" t-on-click="openCreateModal">
-                                <i class="fa fa-plus ms-2"/> أضف أول مصدر رصد الآن
+                                <i class="fa fa-plus ms-2"/> Add your first source now
                             </button>
                         </div>
                     </t>
                     <t t-elif="filteredTargets.length === 0 and !state.isLoading">
                         <div class="sr-empty-state" style="grid-column: 1 / -1;">
                             <i class="fa fa-crosshairs"/>
-                            <p>لا توجد مصادر مطابقة لمعايير البحث الحالية.</p>
+                            <p>No sources match the current search criteria.</p>
                         </div>
                     </t>
                     <t t-else="">
@@ -89,7 +94,7 @@
                                             </span>
                                         </div>
                                     </div>
-                                    <div class="sr-status-toggle" t-on-click.stop="() => this.toggleTracking(target)" t-att-title="target.is_active ? 'إيقاف المراقبة' : 'تنشيط المراقبة'">
+                                    <div class="sr-status-toggle" t-on-click.stop="() => this.toggleTracking(target)" t-att-title="target.is_active ? 'Stop Monitoring' : 'Activate Monitoring'">
                                         <div class="toggle-track" t-att-class="target.is_active ? 'active' : 'inactive'">
                                             <div class="toggle-knob"></div>
                                         </div>
@@ -99,14 +104,14 @@
                                 <div class="sr-card-body">
                                     <div class="sr-stats-row">
                                         <div class="sr-stat-box">
-                                            <span class="stat-label">التصنيف</span>
+                                            <span class="stat-label">Category</span>
                                             <span class="stat-value category-badge" t-attf-class="cat-{{target.category}}">
                                                 <i class="fa fa-tag"/> 
-                                                <t t-esc="target.category === 'general' ? 'عامة' : (target.category === 'health' ? 'صحة' : (target.category === 'education' ? 'تعليم' : 'تقنية'))"/>
+                                                <t t-esc="target.category === 'general' ? 'General' : (target.category === 'health' ? 'Health' : (target.category === 'education' ? 'Education' : 'Tech'))"/>
                                             </span>
                                         </div>
                                         <div class="sr-stat-box">
-                                            <span class="stat-label">المحتوى الملتقط</span>
+                                            <span class="stat-label">Captured Content</span>
                                             <span class="stat-value text-indigo">
                                                 <i class="fa fa-bolt"/> <t t-esc="target.posts_count"/>
                                             </span>
@@ -117,7 +122,7 @@
                                 <div class="sr-card-foot">
                                     <span class="sr-engine-status" t-att-class="target.is_active ? 'recording' : 'paused'">
                                         <span class="pulse-dot"></span> 
-                                        <t t-esc="target.is_active ? 'محرك الاستكشاف نشط' : 'نظام الرصد متوقف'"/>
+                                        <t t-esc="target.is_active ? 'Exploration engine active' : 'Monitoring system paused'"/>
                                     </span>
                                 </div>
                             </div>
@@ -146,12 +151,12 @@
                                     </span>
 
                                     <!-- Mode Badge -->
-                                    <span class="sr-modal-mode-badge" t-if="state.modalMode === 'create'">إعداد كيان جديد للمراقبة</span>
-                                    <span class="sr-modal-mode-badge" t-if="state.modalMode === 'edit'">وضع التعديل</span>
+                                    <span class="sr-modal-mode-badge" t-if="state.modalMode === 'create'">Setup new monitored entity</span>
+                                    <span class="sr-modal-mode-badge" t-if="state.modalMode === 'edit'">Edit Mode</span>
                                 </div>
 
                                 <!-- X Close Button (top right) -->
-                                <button class="sr-close-btn" t-on-click="closeTargetAnalytics" title="إغلاق">
+                                <button class="sr-close-btn" t-on-click="closeTargetAnalytics" title="Close">
                                     <i class="fa fa-times"/>
                                 </button>
                             </div>
@@ -174,13 +179,13 @@
                                 <t t-if="state.modalMode === 'view'">
                                     <!-- View mode: just the edit action -->
                                     <button class="sr-clean-btn btn-advanced-setup" t-on-click="editTarget">
-                                        <i class="fa fa-pencil"/> تعديل البيانات
+                                        <i class="fa fa-pencil"/> Edit Data
                                     </button>
                                 </t>
                                 <t t-else="">
                                     <!-- Create/Edit mode: save only (X handles cancel) -->
                                     <button class="sr-clean-btn btn-save-action" t-on-click="saveTarget" t-att-disabled="!state.editForm.name">
-                                        <i class="fa fa-check"/> حفظ البيانات
+                                        <i class="fa fa-check"/> Save Data
                                     </button>
                                 </t>
                             </div>
@@ -198,27 +203,27 @@
             <!-- Left Analytics Card -->
             <div class="col-md-5">
                 <div class="sr-insight-card p-4 bg-white rounded-4 shadow-sm h-100 border-0">
-                    <h4 class="fs-6 fw-bold text-muted mb-4 text-uppercase tracking-wide">نظرة عامة على الهدف</h4>
+                    <h4 class="fs-6 fw-bold text-muted mb-4 text-uppercase tracking-wide">Target Overview</h4>
                     
                     <div class="d-flex justify-content-between align-items-center mb-3 pb-3 border-bottom">
-                        <span class="text-secondary fw-semibold">حالة الرصد (Engine)</span>
+                        <span class="text-secondary fw-semibold">Monitoring Status (Engine)</span>
                         <span t-attf-class="badge rounded-pill {{state.selectedTarget.is_active ? 'bg-success-subtle text-success' : 'bg-secondary-subtle text-secondary'}} fs-6 px-3 py-2">
                             <i t-attf-class="fa fa-{{state.selectedTarget.is_active ? 'check-circle' : 'pause-circle'}} me-1"/> 
-                            <t t-esc="state.selectedTarget.is_active ? 'نشط ويلتقط البيانات' : 'موقف مؤقتاً'"/>
+                            <t t-esc="state.selectedTarget.is_active ? 'Active &amp; Capturing' : 'Paused'"/>
                         </span>
                     </div>
 
                     <div class="d-flex justify-content-between align-items-center mb-3 pb-3 border-bottom">
-                        <span class="text-secondary fw-semibold">تصنيف المصدر</span>
+                        <span class="text-secondary fw-semibold">Source Category</span>
                         <span class="fw-bold text-dark">
-                            <t t-esc="state.selectedTarget.category === 'general' ? 'عامة' : (state.selectedTarget.category === 'health' ? 'صحة وطب' : (state.selectedTarget.category === 'education' ? 'تعليم وأبحاث' : 'تقنية وابتكار'))"/>
+                            <t t-esc="state.selectedTarget.category === 'general' ? 'General / Developmental' : (state.selectedTarget.category === 'health' ? 'Health &amp; Medicine' : (state.selectedTarget.category === 'education' ? 'Education &amp; Research' : 'Tech &amp; Innovation'))"/>
                         </span>
                     </div>
 
                     <div class="d-flex justify-content-between align-items-center bg-indigo-50 p-3 rounded-3 mt-4">
                         <div>
-                            <span class="d-block text-indigo fw-bold fs-6">إجمالي الاكتشافات</span>
-                            <span class="text-muted small">الموضوعات والمحتوى الملتقط</span>
+                            <span class="d-block text-indigo fw-bold fs-6">Total Discoveries</span>
+                            <span class="text-muted small">Topics and content captured</span>
                         </div>
                         <h2 class="text-indigo mb-0 fw-black"><t t-esc="state.selectedTarget.posts_count"/></h2>
                     </div>
@@ -229,13 +234,13 @@
             <div class="col-md-7">
                 <div class="sr-insight-card p-4 bg-white rounded-4 shadow-sm h-100 border-0">
                     <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h4 class="fs-6 fw-bold text-dark mb-0"><i class="fa fa-feed text-primary me-2"/> البث الحي (أحدث 5 مواضيع)</h4>
+                        <h4 class="fs-6 fw-bold text-dark mb-0"><i class="fa fa-feed text-primary me-2"/> Live Feed (Latest 5 Topics)</h4>
                         <div t-if="state.targetRecentPosts.length === 0" class="spinner-border spinner-border-sm text-primary" role="status"></div>
                     </div>
                     
                     <div class="sr-timeline pe-2">
                         <t t-if="state.targetRecentPosts.length === 0">
-                            <p class="text-muted text-center py-4">جاري تحميل البث الزمني...</p>
+                            <p class="text-muted text-center py-4">Loading timeline...</p>
                         </t>
                         <t t-else="">
                             <t t-foreach="state.targetRecentPosts" t-as="post" t-key="post.id">
@@ -244,7 +249,7 @@
                                     <div class="timeline-content p-3 rounded-3 bg-light border border-light-subtle mb-3">
                                         <div class="d-flex justify-content-between mb-2">
                                             <span class="badge" t-att-class="post.state === 'published' ? 'text-bg-success' : (post.state === 'draft' ? 'text-bg-warning' : 'text-bg-danger')">
-                                                <t t-esc="post.state === 'published' ? 'منشور' : (post.state === 'draft' ? 'مسودة معلقة' : 'مستبعد')"/>
+                                                <t t-esc="post.state === 'published' ? 'Published' : (post.state === 'draft' ? 'Pending Draft' : 'Rejected')"/>
                                             </span>
                                             <small class="text-muted fw-bold"><i class="fa fa-clock-o me-1"/> <t t-esc="post.create_date.split(' ')[0]"/></small>
                                         </div>
@@ -253,7 +258,7 @@
                                         </p>
                                         <div class="d-flex justify-content-end text-muted small fw-bold mt-3">
                                             <span class="d-flex align-items-center gap-1">
-                                                <i class="fa fa-bolt text-warning"/> مؤشر ثقة المحرك: <t t-esc="post.ai_confidence"/>%
+                                                <i class="fa fa-bolt text-warning"/> Engine Confidence Index: <t t-esc="post.ai_confidence"/>%
                                             </span>
                                         </div>
                                     </div>
@@ -275,13 +280,13 @@
                 <div class="row g-4">
                     <div class="col-12">
                         <div class="sr-form-group">
-                            <label class="sr-form-label">اسم المصدر أو الحساب</label>
-                            <input type="text" class="sr-form-input" t-att-value="state.editForm.name" t-on-input="(ev) => this.handleInputChange(ev, 'name')" placeholder="مثال: وزارة الاتصالات، مؤسسة مسك..."/>
+                            <label class="sr-form-label">Source Name or Account</label>
+                            <input type="text" class="sr-form-input" t-att-value="state.editForm.name" t-on-input="(ev) => this.handleInputChange(ev, 'name')" placeholder="e.g. Ministry of Interior, Misk Foundation..."/>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="sr-form-group">
-                            <label class="sr-form-label">معرف منصة X (Twitter Handle)</label>
+                            <label class="sr-form-label">X Platform Handle (Twitter Handle)</label>
                             <div class="sr-input-group">
                                 <span class="sr-input-prefix"><i class="fa fa-twitter text-info"/></span>
                                 <input type="text" class="sr-form-input with-prefix" t-att-value="state.editForm.handle" t-on-input="(ev) => this.handleInputChange(ev, 'handle')" placeholder="@username"/>
@@ -290,20 +295,20 @@
                     </div>
                     <div class="col-md-6">
                         <div class="sr-form-group">
-                            <label class="sr-form-label">القطاع / التصنيف</label>
+                            <label class="sr-form-label">Sector / Category</label>
                             <select class="sr-form-select" t-att-value="state.editForm.category" t-on-change="(ev) => this.handleInputChange(ev, 'category')">
-                                <option value="general">عام / مؤسسة تنموية</option>
-                                <option value="health">صحة وطب</option>
-                                <option value="education">تعليم وأبحاث</option>
-                                <option value="tech">تقنية وابتكار</option>
+                                <option value="general">General / Developmental Foundation</option>
+                                <option value="health">Health &amp; Medicine</option>
+                                <option value="education">Education &amp; Research</option>
+                                <option value="tech">Tech &amp; Innovation</option>
                             </select>
                         </div>
                     </div>
                     <div class="col-12 mt-4 mt-md-5">
                         <div class="p-4 rounded-4 bg-light flex-wrap d-flex justify-content-between align-items-center border border-light-subtle gap-3">
                             <div>
-                                <h5 class="fw-bold mb-1 text-dark">تشغيل محرك الرصد (Engine)</h5>
-                                <p class="text-muted small mb-0">قم بتفعيله لالتقاط المحتوى آلياً من هذا المصدر.</p>
+                                <h5 class="fw-bold mb-1 text-dark">Enable Exploration Engine</h5>
+                                <p class="text-muted small mb-0">Enable it to capture content automatically from this source.</p>
                             </div>
                             <label class="sr-toggle-switch flex-shrink-0">
                                 <input type="checkbox" t-att-checked="state.editForm.is_active" t-on-change="(ev) => this.handleInputChange(ev, 'is_active')"/>

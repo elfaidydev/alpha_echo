@@ -17,14 +17,8 @@
                             <i class="fa fa-sliders"/>
                         </div>
                         <div class="title-box">
-                            <t t-if="isRTL">
-                                <h1>الربط والإعدادات</h1>
-                                <p class="subtitle">التحكم في مصادر البحث، الذكاء الاصطناعي، وربط حسابات النشر</p>
-                            </t>
-                            <t t-else="">
-                                <h1>Settings &amp; Configuration</h1>
-                                <p class="subtitle">Manage search sources, AI engine, and publishing account integrations</p>
-                            </t>
+                            <h1>Settings &amp; Configuration</h1>
+                            <p class="subtitle">Manage search sources, AI engine, and publishing account integrations</p>
                         </div>
                     </div>
                 </div>
@@ -35,32 +29,18 @@
                     <div class="sr-section-block">
                         <div class="sr-section-title">
                             <i class="fa fa-magic"/>
-                            <t t-if="isRTL">البحث والذكاء الاصطناعي</t>
-                            <t t-else="">Search &amp; AI</t>
+                            Search &amp; AI
                         </div>
                         <div class="row g-4 g-xl-5">
                             <div class="col-xl-7 col-lg-12">
-                                <t t-if="isRTL">
-                                    <label class="sr-label mb-2">تعليمات الذكاء الاصطناعي (AI Prompt)</label>
-                                    <p class="text-muted small mb-3">قم بكتابة التعليمات التي سيتبعها الذكاء الاصطناعي عند إعادة صياغة التغريدات لتناسب أهدافك.</p>
-                                    <textarea class="form-control sr-prompt-box" t-model="config.custom_ai_instructions" t-on-input="(ev) => this.onFieldChange('custom_ai_instructions', ev.target.value)" placeholder="مثال: لخص التغريدات التقنية واكتبها كخبر صحفي احترافي..."></textarea>
-                                </t>
-                                <t t-else="">
-                                    <label class="sr-label mb-2">AI Instructions (Prompt)</label>
-                                    <p class="text-muted small mb-3">Write the instructions the AI will follow when reformulating tweets to suit your goals.</p>
-                                    <textarea class="form-control sr-prompt-box" t-model="config.custom_ai_instructions" t-on-input="(ev) => this.onFieldChange('custom_ai_instructions', ev.target.value)" placeholder="e.g. Summarize these tech tweets and rewrite them as concise professional news articles..."></textarea>
-                                </t>
+                                <label class="sr-label mb-2">AI Instructions (Prompt)</label>
+                                <p class="text-muted small mb-3">Write the instructions the AI will follow when reformulating tweets to suit your goals.</p>
+                                <textarea class="form-control sr-prompt-box" t-model="config.custom_ai_instructions" t-on-input="(ev) => this.onFieldChange('custom_ai_instructions', ev.target.value)" placeholder="e.g. Summarize these tech tweets and rewrite them as concise professional news articles..."></textarea>
                             </div>
 
                             <div class="col-xl-5 col-lg-12">
-                                <t t-if="isRTL">
-                                    <label class="sr-label mb-2">الكلمات المفتاحية للبحث والفترة</label>
-                                    <p class="text-muted small mb-3">حدد الكلمات المفتاحية الأساسية للبحث؛ سيتم تجاهل التغريدات التي لا تحتوي عليها لترشيد استهلاك الرصيد.</p>
-                                </t>
-                                <t t-else="">
-                                    <label class="sr-label mb-2">Search Keywords</label>
-                                    <p class="text-muted small mb-3">Set the primary search keywords; tweets not containing them will be filtered out to save API credits.</p>
-                                </t>
+                                <label class="sr-label mb-2">Search Keywords</label>
+                                <p class="text-muted small mb-3">Set the primary search keywords; tweets not containing them will be filtered out to save API credits.</p>
                                 <div class="sr-tag-container mb-3">
                                     <t t-foreach="keywords" t-as="keyword" t-key="keyword">
                                         <span class="sr-tag">
@@ -69,14 +49,13 @@
                                         </span>
                                     </t>
                                     <input type="text" autocomplete="new-password" class="sr-tag-input"
-                                           t-att-placeholder="isRTL ? 'اكتب واضغط Enter...' : 'Type and press Enter...'"
+                                           placeholder="Type and press Enter..."
                                            t-model="state.ui.newKeyword" t-on-keydown="addKeyword"/>
                                 </div>
                                 <div class="alert alert-info py-2 px-3 border-0 bg-light" role="alert">
                                     <i class="fa fa-info-circle me-2 text-primary"/>
                                     <small class="text-dark font-weight-bold">
-                                        <t t-if="isRTL">عدد الفلاتر النشطة حالياً: <b class="text-primary"><t t-esc="keywords.length"/></b> فلاتر.</t>
-                                        <t t-else="">Active filters: <b class="text-primary"><t t-esc="keywords.length"/></b> keyword(s).</t>
+                                        Active filters: <b class="text-primary"><t t-esc="keywords.length"/></b> keyword(s).
                                     </small>
                                 </div>
                             </div>
@@ -93,8 +72,7 @@
                             <div class="col-xl-8 col-lg-12 border-end-xl pr-xl-5">
                                 <div class="sr-section-title">
                                     <i class="fa fa-dashboard"/>
-                                    <t t-if="isRTL">سرعة العمل وحدود النشر</t>
-                                    <t t-else="">Speed &amp; Publishing Limits</t>
+                                    Speed &amp; Publishing Limits
                                 </div>
                                 
                             <div class="sr-config-card-v4 mb-4">
@@ -103,25 +81,14 @@
                                         <i class="fa fa-clock-o"/>
                                     </div>
                                     <div>
-                                        <t t-if="isRTL">
-                                            <h5 class="mb-0 fw-boldest text-dark">سرعة البحث عن محتوى جديد</h5>
-                                            <p class="text-muted small mb-0 font-weight-bold">اختر الفاصل الزمني بين كل عملية فحص للبحث عن محتوى جديد.</p>
-                                        </t>
-                                        <t t-else="">
-                                            <h5 class="mb-0 fw-boldest text-dark">Content Discovery Speed</h5>
-                                            <p class="text-muted small mb-0 font-weight-bold">Choose the interval between each scan for new content.</p>
-                                        </t>
+                                        <h5 class="mb-0 fw-boldest text-dark">Content Discovery Speed</h5>
+                                        <p class="text-muted small mb-0 font-weight-bold">Choose the interval between each scan for new content.</p>
                                     </div>
                                     <div class="badge-v4 glass-dark">
                                         <t t-set="total_mins" t-value="config.scraping_interval || 180"/>
                                         <t t-set="hrs" t-value="Math.floor(total_mins / 60)"/>
                                         <t t-set="mins" t-value="total_mins % 60"/>
-                                        <t t-if="isRTL">
-                                            <t t-esc="hrs"/> ساعة <t t-if="mins > 0">و <t t-esc="mins"/> دقيقة</t>
-                                        </t>
-                                        <t t-else="">
-                                            <t t-esc="hrs"/>h <t t-if="mins > 0"><t t-esc="mins"/>m</t>
-                                        </t>
+                                        <t t-esc="hrs"/>h <t t-if="mins > 0"><t t-esc="mins"/>m</t>
                                     </div>
                                 </div>
                                 <input type="range" class="form-range custom-v4-range primary-range" 
@@ -132,12 +99,10 @@
                                 <div class="d-flex justify-content-between mt-2 text-start">
                                     <span class="range-info-v4 text-dark font-weight-bold">
                                         <i class="fa fa-info-circle me-2 text-indigo"/>
-                                        <t t-if="isRTL">سرعة البحث الحالية: <strong><t t-esc="config.scraping_interval || 180"/> دقيقة</strong></t>
-                                        <t t-else="">Current interval: <strong><t t-esc="config.scraping_interval || 180"/> min</strong></t>
+                                        Current interval: <strong><t t-esc="config.scraping_interval || 180"/> min</strong>
                                     </span>
                                     <span class="range-limit-v4 text-muted small font-weight-bold">
-                                        <t t-if="isRTL">الحد الأدنى: 5 د | الأقصى: 48 ساعة</t>
-                                        <t t-else="">Min: 5m | Max: 48h</t>
+                                        Min: 5m | Max: 48h
                                     </span>
                                 </div>
                             </div>
@@ -148,23 +113,15 @@
                                         <i class="fa fa-paper-plane-o"/>
                                     </div>
                                     <div>
-                                        <t t-if="isRTL">
-                                            <h5 class="mb-0 fw-boldest text-dark">الحد الأقصى للنشر في اليوم</h5>
-                                            <p class="text-muted small mb-0 font-weight-bold">تحكم في عدد المنشورات اليومية لتجنب الحظر أو إزعاج المتابعين.</p>
-                                        </t>
-                                        <t t-else="">
-                                            <h5 class="mb-0 fw-boldest text-dark">Daily Publishing Limit</h5>
-                                            <p class="text-muted small mb-0 font-weight-bold">Control the number of daily posts to avoid bans or follower fatigue.</p>
-                                        </t>
+                                        <h5 class="mb-0 fw-boldest text-dark">Daily Publishing Limit</h5>
+                                        <p class="text-muted small mb-0 font-weight-bold">Control the number of daily posts to avoid bans or follower fatigue.</p>
                                     </div>
                                     <div t-att-class="'badge-v4 ' + (config.max_posts_per_day == 100 ? 'glass-emerald' : 'glass-dark')">
                                         <t t-if="config.max_posts_per_day == 100">
-                                            <t t-if="isRTL">وضعية النشر المفتوح ∞</t>
-                                            <t t-else="">Unlimited ∞</t>
+                                            Unlimited ∞
                                         </t>
                                         <t t-else="">
-                                            <t t-if="isRTL">بحد أقصى <t t-esc="config.max_posts_per_day"/> منشور / يوم</t>
-                                            <t t-else="">Max <t t-esc="config.max_posts_per_day"/> posts / day</t>
+                                            Max <t t-esc="config.max_posts_per_day"/> posts / day
                                         </t>
                                     </div>
                                 </div>
@@ -177,12 +134,10 @@
                                     <span class="range-info-v4 text-dark font-weight-bold">
                                         <i class="fa fa-info-circle me-2 text-emerald"/> 
                                         <t t-if="config.max_posts_per_day == 100">
-                                            <t t-if="isRTL">نظام الرصد سيعمل بكامل طاقته في وضعية النشر المفتوح.</t>
-                                            <t t-else="">The system will run at full capacity in unlimited mode.</t>
+                                            The system will run at full capacity in unlimited mode.
                                         </t>
                                         <t t-else="">
-                                            <t t-if="isRTL">سيتوقف النشر تلقائياً عند الوصول لـ <t t-esc="config.max_posts_per_day"/> تغريدة.</t>
-                                            <t t-else="">Publishing will stop automatically after <t t-esc="config.max_posts_per_day"/> posts.</t>
+                                            Publishing will stop automatically after <t t-esc="config.max_posts_per_day"/> posts.
                                         </t>
                                     </span>
                                 </div>
@@ -195,14 +150,8 @@
                                     <div class="icon-pulse mb-3">
                                         <i t-att-class="'fa fa-rocket fa-2x ' + (config.auto_approve_drafts ? 'text-success' : 'text-muted')"/>
                                     </div>
-                                    <t t-if="isRTL">
-                                        <h5 class="font-weight-bold mb-2">النشر التلقائي المباشر</h5>
-                                        <p class="small mb-4 text-muted">عند تفعيل هذا الخيار، سيقوم النظام بنشر المحتوى المعالج فوراً دون الحاجة لمراجعتك المسبقة.</p>
-                                    </t>
-                                    <t t-else="">
-                                        <h5 class="font-weight-bold mb-2">Auto-Publish Directly</h5>
-                                        <p class="small mb-4 text-muted">When enabled, the system will publish processed content immediately without requiring manual review.</p>
-                                    </t>
+                                    <h5 class="font-weight-bold mb-2">Auto-Publish Directly</h5>
+                                    <p class="small mb-4 text-muted">When enabled, the system will publish processed content immediately without requiring manual review.</p>
                                     
                                     <div class="fancy-auto-switch mx-auto text-center" style="width: fit-content;">
                                         <div class="form-check form-switch p-0 m-0">
@@ -221,8 +170,7 @@
                     <div class="sr-section-block">
                         <div class="sr-section-title">
                             <i class="fa fa-link"/>
-                            <t t-if="isRTL">حسابات النشر والربط</t>
-                            <t t-else="">Publishing &amp; Integration Accounts</t>
+                            Publishing &amp; Integration Accounts
                         </div>
                         <div class="row g-4">
                             
@@ -232,19 +180,16 @@
                                     <div class="d-flex justify-content-between align-items-start mb-4">
                                         <h6 class="font-weight-bold d-flex align-items-center gap-2 m-0" style="color: #0f1419; font-size:16px;">
                                             <svg viewBox="0 0 24 24" aria-hidden="true" class="r-18jsvk2 r-4qtqp9 r-yyyyoo r-16y2uox r-lwhw9o r-color-900" style="width: 24px; height: 24px; fill:currentColor;"><g><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.007 3.56H5.022z"></path></g></svg>
-                                            <t t-if="isRTL">ربط حساب تويتر (منصة X)</t>
-                                            <t t-else="">Link X (Twitter) Account</t>
+                                            Link X (Twitter) Account
                                         </h6>
                                         <span class="badge rounded-pill" t-att-class="isTwitterConnected ? 'bg-success' : 'bg-warning text-dark'">
                                             <t t-if="isTwitterConnected">
                                                 <i class="fa fa-check me-1"/>
-                                                <t t-if="isRTL">متصل وحصري</t>
-                                                <t t-else="">Connected</t>
+                                                Connected
                                             </t>
                                             <t t-else="">
                                                 <i class="fa fa-plug me-1"/>
-                                                <t t-if="isRTL">قيد الانتظار</t>
-                                                <t t-else="">Pending</t>
+                                                Pending
                                             </t>
                                         </span>
                                     </div>
@@ -270,15 +215,13 @@
                                                     <h5 class="mb-0 fw-bold"><t t-esc="config.twitterUser ? config.twitterUser.name : 'Linked Account'"/></h5>
                                                     <p class="text-muted mb-0">@<t t-esc="config.twitterUser ? config.twitterUser.username : 'account'"/></p>
                                                     <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill mt-1">
-                                                        <t t-if="isRTL">متصل ومفعل</t>
-                                                        <t t-else="">Connected &amp; Active</t>
+                                                        Connected &amp; Active
                                                     </span>
                                                 </div>
                                             </div>
                                             <button class="btn btn-outline-danger btn-sm rounded-pill px-3 fw-bold" t-on-click="disconnectTwitter">
                                                 <i class="fa fa-unlink me-1"/>
-                                                <t t-if="isRTL">قطع الارتباط</t>
-                                                <t t-else="">Disconnect</t>
+                                                Disconnect
                                             </button>
                                         </div>
                                     </t>
@@ -324,13 +267,11 @@
                                         <div class="d-flex flex-column flex-md-row align-items-stretch align-items-md-center mt-3 gap-3">
                                             <div class="alert alert-warning mb-0 p-2 small border-0 flex-grow-1 text-start">
                                                 <i class="fa fa-exclamation-triangle me-2"/>
-                                                <t t-if="isRTL">يرجى إدخال كافة المفاتيح ثم الضغط على "ربط الحساب الآن".</t>
-                                                <t t-else="">Please enter all keys then click "Connect Account".</t>
+                                                Please enter all keys then click "Connect Account".
                                             </div>
                                             <button class="btn btn-primary font-weight-bold rounded-pill px-4 py-2 w-100 w-md-auto" t-att-disabled="!config.isFullyConfigured" t-on-click="saveConfig">
                                                 <i class="fa fa-link me-2"/>
-                                                <t t-if="isRTL">ربط الحساب الآن</t>
-                                                <t t-else="">Connect Account</t>
+                                                Connect Account
                                             </button>
                                         </div>
                                     </t>
@@ -343,32 +284,23 @@
                                     <div class="d-flex justify-content-between align-items-start mb-4">
                                         <h6 class="font-weight-bold d-flex align-items-center gap-2 m-0" style="color: var(--v4-indigo); font-size:16px;">
                                             <i class="fa fa-globe fa-lg"/>
-                                            <t t-if="isRTL">النشر التلقائي على مدونة الموقع</t>
-                                            <t t-else="">Auto-Publish to Website Blog</t>
+                                            Auto-Publish to Website Blog
                                         </h6>
                                         <span class="badge rounded-pill" t-att-class="isOdooBlogConnected ? 'bg-success' : 'bg-secondary'">
                                             <t t-if="isOdooBlogConnected">
-                                                <t t-if="isRTL">الحالة: متصل</t>
-                                                <t t-else="">Connected</t>
+                                                Connected
                                             </t>
                                             <t t-else="">
-                                                <t t-if="isRTL">الحالة: معطل</t>
-                                                <t t-else="">Disabled</t>
+                                                Disabled
                                             </t>
                                         </span>
                                     </div>
                                     
-                                    <t t-if="isRTL">
-                                        <p class="text-muted small mb-4">عند إضافة معرف المدونة (Blog ID)، سيقوم النظام بتحويل التغريدات إلى مقالات متكاملة ونشرها تلقائياً على مدونتك لتحسين ظهورك في محركات البحث (SEO).</p>
-                                    </t>
-                                    <t t-else="">
                                         <p class="text-muted small mb-4">When a Blog ID is provided, the system will convert tweets into full articles and publish them automatically to your blog, boosting your SEO visibility.</p>
-                                    </t>
                                     
                                     <div class="form-group mb-0">
                                         <label class="sr-label mb-2">
-                                            <t t-if="isRTL">رقم المدونة في الموقع (Odoo Blog ID)</t>
-                                            <t t-else="">Odoo Blog ID</t>
+                                            Odoo Blog ID
                                         </label>
                                         <input type="number" class="form-control w-100" placeholder="e.g. 1" t-model="config.odoo_blog_id" t-on-input="(ev) => this.onFieldChange('odoo_blog_id', ev.target.value)"/>
                                     </div>

@@ -1,6 +1,7 @@
 /** @odoo-module **/
 
-import { Component, useState, onWillStart } from "@odoo/owl";
+import { Component, useState, onWillStart, onWillUnmount } from "@odoo/owl";
+import { _t } from "@web/core/l10n/translation";
 import { useService } from "@web/core/utils/hooks";
 import { registry } from "@web/core/registry";
 import { localization } from "@web/core/l10n/localization";
@@ -30,6 +31,13 @@ export class ConfigPage extends Component {
         onWillStart(async () => {
             await this.radarService.fetchConfig();
             this._initializeDefaultConfig();
+        });
+
+        onWillUnmount(async () => {
+            if (this.saveTimeout) {
+                clearTimeout(this.saveTimeout);
+                await this.radarService.saveConfig();
+            }
         });
     }
 
@@ -79,7 +87,7 @@ export class ConfigPage extends Component {
         this.state.ui.isSaving = true;
         try {
             await this.radarService.saveConfig();
-            this.notification.add("تم حفط الإعدادات بنجاح", { type: "success" });
+            this.notification.add(_t("Settings saved successfully"), { type: "success" });
         } finally {
             this.state.ui.isSaving = false;
         }
@@ -96,7 +104,7 @@ export class ConfigPage extends Component {
     }
 
     async disconnectTwitter() {
-        if(confirm("هل أنت متأكد من إلغاء ربط حساب تويتر المعرف حالياً؟ سيؤدي ذلك لتوقف النشر الآلي.")) {
+        if(confirm(_t("Are you sure you want to unlink the currently identified Twitter account? This will stop automated publishing."))) {
             this.config.x_api_key = "";
             this.config.x_api_secret = "";
             this.config.x_access_token = "";
@@ -106,7 +114,7 @@ export class ConfigPage extends Component {
             
             // Persist the disconnection
             await this.radarService.saveConfig();
-            this.notification.add("تم إلغاء ربط الحساب بنجاح.", { type: "info" });
+            this.notification.add(_t("Account unlinked successfully."), { type: "info" });
         }
     }
 

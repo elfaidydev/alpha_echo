@@ -4,6 +4,7 @@ import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
 import { localization } from "@web/core/l10n/localization";
 import { Component, useState, onWillStart, onMounted, onWillUnmount, useRef } from "@odoo/owl";
+import { _t } from "@web/core/l10n/translation";
 
 export class SmartRadarDashboard extends Component {
     setup() {
@@ -56,7 +57,7 @@ export class SmartRadarDashboard extends Component {
             await this.radarService.loadTargets();
 
             this.startMockFeed();
-            this.radarService.pushLog("جاهزية النظام", "محرك الاستكشاف ووحدة الصياغة الآلية في وضع التفعيل اللحظي. الاتصال نشط ومستقر.", "success");
+            this.radarService.pushLog(_t("System Readiness"), _t("Exploration engine and AI formulation unit are in real-time activation mode. Connection is active and stable."), "success");
         });
 
         onWillUnmount(() => {
@@ -70,9 +71,9 @@ export class SmartRadarDashboard extends Component {
 
     get trackingBtnLabel() {
         if (this.state.isTracking) {
-            return this.isRTL ? "إيقاف الرصد مؤقتاً" : "Pause Monitoring";
+            return _t("Pause Monitoring");
         }
-        return this.isRTL ? "تنشيط الاستكشاف" : "Start Exploration";
+        return _t("Start Exploration");
     }
 
     async loadChartJs() {
@@ -134,9 +135,9 @@ export class SmartRadarDashboard extends Component {
             this.chartInstances.push(new window.Chart(ctxBar, {
                 type: 'bar',
                 data: {
-                    labels: ['٨ ص', '١٠ ص', '١٢ م', '٢ م', '٤ م', '٦ م'],
+                    labels: [_t('8 AM'), _t('10 AM'), _t('12 PM'), _t('2 PM'), _t('4 PM'), _t('6 PM')],
                     datasets: [{
-                        label: 'الموضوعات والمحتوى الملتقط',
+                        label: _t('Topics & Captured Content'),
                         data: [2, 5, 8, 12, 6, 3],
                         backgroundColor: [
                             '#818cf8', '#6366f1', '#4f46e5', '#4338ca', '#3730a3', '#312e81'
@@ -170,7 +171,7 @@ export class SmartRadarDashboard extends Component {
             this.chartInstances.push(new window.Chart(ctxGauge, {
                 type: 'doughnut',
                 data: {
-                    labels: ['الموقع الرسمي', 'حساب منصة X'],
+                    labels: [_t('Official Website'), _t('X Account')],
                     datasets: [{
                         data: [50, 50], // 50/50 dual publish
                         backgroundColor: ['#4f46e5', '#1da1f2'],

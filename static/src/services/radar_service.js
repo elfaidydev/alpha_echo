@@ -2,6 +2,7 @@
 
 import { registry } from "@web/core/registry";
 import { reactive } from "@odoo/owl";
+import { _t } from "@web/core/l10n/translation";
 
 /**
  * RadarService - The "Core" JS Layer
@@ -50,8 +51,8 @@ export const radarService = {
                 const conf = this.config;
                 return !!(
                     conf.twitterLinked && 
-                    (conf.custom_ai_instructions && conf.custom_ai_instructions.length > 5) &&
-                    (conf.target_radar_focus && conf.target_radar_focus.length > 2) &&
+                    (conf.custom_ai_instructions && conf.custom_ai_instructions.length > 0) &&
+                    (conf.target_radar_focus && conf.target_radar_focus.length > 0) &&
                     (this.targets.length > 0)
                 );
             }
@@ -65,7 +66,7 @@ export const radarService = {
         const dummyTexts = [];
 
         function pushLog(tag, message, type = "info") {
-            const timeString = new Date().toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            const timeString = new Date().toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', second: '2-digit' });
             state.logs = [
                 { id: Math.random(), time: timeString, tag, message, type },
                 ...state.logs
@@ -75,7 +76,7 @@ export const radarService = {
         async function fetchFeed() {
             state.isLoading = true;
             try {
-                notification.add("بدأت عملية البحث والاستكشاف (Apify)...", { type: "info" });
+                notification.add(_t("Discovery process started (Apify)..."), { type: "info" });
                 
                 // Call the real backend coordination logic
                 await rpc("/web/dataset/call_kw/alpha.echo.target/cron_fetch_all_targets", {
@@ -89,12 +90,12 @@ export const radarService = {
                 await loadPosts();
                 await loadTargets();
                 
-                notification.add("اكتملت مراجعة المصادر وصياغة المحتوى الجديد بنجاح.", { type: "success" });
-                pushLog("تزامن يدوي", "تم الانتهاء من فحص كافة المصادر النشطة وجلب التحديثات.", "success");
+                notification.add(_t("Source review and content formulation completed successfully."), { type: "success" });
+                pushLog(_t("Manual Sync"), _t("Scanned all active sources and fetched updates."), "success");
 
             } catch (error) {
-                notification.add("فشلت عملية الجلب التلقائي. تأكد من إعدادات الربط والإنترنت.", { type: "danger" });
-                pushLog("خطأ في المزامنة", error.message || "فشل الاتصال بـ Apify أو OpenAI.", "danger");
+                notification.add(_t("Auto-fetch failed. Check connection and link settings."), { type: "danger" });
+                pushLog(_t("Sync Error"), error.message || _t("Failed to connect to Apify or OpenAI."), "danger");
             } finally {
                 state.isLoading = false;
             }
@@ -102,9 +103,9 @@ export const radarService = {
 
         async function toggleTracking() {
             if (!state.isTracking && !state.isOnboarded) {
-                notification.add("لا يمكن تشغيل المحرك! يرجى استكمال الخطوات الأربعة للإعداد أولاً.", {
+                notification.add(_t("Cannot start engine! Please complete the four setup steps first."), {
                     type: "danger",
-                    title: "عملية مرفوضة 🔒",
+                    title: _t("Operation Refused 🔒"),
                     className: "sr-premium-toast"
                 });
                 return;
@@ -118,10 +119,10 @@ export const radarService = {
                 state.isTracking = newState;
                 state.config.is_engine_active = newState;
                 
-                pushLog("إجراء إداري", state.isTracking ? "تم تفعيل محرك الاستكشاف الشامل." : "تعليق المهام الاستكشافية.", "warning");
-                notification.add(state.isTracking ? "تم تشغيل المحرك بنجاح." : "تم إيقاف المحرك.", { type: "info" });
+                pushLog(_t("Administrative Action"), state.isTracking ? _t("Comprehensive exploration engine activated.") : _t("Exploration tasks suspended."), "warning");
+                notification.add(state.isTracking ? _t("Engine started successfully.") : _t("Engine stopped."), { type: "info" });
             } catch (e) {
-                notification.add("فشل تحديث حالة المحرك.", { type: "danger" });
+                notification.add(_t("Failed to update engine status."), { type: "danger" });
             } finally {
                 state.isLoading = false;
             }
@@ -172,6 +173,16 @@ export const radarService = {
                     kwargs: {}
                 });
             }
+            await loadTargets();
+        }
+
+        async function deleteTarget(id) {
+            await rpc("/web/dataset/call_kw/alpha.echo.target/unlink", {
+                model: "alpha.echo.target",
+                method: "unlink",
+                args: [[id]],
+                kwargs: {}
+            });
             await loadTargets();
         }
 
@@ -233,7 +244,10 @@ export const radarService = {
                 if (data.error) {
                     notification.add(data.error, { type: "danger" });
                 } else {
-                    notification.add("تم حفظ الإعدادات بنجاح. جاري اختبار الاتصال بحساب X...", { type: "info" });
+                    notification.add(_t("Settings saved successfully. Testing connection to X account..."), { type: "info" });
+                    
+                    // Critical: Refetch to ensure local state matches any backend normalization
+                    await fetchConfig();
                     
                     // Immediately test the connection if keys are present
                     if (state.config.isFullyConfigured) {
@@ -241,11 +255,11 @@ export const radarService = {
                         if (testResult.success) {
                             state.config.twitterLinked = true;
                             state.config.twitterUser = testResult;
-                            notification.add(`تم الربط بنجاح مع حساب: @${testResult.username}`, { type: "success" });
+                            notification.add(_t("Successfully linked with account: @") + testResult.username, { type: "success" });
                         } else {
                             state.config.twitterLinked = false;
                             state.config.twitterUser = null;
-                            notification.add(`فشل الربط بحساب X: ${testResult.error || 'تأكد من صحة المفاتيح.'}`, { type: "danger" });
+                            notification.add(_t("Failed to link with X account: ") + (testResult.error || _t("Verify your keys.")), { type: "danger" });
                         }
                     } else {
                         state.config.twitterLinked = false;
@@ -254,7 +268,25 @@ export const radarService = {
                 }
                 return data;
             } catch (error) {
-                notification.add("حدث خطأ أثناء محاولة حفظ الإعدادات أو اختبار الاتصال.", { type: "danger" });
+                notification.add(_t("An error occurred while saving settings or testing connection."), { type: "danger" });
+            } finally {
+                state.isLoading = false;
+            }
+        }
+
+        async function disconnectX() {
+            state.isLoading = true;
+            try {
+                const data = await rpc("/alpha_echo/config/disconnect_x", {});
+                if (data.success) {
+                    state.config.twitterLinked = false;
+                    state.config.twitterUser = null;
+                    state.isTracking = false;
+                    notification.add(_t("X account disconnected and engine stopped."), { type: "success" });
+                }
+                return data;
+            } catch (error) {
+                notification.add(_t("Failed to disconnect X account."), { type: "danger" });
             } finally {
                 state.isLoading = false;
             }
@@ -268,9 +300,11 @@ export const radarService = {
             loadTargets,
             loadPosts,
             saveTarget,
+            deleteTarget,
             toggleTarget,
             fetchConfig,
             saveConfig,
+            disconnectX,
             canStartEngine
         };
     }

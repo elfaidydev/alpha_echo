@@ -15,6 +15,12 @@ class ResConfigSettings(models.TransientModel):
         config_parameter='alpha_echo.openai_key',
         help="Required for dynamic NLP text formulation"
     )
+
+    alpha_echo_apify_token = fields.Char(
+        string='Apify API Token',
+        config_parameter='alpha_echo.apify_token',
+        help="Required for scraping sources"
+    )
     
     alpha_echo_supabase_key = fields.Char(
         string='Supabase API Key',

@@ -6,31 +6,31 @@
 
         <!-- Dashboard Menu -->
         <record id="action_alpha_echo_dashboard" model="ir.actions.client">
-            <field name="name">لوحة التحكم المركزية</field>
+            <field name="name">Central Dashboard</field>
             <field name="tag">alpha_echo.dashboard</field>
         </record>
-        <menuitem id="menu_alpha_echo_dashboard" name="لوحة التحكم" parent="menu_alpha_echo_root" action="action_alpha_echo_dashboard" sequence="10"/>
+        <menuitem id="menu_alpha_echo_dashboard" name="Dashboard" parent="menu_alpha_echo_root" action="action_alpha_echo_dashboard" sequence="10"/>
 
         <!-- Operational Menus -->
         <record id="action_alpha_echo_post_client" model="ir.actions.client">
-            <field name="name">مراجعة المحتوى والمنشورات</field>
+            <field name="name">Content &amp; Publications</field>
             <field name="tag">alpha_echo.posts_client_action</field>
         </record>
-        <menuitem id="menu_alpha_echo_posts" name="المحتوى والمنشورات" parent="menu_alpha_echo_root" action="action_alpha_echo_post_client" sequence="20"/>
+        <menuitem id="menu_alpha_echo_posts" name="Content &amp; Publications" parent="menu_alpha_echo_root" action="action_alpha_echo_post_client" sequence="20"/>
         <record id="action_alpha_echo_targets_client" model="ir.actions.client">
-            <field name="name">المصادر المرصودة</field>
+            <field name="name">Monitored Sources</field>
             <field name="tag">alpha_echo.targets_client_action</field>
         </record>
-        <menuitem id="menu_alpha_echo_targets" name="إدارة المصادر" parent="menu_alpha_echo_root" action="action_alpha_echo_targets_client" sequence="30"/>
+        <menuitem id="menu_alpha_echo_targets" name="Resource Management" parent="menu_alpha_echo_root" action="action_alpha_echo_targets_client" sequence="30"/>
 
         <!-- Settings Menu -->
         <record id="action_alpha_echo_config_settings_client" model="ir.actions.client">
-            <field name="name">إعدادات النظام المركزية</field>
+            <field name="name">System Configuration</field>
             <field name="tag">alpha_echo_action_config</field>
         </record>
 
         <menuitem id="menu_alpha_echo_client_config" 
-                  name="إعدادات النظام" 
+                  name="Settings" 
                   parent="menu_alpha_echo_root" 
                   action="action_alpha_echo_config_settings_client" 
                   sequence="100"/>

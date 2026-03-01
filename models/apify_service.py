@@ -7,10 +7,8 @@ try:
 except ImportError:
     ApifyClient = None
 
+# Apify Configuration
 _logger = logging.getLogger(__name__)
-
-# HARDCODED SECRETS AS REQUESTED
-APIFY_TOKEN = "apify_api_CNaYglOmQwzMHpkdK8Hx7U2GueoZNt4wxa5J"
 
 class SmartRadarApifyService(models.AbstractModel):
     _name = 'alpha.echo.apify.service'
@@ -23,10 +21,18 @@ class SmartRadarApifyService(models.AbstractModel):
         Returns a list of parsed tweets.
         """
         if not ApifyClient:
-            _logger.error("Apify Client library is not installed.")
+            _logger.error("Apify Client library not installed.")
             return []
 
-        client = ApifyClient(APIFY_TOKEN)
+        # Retrieve config and token
+        config = self.env['alpha.echo.client.config'].get_singleton()
+        token = config.apify_token
+        
+        if not token:
+            _logger.warning("Apify API Token is not configured.")
+            return []
+
+        client = ApifyClient(token)
         
         # Prepare the input for the actor
         run_input = {

@@ -6,10 +6,8 @@ try:
 except ImportError:
     OpenAI = None
 
+# OpenAI API Configuration
 _logger = logging.getLogger(__name__)
-
-# HARDCODED SECRETS AS REQUESTED
-OPENAI_API_KEY = "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"
 
 class SmartRadarOpenAIService(models.AbstractModel):
     _name = 'alpha.echo.openai.service'
@@ -18,13 +16,20 @@ class SmartRadarOpenAIService(models.AbstractModel):
     @api.model
     def draft_post(self, original_text, system_prompt):
         """
-        Sends the original text to OpenAI and returns the formatted draft.
+        Sends original text to OpenAI and returns formatted draft.
         """
         if not OpenAI:
-            _logger.error("OpenAI library is not installed.")
-            return False, "OpenAI library not installed."
+            _logger.error("OpenAI library not installed.")
+            return False, _("OpenAI library not installed.")
 
-        client = OpenAI(api_key=OPENAI_API_KEY)
+        # Retrieve config and key
+        config = self.env['alpha.echo.client.config'].get_singleton()
+        api_key = config.openai_api_key
+        
+        if not api_key:
+            return False, _("OpenAI API Key is not configured in settings.")
+
+        client = OpenAI(api_key=api_key)
         
         # Retrieve model from config (default to gpt-4o-mini as requested)
         config = self.env['alpha.echo.client.config'].get_singleton()

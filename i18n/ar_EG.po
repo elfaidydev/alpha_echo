@@ -2482,3 +2482,209 @@ msgstr "جاهزية النظام"
 #. odoo-javascript
 msgid "Discovery engine and AI drafting unit are live. Connection is active and stable."
 msgstr "محرك الاستكشاف ووحدة الصياغة الآلية في وضع التفعيل اللحظي. الاتصال نشط ومستقر."
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "Resource Management"
+msgstr "إدارة المصادر"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "Live monitoring network for approved sources and accounts."
+msgstr "شبكة الرصد الحية للمصادر والحسابات المعتمدة."
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "Search content or sources..."
+msgstr "ابحث في المحتوى أو المصادر..."
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "Pending Drafts"
+msgstr "مسودات معلقة"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "Published"
+msgstr "تم النشر"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "Rejected"
+msgstr "مستبعد"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "All"
+msgstr "الكل"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "Analysis Confidence Level:"
+msgstr "مستوى ثقة التحليل:"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "Approve & Publish Now"
+msgstr "اعتماد ونشر فوراً"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "Reject"
+msgstr "استبعاد"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "Published Successfully"
+msgstr "تم النشر بنجاح"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "Add Source"
+msgstr "إضافة مصدر"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "Synchronizing monitoring network..."
+msgstr "جاري مزامنة شبكة الرصد..."
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "No monitored sources added yet!"
+msgstr "لم تقم بإضافة أي مصادر للرصد بعد!"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "Our smart engine is waiting for your directions. Add Twitter accounts or links for targeting so the system can monitor them and fetch/analyze content immediately and automatically."
+msgstr "محركنا الذكي بانتظار توجيهاتك. أضف حسابات تويتر أو روابط للاستهداف ليقوم النظام بمراقبتها وجلب وتحليل المحتوى منها فوراً وبشكل آلي."
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "Add your first source now"
+msgstr "أضف أول مصدر رصد الآن"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "Exploration engine active"
+msgstr "محرك الاستكشاف نشط"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "Monitoring system paused"
+msgstr "نظام الرصد متوقف"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "Target Overview"
+msgstr "نظرة عامة على الهدف"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "Monitoring Status (Engine)"
+msgstr "حالة الرصد (Engine)"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "Active & Capturing"
+msgstr "نشط ويلتقط البيانات"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "Paused"
+msgstr "موقف مؤقتاً"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "Source Category"
+msgstr "تصنيف المصدر"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "General / Developmental"
+msgstr "عامة / مؤسسة تنموية"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "Health & Medicine"
+msgstr "صحة وطب"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "Education & Research"
+msgstr "تعليم وأبحاث"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "Tech & Innovation"
+msgstr "تقنية وابتكار"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "Total Discoveries"
+msgstr "إجمالي الاكتشافات"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "Topics and content captured"
+msgstr "الموضوعات والمحتوى الملتقط"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "Live Feed (Latest 5 Topics)"
+msgstr "البث الحي (أحدث 5 مواضيع)"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "Loading timeline..."
+msgstr "جاري تحميل البث الزمني..."
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "Engine Confidence Index:"
+msgstr "مؤشر ثقة المحرك:"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "Source Name or Account"
+msgstr "اسم المصدر أو الحساب"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "X Platform Handle (Twitter Handle)"
+msgstr "معرف منصة X (Twitter Handle)"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "Sector / Category"
+msgstr "القطاع / التصنيف"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "General / Developmental Foundation"
+msgstr "عام / مؤسسة تنموية"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "Enable Exploration Engine"
+msgstr "تشغيل محرك الرصد (Engine)"
+
+#. module: alpha_echo
+#. odoo-javascript
+msgid "Enable it to capture content automatically from this source."
+msgstr "قم بتفعيله لالتقاط المحتوى آلياً من هذا المصدر."
+
+#. module: alpha_echo
+msgid "Central Dashboard"
+msgstr "لوحة التحكم المركزية"
+
+#. module: alpha_echo
+msgid "Monitored Sources"
+msgstr "المصادر المرصودة"
+
+#. module: alpha_echo
+msgid "System Configuration"
+msgstr "إعدادات النظام المركزية"
+
+#. module: alpha_echo
+msgid "Settings"
+msgstr "إعدادات النظام"

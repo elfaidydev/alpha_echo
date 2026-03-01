@@ -16,13 +16,13 @@ class SmartRadarXService(models.AbstractModel):
     def _get_client(self):
         """Helper to get tweepy client authenticated with DB credentials."""
         if not tweepy:
-            return None, "Tweepy library not installed."
+            return None, _("Tweepy library not installed.")
             
         config = self.env['alpha.echo.client.config'].get_singleton()
         
         # Validate that all keys are present
         if not (config.x_api_key and config.x_api_secret and config.x_access_token and config.x_access_token_secret):
-            return None, "Twitter credentials are not fully configured in settings."
+            return None, _("Twitter credentials are not fully configured in settings.")
 
         try:
             client = tweepy.Client(
@@ -52,7 +52,7 @@ class SmartRadarXService(models.AbstractModel):
                     'username': user_info.data.username,
                     'profile_image_url': user_info.data.profile_image_url
                 }
-            return {'success': False, 'error': 'Could not retrieve user info.'}
+            return {'success': False, 'error': _('Could not retrieve user info.')}
             
         except Exception as e:
             _logger.error(f"Twitter Test Connection Failed: {str(e)}")

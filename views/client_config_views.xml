@@ -23,6 +23,12 @@
                                     <field name="x_access_token_secret" widget="password"/>
                                 </group>
                             </page>
+                            <page string="AI &amp; Scraper">
+                                <group>
+                                    <field name="openai_api_key" widget="password"/>
+                                    <field name="apify_token" widget="password"/>
+                                </group>
+                            </page>
                             <page string="Supabase Cloud Sync">
                                 <group>
                                     <field name="supabase_url"/>

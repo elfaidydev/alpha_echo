@@ -1,24 +1,24 @@
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 
 class SmartRadarPost(models.Model):
     _name = 'alpha.echo.post'
     _description = 'Alpha Echo: Formulated Grants'
     _order = 'create_date desc'
 
-    target_id = fields.Many2one('alpha.echo.target', string='Target Entity', required=True, ondelete='cascade')
-    source_url = fields.Char(string='Source Tweet URL', required=True)
-    source_tweet_id = fields.Char(string='Source Tweet ID', index=True)
-    original_text = fields.Text(string='Raw Extracted Material', required=True)
+    target_id = fields.Many2one('alpha.echo.target', string=_('Target Entity'), required=True, ondelete='cascade')
+    source_url = fields.Char(string=_('Source Tweet URL'), required=True)
+    source_tweet_id = fields.Char(string=_('Source Tweet ID'), index=True)
+    original_text = fields.Text(string=_('Raw Extracted Material'), required=True)
     
-    ai_generated_text = fields.Text(string='AI Formulated Draft', required=True)
-    ai_confidence = fields.Float(string='AI Match Confidence', default=92.5, help="How confident the AI is that this is a relevant grant.")
+    ai_generated_text = fields.Text(string=_('AI Formulated Draft'), required=True)
+    ai_confidence = fields.Float(string=_('AI Match Confidence'), default=92.5, help=_("How confident the AI is that this is a relevant grant."))
     
     state = fields.Selection([
-        ('draft', 'Draft (Needs Review)'),
-        ('published', 'Published Successfully'),
-        ('failed', 'Publishing Failed'),
-        ('rejected', 'Excluded / Rejected')
-    ], string='Status', default='draft')
+        ('draft', _('Draft (Needs Review)')),
+        ('published', _('Published Successfully')),
+        ('failed', _('Publishing Failed')),
+        ('rejected', _('Excluded / Rejected'))
+    ], string=_('Status'), default='draft')
 
     published_web_url = fields.Char(string='Published Website URL', readonly=True)
     published_x_url = fields.Char(string='Published X URL', readonly=True)
@@ -40,8 +40,8 @@ class SmartRadarPost(models.Model):
                     'type': 'ir.actions.client',
                     'tag': 'display_notification',
                     'params': {
-                        'title': 'Publishing Failed',
-                        'message': f'Error from X: {result}',
+                        'title': _('Publishing Failed'),
+                        'message': _('Error from X: %s') % result,
                         'type': 'danger',
                     }
                 }

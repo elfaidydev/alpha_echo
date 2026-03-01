@@ -1,6 +1,7 @@
 /** @odoo-module **/
 
 import { Component, useState, onWillStart } from "@odoo/owl";
+import { _t } from "@web/core/l10n/translation";
 import { useService } from "@web/core/utils/hooks";
 import { registry } from "@web/core/registry";
 
@@ -71,7 +72,7 @@ export class TargetsPage extends Component {
     openCreateModal() {
         this.state.modalMode = 'create';
         this.state.editForm = { name: '', handle: '', category: 'general', is_active: true };
-        this.state.selectedTarget = { id: 'new', name: 'إضافة مصدر جديد' };
+        this.state.selectedTarget = { id: 'new', name: _t('Add New Source') };
     }
 
     editTarget() {
@@ -92,6 +93,13 @@ export class TargetsPage extends Component {
         if (!this.state.editForm.name) return;
         await this.radarService.saveTarget(this.state.selectedTarget.id, this.state.editForm);
         this.closeTargetAnalytics();
+    }
+
+    async deleteTarget() {
+        if (confirm(_t("Are you sure you want to delete this source? This action cannot be undone."))) {
+            await this.radarService.deleteTarget(this.state.selectedTarget.id);
+            this.closeTargetAnalytics();
+        }
     }
     
     async toggleTracking(target) {
