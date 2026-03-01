@@ -20,31 +20,53 @@ class SmartRadarPost(models.Model):
         ('rejected', _('Excluded / Rejected'))
     ], string=_('Status'), default='draft')
 
-    published_web_url = fields.Char(string='Published Website URL', readonly=True)
-    published_x_url = fields.Char(string='Published X URL', readonly=True)
+    published_web_url = fields.Char(string=_('Published Website URL'), readonly=True)
+    published_x_url = fields.Char(string=_('Published X URL'), readonly=True)
 
     def action_publish(self):
+        """Publishes posts to X (Twitter). Supports bulk selection with error resilience."""
+        fail_count = 0
+        success_count = 0
+        errors = []
+
         for record in self:
+            if record.state == 'published':
+                continue
+                
             success, result = self.env['alpha.echo.x.service'].publish_tweet(record.ai_generated_text)
             if success:
                 record.write({
                     'state': 'published',
                     'published_x_url': result
                 })
+                success_count += 1
             else:
-                record.write({
-                    'state': 'failed'
-                })
-                # Log error or notify
-                return {
-                    'type': 'ir.actions.client',
-                    'tag': 'display_notification',
-                    'params': {
-                        'title': _('Publishing Failed'),
-                        'message': _('Error from X: %s') % result,
-                        'type': 'danger',
-                    }
-                }
+                record.write({'state': 'failed'})
+                fail_count += 1
+                errors.append(f"{record.target_id.name}: {result}")
+
+        # Provide a summary notification
+        title = _("Publishing Complete")
+        message = _("Successfully published %s posts.") % success_count
+        msg_type = 'success'
+        
+        if fail_count > 0:
+            title = _("Publishing Finished with Errors")
+            message += _(" %s posts failed. Errors: %s") % (fail_count, ", ".join(errors[:3]))
+            if len(errors) > 3:
+                message += " ..."
+            msg_type = 'warning'
+
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': title,
+                'message': message,
+                'type': msg_type,
+                'sticky': fail_count > 0,
+            }
+        }
 
     def action_reject(self):
         for record in self:

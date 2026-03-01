@@ -11,8 +11,8 @@
                             <i class="fa fa-crosshairs"/>
                         </div>
                         <div class="title-box">
-                            <h1>Resource Management</h1>
-                            <p class="subtitle">Live monitoring network for approved sources and accounts.</p>
+                             <h1><t t-esc="_t('Resource Management')"/></h1>
+                             <p class="subtitle"><t t-esc="_t('Live monitoring network for approved sources and accounts.')"/></p>
                         </div>
                     </div>
                     
@@ -20,21 +20,21 @@
                     <div class="sr-header-row search-row">
                         <div class="sr-search-bar flex-grow-1">
                             <i class="fa fa-search"/>
-                            <input type="text" t-model="state.searchQuery" placeholder="Search sources..."/>
-                        </div>
-                        <button class="sr-add-btn shrink-0" t-on-click="openCreateModal">
-                            <i class="fa fa-plus me-2"/> <span class="text-nowrap font-weight-bold">Add Source</span>
-                        </button>
+                             <input type="text" t-model="state.searchQuery" t-att-placeholder="_t('Search sources...')"/>
+                         </div>
+                         <button class="sr-add-btn shrink-0" t-on-click="openCreateModal">
+                             <i class="fa fa-plus me-2"/> <span class="text-nowrap font-weight-bold"><t t-esc="_t('Add Source')"/></span>
+                         </button>
                     </div>
 
                     <!-- Row 3: Categories (Tabs) -->
                     <div class="sr-header-row tabs-row">
                         <div class="sr-tabs">
-                            <button t-attf-class="sr-tab-btn {{ state.activeTab === 'all' ? 'active' : '' }}" t-on-click="() => this.setTab('all')">All</button>
-                            <button t-attf-class="sr-tab-btn {{ state.activeTab === 'general' ? 'active' : '' }}" t-on-click="() => this.setTab('general')">General Content</button>
-                            <button t-attf-class="sr-tab-btn {{ state.activeTab === 'health' ? 'active' : '' }}" t-on-click="() => this.setTab('health')">Health &amp; Medicine</button>
-                            <button t-attf-class="sr-tab-btn {{ state.activeTab === 'education' ? 'active' : '' }}" t-on-click="() => this.setTab('education')">Education &amp; Research</button>
-                            <button t-attf-class="sr-tab-btn {{ state.activeTab === 'tech' ? 'active' : '' }}" t-on-click="() => this.setTab('tech')">Tech &amp; Innovation</button>
+                                 <button t-attf-class="sr-tab-btn {{ state.activeTab === 'all' ? 'active' : '' }}" t-on-click="() => this.setTab('all')"><t t-esc="_t('All')"/></button>
+                                 <button t-attf-class="sr-tab-btn {{ state.activeTab === 'general' ? 'active' : '' }}" t-on-click="() => this.setTab('general')"><t t-esc="_t('General Content')"/></button>
+                                 <button t-attf-class="sr-tab-btn {{ state.activeTab === 'health' ? 'active' : '' }}" t-on-click="() => this.setTab('health')"><t t-esc="_t('Health &amp; Medicine')"/></button>
+                                 <button t-attf-class="sr-tab-btn {{ state.activeTab === 'education' ? 'active' : '' }}" t-on-click="() => this.setTab('education')"><t t-esc="_t('Education &amp; Research')"/></button>
+                                 <button t-attf-class="sr-tab-btn {{ state.activeTab === 'tech' ? 'active' : '' }}" t-on-click="() => this.setTab('tech')"><t t-esc="_t('Tech &amp; Innovation')"/></button>
                         </div>
                     </div>
                 </div>
@@ -94,7 +94,7 @@
                                             </span>
                                         </div>
                                     </div>
-                                    <div class="sr-status-toggle" t-on-click.stop="() => this.toggleTracking(target)" t-att-title="target.is_active ? 'Stop Monitoring' : 'Activate Monitoring'">
+                                    <div class="sr-status-toggle" t-on-click.stop="() => this.toggleTracking(target)" t-att-title="this.getToggleTitle(target)">
                                         <div class="toggle-track" t-att-class="target.is_active ? 'active' : 'inactive'">
                                             <div class="toggle-knob"></div>
                                         </div>
@@ -107,7 +107,7 @@
                                             <span class="stat-label">Category</span>
                                             <span class="stat-value category-badge" t-attf-class="cat-{{target.category}}">
                                                 <i class="fa fa-tag"/> 
-                                                <t t-esc="target.category === 'general' ? 'General' : (target.category === 'health' ? 'Health' : (target.category === 'education' ? 'Education' : 'Tech'))"/>
+                                                <t t-esc="this.getCategoryLabel(target.category)"/>
                                             </span>
                                         </div>
                                         <div class="sr-stat-box">
@@ -122,7 +122,7 @@
                                 <div class="sr-card-foot">
                                     <span class="sr-engine-status" t-att-class="target.is_active ? 'recording' : 'paused'">
                                         <span class="pulse-dot"></span> 
-                                        <t t-esc="target.is_active ? 'Exploration engine active' : 'Monitoring system paused'"/>
+                                        <t t-esc="this.getEngineStatusLabel(target.is_active)"/>
                                     </span>
                                 </div>
                             </div>
@@ -177,16 +177,27 @@
                             <!-- Modal Footer -->
                             <div class="sr-modal-footer">
                                 <t t-if="state.modalMode === 'view'">
-                                    <!-- View mode: just the edit action -->
-                                    <button class="sr-clean-btn btn-advanced-setup" t-on-click="editTarget">
-                                        <i class="fa fa-pencil"/> Edit Data
-                                    </button>
+                                    <div class="d-flex justify-content-between w-100">
+                                        <button class="sr-clean-btn btn-delete-action" t-on-click="deleteTarget">
+                                            <i class="fa fa-trash"/> Delete Source
+                                        </button>
+                                        <button class="sr-clean-btn btn-advanced-setup" t-on-click="editTarget">
+                                            <i class="fa fa-pencil"/> Edit Data
+                                        </button>
+                                    </div>
                                 </t>
                                 <t t-else="">
-                                    <!-- Create/Edit mode: save only (X handles cancel) -->
-                                    <button class="sr-clean-btn btn-save-action" t-on-click="saveTarget" t-att-disabled="!state.editForm.name">
-                                        <i class="fa fa-check"/> Save Data
-                                    </button>
+                                    <div class="d-flex justify-content-between w-100">
+                                        <t t-if="state.modalMode === 'edit'">
+                                            <button class="sr-clean-btn btn-delete-action" t-on-click="deleteTarget">
+                                                <i class="fa fa-trash"/> Delete Source
+                                            </button>
+                                        </t>
+                                        <div t-else=""/> <!-- Spacer for create mode -->
+                                        <button class="sr-clean-btn btn-save-action" t-on-click="saveTarget" t-att-disabled="!state.editForm.name">
+                                            <i class="fa fa-check"/> Save Data
+                                        </button>
+                                    </div>
                                 </t>
                             </div>
                         </div>
@@ -209,14 +220,14 @@
                         <span class="text-secondary fw-semibold">Monitoring Status (Engine)</span>
                         <span t-attf-class="badge rounded-pill {{state.selectedTarget.is_active ? 'bg-success-subtle text-success' : 'bg-secondary-subtle text-secondary'}} fs-6 px-3 py-2">
                             <i t-attf-class="fa fa-{{state.selectedTarget.is_active ? 'check-circle' : 'pause-circle'}} me-1"/> 
-                            <t t-esc="state.selectedTarget.is_active ? 'Active &amp; Capturing' : 'Paused'"/>
+                            <t t-esc="this.getSelectedTargetStatusLabel()"/>
                         </span>
                     </div>
 
                     <div class="d-flex justify-content-between align-items-center mb-3 pb-3 border-bottom">
                         <span class="text-secondary fw-semibold">Source Category</span>
                         <span class="fw-bold text-dark">
-                            <t t-esc="state.selectedTarget.category === 'general' ? 'General / Developmental' : (state.selectedTarget.category === 'health' ? 'Health &amp; Medicine' : (state.selectedTarget.category === 'education' ? 'Education &amp; Research' : 'Tech &amp; Innovation'))"/>
+                            <t t-esc="this.getSelectedTargetCategoryLabel()"/>
                         </span>
                     </div>
 
@@ -249,7 +260,7 @@
                                     <div class="timeline-content p-3 rounded-3 bg-light border border-light-subtle mb-3">
                                         <div class="d-flex justify-content-between mb-2">
                                             <span class="badge" t-att-class="post.state === 'published' ? 'text-bg-success' : (post.state === 'draft' ? 'text-bg-warning' : 'text-bg-danger')">
-                                                <t t-esc="post.state === 'published' ? 'Published' : (post.state === 'draft' ? 'Pending Draft' : 'Rejected')"/>
+                                                <t t-esc="this.getPostStatusLabel(post.state)"/>
                                             </span>
                                             <small class="text-muted fw-bold"><i class="fa fa-clock-o me-1"/> <t t-esc="post.create_date.split(' ')[0]"/></small>
                                         </div>

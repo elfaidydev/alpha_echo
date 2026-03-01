@@ -19,17 +19,17 @@
                                         <i class="fa fa-building-o me-1" title="Organization"/> <field name="target_id"/>
                                     </strong>
                                 </div>
-                                <span class="badge rounded-pill text-bg-warning" t-if="record.state.raw_value == 'draft'">مسودة لجهة الاعتماد</span>
-                                <span class="badge rounded-pill text-bg-success" t-if="record.state.raw_value == 'published'"><i class="fa fa-check"/> تم النشر</span>
-                                <span class="badge rounded-pill text-bg-danger" t-if="record.state.raw_value == 'failed'">فشل النشر</span>
+                                <span class="badge rounded-pill text-bg-warning" t-if="record.state.raw_value == 'draft'">Draft for Approval</span>
+                                <span class="badge rounded-pill text-bg-success" t-if="record.state.raw_value == 'published'"><i class="fa fa-check"/> Published</span>
+                                <span class="badge rounded-pill text-bg-danger" t-if="record.state.raw_value == 'failed'">Publishing Failed</span>
                             </div>
                             
                             <div class="o_kanban_record_body mb-2">
                                 <div class="text-muted d-flex justify-content-between align-items-center">
                                     <span>
-                                        <i class="fa fa-clock-o me-1" title="تاريخ الرصد"/> <field name="create_date" widget="date"/>
+                                        <i class="fa fa-clock-o me-1" title="Discovery Date"/> <field name="create_date" widget="date"/>
                                     </span>
-                                    <span title="نسبة ثقة الذكاء الاصطناعي بأن هذا المنشور هو منحة حقيقية" class="text-success fw-bold">
+                                    <span title="AI confidence level that this is a relevant discovery" class="text-success fw-bold">
                                         <i class="fa fa-magic me-1"/> <field name="ai_confidence"/>%
                                     </span>
                                 </div>
@@ -38,11 +38,11 @@
                             <div class="o_kanban_record_bottom mt-3 border-top pt-2">
                                 <div class="oe_kanban_bottom_left">
                                     <button name="action_publish" type="object" class="btn btn-sm btn-outline-success" t-if="record.state.raw_value == 'draft'">
-                                        <i class="fa fa-rocket me-1"/> اعتماد ونشر
+                                        <i class="fa fa-rocket me-1"/> Approve &amp; Publish
                                     </button>
                                 </div>
                                 <div class="oe_kanban_bottom_right">
-                                    <field name="published_web_url" widget="url" text="الموقع" class="btn btn-sm btn-link" t-if="record.state.raw_value == 'published'"/>
+                                    <field name="published_web_url" widget="url" text="Website" class="btn btn-sm btn-link" t-if="record.state.raw_value == 'published'"/>
                                 </div>
                             </div>
                         </div>
@@ -74,8 +74,8 @@
         <field name="arch" type="xml">
             <form string="AI Formulated Post">
                 <header>
-                    <button name="action_publish" type="object" string="اعتماد ونشر للويب و 𝕏" class="oe_highlight btn-success" icon="fa-rocket" invisible="state != 'draft'"/>
-                    <button name="action_revert_to_draft" type="object" string="إعادة للمسودات" invisible="state == 'draft'"/>
+                    <button name="action_publish" type="object" string="Approve &amp; Publish to Web &amp; 𝕏" class="oe_highlight btn-success" icon="fa-rocket" invisible="state != 'draft'"/>
+                    <button name="action_revert_to_draft" type="object" string="Revert to Drafts" invisible="state == 'draft'"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,published"/>
                 </header>
                 <sheet>
@@ -88,32 +88,32 @@
                         </button>
                     </div>
                     
-                    <widget name="web_ribbon" title="مُعتمد ومنشور" bg_color="bg-success" invisible="state != 'published'"/>
-                    <widget name="web_ribbon" title="ينتظر الاعتماد" bg_color="bg-warning" invisible="state != 'draft'"/>
+                    <widget name="web_ribbon" title="Approved &amp; Published" bg_color="bg-success" invisible="state != 'published'"/>
+                    <widget name="web_ribbon" title="Pending Approval" bg_color="bg-warning" invisible="state != 'draft'"/>
                     
                     <div class="oe_title">
-                        <label for="target_id" class="oe_edit_only" string="الجهة المانحة المستهدفة"/>
+                        <label for="target_id" class="oe_edit_only" string="Targeted Source Entity"/>
                         <h1>
                             <field name="target_id" options="{'no_open': True}"/>
                         </h1>
                     </div>
                     
                     <group>
-                        <group string="بيانات الاستقطاب (المصدر)">
-                            <field name="create_date" string="تاريخ الرصد" readonly="1"/>
-                            <field name="source_url" widget="url" string="رابط التغريدة الأصلي"/>
+                        <group string="Acquisition Data (Source)">
+                            <field name="create_date" string="Discovery Date" readonly="1"/>
+                            <field name="source_url" widget="url" string="Original Tweet URL"/>
                         </group>
-                        <group string="روابط النشر الآلية" invisible="state != 'published'">
-                            <field name="published_web_url" widget="url" string="رابط موقعك"/>
-                            <field name="published_x_url" widget="url" string="رابط حسابك على 𝕏"/>
+                        <group string="Automated Publishing Links" invisible="state != 'published'">
+                            <field name="published_web_url" widget="url" string="Your Website Link"/>
+                            <field name="published_x_url" widget="url" string="Your Account Link on 𝕏"/>
                         </group>
                     </group>
 
                     <notebook>
-                        <page string="صياغة الذكاء الاصطناعي ✨" name="ai_text_page">
-                            <field name="ai_generated_text" widget="text" placeholder="قم بتعديل وتنسيق صياغة المنحة هنا قبل الاعتماد..."/>
+                        <page string="AI Formulation ✨" name="ai_text_page">
+                            <field name="ai_generated_text" widget="text" placeholder="Edit and format the AI formulation here before approval..."/>
                         </page>
-                        <page string="النص الخام الأصلي 📄" name="raw_text_page">
+                        <page string="Original Raw Text 📄" name="raw_text_page">
                             <field name="original_text" widget="text" readonly="1" class="text-muted"/>
                         </page>
                     </notebook>
@@ -128,10 +128,10 @@
         <field name="view_mode">kanban,tree,form</field>
         <field name="help" type="html">
           <p class="o_view_nocontent_smiling_face">
-            لا توجد منح مرصودة حتى الآن.
+            No monitored content discovered yet.
           </p>
           <p>
-            نظام الرادار الذكي بحالة استماع وتأهب للمنصات المستهدفة...
+            The smart radar system is actively monitoring the target platforms...
           </p>
         </field>
     </record>

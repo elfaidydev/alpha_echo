@@ -27,6 +27,7 @@ export class ConfigPage extends Component {
                 renderTrigger: 0,
             }
         });
+        this._t = _t;
 
         onWillStart(async () => {
             await this.radarService.fetchConfig();
@@ -182,6 +183,14 @@ export class ConfigPage extends Component {
     
     toggleVisibility(field) {
         this.state.ui[field] = !this.state.ui[field];
+    }
+
+    getTwitterName() {
+        return this.config.twitterUser ? this.config.twitterUser.name : _t("Linked Account");
+    }
+
+    getTwitterUsername() {
+        return this.config.twitterUser ? this.config.twitterUser.username : _t("account");
     }
 }
 

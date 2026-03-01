@@ -129,7 +129,7 @@ html, body {
                     content: '';
                     position: absolute;
                     top: 0;
-                    left: 0;
+                    inset-inline-start: 0;
                     width: 100%;
                     height: 100%;
                     background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
@@ -205,7 +205,7 @@ html, body {
         &::before {
             content: '';
             position: absolute;
-            top: 0; left: -100%;
+            top: 0; inset-inline-start: -100%;
             width: 50%;
             height: 100%;
             background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0) 100%);
@@ -218,7 +218,7 @@ html, body {
         &::after {
             content: '';
             position: absolute;
-            top: 0; right: 0; left: 0;
+            top: 0; inset-inline-end: 0; inset-inline-start: 0;
             height: 1px;
             background: linear-gradient(90deg, transparent, rgba(255,255,255,1), transparent);
         }
@@ -301,8 +301,8 @@ html, body {
             width: 100%;
             position: relative;
             &::before, &::after { content: ''; position: absolute; top: 0; width: 50px; height: 100%; z-index: 2; }
-            &::before { right: 0; background: linear-gradient(to left, rgba(255,255,255,0.8), transparent); }
-            &::after { left: 0; background: linear-gradient(to right, rgba(255,255,255,0.8), transparent); }
+            &::before { inset-inline-end: 0; background: linear-gradient(to left, rgba(255,255,255,0.8), transparent); }
+            &::after { inset-inline-start: 0; background: linear-gradient(to right, rgba(255,255,255,0.8), transparent); }
 
             .targets-marquee {
                 display: inline-flex;
@@ -349,7 +349,7 @@ html, body {
 
         .onboarding-bg-blobs {
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0; inset-inline-start: 0; width: 100%; height: 100%;
             z-index: 1;
             pointer-events: none;
             .blob {
@@ -360,13 +360,13 @@ html, body {
                 &.blob-1 {
                     width: 350px; height: 350px;
                     background: var(--v4-indigo);
-                    top: -80px; right: -80px;
+                    top: -80px; inset-inline-end: -80px;
                     animation: sr-v4-float 20s infinite alternate;
                 }
                 &.blob-2 {
                     width: 250px; height: 250px;
                     background: var(--v4-twitter-blue);
-                    bottom: -40px; left: -40px;
+                    bottom: -40px; inset-inline-start: -40px;
                     animation: sr-v4-float 15s infinite alternate-reverse;
                 }
             }
@@ -450,7 +450,7 @@ html, body {
 
                 .card-glow {
                     position: absolute;
-                    top: 0; left: 0; width: 100%; height: 100%;
+                    top: 0; inset-inline-start: 0; width: 100%; height: 100%;
                     background: radial-gradient(circle at top right, rgba(67, 56, 202, 0.04), transparent 70%);
                     opacity: 0;
                     transition: opacity 0.4s;
@@ -507,7 +507,7 @@ html, body {
                         
                         .check-badge {
                             position: absolute;
-                            top: -5px; right: -5px;
+                            top: -5px; inset-inline-end: -5px;
                             width: 20px; height: 20px;
                             background: var(--v4-emerald);
                             color: white;
@@ -704,7 +704,7 @@ html, body {
                         &.doughnut-container {
                             height: 180px; display: flex; align-items: center; justify-content: center; position: relative; margin-top: -10px;
                             .doughnut-center {
-                                position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center; top: 0; bottom: 0; left: 0; right: 0; pointer-events: none;
+                                position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center; top: 0; bottom: 0; inset-inline-start: 0; inset-inline-end: 0; pointer-events: none;
                                 .d-number { font-size: 32px; font-weight: 800; color: var(--v4-text-dark); line-height: 1; margin-bottom: 8px; }
                                 .d-label { font-size: 11px; color: var(--v4-indigo); font-weight: 700; background: var(--v4-indigo-light); padding: 4px 12px; border-radius: 20px; }
                             }

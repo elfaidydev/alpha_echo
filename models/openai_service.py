@@ -32,7 +32,6 @@ class SmartRadarOpenAIService(models.AbstractModel):
         client = OpenAI(api_key=api_key)
         
         # Retrieve model from config (default to gpt-4o-mini as requested)
-        config = self.env['alpha.echo.client.config'].get_singleton()
         model_choice = config.ai_model or 'gpt-4o-mini'
 
         try:
@@ -40,7 +39,7 @@ class SmartRadarOpenAIService(models.AbstractModel):
                 model=model_choice,
                 messages=[
                     {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": f"Rewrite this tweet based on the instructions: {original_text}"}
+                    {"role": "user", "content": f"Rewrite it based on instructions: {original_text}"}
                 ],
                 temperature=0.7,
             )

@@ -10,6 +10,7 @@ export class PostsPage extends Component {
         this.radarService = useService("alpha_echo.radar_service");
         this.orm = useService("orm"); // Keep orm for custom actions
         
+        this._t = _t;
         this.state = useState({
             activeTab: 'all', // 'all', 'draft', 'published'
             selectedPost: null, // For modal
@@ -71,6 +72,15 @@ export class PostsPage extends Component {
         
         this.closeModal();
         await this.radarService.loadPosts();
+    }
+
+    getPostStatusLabel(state) {
+        const states = {
+            'published': _t('Published'),
+            'draft': _t('Pending Draft'),
+            'rejected': _t('Rejected')
+        };
+        return states[state] || _t('Rejected');
     }
 }
 

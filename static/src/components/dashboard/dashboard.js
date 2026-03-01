@@ -16,6 +16,7 @@ export class SmartRadarDashboard extends Component {
         this.sparkline2 = useRef("sparkline2");
         this.sparkline4 = useRef("sparkline4"); // 3 is static text now
         
+        this._t = _t;
         this.chartInstances = [];
         this.mockInterval = null;
         this.dashboardRef = useRef("dashboardMain");

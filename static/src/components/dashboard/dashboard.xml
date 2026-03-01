@@ -10,13 +10,13 @@
                             <i class="fa fa-braille"/>
                         </div>
                         <div class="title-box">
-                            <h1>Dashboard</h1>
-                            <p class="subtitle">Central interface for tracking, reformulating, and publishing content</p>
+                            <h1><t t-esc="_t('Dashboard')"/></h1>
+                            <p class="subtitle"><t t-esc="_t('Central interface for tracking, reformulating, and publishing content')"/></p>
                         </div>
                     </div>
                     <div class="header-left-side">
                         <div class="health-nav">
-                            <span class="status-pulse"></span> <t t-esc="state.targets.length"/> monitoed sources
+                            <span class="status-pulse"></span> <t t-esc="state.targets.length"/> <t t-esc="_t('monitored sources')"/>
                         </div>
                         <button class="btn-primary-v4" t-on-click="toggleTracking" t-att-class="{'paused': !state.isTracking}">
                             <i class="fa ms-2" t-att-class="state.isTracking ? 'fa-pause' : 'fa-play'"/>
@@ -37,8 +37,8 @@
                         
                         <div class="onboarding-main">
                             <div class="onboarding-header">
-                                <h2>Welcome to <span class="text-gradient">Alpha Echo</span></h2>
-                                <p>Automate content harvesting, formulation, and publishing with AI. Follow these steps to begin.</p>
+                                <h2><t t-esc="_t('Welcome to')"/> <span class="text-gradient">Alpha Echo</span></h2>
+                                <p><t t-esc="_t('Automate content harvesting, formulation, and publishing with AI. Follow these steps to begin.')"/></p>
                             </div>
 
                             <div class="onboarding-grid grid-4-steps">
@@ -53,13 +53,13 @@
                                                 <div t-if="state.config.twitterLinked" class="check-badge"><i class="fa fa-check"/></div>
                                             </div>
                                             <div class="step-info">
-                                                <h4>Link X (Twitter)</h4>
-                                                <p>Authorize the system to publish via your account.</p>
+                                                <h4><t t-esc="_t('Link X (Twitter)')"/></h4>
+                                                <p><t t-esc="_t('Authorize the system to publish via your account.')"/></p>
                                             </div>
                                         </div>
                                         <div class="step-footer mt-2 text-start">
-                                            <span t-if="state.config.twitterLinked" class="status-done">Linked <i class="fa fa-check-circle me-1"/></span>
-                                            <span t-else="" class="status-btn">Connect <i class="fa fa-link me-1"/></span>
+                                            <span t-if="state.config.twitterLinked" class="status-done"><t t-esc="_t('Linked')"/> <i class="fa fa-check-circle me-1"/></span>
+                                            <span t-else="" class="status-btn"><t t-esc="_t('Connect')"/> <i class="fa fa-link me-1"/></span>
                                         </div>
                                     </div>
                                 </div>
@@ -76,13 +76,13 @@
                                                 <div t-if="isPromptDone" class="check-badge"><i class="fa fa-check"/></div>
                                             </div>
                                             <div class="step-info">
-                                                <h4>AI Prompt</h4>
-                                                <p>Define the tone and instructions for the AI engine.</p>
+                                                <h4><t t-esc="_t('AI Prompt')"/></h4>
+                                                <p><t t-esc="_t('Define the tone and instructions for the AI engine.')"/></p>
                                             </div>
                                         </div>
                                         <div class="step-footer mt-2 text-start">
-                                            <span t-if="isPromptDone" class="status-done">Set <i class="fa fa-check-circle me-1"/></span>
-                                            <span t-else="" class="status-btn">Configure <i class="fa fa-edit me-1"/></span>
+                                            <span t-if="isPromptDone" class="status-done"><t t-esc="_t('Set')"/> <i class="fa fa-check-circle me-1"/></span>
+                                            <span t-else="" class="status-btn"><t t-esc="_t('Configure')"/> <i class="fa fa-edit me-1"/></span>
                                         </div>
                                     </div>
                                 </div>
@@ -99,13 +99,13 @@
                                                 <div t-if="isKeywordsDone" class="check-badge"><i class="fa fa-check"/></div>
                                             </div>
                                             <div class="step-info">
-                                                <h4>Search Keywords</h4>
-                                                <p>Set primary filters for discovered content.</p>
+                                                <h4><t t-esc="_t('Search Keywords')"/></h4>
+                                                <p><t t-esc="_t('Set primary filters for discovered content.')"/></p>
                                             </div>
                                         </div>
                                         <div class="step-footer mt-2 text-start">
-                                            <span t-if="isKeywordsDone" class="status-done">Defined <i class="fa fa-check-circle me-1"/></span>
-                                            <span t-else="" class="status-btn">Add Filters <i class="fa fa-tags me-1"/></span>
+                                            <span t-if="isKeywordsDone" class="status-done"><t t-esc="_t('Defined')"/> <i class="fa fa-check-circle me-1"/></span>
+                                            <span t-else="" class="status-btn"><t t-esc="_t('Add Filters')"/> <i class="fa fa-plus-circle me-1"/></span>
                                         </div>
                                     </div>
                                 </div>
@@ -122,8 +122,8 @@
                                                 <div t-if="isTargetsDone" class="check-badge"><i class="fa fa-check"/></div>
                                             </div>
                                             <div class="step-info">
-                                                <h4>Monitored Sources</h4>
-                                                <p>Add the accounts the radar will track.</p>
+                                                <h4><t t-esc="_t('Monitored Sources')"/></h4>
+                                                <p><t t-esc="_t('Add the accounts the radar will track.')"/></p>
                                             </div>
                                         </div>
                                         <div class="step-footer mt-2 text-start">

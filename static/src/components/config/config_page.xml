@@ -212,8 +212,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="text-start">
-                                                    <h5 class="mb-0 fw-bold"><t t-esc="config.twitterUser ? config.twitterUser.name : 'Linked Account'"/></h5>
-                                                    <p class="text-muted mb-0">@<t t-esc="config.twitterUser ? config.twitterUser.username : 'account'"/></p>
+                                                    <h5 class="mb-0 fw-bold"><t t-esc="this.getTwitterName()"/></h5>
+                                                    <p class="text-muted mb-0">@<t t-esc="this.getTwitterUsername()"/></p>
                                                     <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill mt-1">
                                                         Connected &amp; Active
                                                     </span>

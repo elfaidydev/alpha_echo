@@ -45,7 +45,7 @@ class SmartRadarClientConfig(models.Model):
     ], string=_('Supabase Status'), default='disconnected', groups='base.group_system')
     
     # Optional integration with blog.blog if module enabled.
-    odoo_blog_id = fields.Integer(string='Odoo Blog ID Endpoint', help="ID of the blog.blog if used")
+    odoo_blog_id = fields.Integer(string=_('Odoo Blog ID Endpoint'), help=_("ID of the blog.blog if used"))
 
     def action_test_connection(self):
         """Dummy test connection logic."""
@@ -55,8 +55,8 @@ class SmartRadarClientConfig(models.Model):
             'type': 'ir.actions.client',
             'tag': 'display_notification',
             'params': {
-                'title': 'Connection Success',
-                'message': 'Successfully connected to SaaS endpoints.',
+                'title': _('Connection Success'),
+                'message': _('Successfully connected to SaaS endpoints.'),
                 'type': 'success',
                 'sticky': False,
             }
@@ -74,7 +74,7 @@ class SmartRadarClientConfig(models.Model):
     def get_config_data(self):
         """RPC method to get config for the UI."""
         if not self.env.user.has_group('base.group_system'):
-            return {'error': 'Unauthorized'}
+            return {'error': _('Unauthorized')}
             
         config = self.get_singleton()
         return {
@@ -103,7 +103,7 @@ class SmartRadarClientConfig(models.Model):
     def save_config_data(self, data):
         """RPC method to save config from the UI."""
         if not self.env.user.has_group('base.group_system'):
-            return {'error': 'Unauthorized'}
+            return {'error': _('Unauthorized')}
             
         config = self.get_singleton()
         
@@ -133,9 +133,11 @@ class SmartRadarClientConfig(models.Model):
 
     @api.model
     def disconnect_x(self):
-        """Official method to disconnect X account and stop tracking."""
+        """Official method to disconnect X account and stop tracking. 
+        Clears all credentials and deactivates the engine.
+        """
         if not self.env.user.has_group('base.group_system'):
-            return {'error': 'Unauthorized'}
+            return {'error': _('Unauthorized')}
             
         config = self.get_singleton()
         config.write({

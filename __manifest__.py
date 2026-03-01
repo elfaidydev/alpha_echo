@@ -4,17 +4,6 @@
     'category': 'Administration',
     'summary': 'Alpha Echo: The Autonomous AI Social Presence Engine',
     'description': """
-Alpha Echo: المحرك الذكي للحضور الاجتماعي المستقل
-
-يعد موديول Alpha Echo الحل المبتكر والأكثر تطوراً لإدارة المحتوى الرقمي عبر منصة (X)، حيث تم تصميمه لتمكين المؤسسات من السيطرة على حضورها الرقمي بذكاء واحترافية. يقوم النظام بدور "الصدى الذكي" لعلامتك التجارية، حيث يراقب، يعالج، وينشر المحتوى بطريقة تجعل العميل دائماً في قلب الحدث وبأقل مجهود.
-
-🚀 المميزات الرئيسية:
-- رادار الرصد الشامل: مراقبة لحظية لعدد غير محدود من الحسابات المستهدفة (يحدده العميل)، لضمان عدم تفويت أي محتوى رائج أو ذو صلة بمجال العمل.
-- المعالج الذكي (AI Core): استخدام تقنيات OpenAI (GPT-4o-mini) لإعادة صياغة التغريدات بأسلوب إبداعي يطابق نبرة صوت العميل، مما يضمن ظهور المحتوى وكأنه كُتب يدوياً.
-- النشر الآلي المباشر: التكامل الكامل مع (X API v2) للنشر الفوري والمباشر على حساب العميل دون الحاجة لأي تدخل يدوي.
-- نظام الفلترة الذكي: تقنيات متطورة لتصفية المحتوى بناءً على الكلمات المفتاحية لضمان دقة البيانات وتحسين جودة المنشورات.
-- لوحة تحكم مركزية: داشبورد تفاعلية توفر تحليلات دقيقة لعمليات الرصد، حالات النشر، ومعدلات الأداء العام.
-
 Alpha Echo: The Autonomous AI Social Presence Engine
 
 Alpha Echo is a high-end Odoo 17 module developed by Alpha Plus Information Technology to revolutionize how businesses manage their digital footprint on X (Twitter). Designed as a SaaS-ready solution, it acts as a "Smart Echo" for your brand—monitoring, transforming, and publishing content with absolute precision.

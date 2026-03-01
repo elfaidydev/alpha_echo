@@ -1,4 +1,7 @@
 from odoo import models, fields, api, _
+import logging
+
+_logger = logging.getLogger(__name__)
 
 class SmartRadarTarget(models.Model):
     _name = 'alpha.echo.target'
@@ -57,7 +60,7 @@ class SmartRadarTarget(models.Model):
 
     @api.model
     def _process_retrieved_tweets(self, tweets):
-        """Filters tweets by keywords and sends them to AI."""
+        """Filters tweets by keywords and sends them to AI. Optimized for production."""
         config = self.env['alpha.echo.client.config'].get_singleton()
         keywords = (config.target_radar_focus or "").split(',')
         keywords = [k.strip().lower() for k in keywords if k.strip()]
@@ -65,36 +68,50 @@ class SmartRadarTarget(models.Model):
         system_prompt = config.custom_ai_instructions or "Reformulate this grant opportunity into a professional post."
         
         PostObj = self.env['alpha.echo.post']
-        TargetObj = self.env['alpha.echo.target']
+        
+        # Performance optimization: pre-index all active targets to avoid O(N) database hits
+        # We index by lowercase handle (no @) and lowercase name
+        all_targets = self.search([('is_active', '=', True)])
+        target_map = {}
+        for t in all_targets:
+            h_key = t.handle.strip().lower().replace('@', '')
+            n_key = t.name.strip().lower()
+            target_map[h_key] = t
+            target_map[n_key] = t
 
         for tweet in tweets:
             # 1. Duplicate Check
-            existing = PostObj.search([('source_tweet_id', '=', tweet['id'])], limit=1)
-            if existing:
+            if PostObj.search_count([('source_tweet_id', '=', tweet['id'])]):
                 continue
 
-            # 2. Keyword Filtering (Zero-Touch logic)
+            # 2. Keyword Filtering
             text_lower = tweet['text'].lower()
             if keywords and not any(k in text_lower for k in keywords):
                 continue
             
-            # 3. Identify Target
-            target = TargetObj.search([('handle', 'ilike', tweet['author'])], limit=1)
+            # 3. Identify Target using the lookup map
+            author_key = tweet['author'].strip().lower()
+            target = target_map.get(author_key)
             if not target:
                 continue
 
             # 4. AI Drafting
             success, ai_text = self.env['alpha.echo.openai.service'].draft_post(tweet['text'], system_prompt)
             if success:
-                new_post = PostObj.create({
-                    'target_id': target.id,
-                    'source_tweet_id': tweet['id'],
-                    'source_url': tweet['url'],
-                    'original_text': tweet['text'],
-                    'ai_generated_text': ai_text,
-                    'state': 'draft'
-                })
-                
-                # 5. Auto Publish if enabled
-                if config.auto_approve_drafts:
-                    new_post.action_publish()
+                try:
+                    new_post = PostObj.create({
+                        'target_id': target.id,
+                        'source_tweet_id': tweet['id'],
+                        'source_url': tweet['url'],
+                        'original_text': tweet['text'],
+                        'ai_generated_text': ai_text,
+                        'state': 'draft'
+                    })
+                    
+                    # 5. Auto Publish if enabled
+                    if config.auto_approve_drafts:
+                        new_post.action_publish()
+                except Exception as e:
+                    _logger.error(f"Failed to create post for tweet {tweet['id']}: {str(e)}")
+            else:
+                _logger.warning(f"AI Formulation failed for tweet {tweet['id']}: {ai_text}")

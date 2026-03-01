@@ -11,8 +11,8 @@
                             <i class="fa fa-magic"/>
                         </div>
                         <div class="title-box">
-                            <h1>Content &amp; Publications</h1>
-                            <p class="subtitle">Review AI reformulations and approve them with one click for automated publishing.</p>
+                            <h1><t t-esc="_t('Content &amp; Publications')"/></h1>
+                            <p class="subtitle"><t t-esc="_t('Review AI reformulations and approve them with one click for automated publishing.')"/></p>
                         </div>
                     </div>
                     
@@ -20,17 +20,17 @@
                     <div class="sr-header-row search-row">
                         <div class="sr-search-bar full-width">
                             <i class="fa fa-search"/>
-                            <input type="text" placeholder="Search content or sources..." t-model="state.searchQuery" />
+                            <input type="text" t-att-placeholder="_t('Search content or sources...')" t-model="state.searchQuery" />
                         </div>
                     </div>
 
                     <!-- Row 3: Categories (Tabs) -->
                     <div class="sr-header-row tabs-row">
                         <div class="sr-tabs">
-                            <button t-attf-class="sr-tab-btn {{ state.activeTab === 'all' ? 'active' : '' }}" t-on-click="() => this.setTab('all')">All</button>
-                            <button t-attf-class="sr-tab-btn {{ state.activeTab === 'draft' ? 'active' : '' }}" t-on-click="() => this.setTab('draft')">Pending Drafts</button>
-                            <button t-attf-class="sr-tab-btn {{ state.activeTab === 'published' ? 'active' : '' }}" t-on-click="() => this.setTab('published')">Published</button>
-                            <button t-attf-class="sr-tab-btn {{ state.activeTab === 'rejected' ? 'active' : '' }}" t-on-click="() => this.setTab('rejected')">Rejected</button>
+                            <button t-attf-class="sr-tab-btn {{ state.activeTab === 'all' ? 'active' : '' }}" t-on-click="() => this.setTab('all')"><t t-esc="_t('All')"/></button>
+                            <button t-attf-class="sr-tab-btn {{ state.activeTab === 'draft' ? 'active' : '' }}" t-on-click="() => this.setTab('draft')"><t t-esc="_t('Pending Drafts')"/></button>
+                            <button t-attf-class="sr-tab-btn {{ state.activeTab === 'published' ? 'active' : '' }}" t-on-click="() => this.setTab('published')"><t t-esc="_t('Published')"/></button>
+                            <button t-attf-class="sr-tab-btn {{ state.activeTab === 'rejected' ? 'active' : '' }}" t-on-click="() => this.setTab('rejected')"><t t-esc="_t('Rejected')"/></button>
                         </div>
                     </div>
                 </div>
@@ -80,7 +80,7 @@
                                 <t t-esc="post.target_id[1]"/>
                             </span>
                             <span t-attf-class="sr-badge {{ post.state === 'draft' ? 'draft' : (post.state === 'published' ? 'published' : 'rejected') }}">
-                                <t t-esc="post.state === 'draft' ? 'Pending Draft' : (post.state === 'published' ? 'Published' : 'Rejected')"/>
+                                <t t-esc="this.getPostStatusLabel(post.state)"/>
                             </span>
                         </div>
                         <div class="sr-card-body">

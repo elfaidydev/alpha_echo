@@ -60,19 +60,24 @@ class SmartRadarXService(models.AbstractModel):
 
     @api.model
     def publish_tweet(self, text):
-        """Publish a tweet using v2 API."""
+        """Publish a tweet using v2 API with length verification."""
+        if not text:
+            return False, _("Tweet text is empty.")
+
+        # X/Twitter character limit for standard accounts is 280.
+        # Note: Some accounts have higher limits, but 280 is the safe production baseline.
+        if len(text) > 280:
+            return False, _("Tweet exceeds 280 character limit (Current length: %s)") % len(text)
+
         client, error = self._get_client()
         if error:
             return False, error
             
         try:
             response = client.create_tweet(text=text)
-            
-            # response.data contains {'id': '...', 'text': '...'}
             tweet_id = response.data.get('id')
             
-            # Construct URL (requires knowing the username, but we can use an intent link for UI generic usage)
-            # However, the best way to get a URL is to fetch the current user username again, or construct via ID
+            # Fetch user info for URL construction
             user_info = client.get_me()
             username = user_info.data.username if user_info and user_info.data else 'i'
             

@@ -17,8 +17,8 @@
         z-index: 0;
         opacity: 0.12;
         pointer-events: none;
-        &.orb-primary { width: 400px; height: 400px; background: var(--v4-indigo); top: -100px; right: -100px; }
-        &.orb-emerald { width: 300px; height: 300px; background: var(--v4-emerald); bottom: 100px; left: -50px; }
+        &.orb-primary { width: 400px; height: 400px; background: var(--v4-indigo); top: -100px; inset-inline-end: -100px; }
+        &.orb-emerald { width: 300px; height: 300px; background: var(--v4-emerald); bottom: 100px; inset-inline-start: -50px; }
     }
 
     .sr-v4-dashboard { max-width: 1600px; margin: 0 auto; position: relative; z-index: 1; padding-bottom: 80px; }
@@ -52,7 +52,7 @@
                     content: '';
                     position: absolute;
                     top: 0;
-                    left: 0;
+                    inset-inline-start: 0;
                     width: 100%;
                     height: 100%;
                     background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
@@ -106,8 +106,8 @@
     
     .sr-prompt-box { min-height: 180px; resize: vertical; line-height: 1.6; }
 
-    .border-end-xl { @media (min-width: 1200px) { border-left: 1.5px solid #f1f5f9; } }
-    .border-end-lg { @media (min-width: 992px) { border-left: 1.5px solid #f1f5f9; } }
+    .border-end-xl { @media (min-width: 1200px) { border-inline-start: 1.5px solid #f1f5f9; } }
+    .border-end-lg { @media (min-width: 992px) { border-inline-start: 1.5px solid #f1f5f9; } }
 
     /* --- Dynamic Tag System --- */
     .sr-tag-container {
@@ -235,7 +235,7 @@
     .bg-indigo-subtle { background: #eef2ff !important; color: #4f46e5 !important; }
     .bg-emerald-subtle { background: #ecfdf5 !important; color: #059669 !important; }
     .fw-boldest { font-weight: 900 !important; }
-    .text-end { text-align: right !important; }
+    .text-end { text-align: end !important; }
     
     /* Animations References */
     .sr-header-v4 { animation: sr-v4-slideUpFade 0.6s 0.1s ease-out both !important; }
@@ -324,12 +324,12 @@
         }
         
         // Ensure stacked text stays right-aligned
-        .text-end { text-align: right !important; width: 100%; }
+        .text-end { text-align: end !important; width: 100%; }
         .auto-publish-card { padding: 16px; h5 { font-size: 15px !important; } p { font-size: 11.5px !important; } }
     }
 }
 
 /* Animations */
 @keyframes sr-v4-pulse { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.1); opacity: 0.8; } 100% { transform: scale(1); opacity: 1; } }
-@keyframes sr-v4-shine { 0% { left: -100%; } 100% { left: 100%; } }
+@keyframes sr-v4-shine { 0% { inset-inline-start: -100%; } 100% { inset-inline-start: 100%; } }
 @keyframes sr-v4-slideUpFade { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }

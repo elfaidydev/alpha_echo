@@ -10,6 +10,7 @@ export class TargetsPage extends Component {
         this.radarService = useService("alpha_echo.radar_service");
         this.orm = useService("orm"); // Keep orm for custom modal fetches if needed
         
+        this._t = _t;
         this.state = useState({
             activeTab: 'all',
             searchQuery: '',
@@ -104,6 +105,49 @@ export class TargetsPage extends Component {
     
     async toggleTracking(target) {
         await this.radarService.toggleTarget(target);
+    }
+
+    // --- Translation Helpers for XML ---
+    getToggleTitle(target) {
+        return target.is_active ? _t("Stop Monitoring") : _t("Activate Monitoring");
+    }
+
+    getCategoryLabel(category) {
+        const categories = {
+            'general': _t('General'),
+            'health': _t('Health'),
+            'education': _t('Education'),
+            'tech': _t('Tech')
+        };
+        return categories[category] || _t('Tech');
+    }
+
+    getEngineStatusLabel(isActive) {
+        return isActive ? _t('Exploration engine active') : _t('Monitoring system paused');
+    }
+
+    getSelectedTargetStatusLabel() {
+        return this.state.selectedTarget.is_active ? _t('Active \u0026 Capturing') : _t('Paused');
+    }
+
+    getSelectedTargetCategoryLabel() {
+        const cat = this.state.selectedTarget.category;
+        const categories = {
+            'general': _t('General / Developmental'),
+            'health': _t('Health \u0026 Medicine'),
+            'education': _t('Education \u0026 Research'),
+            'tech': _t('Tech \u0026 Innovation')
+        };
+        return categories[cat] || _t('Tech \u0026 Innovation');
+    }
+
+    getPostStatusLabel(state) {
+        const states = {
+            'published': _t('Published'),
+            'draft': _t('Pending Draft'),
+            'rejected': _t('Rejected')
+        };
+        return states[state] || _t('Rejected');
     }
 }
 
