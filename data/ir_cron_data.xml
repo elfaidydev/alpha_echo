@@ -4,9 +4,10 @@
         <record id="ir_cron_alpha_echo_fetch" model="ir.cron">
             <field name="name">Alpha Echo: Fetch &amp; Process Tweets</field>
             <field name="model_id" ref="model_alpha_echo_target"/>
+            <!-- SCAN_AGE_HOURS = 1.5     # Ignore tweets older than this (90 mins) -->
             <field name="state">code</field>
             <field name="code">model.cron_fetch_all_targets()</field>
-            <field name="interval_number">30</field>
+            <field name="interval_number">90</field>
             <field name="interval_type">minutes</field>
             <field name="numbercall">-1</field>
             <field name="doall" eval="False"/>

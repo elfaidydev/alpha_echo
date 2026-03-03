@@ -16,19 +16,19 @@
                     </div>
                     <div class="header-left-side">
                         <div class="health-nav">
-                            <span class="status-pulse"></span> <t t-esc="state.targets.length"/> <t t-esc="_t('monitored sources')"/>
+                            <span class="status-pulse"></span> <t t-esc="radarState.targets.length"/> <t t-esc="_t('monitored sources')"/>
                         </div>
-                        <button class="btn-primary-v4" t-on-click="toggleTracking" t-att-class="{'paused': !state.isTracking}">
-                            <i class="fa ms-2" t-att-class="state.isTracking ? 'fa-pause' : 'fa-play'"/>
+                        <button class="btn-primary-v4" t-on-click="toggleTracking" t-att-class="{'paused': !radarState.isTracking}">
+                            <i class="fa ms-2" t-att-class="radarState.isTracking ? 'fa-pause' : 'fa-play'"/>
                             <t t-esc="trackingBtnLabel"/>
                         </button>
                         <button class="btn-icon-v4" t-on-click="fetchLatest" title="Instant Sync">
-                            <i class="fa fa-refresh" t-att-class="{'fa-spin': state.isLoading}"/>
+                            <i class="fa fa-refresh" t-att-class="{'fa-spin': radarState.isLoading}"/>
                         </button>
                     </div>
                 </div>
 
-                <t t-if="!state.isOnboarded">
+                <t t-if="!radarState.isOnboarded">
                     <div class="sr-onboarding-hero-v2">
                         <div class="onboarding-bg-blobs">
                             <div class="blob blob-1"></div>
@@ -43,14 +43,14 @@
 
                             <div class="onboarding-grid grid-4-steps">
                                 <!-- Step 1: Twitter -->
-                                <div t-attf-class="onboarding-card {{ state.config.twitterLinked ? 'completed' : 'pending' }}" t-on-click="openSettings">
+                                <div t-attf-class="onboarding-card {{ radarState.config.twitterLinked ? 'completed' : 'pending' }}" t-on-click="openSettings">
                                     <div class="card-glow"></div>
                                     <div class="card-content">
                                         <div class="step-label">Step 1</div>
                                         <div class="step-main">
                                             <div class="step-icon">
                                                 <i class="fa fa-twitter"/>
-                                                <div t-if="state.config.twitterLinked" class="check-badge"><i class="fa fa-check"/></div>
+                                                <div t-if="radarState.config.twitterLinked" class="check-badge"><i class="fa fa-check"/></div>
                                             </div>
                                             <div class="step-info">
                                                 <h4><t t-esc="_t('Link X (Twitter)')"/></h4>
@@ -58,14 +58,14 @@
                                             </div>
                                         </div>
                                         <div class="step-footer mt-2 text-start">
-                                            <span t-if="state.config.twitterLinked" class="status-done"><t t-esc="_t('Linked')"/> <i class="fa fa-check-circle me-1"/></span>
+                                            <span t-if="radarState.config.twitterLinked" class="status-done"><t t-esc="_t('Linked')"/> <i class="fa fa-check-circle me-1"/></span>
                                             <span t-else="" class="status-btn"><t t-esc="_t('Connect')"/> <i class="fa fa-link me-1"/></span>
                                         </div>
                                     </div>
                                 </div>
 
                                 <!-- Step 2: AI Prompt -->
-                                <t t-set="isPromptDone" t-value="state.config.custom_ai_instructions and state.config.custom_ai_instructions.length > 0"/>
+                                <t t-set="isPromptDone" t-value="radarState.config.custom_ai_instructions and radarState.config.custom_ai_instructions.length > 0"/>
                                 <div t-attf-class="onboarding-card {{ isPromptDone ? 'completed' : 'pending' }}" t-on-click="openSettings">
                                     <div class="card-glow"></div>
                                     <div class="card-content">
@@ -88,7 +88,7 @@
                                 </div>
 
                                 <!-- Step 3: Keywords -->
-                                <t t-set="isKeywordsDone" t-value="state.config.target_radar_focus and state.config.target_radar_focus.length > 0"/>
+                                <t t-set="isKeywordsDone" t-value="radarState.config.target_radar_focus and radarState.config.target_radar_focus.length > 0"/>
                                 <div t-attf-class="onboarding-card {{ isKeywordsDone ? 'completed' : 'pending' }}" t-on-click="openSettings">
                                     <div class="card-glow"></div>
                                     <div class="card-content">
@@ -111,7 +111,7 @@
                                 </div>
 
                                 <!-- Step 4: Targets -->
-                                <t t-set="isTargetsDone" t-value="state.targets.length > 0"/>
+                                <t t-set="isTargetsDone" t-value="radarState.targets.length > 0"/>
                                 <div t-attf-class="onboarding-card {{ isTargetsDone ? 'completed' : 'pending' }}" t-on-click="openSettings">
                                     <div class="card-glow"></div>
                                     <div class="card-content">
@@ -127,7 +127,7 @@
                                             </div>
                                         </div>
                                         <div class="step-footer mt-2 text-start">
-                                            <span t-if="isTargetsDone" class="status-done">Added <t t-esc="state.targets.length"/> <i class="fa fa-check-circle me-1"/></span>
+                                            <span t-if="isTargetsDone" class="status-done">Added <t t-esc="radarState.targets.length"/> <i class="fa fa-check-circle me-1"/></span>
                                             <span t-else="" class="status-btn">Add Targets <i class="fa fa-plus me-1"/></span>
                                         </div>
                                     </div>
@@ -136,7 +136,7 @@
 
                             <div class="onboarding-action">
                                 <p class="helper-text">Need help? Read the <a href="#">Quick Start Guide</a></p>
-                                <button class="sr-premium-btn" t-on-click="toggleTracking" t-att-disabled="!state.isOnboarded">
+                                <button class="sr-premium-btn" t-on-click="toggleTracking" t-att-disabled="!radarState.isOnboarded">
                                     <span>Activate Full Radar</span>
                                     <i class="fa fa-bolt"/>
                                 </button>
@@ -151,7 +151,7 @@
                             <div class="hero-text">
                                 <h2>Advanced exploration and analysis engine is active.</h2>
                                 <p>
-                                    Currently <strong><t t-esc="state.targets.length"/> certified sources</strong> are under real-time monitoring. Successfully discovered <strong><t t-esc="state.grantsDiscovered"/> new topics</strong> today. 
+                                    Currently <strong><t t-esc="radarState.targets.length"/> certified sources</strong> are under real-time monitoring. Successfully discovered <strong><t t-esc="radarState.grantsDiscovered"/> new topics</strong> today. 
                                     AI has handled professional reformulation and content has been <strong>automatically and simultaneously</strong> published across official channels.
                                 </p>
                             </div>
@@ -162,22 +162,22 @@
                     <!-- Live Targets Radar Section -->
                     <div class="sr-radar-listening-v4">
                         <div class="listening-header">
-                            <span><i class="fa fa-crosshairs ms-1"/> Live Target Map (Net of <t t-esc="state.targets.length"/>)</span>
+                            <span><i class="fa fa-crosshairs ms-1"/> Live Target Map (Net of <t t-esc="radarState.targets.length"/>)</span>
                             <div class="sweep-animation"></div>
                         </div>
                         <div class="targets-marquee-container">
                             <div class="targets-marquee">
-                                <t t-foreach="state.targets" t-as="target" t-key="target.id">
+                                <t t-foreach="radarState.targets" t-as="target" t-key="target.id">
                                     <div class="target-pill"><span class="pulse-dot"></span> <t t-esc="target.name"/></div>
                                 </t>
-                                <t t-if="state.targets.length === 0">
+                                <t t-if="radarState.targets.length === 0">
                                     <div class="target-pill ghost"><i class="fa fa-plus ms-1"/> Searching for sources matching your criteria...</div>
                                 </t>
                                 <!-- Duplicate for infinite seamless scroll -->
-                                <t t-foreach="state.targets" t-as="target" t-key="'dup_' + target.id">
+                                <t t-foreach="radarState.targets" t-as="target" t-key="'dup_' + target.id">
                                     <div class="target-pill"><span class="pulse-dot"></span> <t t-esc="target.name"/></div>
                                 </t>
-                                <t t-if="state.targets.length === 0">
+                                <t t-if="radarState.targets.length === 0">
                                     <div class="target-pill ghost"><i class="fa fa-plus ms-1"/> Searching for sources matching your criteria...</div>
                                 </t>
                             </div>
@@ -189,7 +189,7 @@
                         <div class="kpi-top">
                             <div class="kpi-text">
                                 <span class="kpi-title">New Content Discovered Today</span>
-                                <div class="kpi-value"><t t-esc="state.grantsDiscovered"/></div>
+                                <div class="kpi-value"><t t-esc="radarState.grantsDiscovered"/></div>
                             </div>
                             <div class="kpi-icon blue"><i class="fa fa-search-plus"/></div>
                         </div>
@@ -200,7 +200,7 @@
                         <div class="kpi-top">
                             <div class="kpi-text">
                                 <span class="kpi-title">Publications (Website + X)</span>
-                                <div class="kpi-value"><t t-esc="state.publishedToday"/></div>
+                                <div class="kpi-value"><t t-esc="radarState.publishedToday"/></div>
                             </div>
                             <div class="kpi-icon emerald"><i class="fa fa-paper-plane"/></div>
                         </div>
@@ -211,7 +211,7 @@
                         <div class="kpi-top">
                             <div class="kpi-text">
                                 <span class="kpi-title">Monitored Source Accounts</span>
-                                <div class="kpi-value"><t t-esc="state.monitoredAccounts"/> <span>sources</span></div>
+                                <div class="kpi-value"><t t-esc="radarState.monitoredAccounts"/> <span>sources</span></div>
                             </div>
                             <div class="kpi-icon indigo"><i class="fa fa-users"/></div>
                         </div>
@@ -225,7 +225,7 @@
                         <div class="kpi-top">
                             <div class="kpi-text">
                                 <span class="kpi-title">Formulation Prompt Accuracy</span>
-                                <div class="kpi-value"><t t-esc="state.matchRate"/><span>%</span></div>
+                                <div class="kpi-value"><t t-esc="radarState.matchRate"/><span>%</span></div>
                             </div>
                             <div class="kpi-icon amber"><i class="fa fa-shield"/></div>
                         </div>
@@ -274,14 +274,14 @@
                                 <h3><i class="fa fa-bolt ms-2"/>Real-time Exploration Log</h3>
                             </div>
                             <div class="feed-list-v4">
-                                <t t-if="state.feed.length === 0">
+                                <t t-if="radarState.feed.length === 0">
                                     <div class="empty-state">
                                         <i class="fa fa-microphone fa-2x mb-2 text-muted"/>
                                         <p>Exploration engine is performing deep scans of certified entities...</p>
                                     </div>
                                 </t>
                                 <t t-else="">
-                                    <t t-foreach="state.feed" t-as="item" t-key="item.id">
+                                    <t t-foreach="radarState.feed" t-as="item" t-key="item.id">
                                         <div class="conversation-row fade-scale-up">
                                             
                                             <div class="chat-bubble raw-bubble">
@@ -323,7 +323,7 @@
                                 <h3><i class="fa fa-server ms-2"/>Real-time Operational Metrics</h3>
                             </div>
                             <div class="timeline-container">
-                                <t t-foreach="state.logs" t-as="log" t-key="log.id">
+                                <t t-foreach="radarState.logs" t-as="log" t-key="log.id">
                                     <div class="timeline-item">
                                         <div class="timeline-node" t-att-class="log.type"></div>
                                         <div class="timeline-content">

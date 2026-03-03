@@ -23,6 +23,8 @@ export class ConfigPage extends Component {
                 showTwitterApiSecret: false,
                 showTwitterAccessToken: false,
                 showTwitterAccessSecret: false,
+                showTwitterAuthToken: false,
+                showTwitterCt0: false,
                 newKeyword: "",
                 renderTrigger: 0,
             }
@@ -172,7 +174,10 @@ export class ConfigPage extends Component {
         }
 
         // Auto-save debounce (Skip for Twitter keys to allow manual linking via button)
-        const isTwitterField = ['x_api_key', 'x_api_secret', 'x_access_token', 'x_access_token_secret'].includes(fieldName);
+        const isTwitterField = [
+            'x_api_key', 'x_api_secret', 'x_access_token', 'x_access_token_secret',
+            'x_auth_token', 'x_ct0'
+        ].includes(fieldName);
         
         if (!isTwitterField) {
             this.saveTimeout = setTimeout(() => {

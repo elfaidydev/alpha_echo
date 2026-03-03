@@ -45,6 +45,7 @@ export const radarService = {
                 systemPrompt: false,
                 custom_ai_instructions: "",
                 target_radar_focus: "",
+                x_list_id: "",
                 twitterUser: null
             },
             get isOnboarded() {
@@ -52,8 +53,7 @@ export const radarService = {
                 return !!(
                     conf.twitterLinked && 
                     (conf.custom_ai_instructions && conf.custom_ai_instructions.length > 0) &&
-                    (conf.target_radar_focus && conf.target_radar_focus.length > 0) &&
-                    (this.targets.length > 0)
+                    (conf.x_list_id && conf.x_list_id.length > 0)
                 );
             }
         });
@@ -134,7 +134,7 @@ export const radarService = {
                 state.targets = await rpc("/web/dataset/call_kw/alpha.echo.target/search_read", {
                     model: "alpha.echo.target",
                     method: "search_read",
-                    args: [domain, ["name", "handle", "category", "is_active", "posts_count"]],
+                    args: [domain, ["name", "handle", "is_active", "posts_count"]],
                     kwargs: { order: "name asc" }
                 });
                 state.monitoredAccounts = state.targets.length;
@@ -292,6 +292,32 @@ export const radarService = {
             }
         }
 
+        async function syncListMembers() {
+            state.isLoading = true;
+            try {
+                notification.add(_t("Sync command sent. Discovery is starting in the background..."), { type: "info" });
+                
+                // Use a direct RPC call with a very short timeout or just fire and forget if possible
+                const result = await rpc("/alpha_echo/config/sync_list", {}, { shadow: true });
+                
+                if (result && result.success) {
+                    notification.add(result.message, { type: "success" });
+                    // Give it a small delay before refreshing UI to allow background job to start
+                    setTimeout(async () => {
+                        await fetchConfig();
+                        await loadTargets();
+                    }, 3000);
+                }
+                return result;
+            } catch (error) {
+                // If it's a timeout but the command was sent, we might still be okay
+                console.warn("Sync RPC might have timed out but command was likely sent:", error);
+                notification.add(_t("Sync initiated. Please refresh in a minute to see new accounts."), { type: "warning" });
+            } finally {
+                state.isLoading = false;
+            }
+        }
+
         return {
             state,
             fetchFeed,
@@ -305,6 +331,7 @@ export const radarService = {
             fetchConfig,
             saveConfig,
             disconnectX,
+            syncListMembers,
             canStartEngine
         };
     }

@@ -8,17 +8,16 @@ import { registry } from "@web/core/registry";
 export class TargetsPage extends Component {
     setup() {
         this.radarService = useService("alpha_echo.radar_service");
-        this.orm = useService("orm"); // Keep orm for custom modal fetches if needed
+        this.orm = useService("orm");
+        this.actionService = useService("action");
         
         this._t = _t;
+        this.radarState = useState(this.radarService.state);
         this.state = useState({
             activeTab: 'all',
             searchQuery: '',
             selectedTarget: null,
             targetRecentPosts: [],
-            modalMode: 'view',
-            editForm: {},
-            service: this.radarService.state,
         });
 
         onWillStart(async () => {
@@ -26,8 +25,16 @@ export class TargetsPage extends Component {
         });
     }
 
+    // Sync logic removed as per auto-discovery requirement
+
+    async deleteTarget(id) {
+        if (confirm(_t("Are you sure you want to delete this target?"))) {
+            await this.radarService.deleteTarget(id);
+        }
+    }
+
     get targets() {
-        return this.state.service.targets;
+        return this.radarState.targets;
     }
 
     get filteredTargets() {
@@ -41,13 +48,11 @@ export class TargetsPage extends Component {
 
     async setTab(tabName) {
         this.state.activeTab = tabName;
-        let domain = [];
-        if (tabName !== 'all') domain = [['category', '=', tabName]];
-        await this.radarService.loadTargets(domain);
+        // Always load all targets since categories are removed
+        await this.radarService.loadTargets();
     }
     
     async openTargetAnalytics(target) {
-        this.state.modalMode = 'view';
         this.state.selectedTarget = target;
         this.state.targetRecentPosts = [];
         
@@ -66,61 +71,10 @@ export class TargetsPage extends Component {
     closeTargetAnalytics() {
         this.state.selectedTarget = null;
         this.state.targetRecentPosts = [];
-        this.state.modalMode = 'view';
-        this.state.editForm = {};
-    }
-    
-    openCreateModal() {
-        this.state.modalMode = 'create';
-        this.state.editForm = { name: '', handle: '', category: 'general', is_active: true };
-        this.state.selectedTarget = { id: 'new', name: _t('Add New Source') };
     }
 
-    editTarget() {
-        this.state.modalMode = 'edit';
-        this.state.editForm = {
-            name: this.state.selectedTarget.name,
-            handle: this.state.selectedTarget.handle,
-            category: this.state.selectedTarget.category,
-            is_active: this.state.selectedTarget.is_active,
-        };
-    }
+    // (Removed category mappings)
 
-    handleInputChange(ev, field) {
-        this.state.editForm[field] = field === 'is_active' ? ev.target.checked : ev.target.value;
-    }
-
-    async saveTarget() {
-        if (!this.state.editForm.name) return;
-        await this.radarService.saveTarget(this.state.selectedTarget.id, this.state.editForm);
-        this.closeTargetAnalytics();
-    }
-
-    async deleteTarget() {
-        if (confirm(_t("Are you sure you want to delete this source? This action cannot be undone."))) {
-            await this.radarService.deleteTarget(this.state.selectedTarget.id);
-            this.closeTargetAnalytics();
-        }
-    }
-    
-    async toggleTracking(target) {
-        await this.radarService.toggleTarget(target);
-    }
-
-    // --- Translation Helpers for XML ---
-    getToggleTitle(target) {
-        return target.is_active ? _t("Stop Monitoring") : _t("Activate Monitoring");
-    }
-
-    getCategoryLabel(category) {
-        const categories = {
-            'general': _t('General'),
-            'health': _t('Health'),
-            'education': _t('Education'),
-            'tech': _t('Tech')
-        };
-        return categories[category] || _t('Tech');
-    }
 
     getEngineStatusLabel(isActive) {
         return isActive ? _t('Exploration engine active') : _t('Monitoring system paused');
@@ -130,16 +84,7 @@ export class TargetsPage extends Component {
         return this.state.selectedTarget.is_active ? _t('Active \u0026 Capturing') : _t('Paused');
     }
 
-    getSelectedTargetCategoryLabel() {
-        const cat = this.state.selectedTarget.category;
-        const categories = {
-            'general': _t('General / Developmental'),
-            'health': _t('Health \u0026 Medicine'),
-            'education': _t('Education \u0026 Research'),
-            'tech': _t('Tech \u0026 Innovation')
-        };
-        return categories[cat] || _t('Tech \u0026 Innovation');
-    }
+    // (Removed getSelectedTargetCategoryLabel)
 
     getPostStatusLabel(state) {
         const states = {

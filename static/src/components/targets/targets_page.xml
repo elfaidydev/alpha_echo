@@ -2,208 +2,153 @@
 <templates xml:space="preserve">
     <t t-name="alpha_echo.TargetsPage" owl="1">
         <div class="sr-targets-container">
-                <!-- Premium Glassmorphism Header -->
-                <!-- Premium 3-Row Header -->
-                <div class="sr-targets-header vertical-layout">
-                    <!-- Row 1: Logo and Title -->
-                    <div class="sr-header-row info-row">
-                        <div class="logo-box">
-                            <i class="fa fa-crosshairs"/>
-                        </div>
-                        <div class="title-box">
-                             <h1><t t-esc="_t('Resource Management')"/></h1>
-                             <p class="subtitle"><t t-esc="_t('Live monitoring network for approved sources and accounts.')"/></p>
-                        </div>
+            <!-- Premium 3-Row Header -->
+            <div class="sr-targets-header vertical-layout">
+                <!-- Row 1: Logo and Title -->
+                <div class="sr-header-row info-row">
+                    <div class="logo-box">
+                        <i class="fa fa-crosshairs"/>
                     </div>
-                    
-                    <!-- Row 2: Search and Add Button -->
-                    <div class="sr-header-row search-row">
-                        <div class="sr-search-bar flex-grow-1">
-                            <i class="fa fa-search"/>
-                             <input type="text" t-model="state.searchQuery" t-att-placeholder="_t('Search sources...')"/>
-                         </div>
-                         <button class="sr-add-btn shrink-0" t-on-click="openCreateModal">
-                             <i class="fa fa-plus me-2"/> <span class="text-nowrap font-weight-bold"><t t-esc="_t('Add Source')"/></span>
-                         </button>
-                    </div>
-
-                    <!-- Row 3: Categories (Tabs) -->
-                    <div class="sr-header-row tabs-row">
-                        <div class="sr-tabs">
-                                 <button t-attf-class="sr-tab-btn {{ state.activeTab === 'all' ? 'active' : '' }}" t-on-click="() => this.setTab('all')"><t t-esc="_t('All')"/></button>
-                                 <button t-attf-class="sr-tab-btn {{ state.activeTab === 'general' ? 'active' : '' }}" t-on-click="() => this.setTab('general')"><t t-esc="_t('General Content')"/></button>
-                                 <button t-attf-class="sr-tab-btn {{ state.activeTab === 'health' ? 'active' : '' }}" t-on-click="() => this.setTab('health')"><t t-esc="_t('Health &amp; Medicine')"/></button>
-                                 <button t-attf-class="sr-tab-btn {{ state.activeTab === 'education' ? 'active' : '' }}" t-on-click="() => this.setTab('education')"><t t-esc="_t('Education &amp; Research')"/></button>
-                                 <button t-attf-class="sr-tab-btn {{ state.activeTab === 'tech' ? 'active' : '' }}" t-on-click="() => this.setTab('tech')"><t t-esc="_t('Tech &amp; Innovation')"/></button>
-                        </div>
+                    <div class="title-box">
+                         <h1><t t-esc="_t('Resource Management')"/></h1>
+                         <p class="subtitle"><t t-esc="_t('Accounts auto-discovered from your X/Twitter List.')"/></p>
                     </div>
                 </div>
 
-                <!-- Content Grid masonry -->
-                <div class="sr-targets-grid">
-                    <t t-if="!state.service.config.twitterLinked">
-                        <div class="sr-premium-lock-screen full-width-lock">
-                            <div class="lock-bg-pattern"></div>
-                            <div class="lock-content fade-scale-up">
-                                <div class="lock-icon-wrapper">
-                                    <div class="lock-shield"><i class="fa fa-shield"/></div>
-                                    <div class="lock-main-icon"><i class="fa fa-lock"/></div>
-                                </div>
-                                <div class="lock-text">
-                                    <h3>System Locked! <span class="badge-locked">Account Link Required</span></h3>
-                                    <p>To add monitored sources and manage the system, you must first access the dashboard and link your X (Twitter) account for the engine to operate and publish.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </t>
-                    <t t-elif="state.isLoading">
-                        <div class="sr-loading-state" style="grid-column: 1 / -1;">
-                            <div class="dot-spin"></div>
-                            <p>Synchronizing monitoring network...</p>
-                        </div>
-                    </t>
-                    <t t-elif="targets.length === 0 and !state.isLoading">
-                        <div class="sr-premium-empty-state" style="grid-column: 1 / -1;">
-                            <div class="empty-icon-wrap"><i class="fa fa-satellite-dish pulse-icon"/></div>
-                            <h2>No monitored sources added yet!</h2>
-                            <p>Our smart engine is waiting for your directions. Add Twitter accounts or links for targeting so the system can monitor them and fetch/analyze content immediately and automatically.</p>
-                            <button class="sr-glow-btn mt-4 btn-add-first" t-on-click="openCreateModal">
-                                <i class="fa fa-plus ms-2"/> Add your first source now
-                            </button>
-                        </div>
-                    </t>
-                    <t t-elif="filteredTargets.length === 0 and !state.isLoading">
-                        <div class="sr-empty-state" style="grid-column: 1 / -1;">
-                            <i class="fa fa-crosshairs"/>
-                            <p>No sources match the current search criteria.</p>
-                        </div>
-                    </t>
-                    <t t-else="">
-                        <t t-foreach="filteredTargets" t-as="target" t-key="target.id">
-                            <div class="sr-target-card" t-on-click="() => this.openTargetAnalytics(target)">
-                                <div class="sr-card-bg-glow" t-att-class="target.is_active ? 'glow-success' : 'glow-warning'"></div>
-                                
-                                <div class="sr-card-head d-flex justify-content-between align-items-center">
-                                    <div class="sr-target-identity d-flex align-items-center gap-2">
-                                        <div class="sr-target-info d-flex flex-column align-items-start">
-                                            <h3 class="sr-target-name m-0">
-                                                <t t-esc="target.name"/>
-                                            </h3>
-                                            <span class="sr-target-handle" t-if="target.handle">
-                                                <i class="fa fa-twitter"/> <t t-esc="target.handle"/>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="sr-status-toggle" t-on-click.stop="() => this.toggleTracking(target)" t-att-title="this.getToggleTitle(target)">
-                                        <div class="toggle-track" t-att-class="target.is_active ? 'active' : 'inactive'">
-                                            <div class="toggle-knob"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="sr-card-body">
-                                    <div class="sr-stats-row">
-                                        <div class="sr-stat-box">
-                                            <span class="stat-label">Category</span>
-                                            <span class="stat-value category-badge" t-attf-class="cat-{{target.category}}">
-                                                <i class="fa fa-tag"/> 
-                                                <t t-esc="this.getCategoryLabel(target.category)"/>
-                                            </span>
-                                        </div>
-                                        <div class="sr-stat-box">
-                                            <span class="stat-label">Captured Content</span>
-                                            <span class="stat-value text-indigo">
-                                                <i class="fa fa-bolt"/> <t t-esc="target.posts_count"/>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="sr-card-foot">
-                                    <span class="sr-engine-status" t-att-class="target.is_active ? 'recording' : 'paused'">
-                                        <span class="pulse-dot"></span> 
-                                        <t t-esc="this.getEngineStatusLabel(target.is_active)"/>
-                                    </span>
-                                </div>
-                            </div>
-                        </t>
-                    </t>
+                <div class="sr-header-row search-row gap-3">
+                    <div class="sr-search-bar flex-grow-1">
+                        <i class="fa fa-search"/>
+                        <input type="text" t-model="state.searchQuery" t-att-placeholder="_t('Search discovered accounts...')"/>
+                    </div>
                 </div>
 
-                <!-- Ultra Premium Target Analytics Modal (Zero-Wait) -->
-                <t t-if="state.selectedTarget">
-                    <div class="sr-modal-overlay" t-on-click.self="closeTargetAnalytics">
-                        <div class="sr-modal-content fade-in-scale">
-                            <!-- Modal Header -->
-                            <div class="sr-modal-header">
-                                <!-- Title Info (no avatar, clean SaaS style) -->
-                                <div class="sr-modal-title-block">
-                                    <h2 class="sr-modal-title">
-                                        <t t-esc="state.selectedTarget.name"/>
-                                        <span t-if="state.modalMode === 'view'"
-                                              class="pulse-dot-small"
-                                              t-att-class="state.selectedTarget.is_active ? 'bg-success' : 'bg-secondary'"/>
-                                    </h2>
+                <!-- Categories removed as per Auto-Discovery changes -->
+            </div>
 
-                                    <!-- X Handle — shown in view/edit, below name -->
-                                    <span class="sr-modal-handle" t-if="state.selectedTarget.handle and state.modalMode !== 'create'">
-                                        <i class="fa fa-twitter"/> <t t-esc="state.selectedTarget.handle"/>
-                                    </span>
-
-                                    <!-- Mode Badge -->
-                                    <span class="sr-modal-mode-badge" t-if="state.modalMode === 'create'">Setup new monitored entity</span>
-                                    <span class="sr-modal-mode-badge" t-if="state.modalMode === 'edit'">Edit Mode</span>
-                                </div>
-
-                                <!-- X Close Button (top right) -->
-                                <button class="sr-close-btn" t-on-click="closeTargetAnalytics" title="Close">
-                                    <i class="fa fa-times"/>
+            <!-- Content Grid -->
+            <div class="sr-targets-grid">
+                <!-- Case 1: X Account not linked OR List ID missing -->
+                <t t-if="!radarState.config.twitterLinked or !radarState.config.x_list_id">
+                    <div class="sr-premium-lock-screen full-width-lock">
+                        <div class="lock-bg-pattern"></div>
+                        <div class="lock-content fade-scale-up">
+                            <div class="lock-icon-wrapper">
+                                <div class="lock-shield text-warning"><i class="fa fa-exclamation-triangle"/></div>
+                                <div class="lock-main-icon"><i class="fa fa-link"/></div>
+                            </div>
+                            <div class="lock-text">
+                                <h3 t-if="!radarState.config.twitterLinked">X Account Required <span class="badge-locked">Step 1</span></h3>
+                                <h3 t-else="">Twitter List ID Required <span class="badge-locked">Step 2</span></h3>
+                                <p t-if="!radarState.config.twitterLinked">Please link your X (Twitter) account in Settings to start using the engine.</p>
+                                <p t-else="">Almost there! You must provide a <b>Private X List ID</b> in Settings to discover and monitor accounts.</p>
+                                <button class="btn btn-primary mt-3 rounded-pill px-4" t-on-click="() => this.actionService.doAction('alpha_echo.action_alpha_echo_config_settings_client')">
+                                    Go to Settings
                                 </button>
-                            </div>
-                            
-                            <!-- Modal Body -->
-                            <div class="sr-modal-body bg-light-mesh">
-                                <!-- VIEW MODE (Analytics) -->
-                                <t t-if="state.modalMode === 'view'">
-                                    <t t-call="alpha_echo.TargetsPage.AnalyticsView"/>
-                                </t>
-                                
-                                <!-- EDIT / CREATE MODE -->
-                                <t t-else="">
-                                    <t t-call="alpha_echo.TargetsPage.EditForm"/>
-                                </t>
-                            </div>
-                            
-                            <!-- Modal Footer -->
-                            <div class="sr-modal-footer">
-                                <t t-if="state.modalMode === 'view'">
-                                    <div class="d-flex justify-content-between w-100">
-                                        <button class="sr-clean-btn btn-delete-action" t-on-click="deleteTarget">
-                                            <i class="fa fa-trash"/> Delete Source
-                                        </button>
-                                        <button class="sr-clean-btn btn-advanced-setup" t-on-click="editTarget">
-                                            <i class="fa fa-pencil"/> Edit Data
-                                        </button>
-                                    </div>
-                                </t>
-                                <t t-else="">
-                                    <div class="d-flex justify-content-between w-100">
-                                        <t t-if="state.modalMode === 'edit'">
-                                            <button class="sr-clean-btn btn-delete-action" t-on-click="deleteTarget">
-                                                <i class="fa fa-trash"/> Delete Source
-                                            </button>
-                                        </t>
-                                        <div t-else=""/> <!-- Spacer for create mode -->
-                                        <button class="sr-clean-btn btn-save-action" t-on-click="saveTarget" t-att-disabled="!state.editForm.name">
-                                            <i class="fa fa-check"/> Save Data
-                                        </button>
-                                    </div>
-                                </t>
                             </div>
                         </div>
                     </div>
                 </t>
+                <t t-elif="radarState.isLoading">
+                    <div class="sr-loading-state" style="grid-column: 1 / -1;">
+                        <div class="dot-spin"></div>
+                        <p>Synchronizing monitoring network...</p>
+                    </div>
+                </t>
+                <t t-elif="targets.length === 0 and !radarState.isLoading">
+                    <div class="sr-premium-empty-state" style="grid-column: 1 / -1;">
+                        <div class="empty-icon-wrap"><i class="fa fa-satellite-dish pulse-icon"/></div>
+                        <h2>No accounts discovered yet</h2>
+                        <p>Your Twitter List is connected, but no accounts have been discovered from it yet. Wait for the first automated scan or trigger it manually.</p>
+                        <button class="btn btn-primary mt-3 rounded-pill px-4" t-on-click="syncListMembers">
+                             Trigger Manual Sync
+                        </button>
+                    </div>
+                </t>
+                <t t-elif="filteredTargets.length === 0 and !radarState.isLoading">
+                    <div class="sr-empty-state" style="grid-column: 1 / -1;">
+                        <i class="fa fa-crosshairs"/>
+                        <p>No accounts match the current search.</p>
+                    </div>
+                </t>
+                <t t-else="">
+                    <t t-foreach="filteredTargets" t-as="target" t-key="target.id">
+                        <div class="sr-target-card">
+                            <div class="sr-card-bg-glow glow-success"></div>
+
+                            <div class="sr-card-head d-flex justify-content-between align-items-center">
+                                <div class="sr-target-identity d-flex align-items-center gap-2" t-on-click="() => this.openTargetAnalytics(target)">
+                                    <div class="sr-target-info d-flex flex-column align-items-start">
+                                        <h3 class="sr-target-name m-0">
+                                            <t t-esc="target.name"/>
+                                        </h3>
+                                        <span class="sr-target-handle" t-if="target.handle">
+                                            <i class="fa fa-twitter"/> <t t-esc="target.handle"/>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="sr-actions-btns d-flex gap-2">
+                                    <button class="btn btn-link text-danger p-0" t-on-click.stop="() => this.deleteTarget(target.id)" title="Delete Target">
+                                        <i class="fa fa-trash"/>
+                                    </button>
+                                    <div class="sr-status-badge" t-on-click="() => this.openTargetAnalytics(target)">
+                                        <i class="fa fa-check-circle text-success"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="sr-card-body" t-on-click="() => this.openTargetAnalytics(target)">
+                                <div class="sr-stats-row">
+                                    <!-- Category badge removed -->
+                                    <div class="sr-stat-box">
+                                        <span class="stat-label">Captured Content</span>
+                                        <span class="stat-value text-indigo">
+                                            <i class="fa fa-bolt"/> <t t-esc="target.posts_count"/>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="sr-card-foot" t-on-click="() => this.openTargetAnalytics(target)">
+                                <span class="sr-engine-status recording">
+                                    <span class="pulse-dot"></span>
+                                    Monitoring Active
+                                </span>
+                            </div>
+                        </div>
+                    </t>
+                </t>
             </div>
+
+            <!-- Target Analytics Modal -->
+            <t t-if="state.selectedTarget">
+                <div class="sr-modal-overlay" t-on-click.self="closeTargetAnalytics">
+                    <div class="sr-modal-content fade-in-scale">
+                        <!-- Modal Header -->
+                        <div class="sr-modal-header">
+                            <div class="sr-modal-title-block">
+                                <h2 class="sr-modal-title">
+                                    <t t-esc="state.selectedTarget.name"/>
+                                    <span class="pulse-dot-small bg-success"/>
+                                </h2>
+                                <span class="sr-modal-handle" t-if="state.selectedTarget.handle">
+                                    <i class="fa fa-twitter"/> <t t-esc="state.selectedTarget.handle"/>
+                                </span>
+                            </div>
+                            <button class="sr-close-btn" t-on-click="closeTargetAnalytics" title="Close">
+                                <i class="fa fa-times"/>
+                            </button>
+                        </div>
+
+                        <!-- Modal Body — Analytics only (read-only) -->
+                        <div class="sr-modal-body bg-light-mesh">
+                            <t t-call="alpha_echo.TargetsPage.AnalyticsView"/>
+                        </div>
+                        
+                        <!-- No footer button needed as requested -->
+                    </div>
+                </div>
+            </t>
+        </div>
     </t>
 
     <!-- ============================================== -->
@@ -215,21 +160,16 @@
             <div class="col-md-5">
                 <div class="sr-insight-card p-4 bg-white rounded-4 shadow-sm h-100 border-0">
                     <h4 class="fs-6 fw-bold text-muted mb-4 text-uppercase tracking-wide">Target Overview</h4>
-                    
+
                     <div class="d-flex justify-content-between align-items-center mb-3 pb-3 border-bottom">
                         <span class="text-secondary fw-semibold">Monitoring Status (Engine)</span>
                         <span t-attf-class="badge rounded-pill {{state.selectedTarget.is_active ? 'bg-success-subtle text-success' : 'bg-secondary-subtle text-secondary'}} fs-6 px-3 py-2">
-                            <i t-attf-class="fa fa-{{state.selectedTarget.is_active ? 'check-circle' : 'pause-circle'}} me-1"/> 
+                            <i t-attf-class="fa fa-{{state.selectedTarget.is_active ? 'check-circle' : 'pause-circle'}} me-1"/>
                             <t t-esc="this.getSelectedTargetStatusLabel()"/>
                         </span>
                     </div>
 
-                    <div class="d-flex justify-content-between align-items-center mb-3 pb-3 border-bottom">
-                        <span class="text-secondary fw-semibold">Source Category</span>
-                        <span class="fw-bold text-dark">
-                            <t t-esc="this.getSelectedTargetCategoryLabel()"/>
-                        </span>
-                    </div>
+                    <!-- Source Category removed -->
 
                     <div class="d-flex justify-content-between align-items-center bg-indigo-50 p-3 rounded-3 mt-4">
                         <div>
@@ -248,7 +188,7 @@
                         <h4 class="fs-6 fw-bold text-dark mb-0"><i class="fa fa-feed text-primary me-2"/> Live Feed (Latest 5 Topics)</h4>
                         <div t-if="state.targetRecentPosts.length === 0" class="spinner-border spinner-border-sm text-primary" role="status"></div>
                     </div>
-                    
+
                     <div class="sr-timeline pe-2">
                         <t t-if="state.targetRecentPosts.length === 0">
                             <p class="text-muted text-center py-4">Loading timeline...</p>
@@ -267,11 +207,6 @@
                                         <p class="ai-text-snippet mb-2 text-dark fs-6" style="line-height: 1.7; font-weight: 500;">
                                             <t t-esc="post.ai_generated_text ? post.ai_generated_text.substring(0, 130) + '...' : post.original_text.substring(0, 130) + '...'"/>
                                         </p>
-                                        <div class="d-flex justify-content-end text-muted small fw-bold mt-3">
-                                            <span class="d-flex align-items-center gap-1">
-                                                <i class="fa fa-bolt text-warning"/> Engine Confidence Index: <t t-esc="post.ai_confidence"/>%
-                                            </span>
-                                        </div>
                                     </div>
                                 </div>
                             </t>
@@ -282,53 +217,4 @@
         </div>
     </t>
 
-    <!-- ============================================== -->
-    <!-- SUB-TEMPLATE: Edit Form (EDIT/CREATE MODE)     -->
-    <!-- ============================================== -->
-    <t t-name="alpha_echo.TargetsPage.EditForm" owl="1">
-        <div class="sr-custom-form-container mx-auto" style="max-width: 700px;">
-            <div class="sr-insight-card p-4 p-md-5 bg-white rounded-4 shadow-sm border-0">
-                <div class="row g-4">
-                    <div class="col-12">
-                        <div class="sr-form-group">
-                            <label class="sr-form-label">Source Name or Account</label>
-                            <input type="text" class="sr-form-input" t-att-value="state.editForm.name" t-on-input="(ev) => this.handleInputChange(ev, 'name')" placeholder="e.g. Ministry of Interior, Misk Foundation..."/>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="sr-form-group">
-                            <label class="sr-form-label">X Platform Handle (Twitter Handle)</label>
-                            <div class="sr-input-group">
-                                <span class="sr-input-prefix"><i class="fa fa-twitter text-info"/></span>
-                                <input type="text" class="sr-form-input with-prefix" t-att-value="state.editForm.handle" t-on-input="(ev) => this.handleInputChange(ev, 'handle')" placeholder="@username"/>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="sr-form-group">
-                            <label class="sr-form-label">Sector / Category</label>
-                            <select class="sr-form-select" t-att-value="state.editForm.category" t-on-change="(ev) => this.handleInputChange(ev, 'category')">
-                                <option value="general">General / Developmental Foundation</option>
-                                <option value="health">Health &amp; Medicine</option>
-                                <option value="education">Education &amp; Research</option>
-                                <option value="tech">Tech &amp; Innovation</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-12 mt-4 mt-md-5">
-                        <div class="p-4 rounded-4 bg-light flex-wrap d-flex justify-content-between align-items-center border border-light-subtle gap-3">
-                            <div>
-                                <h5 class="fw-bold mb-1 text-dark">Enable Exploration Engine</h5>
-                                <p class="text-muted small mb-0">Enable it to capture content automatically from this source.</p>
-                            </div>
-                            <label class="sr-toggle-switch flex-shrink-0">
-                                <input type="checkbox" t-att-checked="state.editForm.is_active" t-on-change="(ev) => this.handleInputChange(ev, 'is_active')"/>
-                                <span class="sr-slider"></span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </t>
 </templates>

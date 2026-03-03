@@ -74,11 +74,27 @@
 
                     <h2>AI Personality Prompts</h2>
                     <div class="row mt16 o_settings_container">
+                        <div class="col-12 o_setting_box" id="alpha_echo_list_id_box">
+                            <div class="o_setting_right_pane">
+                                <span class="o_form_label">X/Twitter List ID</span>
+                                <div class="text-muted">
+                                    The numeric ID of your private X List containing all monitored accounts.
+                                    Found in the URL: twitter.com/i/lists/<strong>[LIST_ID]</strong>
+                                </div>
+                                <div class="content-group mt-2">
+                                    <field name="alpha_echo_x_list_id" placeholder="e.g. 1234567890123456789" class="w-100"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt16 o_settings_container">
                         <div class="col-12 o_setting_box" id="alpha_echo_prompt_box">
                             <div class="o_setting_right_pane">
-                                <span class="o_form_label">System Prompt</span>
+                                <span class="o_form_label">AI System Prompt</span>
                                 <div class="text-muted">
-                                    Strategic guidelines for AI on how to format the scraped tweets, the tone of voice, and the vocabulary to use.
+                                    Tell the AI what to look for and how to format the output.
+                                    If a tweet doesn't match, the AI must return: <strong>SKIP_NOT_RELEVANT</strong>
                                 </div>
                                 <div class="content-group mt-2">
                                     <field name="alpha_echo_ai_prompt" widget="text" rows="5" class="w-100"/>

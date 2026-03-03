@@ -2,3 +2,4 @@ openai
 tweepy
 requests
 apify-client
+python-dotenv

@@ -59,9 +59,13 @@
         <field name="arch" type="xml">
             <tree string="AI Formulated Posts" decoration-info="state == 'draft'" decoration-success="state == 'published'" decoration-danger="state == 'failed'">
                 <field name="target_id"/>
+                <field name="source_author_handle" string="Source @Handle"/>
+                <field name="source_created_at" string="Tweet Date"/>
                 <field name="create_date" string="Detected On"/>
                 <field name="ai_confidence" widget="progressbar"/>
                 <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-success="state == 'published'" decoration-danger="state == 'failed'"/>
+                <field name="published_by" string="Published By" optional="show"/>
+                <field name="published_at" string="Published At" optional="show"/>
                 <button name="action_publish" type="object" string="Publish Now" class="btn-primary" invisible="state != 'draft'"/>
             </tree>
         </field>
@@ -99,13 +103,17 @@
                     </div>
                     
                     <group>
-                        <group string="Acquisition Data (Source)">
-                            <field name="create_date" string="Discovery Date" readonly="1"/>
+                        <group string="Source Data">
+                            <field name="source_author_handle" string="Source @Handle" readonly="1"/>
+                            <field name="source_created_at" string="Tweet Published At" readonly="1"/>
                             <field name="source_url" widget="url" string="Original Tweet URL"/>
+                            <field name="create_date" string="Detected On" readonly="1"/>
                         </group>
-                        <group string="Automated Publishing Links" invisible="state != 'published'">
-                            <field name="published_web_url" widget="url" string="Your Website Link"/>
-                            <field name="published_x_url" widget="url" string="Your Account Link on 𝕏"/>
+                        <group string="Publication Info">
+                            <field name="published_by" string="Published By" readonly="1" invisible="state != 'published'"/>
+                            <field name="published_at" string="Published At" readonly="1" invisible="state != 'published'"/>
+                            <field name="published_web_url" widget="url" string="Website Link" invisible="state != 'published'"/>
+                            <field name="published_x_url" widget="url" string="X Post Link" invisible="state != 'published'"/>
                         </group>
                     </group>
 

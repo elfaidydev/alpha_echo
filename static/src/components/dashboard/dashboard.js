@@ -26,7 +26,7 @@ export class SmartRadarDashboard extends Component {
         };
 
         this.radarService = useService("alpha_echo.radar_service");
-        this.state = useState(this.radarService.state);
+        this.radarState = useState(this.radarService.state);
 
         // Dummy data moved to service
 
@@ -71,7 +71,7 @@ export class SmartRadarDashboard extends Component {
     get isRTL() { return localization.direction === "rtl"; }
 
     get trackingBtnLabel() {
-        if (this.state.isTracking) {
+        if (this.radarState.isTracking) {
             return _t("Pause Monitoring");
         }
         return _t("Start Exploration");
@@ -200,7 +200,7 @@ export class SmartRadarDashboard extends Component {
 
     startMockFeed() {
         this.mockInterval = setInterval(() => {
-            if (this.state.isTracking) {
+            if (this.radarState.isTracking) {
                 this.radarService.fetchFeed();
             }
         }, Math.floor(Math.random() * 4000) + 7000);

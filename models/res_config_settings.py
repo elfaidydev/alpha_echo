@@ -46,3 +46,9 @@ class ResConfigSettings(models.TransientModel):
         default=_("أنت خبير في صياغة المحتوى المؤسسي. قم بإعادة صياغة البيانات المقدمة بلغة عربية مهنية سهلة وواضحة تعزز الموثوقية وتدعم التوجه الاستراتيجي. تجنب المبالغات التسويقية وكن دقيقاً وبسيطاً في تعبيرك ليفهمك الجميع."),
         help=_("Provide instructions for the AI on tone and style.")
     )
+
+    alpha_echo_x_list_id = fields.Char(
+        string=_('X/Twitter List ID'),
+        config_parameter='alpha_echo.x_list_id',
+        help=_("The numeric ID from your Twitter List URL: twitter.com/i/lists/[LIST_ID]")
+    )
