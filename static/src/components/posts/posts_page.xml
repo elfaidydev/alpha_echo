@@ -1,161 +1,330 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
     <t t-name="alpha_echo.PostsPage" owl="1">
-        <div class="sr-posts-container">
-                <!-- Header section -->
-                <!-- Premium 3-Row Header -->
-                <div class="sr-posts-header vertical-layout">
-                    <!-- Row 1: Logo and Title -->
-                    <div class="sr-header-row info-row">
-                        <div class="logo-box">
+        <div class="ae-posts-page">
+            <div class="ae-container">
+                <!-- ══ HEADER ══════════════════════════════════════════════════════ -->
+                <div class="ae-posts-header">
+                    <div class="ae-header-brand">
+                        <div class="ae-logo-box">
                             <i class="fa fa-magic"/>
                         </div>
-                        <div class="title-box">
+                        <div class="ae-title-wrap">
                             <h1><t t-esc="_t('Content &amp; Publications')"/></h1>
-                            <p class="subtitle"><t t-esc="_t('Review AI reformulations and approve them with one click for automated publishing.')"/></p>
-                        </div>
-                    </div>
-                    
-                    <!-- Row 2: Search Row -->
-                    <div class="sr-header-row search-row">
-                        <div class="sr-search-bar full-width">
-                            <i class="fa fa-search"/>
-                            <input type="text" t-att-placeholder="_t('Search content or sources...')" t-model="state.searchQuery" />
+                            <p class="ae-subtitle"><t t-esc="_t('Review AI-reformulated content and publish with one click.')"/></p>
                         </div>
                     </div>
 
-                    <!-- Row 3: Categories (Tabs) -->
-                    <div class="sr-header-row tabs-row">
-                        <div class="sr-tabs">
-                            <button t-attf-class="sr-tab-btn {{ state.activeTab === 'all' ? 'active' : '' }}" t-on-click="() => this.setTab('all')"><t t-esc="_t('All')"/></button>
-                            <button t-attf-class="sr-tab-btn {{ state.activeTab === 'draft' ? 'active' : '' }}" t-on-click="() => this.setTab('draft')"><t t-esc="_t('Pending Drafts')"/></button>
-                            <button t-attf-class="sr-tab-btn {{ state.activeTab === 'published' ? 'active' : '' }}" t-on-click="() => this.setTab('published')"><t t-esc="_t('Published')"/></button>
-                            <button t-attf-class="sr-tab-btn {{ state.activeTab === 'rejected' ? 'active' : '' }}" t-on-click="() => this.setTab('rejected')"><t t-esc="_t('Rejected')"/></button>
+                    <div class="ae-header-controls">
+                        <!-- Search -->
+                        <div class="ae-search-wrap">
+                            <i class="fa fa-search ae-search-icon"/>
+                            <input class="ae-search-input" type="text"
+                                   t-att-placeholder="_t('Search content or sources...')"
+                                   t-model="state.searchQuery"/>
+                        </div>
+                        <!-- Stats chips -->
+                        <div class="ae-stat-chips">
+                            <span class="ae-chip chip-total">
+                                <i class="fa fa-bolt"/> <t t-esc="posts.length"/> Total
+                            </span>
+                            <span class="ae-chip chip-draft">
+                                <i class="fa fa-clock-o"/> Pending
+                            </span>
+                            <span class="ae-chip chip-published">
+                                <i class="fa fa-check-circle"/> Published
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Tabs -->
+                    <div class="ae-tabs-row">
+                        <div class="ae-tabs">
+                            <button t-attf-class="ae-tab {{ state.activeTab === 'all'       ? 'active' : '' }}" t-on-click="() => this.setTab('all')">
+                                <i class="fa fa-th-large"/> All
+                            </button>
+                            <button t-attf-class="ae-tab {{ state.activeTab === 'draft'     ? 'active' : '' }}" t-on-click="() => this.setTab('draft')">
+                                <i class="fa fa-hourglass-half"/> Pending
+                            </button>
+                            <button t-attf-class="ae-tab {{ state.activeTab === 'published' ? 'active' : '' }}" t-on-click="() => this.setTab('published')">
+                                <i class="fa fa-rocket"/> Published
+                            </button>
+                            <button t-attf-class="ae-tab {{ state.activeTab === 'rejected'  ? 'active' : '' }}" t-on-click="() => this.setTab('rejected')">
+                                <i class="fa fa-times-circle"/> Rejected
+                            </button>
                         </div>
                     </div>
                 </div>
-            <!-- Content Grid masonry -->
-            <div class="sr-posts-grid">
-                <t t-if="!state.service.isOnboarded">
-                    <div class="sr-premium-lock-screen full-width-lock">
-                        <div class="lock-bg-pattern"></div>
-                        <div class="lock-content fade-scale-up">
-                            <div class="lock-icon-wrapper">
-                                <div class="lock-shield"><i class="fa fa-shield"/></div>
-                                <div class="lock-main-icon"><i class="fa fa-lock"/></div>
-                            </div>
-                            <div class="lock-text">
-                                <h3>Setup Incomplete <span class="badge-locked">Action Required</span></h3>
-                                <p>Complete the 3 setup steps from the Dashboard: link your X account, define your AI prompt, and configure your X List to start seeing content here.</p>
-                            </div>
-                        </div>
-                    </div>
-                </t>
-                <t t-elif="state.service.targets.length === 0">
-                    <div class="sr-premium-empty-state" style="grid-column: 1 / -1; margin-top: 40px; background: white; border: 1px dashed var(--v4-border); width: 100%; box-sizing: border-box;">
-                        <div class="empty-icon-wrap"><i class="fa fa-lock pulse-icon"/></div>
-                        <h2>Content harvesting system is inactive!</h2>
-                        <p>To start fetching, formulating, and preparing content here, please go to the dashboard and add monitored sources (Targets) first.</p>
-                    </div>
-                </t>
-                <t t-elif="posts.length === 0 and !state.isLoading">
-                    <div class="sr-premium-empty-state" style="grid-column: 1 / -1;">
-                        <div class="empty-icon-wrap"><i class="fa fa-magic pulse-icon"/></div>
-                        <h2>The engine hasn't produced any content yet!</h2>
-                        <p>Once the smart engine is started from the dashboard, news will be captured and formulated to appear here ready for your review and approval for highest quality.</p>
-                    </div>
-                </t>
-                <t t-elif="filteredPosts.length === 0 and !state.isLoading">
-                    <div class="sr-empty-state" style="grid-column: 1 / -1;">
-                        <i class="fa fa-folder-open-o"/>
-                        <p>No content matches your search in this category currently.</p>
-                    </div>
-                </t>
-                <t t-else="">
-                    <t t-foreach="filteredPosts" t-as="post" t-key="post.id">
-                    <div class="sr-post-card" t-on-click="() => this.openPostModal(post)">
-                        <div class="sr-card-head">
-                            <span class="sr-target-name">
-                                <i class="fa fa-institution"/> 
-                                <t t-esc="post.target_id[1]"/>
-                            </span>
-                            <span t-attf-class="sr-badge {{ post.state === 'draft' ? 'draft' : (post.state === 'published' ? 'published' : 'rejected') }}">
-                                <t t-esc="this.getPostStatusLabel(post.state)"/>
-                            </span>
-                        </div>
-                        <div class="sr-card-body">
-                            <p class="sr-ai-preview"><t t-esc="post.ai_generated_text.substring(0, 180)"/>...</p>
-                        </div>
-                        <div class="sr-card-foot">
-                            <span class="sr-date"><i class="fa fa-calendar-o me-1"/> <t t-esc="post.create_date.split(' ')[0]"/></span>
-                        </div>
-                    </div>
-                </t>
-                </t>
-            </div>
 
-            <!-- Luxurious Review Modal - Light Edition -->
-            <t t-if="state.selectedPost">
-                <div class="sr-modal-overlay" t-on-click.self="closeModal">
-                    <div class="sr-modal-content">
-                        <!-- Top Bar inside Modal -->
-                        <div class="sr-modal-header">
-                            <div class="header-info">
-                                <div class="modal-icon">
-                                    <i class="fa fa-magic"/>
+                <!-- ══ CONTENT GRID ══════════════════════════════════════════════ -->
+                <div class="ae-posts-grid">
+                    <!-- Force rendering DUMMY preview -->
+                    <t t-if="true">
+                        <!-- Dummy data banner -->
+                        <div class="ae-dummy-banner">
+                            <i class="fa fa-eye"/> Preview Mode — Sample cards shown below. Real content will appear once the engine runs.
+                        </div>
+
+                        <!-- Dummy Card 1 -->
+                        <div class="ae-post-card ae-dummy" t-on-click="() => this.openPostModal({
+                            id: 'd1', target_id: [1, 'Saudi News Network'], state: 'draft',
+                            create_date: '2026-03-04 10:00:00',
+                            original_text: '(Original Arabic source text about Masjid Al-Haram expansion)',
+                            source_url: '#',
+                            ai_generated_text: '🚀 Saudi Arabia announces a major expansion plan for Masjid Al-Haram, adding capacity for over 2 million pilgrims simultaneously. The Third Saudi Expansion project is set to redefine the Hajj experience globally.'
+                        })">
+                            <div class="ae-card-glow glow-indigo"/>
+                            <div class="ae-card-head">
+                                <div class="ae-source-chip">
+                                    <span class="ae-source-icon"><i class="fa fa-institution"/></span>
+                                    Saudi News Network
                                 </div>
+                                <span class="ae-badge badge-draft">
+                                    <span class="ae-badge-dot"/>Pending
+                                </span>
+                            </div>
+                            <div class="ae-card-body">
+                                <p class="ae-ai-text">🚀 Saudi Arabia announces a major expansion plan for Masjid Al-Haram, adding capacity for over 2 million pilgrims simultaneously. The Third Saudi Expansion project is set to redefine the Hajj experience globally.</p>
+                            </div>
+                            <div class="ae-card-foot">
+                                <span class="ae-date-chip"><i class="fa fa-calendar-o"/> 2026-03-04</span>
+                                <span class="ae-action-hint"><i class="fa fa-mouse-pointer"/> Click to review</span>
+                            </div>
+                        </div>
+
+                        <!-- Dummy Card 2 -->
+                        <div class="ae-post-card ae-dummy" t-on-click="() => this.openPostModal({
+                            id: 'd2', target_id: [2, 'Tech Arabia'], state: 'published',
+                            create_date: '2026-03-03 14:30:00',
+                            original_text: '(Original source text about UAE AI infrastructure investments)',
+                            source_url: '#',
+                            ai_generated_text: '💡 The UAE\'s artificial intelligence strategy has positioned the region as a global leader in AI adoption. With over $10B invested in AI infrastructure, the Gulf leads the Middle East in digital transformation.'
+                        })">
+                            <div class="ae-card-glow glow-emerald"/>
+                            <div class="ae-card-head">
+                                <div class="ae-source-chip">
+                                    <span class="ae-source-icon"><i class="fa fa-institution"/></span>
+                                    Tech Arabia
+                                </div>
+                                <span class="ae-badge badge-published">
+                                    <span class="ae-badge-dot"/>Published
+                                </span>
+                            </div>
+                            <div class="ae-card-body">
+                                <p class="ae-ai-text">💡 The UAE's artificial intelligence strategy has positioned the region as a global leader in AI adoption. With over $10B invested in AI infrastructure, the Gulf leads the Middle East in digital transformation.</p>
+                            </div>
+                            <div class="ae-card-foot">
+                                <span class="ae-date-chip"><i class="fa fa-calendar-o"/> 2026-03-03</span>
+                                <span class="ae-action-hint"><i class="fa fa-check-circle"/> Published on X</span>
+                            </div>
+                        </div>
+
+                        <!-- Dummy Card 3 -->
+                        <div class="ae-post-card ae-dummy" t-on-click="() => this.openPostModal({
+                            id: 'd3', target_id: [3, 'Economic Monitor'], state: 'draft',
+                            create_date: '2026-03-03 09:15:00',
+                            original_text: '(Original source text detailing Vision 2030 progress)',
+                            source_url: '#',
+                            ai_generated_text: '📊 Saudi Arabia\'s Vision 2030 reaches 78% completion milestone. The diversification of the non-oil economy has exceeded expectations, with tourism revenue growing 150% year-over-year.'
+                        })">
+                            <div class="ae-card-glow glow-indigo"/>
+                            <div class="ae-card-head">
+                                <div class="ae-source-chip">
+                                    <span class="ae-source-icon"><i class="fa fa-institution"/></span>
+                                    Economic Monitor
+                                </div>
+                                <span class="ae-badge badge-draft">
+                                    <span class="ae-badge-dot"/>Pending
+                                </span>
+                            </div>
+                            <div class="ae-card-body">
+                                <p class="ae-ai-text">📊 Saudi Arabia's Vision 2030 reaches 78% completion milestone. The diversification of the non-oil economy has exceeded expectations, with tourism revenue growing 150% year-over-year.</p>
+                            </div>
+                            <div class="ae-card-foot">
+                                <span class="ae-date-chip"><i class="fa fa-calendar-o"/> 2026-03-03</span>
+                                <span class="ae-action-hint"><i class="fa fa-mouse-pointer"/> Click to review</span>
+                            </div>
+                        </div>
+
+                        <!-- Dummy Card 4 -->
+                        <div class="ae-post-card ae-dummy" t-on-click="() => this.openPostModal({
+                            id: 'd4', target_id: [4, 'Gulf Markets Watch'], state: 'rejected',
+                            create_date: '2026-03-02 16:45:00',
+                            original_text: '(Original source text discussing OPEC+ production quotas)',
+                            source_url: '#',
+                            ai_generated_text: '📉 Global oil markets face volatility as OPEC+ debates production quotas for Q2. Analysts forecast prices stabilizing between $78–$88 per barrel over the next quarter.'
+                        })">
+                            <div class="ae-card-glow glow-rose"/>
+                            <div class="ae-card-head">
+                                <div class="ae-source-chip">
+                                    <span class="ae-source-icon"><i class="fa fa-institution"/></span>
+                                    Gulf Markets Watch
+                                </div>
+                                <span class="ae-badge badge-rejected">
+                                    <span class="ae-badge-dot"/>Rejected
+                                </span>
+                            </div>
+                            <div class="ae-card-body">
+                                <p class="ae-ai-text">📉 Global oil markets face volatility as OPEC+ debates production quotas for Q2. Analysts forecast prices stabilizing between $78–$88 per barrel over the next quarter.</p>
+                            </div>
+                            <div class="ae-card-foot">
+                                <span class="ae-date-chip"><i class="fa fa-calendar-o"/> 2026-03-02</span>
+                                <span class="ae-action-hint"><i class="fa fa-times-circle"/> Rejected</span>
+                            </div>
+                        </div>
+
+                        <!-- Dummy Card 5 -->
+                        <div class="ae-post-card ae-dummy" t-on-click="() => this.openPostModal({
+                            id: 'd5', target_id: [5, 'Riyadh Daily'], state: 'published',
+                            create_date: '2026-03-01 11:20:00',
+                            original_text: '(Original source text reporting on NEOM THE LINE construction updates)',
+                            source_url: '#',
+                            ai_generated_text: '🏙️ NEOM\'s THE LINE construction accelerates with 18,000 workers on site. The 170km zero-carbon city is redefining urban architecture and sustainable living for the 22nd century.'
+                        })">
+                            <div class="ae-card-glow glow-emerald"/>
+                            <div class="ae-card-head">
+                                <div class="ae-source-chip">
+                                    <span class="ae-source-icon"><i class="fa fa-institution"/></span>
+                                    Riyadh Daily
+                                </div>
+                                <span class="ae-badge badge-published">
+                                    <span class="ae-badge-dot"/>Published
+                                </span>
+                            </div>
+                            <div class="ae-card-body">
+                                <p class="ae-ai-text">🏙️ NEOM's THE LINE construction accelerates with 18,000 workers on site. The 170km zero-carbon city is redefining urban architecture and sustainable living for the 22nd century.</p>
+                            </div>
+                            <div class="ae-card-foot">
+                                <span class="ae-date-chip"><i class="fa fa-calendar-o"/> 2026-03-01</span>
+                                <span class="ae-action-hint"><i class="fa fa-check-circle"/> Published on X</span>
+                            </div>
+                        </div>
+
+                        <!-- Dummy Card 6 -->
+                        <div class="ae-post-card ae-dummy" t-on-click="() => this.openPostModal({
+                            id: 'd6', target_id: [6, 'Arab Business Today'], state: 'draft',
+                            create_date: '2026-03-01 08:00:00',
+                            original_text: '(Original source text concerning Aramco South Korean partnership)',
+                            source_url: '#',
+                            ai_generated_text: '🤝 Saudi Aramco signs landmark $5B partnership with South Korean tech firms to develop green hydrogen and advanced petrochemical technologies aligned with net-zero goals by 2060.'
+                        })">
+                            <div class="ae-card-glow glow-indigo"/>
+                            <div class="ae-card-head">
+                                <div class="ae-source-chip">
+                                    <span class="ae-source-icon"><i class="fa fa-institution"/></span>
+                                    Arab Business Today
+                                </div>
+                                <span class="ae-badge badge-draft">
+                                    <span class="ae-badge-dot"/>Pending
+                                </span>
+                            </div>
+                            <div class="ae-card-body">
+                                <p class="ae-ai-text">🤝 Saudi Aramco signs landmark $5B partnership with South Korean tech firms to develop green hydrogen and advanced petrochemical technologies aligned with net-zero goals by 2060.</p>
+                            </div>
+                            <div class="ae-card-foot">
+                                <span class="ae-date-chip"><i class="fa fa-calendar-o"/> 2026-03-01</span>
+                                <span class="ae-action-hint"><i class="fa fa-mouse-pointer"/> Click to review</span>
+                            </div>
+                        </div>
+                    </t>
+
+                    <!-- No search match -->
+                    <t t-elif="filteredPosts.length === 0 and !state.isLoading">
+                        <div class="ae-empty-hero">
+                            <div class="ae-empty-icon"><i class="fa fa-folder-open-o"/></div>
+                            <h2>No Results Found</h2>
+                            <p>No content matches your current filter. Try a different search or tab.</p>
+                        </div>
+                    </t>
+
+                    <!-- Real posts -->
+                    <t t-else="">
+                        <t t-foreach="filteredPosts" t-as="post" t-key="post.id">
+                            <div class="ae-post-card" t-on-click="() => this.openPostModal(post)">
+                                <div t-attf-class="ae-card-glow {{ post.state === 'published' ? 'glow-emerald' : (post.state === 'rejected' ? 'glow-rose' : 'glow-indigo') }}"/>
+                                <div class="ae-card-head">
+                                    <div class="ae-source-chip">
+                                        <span class="ae-source-icon"><i class="fa fa-institution"/></span>
+                                        <t t-esc="post.target_id[1]"/>
+                                    </div>
+                                    <span t-attf-class="ae-badge {{ post.state === 'draft' ? 'badge-draft' : (post.state === 'published' ? 'badge-published' : 'badge-rejected') }}">
+                                        <span class="ae-badge-dot"/>
+                                        <t t-esc="this.getPostStatusLabel(post.state)"/>
+                                    </span>
+                                </div>
+                                <div class="ae-card-body">
+                                    <p class="ae-ai-text"><t t-esc="post.ai_generated_text.substring(0, 200)"/>…</p>
+                                </div>
+                                <div class="ae-card-foot">
+                                    <span class="ae-date-chip"><i class="fa fa-calendar-o"/> <t t-esc="post.create_date.split(' ')[0]"/></span>
+                                    <span class="ae-action-hint"><i class="fa fa-mouse-pointer"/> Click to review</span>
+                                </div>
+                            </div>
+                        </t>
+                    </t>
+                </div> <!-- End ae-posts-grid -->
+            </div> <!-- End ae-container -->
+
+            <!-- ══ REVIEW MODAL ══════════════════════════════════════════════ -->
+            <t t-if="state.selectedPost">
+                <div class="ae-modal-overlay" t-on-click.self="closeModal">
+                    <div class="ae-modal">
+                        <div class="ae-modal-header">
+                            <div class="ae-modal-brand">
+                                <div class="ae-modal-icon"><i class="fa fa-magic"/></div>
                                 <div>
                                     <h3><t t-esc="state.selectedPost.target_id[1]"/></h3>
-                                    <span class="sr-sub-date"><i class="fa fa-clock-o me-1"/> <t t-esc="state.selectedPost.create_date"/></span>
+                                    <span class="ae-modal-date"><i class="fa fa-clock-o"/> <t t-esc="state.selectedPost.create_date"/></span>
                                 </div>
                             </div>
-                            <button class="sr-close-btn" t-on-click="closeModal"><i class="fa fa-times"/></button>
+                            <button class="ae-modal-close" t-on-click="closeModal"><i class="fa fa-times"/></button>
                         </div>
-                        
-                        <!-- Side by Side Content -->
-                        <div class="sr-modal-body">
-                            <div class="sr-split-view">
-                                <div class="split-col">
-                                    <label>
-                                        <span class="badge-icon x-badge">
-                                            <svg viewBox="0 0 24 24" style="width:13px;height:13px;fill:currentColor;"><g><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.007 3.56H5.022z"/></g></svg>
+
+                        <div class="ae-modal-body">
+                            <div class="ae-split-view">
+                                <!-- Raw -->
+                                <div class="ae-split-col">
+                                    <div class="ae-col-label">
+                                        <span class="ae-col-badge ae-col-badge-x">
+                                            <svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:currentColor;"><g><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.007 3.56H5.022z"/></g></svg>
                                         </span>
-                                        Raw Source Content
-                                    </label>
-                                    <div class="sr-text-box raw">
+                                        Raw Source Tweet
+                                    </div>
+                                    <div class="ae-text-box ae-text-raw">
                                         <t t-esc="state.selectedPost.original_text"/>
                                     </div>
-                                    <a t-att-href="state.selectedPost.source_url" target="_blank" class="sr-source-link">
-                                        View Original Tweet <i class="fa fa-external-link ms-1"/>
+                                    <a t-att-href="state.selectedPost.source_url" target="_blank" class="ae-source-link">
+                                        <i class="fa fa-external-link"/> View Original Tweet
                                     </a>
                                 </div>
-                                <div class="split-col">
-                                    <label>
-                                        <span class="badge-icon magic"><i class="fa fa-magic"/></span>
-                                        AI Reformulation (Edit &amp; Approve)
-                                    </label>
-                                    <textarea class="sr-text-box ai" t-model="state.selectedPost.ai_generated_text"></textarea>
+                                <!-- AI -->
+                                <div class="ae-split-col">
+                                    <div class="ae-col-label">
+                                        <span class="ae-col-badge ae-col-badge-ai"><i class="fa fa-magic"/></span>
+                                        AI Reformulation — Edit &amp; Approve
+                                    </div>
+                                    <textarea class="ae-text-box ae-text-ai" 
+                                              t-model="state.selectedPost.ai_generated_text"
+                                              oninput="this.style.height = ''; this.style.height = this.scrollHeight + 'px'"
+                                              style="overflow: hidden;"/>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Footer Actions -->
-                        <div class="sr-modal-footer">
-                            <div class="sr-modal-confidence">
-                                <span class="conf-pill"><i class="fa fa-calendar-o me-1"/> <t t-esc="state.selectedPost.create_date.split(' ')[0]"/></span>
-                            </div>
-                            <div class="sr-actions">
+                        <div class="ae-modal-footer">
+                            <span class="ae-modal-meta"><i class="fa fa-calendar-o"/> <t t-esc="state.selectedPost.create_date.split(' ')[0]"/></span>
+                            <div class="ae-modal-actions">
                                 <t t-if="state.selectedPost.state === 'draft'">
-                                    <button class="sr-danger-btn" t-on-click="rejectPost">
-                                        <i class="fa fa-trash-o me-1"/> Reject
+                                    <button class="ae-btn-reject" t-on-click="rejectPost">
+                                        <i class="fa fa-trash-o"/> Reject
                                     </button>
-                                    <button class="sr-glow-btn" t-on-click="approveAndPublish">
-                                        <i class="fa fa-rocket"/> Approve &amp; Publish Now
+                                    <button class="ae-btn-publish" t-on-click="approveAndPublish">
+                                        <i class="fa fa-rocket"/> Approve &amp; Publish
                                     </button>
                                 </t>
                                 <t t-if="state.selectedPost.state === 'published'">
-                                    <button class="btn btn-secondary" disabled="1" style="font-weight: 800; border-radius: 12px; padding: 12px 24px;">
-                                        <i class="fa fa-check-circle me-1"/> Published Successfully
+                                    <button class="ae-btn-done" disabled="1">
+                                        <i class="fa fa-check-circle"/> Published Successfully
                                     </button>
                                 </t>
                             </div>
