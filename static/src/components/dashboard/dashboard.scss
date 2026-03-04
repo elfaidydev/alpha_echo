@@ -15,14 +15,7 @@
 @keyframes ae-glow-pulse{ 0%,100%{opacity:.6} 50%{opacity:1} }
 @keyframes ae-float-shield{ 0%,100%{transform:rotate(45deg) translateY(0)} 50%{transform:rotate(45deg) translateY(-12px)} }
 
-/* legacy */
-@keyframes sr-v4-slideUpFade   { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
-@keyframes sr-v4-shine         { 0%{inset-inline-start:-100%} 100%{inset-inline-start:220%} }
-@keyframes sr-v4-pulse-emerald { 0%,100%{box-shadow:0 0 0 0 rgba(16,185,129,.4)} 50%{box-shadow:0 0 0 8px rgba(16,185,129,0)} }
-@keyframes sr-v4-fadeScaleUp   { from{opacity:0;transform:scale(.95)} to{opacity:1;transform:scale(1)} }
-@keyframes srPulseIcon          { 0%,100%{transform:scale(1)} 50%{transform:scale(1.12)} }
-@keyframes sr-v4-float         { 0%,100%{transform:translateY(0) rotate(45deg)} 50%{transform:translateY(-12px) rotate(45deg)} }
-
+/* ── Helper mixin (kept for backward compat) ────────────────────────────────── */
 @mixin sr-v4-fade-scale-up-mixin { animation:ae-scale-in .45s cubic-bezier(.16,1,.3,1) both }
 
 /* ── Page Background: mesh gradient ────────────────────────────────────────── */
@@ -584,7 +577,7 @@
 
                     .bubble-text {
                         font-size:12.5px; line-height:1.7; color:var(--ae-text); font-weight:500;
-                        display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical; overflow:hidden;
+                        display:-webkit-box; -webkit-line-clamp:4; line-clamp:4; -webkit-box-orient:vertical; overflow:hidden;
                     }
 
                     .source-tag  { margin-top:8px; font-size:11px; color:var(--ae-muted); font-weight:600 }
@@ -711,6 +704,22 @@
     .fw-black{font-weight:900!important}.tracking-wide{letter-spacing:.5px}
     .border-bottom{border-bottom:1px solid rgba(15,23,42,.06)!important}
     .fade-scale-up{animation:ae-scale-in .45s cubic-bezier(.16,1,.3,1) both}
+
+    /* ── Inline-style replacements (moved from XML) ─────────────────────────── */
+    /* X (Twitter) brand icon — replaces style='width:Xpx;height:Xpx;fill:currentColor;vertical-align:middle' */
+    .ae-icon-x     { width:28px; height:28px; fill:currentColor; display:inline-block; vertical-align:middle; flex-shrink:0 }
+    .ae-icon-x-sm  { width:13px; height:13px; fill:currentColor; display:inline-block; vertical-align:middle; flex-shrink:0 }
+    .ae-icon-x-xs  { width:11px; height:11px; fill:currentColor; display:inline-block; vertical-align:middle; flex-shrink:0 }
+
+    /* KPI sparkline placeholder line — replaces inline style on that div */
+    .ae-kpi-placeholder-line {
+        border-bottom:2px dashed var(--ae-indigo);
+        opacity:.2;
+        transform:translateY(-15px);
+    }
+
+    /* X badge inside the AI bubble — replaces inline 'color:#0f1419;background:#e7e7e7;border-color:#0f1419' */
+    .ae-badge-x { color:#0f1419 !important; background:#e7e7e7 !important; border-color:#0f1419 !important; }
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════

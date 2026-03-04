@@ -553,3 +553,622 @@ msgstr "جاهزية النظام"
 #. odoo-javascript
 msgid "Exploration engine and AI formulation unit are in real-time activation mode. Connection is active and stable."
 msgstr "محرك الاستكشاف ووحدة صياغة الذكاء الاصطناعي في وضع التنشيط الفوري. الاتصال نشط ومستقر."
+
+
+# ─── New strings added in XML rewrite (2026) ─────────────────────────────────
+
+#. odoo-javascript
+msgid "Dashboard"
+msgstr "لوحة التحكم"
+
+#. odoo-javascript
+msgid "Central interface for tracking, reformulating, and publishing content"
+msgstr "الواجهة المركزية لتتبع المحتوى وصياغته ونشره"
+
+#. odoo-javascript
+msgid "monitored sources"
+msgstr "مصدر مراقَب"
+
+#. odoo-javascript
+msgid "Welcome to"
+msgstr "مرحباً بك في"
+
+#. odoo-javascript
+msgid "Automate content harvesting, formulation, and publishing with AI. Follow these steps to begin."
+msgstr "أتمتة جلب المحتوى وصياغته ونشره بالذكاء الاصطناعي. اتبع الخطوات التالية للبدء."
+
+#. odoo-javascript
+msgid "Step 1"
+msgstr "الخطوة 1"
+
+#. odoo-javascript
+msgid "Step 2"
+msgstr "الخطوة 2"
+
+#. odoo-javascript
+msgid "Step 3"
+msgstr "الخطوة 3"
+
+#. odoo-javascript
+msgid "Step 4"
+msgstr "الخطوة 4"
+
+#. odoo-javascript
+msgid "Link X Account"
+msgstr "ربط حساب X"
+
+#. odoo-javascript
+msgid "Authorize the system to publish via your X account."
+msgstr "امنح النظام صلاحية النشر عبر حساب X الخاص بك."
+
+#. odoo-javascript
+msgid "Linked"
+msgstr "مرتبط"
+
+#. odoo-javascript
+msgid "Connect"
+msgstr "اتصال"
+
+#. odoo-javascript
+msgid "AI Prompt"
+msgstr "تعليمات الذكاء الاصطناعي"
+
+#. odoo-javascript
+msgid "Define the tone and instructions for the AI engine."
+msgstr "حدد أسلوب الكتابة وتعليمات محرك الذكاء الاصطناعي."
+
+#. odoo-javascript
+msgid "Set"
+msgstr "مُعَيَّن"
+
+#. odoo-javascript
+msgid "Configure"
+msgstr "إعداد"
+
+#. odoo-javascript
+msgid "X List & Reader Cookies"
+msgstr "قائمة X وملفات تعريف القارئ"
+
+#. odoo-javascript
+msgid "Set your X List URL and reader account cookies (auth_token & ct0)."
+msgstr "أدخل رابط قائمة X وملفات تعريف الارتباط للحساب القارئ (auth_token & ct0)."
+
+#. odoo-javascript
+msgid "Configured"
+msgstr "مُكوَّن"
+
+#. odoo-javascript
+msgid "Reader Cookies"
+msgstr "ملفات تعريف القارئ"
+
+#. odoo-javascript
+msgid "Set auth_token and ct0 for the X reader account used to scrape the list."
+msgstr "أدخل auth_token وct0 للحساب القارئ المستخدم لاستخراج القائمة."
+
+#. odoo-javascript
+msgid "Saved"
+msgstr "محفوظ"
+
+#. odoo-javascript
+msgid "Add Cookies"
+msgstr "إضافة ملفات تعريف الارتباط"
+
+#. odoo-javascript
+msgid "Need help? Read the"
+msgstr "تحتاج مساعدة؟ اطلع على"
+
+#. odoo-javascript
+msgid "Quick Start Guide"
+msgstr "دليل البدء السريع"
+
+#. odoo-javascript
+msgid "Activate Full Radar"
+msgstr "تفعيل الرادار الكامل"
+
+#. odoo-javascript
+msgid "Advanced exploration and analysis engine is active."
+msgstr "محرك الاستكشاف والتحليل المتقدم نشط."
+
+#. odoo-javascript
+msgid "Currently"
+msgstr "حالياً"
+
+#. odoo-javascript
+msgid "certified sources"
+msgstr "مصدر معتمد"
+
+#. odoo-javascript
+msgid "are under real-time monitoring. Successfully discovered"
+msgstr "تحت المراقبة الفورية. تم اكتشاف"
+
+#. odoo-javascript
+msgid "new topics"
+msgstr "موضوع جديد"
+
+#. odoo-javascript
+msgid "today. AI has handled professional reformulation and content has been"
+msgstr "اليوم. تولّى الذكاء الاصطناعي الصياغة المهنية ونُشر المحتوى"
+
+#. odoo-javascript
+msgid "automatically and simultaneously"
+msgstr "تلقائياً وآنياً"
+
+#. odoo-javascript
+msgid "published across official channels."
+msgstr "عبر القنوات الرسمية."
+
+#. odoo-javascript
+msgid "Live Target Map"
+msgstr "خريطة المصادر المباشرة"
+
+#. odoo-javascript
+msgid "Searching for sources matching your criteria..."
+msgstr "جارٍ البحث عن مصادر تطابق معاييرك..."
+
+#. odoo-javascript
+msgid "New Content Discovered Today"
+msgstr "محتوى جديد مكتشف اليوم"
+
+#. odoo-javascript
+msgid "Publications (Website + X)"
+msgstr "المنشورات (الموقع + X)"
+
+#. odoo-javascript
+msgid "Monitored Source Accounts"
+msgstr "حسابات المصادر المراقَبة"
+
+#. odoo-javascript
+msgid "sources"
+msgstr "مصادر"
+
+#. odoo-javascript
+msgid "Formulation Prompt Accuracy"
+msgstr "دقة تعليمات الصياغة"
+
+#. odoo-javascript
+msgid "Content Flow Density by Time"
+msgstr "كثافة تدفق المحتوى بمرور الوقت"
+
+#. odoo-javascript
+msgid "Live"
+msgstr "مباشر"
+
+#. odoo-javascript
+msgid "Automated Publishing Routing"
+msgstr "توزيع النشر الآلي"
+
+#. odoo-javascript
+msgid "Dual Automation"
+msgstr "أتمتة مزدوجة"
+
+#. odoo-javascript
+msgid "Official Website (WordPress)"
+msgstr "الموقع الرسمي (WordPress)"
+
+#. odoo-javascript
+msgid "X Account"
+msgstr "حساب X"
+
+#. odoo-javascript
+msgid "Real-time Exploration Log"
+msgstr "سجل الاستكشاف الفوري"
+
+#. odoo-javascript
+msgid "Exploration engine is performing deep scans of certified entities..."
+msgstr "يُجري محرك الاستكشاف فحصاً عميقاً للكيانات المعتمدة..."
+
+#. odoo-javascript
+msgid "Raw Content from Source"
+msgstr "المحتوى الخام من المصدر"
+
+#. odoo-javascript
+msgid "Source ID:"
+msgstr "معرّف المصدر:"
+
+#. odoo-javascript
+msgid "Smart Processing & Auto-Approval"
+msgstr "المعالجة الذكية والاعتماد التلقائي"
+
+#. odoo-javascript
+msgid "On Website"
+msgstr "على الموقع"
+
+#. odoo-javascript
+msgid "Published to X"
+msgstr "منشور على X"
+
+#. odoo-javascript
+msgid "Live Verification"
+msgstr "التحقق المباشر"
+
+#. odoo-javascript
+msgid "Real-time Operational Metrics"
+msgstr "المؤشرات التشغيلية الفورية"
+
+#. odoo-javascript
+msgid "Settings Center"
+msgstr "مركز الإعدادات"
+
+#. odoo-javascript
+msgid "Configure AI intelligence and automated workflows"
+msgstr "إعداد الذكاء الاصطناعي وسير العمل الآلي"
+
+#. odoo-javascript
+msgid "All systems operational"
+msgstr "جميع الأنظمة تعمل"
+
+#. odoo-javascript
+msgid "Minor setup required"
+msgstr "إعداد بسيط مطلوب"
+
+#. odoo-javascript
+msgid "Critical setup missing"
+msgstr "إعداد أساسي مفقود"
+
+#. odoo-javascript
+msgid "Save Updates"
+msgstr "حفظ التحديثات"
+
+#. odoo-javascript
+msgid "Saving..."
+msgstr "جارٍ الحفظ..."
+
+#. odoo-javascript
+msgid "AI Intelligence & Instructions"
+msgstr "الذكاء الاصطناعي والتعليمات"
+
+#. odoo-javascript
+msgid "Neural commands that govern how the AI identifies and rewrites content."
+msgstr "التعليمات التي تحكم كيفية تحديد الذكاء الاصطناعي للمحتوى وإعادة صياغته."
+
+#. odoo-javascript
+msgid "System Prompt Algorithm"
+msgstr "خوارزمية تعليمات النظام"
+
+#. odoo-javascript
+msgid "e.g. Find technical news and rewrite it for developers..."
+msgstr "مثال: ابحث عن الأخبار التقنية وأعد صياغتها للمطورين..."
+
+#. odoo-javascript
+msgid "Must include SKIP_NOT_RELEVANT instruction."
+msgstr "يجب أن تتضمن تعليمة SKIP_NOT_RELEVANT."
+
+#. odoo-javascript
+msgid "Content Discovery Source"
+msgstr "مصدر اكتشاف المحتوى"
+
+#. odoo-javascript
+msgid "The primary X List used for scanning."
+msgstr "قائمة X الرئيسية المستخدمة للمسح."
+
+#. odoo-javascript
+msgid "X List URL or identifier"
+msgstr "رابط أو معرّف قائمة X"
+
+#. odoo-javascript
+msgid "Monitoring"
+msgstr "مراقبة"
+
+#. odoo-javascript
+msgid "targets"
+msgstr "مصادر"
+
+#. odoo-javascript
+msgid "Reader Identity"
+msgstr "هوية الحساب القارئ"
+
+#. odoo-javascript
+msgid "Secure credentials for private list access."
+msgstr "بيانات اعتماد آمنة للوصول إلى القوائم الخاصة."
+
+#. odoo-javascript
+msgid "Protected"
+msgstr "محمي"
+
+#. odoo-javascript
+msgid "Engine Automation"
+msgstr "أتمتة المحرك"
+
+#. odoo-javascript
+msgid "Configure the speed and capacity of your automated scanning."
+msgstr "إعداد سرعة وطاقة المسح الآلي."
+
+#. odoo-javascript
+msgid "Scan Interval"
+msgstr "فترة المسح"
+
+#. odoo-javascript
+msgid "Every 90m"
+msgstr "كل 90 دقيقة"
+
+#. odoo-javascript
+msgid "Fixed"
+msgstr "ثابت"
+
+#. odoo-javascript
+msgid "Daily Post Capacity"
+msgstr "الطاقة اليومية للمنشورات"
+
+#. odoo-javascript
+msgid "300 Posts"
+msgstr "300 منشور"
+
+#. odoo-javascript
+msgid "Autonomous Publishing"
+msgstr "النشر الذاتي"
+
+#. odoo-javascript
+msgid "AI content will go live immediately without human intervention."
+msgstr "سيُنشر محتوى الذكاء الاصطناعي فوراً دون تدخل بشري."
+
+#. odoo-javascript
+msgid "API Service Channels"
+msgstr "قنوات خدمة API"
+
+#. odoo-javascript
+msgid "Managed encrypted tokens for AI and scraping providers."
+msgstr "رموز مشفّرة للذكاء الاصطناعي ومزودي الاستخراج."
+
+#. odoo-javascript
+msgid "OpenAI Enterprise Key"
+msgstr "مفتاح OpenAI المؤسسي"
+
+#. odoo-javascript
+msgid "Apify Cloud Token"
+msgstr "رمز Apify السحابي"
+
+#. odoo-javascript
+msgid "Publishing Destinations"
+msgstr "وجهات النشر"
+
+#. odoo-javascript
+msgid "Connect where your content will be broadcasted."
+msgstr "اربط المنصات التي سيُبث عليها محتواك."
+
+#. odoo-javascript
+msgid "X Connection Hub"
+msgstr "مركز اتصال X"
+
+#. odoo-javascript
+msgid "Authorize broadcasting to your X account."
+msgstr "امنح صلاحية البث إلى حساب X."
+
+#. odoo-javascript
+msgid "Broadcast engine is active and verified."
+msgstr "محرك البث نشط وتم التحقق منه."
+
+#. odoo-javascript
+msgid "LIVE"
+msgstr "مباشر"
+
+#. odoo-javascript
+msgid "Terminate Session"
+msgstr "إنهاء الجلسة"
+
+#. odoo-javascript
+msgid "Authentication Tokens"
+msgstr "رموز المصادقة"
+
+#. odoo-javascript
+msgid "Token Secret"
+msgstr "سر الرمز"
+
+#. odoo-javascript
+msgid "Authorize Broadcast Engine"
+msgstr "تفويض محرك البث"
+
+#. odoo-javascript
+msgid "Blog"
+msgstr "المدونة"
+
+#. odoo-javascript
+msgid "Odoo Blog Channel ID"
+msgstr "معرّف قناة مدونة Odoo"
+
+#. odoo-javascript
+msgid "Leave empty to disable Odoo Website publishing."
+msgstr "اتركه فارغاً لتعطيل النشر على موقع Odoo."
+
+#. odoo-javascript
+msgid "Resource Management"
+msgstr "إدارة المصادر"
+
+#. odoo-javascript
+msgid "Accounts auto-discovered from your X List on each scan."
+msgstr "حسابات يتم اكتشافها تلقائياً من قائمة X في كل مسح."
+
+#. odoo-javascript
+msgid "Search discovered accounts..."
+msgstr "ابحث في الحسابات المكتشفة..."
+
+#. odoo-javascript
+msgid "X Account Required"
+msgstr "حساب X مطلوب"
+
+#. odoo-javascript
+msgid "X List ID Required"
+msgstr "معرّف قائمة X مطلوب"
+
+#. odoo-javascript
+msgid "Link your X account from Settings to activate discovery."
+msgstr "اربط حساب X من الإعدادات لتفعيل الاكتشاف."
+
+#. odoo-javascript
+msgid "Add your X List URL or ID in Settings to start monitoring targets."
+msgstr "أضف رابط أو معرّف قائمة X في الإعدادات لبدء مراقبة المصادر."
+
+#. odoo-javascript
+msgid "Discovering targets from X..."
+msgstr "جارٍ اكتشاف المصادر من X..."
+
+#. odoo-javascript
+msgid "No Targets Found"
+msgstr "لم يُعثر على مصادر"
+
+#. odoo-javascript
+msgid "No accounts have been discovered yet. Make sure your X List is configured, then trigger a scan."
+msgstr "لم يتم اكتشاف أي حسابات بعد. تأكد من إعداد قائمة X ثم ابدأ المسح."
+
+#. odoo-javascript
+msgid "Captured"
+msgstr "مُلتَقَط"
+
+#. odoo-javascript
+msgid "Status"
+msgstr "الحالة"
+
+#. odoo-javascript
+msgid "Monitoring Active"
+msgstr "المراقبة نشطة"
+
+#. odoo-javascript
+msgid "Click for analytics"
+msgstr "اضغط للتحليلات"
+
+#. odoo-javascript
+msgid "Target Insights"
+msgstr "رؤى المصدر"
+
+#. odoo-javascript
+msgid "Engine Status"
+msgstr "حالة المحرك"
+
+#. odoo-javascript
+msgid "Total Discoveries"
+msgstr "إجمالي الاكتشافات"
+
+#. odoo-javascript
+msgid "Recent Timeline"
+msgstr "الجدول الزمني الأخير"
+
+#. odoo-javascript
+msgid "Loading latest updates..."
+msgstr "جارٍ تحميل آخر التحديثات..."
+
+#. odoo-javascript
+msgid "Active"
+msgstr "نشط"
+
+#. odoo-javascript
+msgid "Inactive"
+msgstr "غير نشط"
+
+#. odoo-javascript
+msgid "Active & Capturing"
+msgstr "نشط وجارٍ الالتقاط"
+
+#. odoo-javascript
+msgid "Monitoring Paused"
+msgstr "المراقبة موقوفة"
+
+#. odoo-javascript
+msgid "In Review"
+msgstr "قيد المراجعة"
+
+#. odoo-javascript
+msgid "Content & Publications"
+msgstr "المحتوى والمنشورات"
+
+#. odoo-javascript
+msgid "Review AI-reformulated content and publish with one click."
+msgstr "راجع المحتوى المُعاد صياغته بالذكاء الاصطناعي وانشره بنقرة واحدة."
+
+#. odoo-javascript
+msgid "Search content or sources..."
+msgstr "ابحث في المحتوى أو المصادر..."
+
+#. odoo-javascript
+msgid "Total"
+msgstr "الإجمالي"
+
+#. odoo-javascript
+msgid "Pending"
+msgstr "قيد الانتظار"
+
+#. odoo-javascript
+msgid "Published"
+msgstr "منشور"
+
+#. odoo-javascript
+msgid "All"
+msgstr "الكل"
+
+#. odoo-javascript
+msgid "Rejected"
+msgstr "مرفوض"
+
+#. odoo-javascript
+msgid "Loading Content..."
+msgstr "جارٍ تحميل المحتوى..."
+
+#. odoo-javascript
+msgid "Fetching the latest posts from the engine."
+msgstr "جارٍ جلب أحدث المنشورات من المحرك."
+
+#. odoo-javascript
+msgid "No Results Found"
+msgstr "لا نتائج"
+
+#. odoo-javascript
+msgid "No content matches your current filter. Try a different search or tab."
+msgstr "لا يوجد محتوى يطابق الفلتر الحالي. جرّب بحثاً مختلفاً أو تبويباً آخر."
+
+#. odoo-javascript
+msgid "Click to review"
+msgstr "اضغط للمراجعة"
+
+#. odoo-javascript
+msgid "Raw Source Tweet"
+msgstr "التغريدة الأصلية من المصدر"
+
+#. odoo-javascript
+msgid "View Original Tweet"
+msgstr "عرض التغريدة الأصلية"
+
+#. odoo-javascript
+msgid "AI Reformulation — Edit & Approve"
+msgstr "إعادة الصياغة بالذكاء الاصطناعي — تعديل واعتماد"
+
+#. odoo-javascript
+msgid "Reject"
+msgstr "رفض"
+
+#. odoo-javascript
+msgid "Approve & Publish"
+msgstr "اعتماد ونشر"
+
+#. odoo-javascript
+msgid "Published Successfully"
+msgstr "تم النشر بنجاح"
+
+#. odoo-javascript
+msgid "Pending Review"
+msgstr "بانتظار المراجعة"
+
+#. odoo-javascript
+msgid "Post approved and sent to X for publishing."
+msgstr "تم اعتماد المنشور وإرساله إلى X للنشر."
+
+#. odoo-javascript
+msgid "Failed to publish post. Please check your X connection."
+msgstr "فشل نشر المنشور. يرجى التحقق من اتصال X."
+
+#. odoo-javascript
+msgid "Post rejected and removed from the queue."
+msgstr "تم رفض المنشور وإزالته من قائمة الانتظار."
+
+#. odoo-javascript
+msgid "Failed to reject post."
+msgstr "فشل رفض المنشور."
+
+#. odoo-javascript
+msgid "Target removed successfully."
+msgstr "تم حذف المصدر بنجاح."
+
+#. odoo-javascript
+msgid "Failed to remove target."
+msgstr "فشل حذف المصدر."
+
+#. odoo-javascript
+msgid "Failed to load recent posts for this target."
+msgstr "فشل تحميل المنشورات الأخيرة لهذا المصدر."

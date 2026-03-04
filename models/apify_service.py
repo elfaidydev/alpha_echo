@@ -1,16 +1,19 @@
 from odoo import models, api, _
 from odoo.exceptions import UserError
 import logging
-
-try:
-    from apify_client import ApifyClient
-except ImportError:
-    ApifyClient = None
+import requests
 
 _logger = logging.getLogger(__name__)
 
 # Maximum items fetched from Apify per scan (cost control hard limit)
 MAX_APIFY_ITEMS = 200
+
+# Direct sync endpoint — same as the working Postman call
+# Returns results immediately without polling (no async actor lifecycle)
+APIFY_SYNC_URL = (
+    "https://api.apify.com/v2/acts/apidojo~twitter-scraper-lite"
+    "/run-sync-get-dataset-items"
+)
 
 
 def _parse_list_id(raw: str) -> str:
@@ -30,25 +33,18 @@ class SmartRadarApifyService(models.AbstractModel):
         """
         Fetch the most-recent tweets from a Twitter/X List timeline via Apify.
 
-        Uses a SINGLE actor run for the entire list — far cheaper than
-        per-handle scraping. Returns a normalized list of tweet dicts.
+        Uses the SYNCHRONOUS endpoint (run-sync-get-dataset-items) — identical
+        to a cURL/Postman call. No polling, no actor lifecycle, no hanging.
 
         Args:
             list_id:   Numeric ID of the X/Twitter List (or full URL).
-            max_items: Maximum number of tweets to retrieve (capped at MAX_APIFY_ITEMS).
+            max_items: Maximum number of tweets to retrieve.
 
         Returns:
             list of dicts with keys:
               id, text, author_handle, author_name, author_pic,
               url, created_at, is_retweet, is_reply, is_quote, type
         """
-        # ── Guard: library available? ─────────────────────────────────────────
-        if not ApifyClient:
-            raise UserError(_(
-                "⚠️ مكتبة Apify غير مثبتة.\n"
-                "يرجى تشغيل: pip install apify-client"
-            ))
-
         if not list_id or not str(list_id).strip():
             raise UserError(_(
                 "⚠️ X/Twitter List ID غير مُعدّ.\n"
@@ -57,69 +53,98 @@ class SmartRadarApifyService(models.AbstractModel):
 
         # ── Load credentials ──────────────────────────────────────────────────
         config = self.env['alpha.echo.client.config'].get_singleton()
-        token  = config.apify_token
+        
+        # VERY IMPORTANT: explicitly cast config fields to strings 
+        # to ensure no Odoo ORM wrappers break the JSON serialization
+        token = str(config.apify_token or '').strip()
+        auth  = str(config.x_auth_token or '').strip()
+        ct    = str(config.x_ct0 or '').strip()
+        
         if not token:
             raise UserError(_(
                 "⚠️ Apify API Token مفقود.\n"
                 "أضفه في: الإعدادات → Alpha Echo → API Credentials."
             ))
 
-        # ── Build inputs ──────────────────────────────────────────────────────
+        # ── Build request body — exactly matching the working Postman call ────
         clean_id = _parse_list_id(str(list_id))
-        list_url = f"https://twitter.com/i/lists/{clean_id}"
-
-        # Keep max_items within the allowed ceiling
+        list_url = f"https://x.com/i/lists/{clean_id}?s=20"
         safe_max = min(int(max_items), MAX_APIFY_ITEMS)
 
-        run_input = {
+        body = {
             "includeSearchTerms": False,
             "maxItems":           safe_max,
             "sort":               "Latest",
             "startUrls":          [list_url],
             "proxyConfig": {
                 "useApifyProxy":      True,
-                "apifyProxyGroups":   ["DATACENTER"],
+                "apifyProxyGroups":   ["RESIDENTIAL"],
+                "apifyProxyCountry":  "SA",
             },
         }
 
-        # Inject session cookies if stored (improves scraping reliability)
-        if config.x_auth_token and config.x_ct0:
-            run_input["twitterCookies"] = [
-                {"domain": ".x.com", "name": "auth_token", "value": config.x_auth_token},
-                {"domain": ".x.com", "name": "ct0",        "value": config.x_ct0},
+        # Inject session cookies if available in config
+        if auth and ct:
+            body["twitterCookies"] = [
+                {"domain": ".x.com", "name": "auth_token", "value": auth},
+                {"domain": ".x.com", "name": "ct0",        "value": ct},
             ]
 
-        _logger.info("Apify scan — List: %s | max_items: %d", list_url, safe_max)
+        _logger.info(
+            "Apify sync scan — List: %s | max_items: %d | cookies: %s",
+            list_url, safe_max, "yes" if auth else "no"
+        )
 
-        # ── Execute ───────────────────────────────────────────────────────────
+        # ── Execute — direct HTTP POST, same as Postman ───────────────────────
         try:
-            client = ApifyClient(token)
-            run    = client.actor("apidojo/twitter-scraper-lite").call(run_input=run_input)
-
-            if not run or not run.get("defaultDatasetId"):
-                raise UserError(_(
-                    "⚠️ Apify لم يُرجع أي بيانات.\n"
-                    "تحقق من صحة الـ List ID والـ Token."
-                ))
-
-            results = []
-            for item in client.dataset(run["defaultDatasetId"]).iterate_items():
-                normalized = _normalize_tweet(item)
-                if normalized:
-                    results.append(normalized)
-
-            _logger.info("Apify scan complete — %d usable tweet(s) from List %s.",
-                         len(results), clean_id)
-            return results
-
-        except UserError:
-            raise   # re-raise our own friendly errors as-is
-        except Exception as exc:
-            _logger.error("Apify scan failed: %s", exc)
+            resp = requests.post(
+                APIFY_SYNC_URL,
+                params={"token": token},
+                json=body,
+                headers={"User-Agent": "PostmanRuntime/7.36.0", "Accept": "*/*"},
+                timeout=300,   # 5-minute hard timeout
+            )
+        except requests.exceptions.Timeout:
             raise UserError(_(
-                "⚠️ فشل الاتصال بـ Apify:\n%s\n\n"
-                "تحقق من الـ Token وصحة الـ List ID."
-            ) % str(exc))
+                "⚠️ انتهت مهلة الاتصال بـ Apify (5 دقائق).\n"
+                "تحقق من صحة الـ List ID والـ Token."
+            ))
+        except requests.exceptions.RequestException as exc:
+            _logger.error("Apify HTTP error: %s", exc)
+            raise UserError(_("⚠️ خطأ شبكة أثناء الاتصال بـ Apify:\n%s") % str(exc))
+
+        # ── Handle HTTP errors ────────────────────────────────────────────────
+        if resp.status_code == 401:
+            raise UserError(_("⚠️ Apify Token غير صحيح (401 Unauthorized)."))
+        if resp.status_code == 402:
+            raise UserError(_("⚠️ رصيد Apify غير كافٍ (402 Payment Required)."))
+        if resp.status_code == 429:
+            raise UserError(_("⚠️ تم تجاوز حد طلبات Apify (429 Rate Limit). انتظر قليلاً."))
+        if not resp.ok:
+            raise UserError(_(
+                "⚠️ Apify أرجع خطأ HTTP %d:\n%s"
+            ) % (resp.status_code, resp.text[:300]))
+
+        # ── Parse response ────────────────────────────────────────────────────
+        try:
+            raw_items = resp.json()
+        except Exception:
+            raise UserError(_("⚠️ Apify أرجع استجابة غير قابلة للتحليل:\n%s") % resp.text[:300])
+
+        if not isinstance(raw_items, list):
+            raise UserError(_("⚠️ Apify أرجع استجابة غير متوقعة (ليست قائمة)."))
+
+        results = []
+        for item in raw_items:
+            normalized = _normalize_tweet(item)
+            if normalized:
+                results.append(normalized)
+
+        _logger.info(
+            "Apify sync scan complete — %d usable tweet(s) from List %s.",
+            len(results), clean_id
+        )
+        return results
 
 
 def _normalize_tweet(item: dict) -> dict | None:

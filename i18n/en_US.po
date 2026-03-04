@@ -2185,5 +2185,1098 @@ msgstr "Education"
 
 #. module: alpha_echo
 #. odoo-javascript
+msgid "تعليم"
+msgstr "Education"
+
+#. module: alpha_echo
+#. odoo-javascript
 msgid "تقنية"
 msgstr "Tech"
+
+
+# ─── New strings added in XML rewrite (2026) ─────────────────────────────────
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "Dashboard"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "Central interface for tracking, reformulating, and publishing content"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "monitored sources"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "Welcome to"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "Automate content harvesting, formulation, and publishing with AI. Follow these steps to begin."
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "Step 1"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "Step 2"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "Step 3"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "Step 4"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "Link X Account"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "Authorize the system to publish via your X account."
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "Linked"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "Connect"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "AI Prompt"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "Define the tone and instructions for the AI engine."
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "Set"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "Configure"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "X List & Reader Cookies"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "Set your X List URL and reader account cookies (auth_token & ct0)."
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "Configured"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "Reader Cookies"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "Set auth_token and ct0 for the X reader account used to scrape the list."
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "Saved"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "Add Cookies"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "Need help? Read the"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "Quick Start Guide"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "Activate Full Radar"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "Advanced exploration and analysis engine is active."
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "Currently"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "certified sources"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "are under real-time monitoring. Successfully discovered"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "new topics"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "today. AI has handled professional reformulation and content has been"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "automatically and simultaneously"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "published across official channels."
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "Live Target Map"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "Searching for sources matching your criteria..."
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "New Content Discovered Today"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "Publications (Website + X)"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "Monitored Source Accounts"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "sources"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "Formulation Prompt Accuracy"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "Content Flow Density by Time"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "Live"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "Automated Publishing Routing"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "Dual Automation"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "Official Website (WordPress)"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "X Account"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "Real-time Exploration Log"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "Exploration engine is performing deep scans of certified entities..."
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "Raw Content from Source"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "Source ID:"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "Smart Processing & Auto-Approval"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "On Website"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "Published to X"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "Live Verification"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/dashboard/dashboard.xml:0
+#, python-format
+msgid "Real-time Operational Metrics"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "Settings Center"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "Configure AI intelligence and automated workflows"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "System Readiness"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "All systems operational"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "Minor setup required"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "Critical setup missing"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "Save Updates"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "Saving..."
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "AI Intelligence & Instructions"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "Neural commands that govern how the AI identifies and rewrites content."
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "System Prompt Algorithm"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "e.g. Find technical news and rewrite it for developers..."
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "Must include SKIP_NOT_RELEVANT instruction."
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "Content Discovery Source"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "The primary X List used for scanning."
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "X List URL or identifier"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "Monitoring"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "targets"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "Reader Identity"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "Secure credentials for private list access."
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "Protected"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "Engine Automation"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "Configure the speed and capacity of your automated scanning."
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "Scan Interval"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "Every 90m"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "Fixed"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "Daily Post Capacity"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "300 Posts"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "Autonomous Publishing"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "AI content will go live immediately without human intervention."
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "API Service Channels"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "Managed encrypted tokens for AI and scraping providers."
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "OpenAI Enterprise Key"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "Apify Cloud Token"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "Publishing Destinations"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "Connect where your content will be broadcasted."
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "X Connection Hub"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "Authorize broadcasting to your X account."
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "Broadcast engine is active and verified."
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "LIVE"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "Terminate Session"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "Authentication Tokens"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "Token Secret"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "Authorize Broadcast Engine"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "Blog"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "Odoo Blog Channel ID"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/config/config_page.xml:0
+#, python-format
+msgid "Leave empty to disable Odoo Website publishing."
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "Resource Management"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "Accounts auto-discovered from your X List on each scan."
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "Search discovered accounts..."
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "X Account Required"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "X List ID Required"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "Link your X account from Settings to activate discovery."
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "Add your X List URL or ID in Settings to start monitoring targets."
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "Discovering targets from X..."
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "No Targets Found"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "No accounts have been discovered yet. Make sure your X List is configured, then trigger a scan."
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "Captured"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "Status"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "Monitoring Active"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "Click for analytics"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "Target Insights"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "Engine Status"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "Total Discoveries"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "Recent Timeline"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "Loading latest updates..."
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "Active"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "Inactive"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "Active & Capturing"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "Monitoring Paused"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "In Review"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/posts/posts_page.xml:0
+#, python-format
+msgid "Content & Publications"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/posts/posts_page.xml:0
+#, python-format
+msgid "Review AI-reformulated content and publish with one click."
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/posts/posts_page.xml:0
+#, python-format
+msgid "Search content or sources..."
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/posts/posts_page.xml:0
+#, python-format
+msgid "Total"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/posts/posts_page.xml:0
+#, python-format
+msgid "Pending"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/posts/posts_page.xml:0
+#, python-format
+msgid "Published"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/posts/posts_page.xml:0
+#, python-format
+msgid "All"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/posts/posts_page.xml:0
+#, python-format
+msgid "Rejected"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/posts/posts_page.xml:0
+#, python-format
+msgid "Loading Content..."
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/posts/posts_page.xml:0
+#, python-format
+msgid "Fetching the latest posts from the engine."
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/posts/posts_page.xml:0
+#, python-format
+msgid "No Results Found"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/posts/posts_page.xml:0
+#, python-format
+msgid "No content matches your current filter. Try a different search or tab."
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/posts/posts_page.xml:0
+#, python-format
+msgid "Click to review"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/posts/posts_page.xml:0
+#, python-format
+msgid "Raw Source Tweet"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/posts/posts_page.xml:0
+#, python-format
+msgid "View Original Tweet"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/posts/posts_page.xml:0
+#, python-format
+msgid "AI Reformulation — Edit & Approve"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/posts/posts_page.xml:0
+#, python-format
+msgid "Reject"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/posts/posts_page.xml:0
+#, python-format
+msgid "Approve & Publish"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/posts/posts_page.xml:0
+#, python-format
+msgid "Published Successfully"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/posts/posts_page.xml:0
+#, python-format
+msgid "Pending Review"
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/posts/posts_page.xml:0
+#, python-format
+msgid "Post approved and sent to X for publishing."
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/posts/posts_page.xml:0
+#, python-format
+msgid "Failed to publish post. Please check your X connection."
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/posts/posts_page.xml:0
+#, python-format
+msgid "Post rejected and removed from the queue."
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/posts/posts_page.xml:0
+#, python-format
+msgid "Failed to reject post."
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "Target removed successfully."
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "Failed to remove target."
+msgstr ""
+
+#. module: alpha_echo
+#. odoo-javascript
+#: code:addons/alpha_echo/static/src/components/targets/targets_page.xml:0
+#, python-format
+msgid "Failed to load recent posts for this target."
+msgstr ""

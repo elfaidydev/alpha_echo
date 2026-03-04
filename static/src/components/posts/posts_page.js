@@ -1,51 +1,84 @@
 /** @odoo-module **/
 
 import { Component, useState, onWillStart } from "@odoo/owl";
-import { _t } from "@web/core/l10n/translation";
-import { useService } from "@web/core/utils/hooks";
 import { registry } from "@web/core/registry";
+import { useService } from "@web/core/utils/hooks";
+import { _t } from "@web/core/l10n/translation";
 
 export class PostsPage extends Component {
+    static template = "alpha_echo.PostsPage";
+    static props = {};
+
+    /** Expose _t to the OWL template context */
+    get _t() { return _t; }
+
     setup() {
         this.radarService = useService("alpha_echo.radar_service");
-        this.orm = useService("orm"); // Keep orm for custom actions
-        
-        this._t = _t;
+        this.orm = useService("orm");
+        this.notification = useService("notification");
+
         this.state = useState({
-            activeTab: 'all', // 'all', 'draft', 'published'
-            selectedPost: null, // For modal
-            searchQuery: '', // Real-time search
-            service: this.radarService.state,
+            activeTab: "all",
+            searchQuery: "",
+            isLoading: false,
+            selectedPost: null,
         });
 
         onWillStart(async () => {
-            await this.radarService.loadPosts();
+            await this.loadPosts();
         });
     }
 
+    async loadPosts() {
+        this.state.isLoading = true;
+        try {
+            await this.radarService.loadPosts();
+        } finally {
+            this.state.isLoading = false;
+        }
+    }
+
     get posts() {
-        return this.state.service.posts;
+        return this.radarService.state.posts;
     }
 
     get filteredPosts() {
-        if (!this.state.searchQuery) return this.posts;
-        const q = this.state.searchQuery.toLowerCase();
-        return this.posts.filter(p => 
-            (p.target_id[1] && p.target_id[1].toLowerCase().includes(q)) ||
-            (p.ai_generated_text && p.ai_generated_text.toLowerCase().includes(q)) ||
-            (p.original_text && p.original_text.toLowerCase().includes(q))
-        );
+        const q = this.state.searchQuery.toLowerCase().trim();
+        const tab = this.state.activeTab;
+        return this.posts.filter((p) => {
+            const matchTab =
+                tab === "all" ||
+                (tab === "draft"     && p.state === "draft") ||
+                (tab === "published" && p.state === "published") ||
+                (tab === "rejected"  && p.state === "rejected");
+            const matchSearch = !q || (
+                (p.ai_generated_text && p.ai_generated_text.toLowerCase().includes(q)) ||
+                (p.original_text     && p.original_text.toLowerCase().includes(q))     ||
+                (p.target_id && p.target_id[1] && p.target_id[1].toLowerCase().includes(q))
+            );
+            return matchTab && matchSearch;
+        });
     }
 
-    async setTab(tabName) {
-        this.state.activeTab = tabName;
-        let domain = [];
-        if (tabName !== 'all') domain = [['state', '=', tabName]];
-        await this.radarService.loadPosts(domain);
+    setTab(tab) {
+        this.state.activeTab = tab;
+    }
+
+    /**
+     * Returns a translated label for a post state.
+     * @param {string} state - 'draft' | 'published' | 'rejected'
+     */
+    getPostStatusLabel(state) {
+        const labels = {
+            draft:     _t("Pending Review"),
+            published: _t("Published"),
+            rejected:  _t("Rejected"),
+        };
+        return labels[state] || state;
     }
 
     openPostModal(post) {
-        this.state.selectedPost = post;
+        this.state.selectedPost = Object.assign({}, post);
     }
 
     closeModal() {
@@ -54,36 +87,37 @@ export class PostsPage extends Component {
 
     async approveAndPublish() {
         if (!this.state.selectedPost) return;
-        
-        await this.orm.write("alpha.echo.post", [this.state.selectedPost.id], {
-            ai_generated_text: this.state.selectedPost.ai_generated_text
-        });
-
-        await this.orm.call("alpha.echo.post", "action_publish", [[this.state.selectedPost.id]]);
-        
-        this.closeModal();
-        await this.radarService.loadPosts(); 
+        try {
+            await this.orm.call(
+                "alpha.echo.post",
+                "write",
+                [[this.state.selectedPost.id], { ai_generated_text: this.state.selectedPost.ai_generated_text }]
+            );
+            await this.orm.call(
+                "alpha.echo.post",
+                "action_publish",
+                [[this.state.selectedPost.id]],
+                {}
+            );
+            this.notification.add(_t("Post approved and sent to X for publishing."), { type: "success" });
+            this.state.selectedPost = null;
+            await this.loadPosts();
+        } catch (e) {
+            this.notification.add(_t("Failed to publish post. Please check your X connection."), { type: "danger" });
+        }
     }
 
     async rejectPost() {
         if (!this.state.selectedPost) return;
-        
-        await this.orm.call("alpha.echo.post", "action_reject", [[this.state.selectedPost.id]]);
-        
-        this.closeModal();
-        await this.radarService.loadPosts();
-    }
-
-    getPostStatusLabel(state) {
-        const states = {
-            'published': _t('Published'),
-            'draft': _t('Pending Draft'),
-            'rejected': _t('Rejected'),
-            'failed': _t('Failed')
-        };
-        return states[state] || state;
+        try {
+            await this.orm.call("alpha.echo.post", "action_reject", [[this.state.selectedPost.id]], {});
+            this.notification.add(_t("Post rejected and removed from the queue."), { type: "info" });
+            this.state.selectedPost = null;
+            await this.loadPosts();
+        } catch (e) {
+            this.notification.add(_t("Failed to reject post."), { type: "danger" });
+        }
     }
 }
 
-PostsPage.template = "alpha_echo.PostsPage";
 registry.category("actions").add("alpha_echo.posts_client_action", PostsPage);

@@ -1,319 +1,366 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
     <t t-name="alpha_echo.ConfigPage" owl="1">
-        <div class="o_alpha_echo_config">
-            <!-- Trap for Browser Autofill (Honeypot) -->
-            <div style="position: absolute; left: -9999px; height: 1px; width: 1px; overflow: hidden;" aria-hidden="true">
-                <input type="text" name="username_autofill_trap" value="trap" tabindex="-1"/>
+        <div class="ae-config-page">
+            <!-- Honeypot trap for browser autofill (hidden, never seen by users) -->
+            <div class="ae-autofill-trap" aria-hidden="true">
+                <input type="text"     name="username_autofill_trap" value="trap" tabindex="-1"/>
                 <input type="password" name="password_autofill_trap" value="trap" tabindex="-1"/>
             </div>
-            
-            <div class="sr-v4-dashboard px-4 py-2">
-                
-                <!-- Main Header -->
-                <div class="sr-header-v4 mb-4">
-                    <div class="header-right-side w-100 justify-content-center justify-content-md-start">
-                        <div class="logo-box">
-                            <i class="fa fa-sliders"/>
-                        </div>
-                        <div class="title-box">
-                            <h1>Settings &amp; Configuration</h1>
-                            <p class="subtitle">Manage search sources, AI engine, and publishing account integrations</p>
+
+            <div class="ae-container">
+
+                <!-- ══ HEADER ════════════════════════════════════════════════════ -->
+                <div class="ae-config-top-bar">
+                    <div class="ae-config-title-side">
+                        <div class="ae-logo-box"><i class="fa fa-sliders"/></div>
+                        <div class="ae-title-text">
+                            <h1><t t-esc="_t('Settings Center')"/></h1>
+                            <p class="ae-subtitle"><t t-esc="_t('Configure AI intelligence and automated workflows')"/></p>
                         </div>
                     </div>
+
+                    <!-- System Readiness Widget -->
+                    <div class="ae-health-widget" t-att-class="configHealth.status">
+                        <div class="ae-health-main">
+                            <div class="ae-health-progress">
+                                <svg viewBox="0 0 36 36" class="ae-circular-chart">
+                                    <path class="ae-circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                                    <path class="ae-circle" t-att-stroke-dasharray="configHealth.percent + ', 100'" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                                </svg>
+                                <span class="ae-health-num"><t t-esc="configHealth.percent"/>%</span>
+                            </div>
+                            <div class="ae-health-info">
+                                <span class="ae-health-label"><t t-esc="_t('System Readiness')"/></span>
+                                <span class="ae-health-desc">
+                                    <t t-if="configHealth.status === 'optimal'"><t t-esc="_t('All systems operational')"/></t>
+                                    <t t-elif="configHealth.status === 'partial'"><t t-esc="_t('Minor setup required')"/></t>
+                                    <t t-else=""><t t-esc="_t('Critical setup missing')"/></t>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="ae-health-details">
+                            <div class="ae-h-item" t-att-class="{ready: configHealth.isAiReady}"><i class="fa fa-microchip"/></div>
+                            <div class="ae-h-item" t-att-class="{ready: configHealth.isXLinked}"><i class="fa fa-twitter"/></div>
+                            <div class="ae-h-item" t-att-class="{ready: configHealth.hasPrompt}"><i class="fa fa-magic"/></div>
+                            <div class="ae-h-item" t-att-class="{ready: configHealth.hasList}"><i class="fa fa-list"/></div>
+                        </div>
+                    </div>
+
+                    <button class="ae-btn-save-top" t-on-click="saveConfig" t-att-disabled="state.ui.isSaving">
+                        <i t-attf-class="fa {{ state.ui.isSaving ? 'fa-spinner fa-spin' : 'fa-check' }}"/>
+                        <span t-if="!state.ui.isSaving"><t t-esc="_t('Save Updates')"/></span>
+                        <span t-else=""><t t-esc="_t('Saving...')"/></span>
+                    </button>
                 </div>
 
-                <div class="sr-unified-panel mt-3">
-                    
-                    <!-- Section 1: AI Prompt & X List ID -->
-                    <div class="sr-section-block">
-                        <div class="sr-section-title">
-                            <i class="fa fa-magic"/>
-                            Search &amp; AI
-                        </div>
-                        <div class="row g-4 g-xl-5">
-                            <div class="col-xl-7 col-lg-12">
-                                <label class="sr-label mb-2">AI Instructions (System Prompt)</label>
-                                <p class="text-muted small mb-3">Write what the AI should look for and how to format the output. If a tweet doesn't match, the AI must return: <strong>SKIP_NOT_RELEVANT</strong></p>
-                                <textarea class="form-control sr-prompt-box" t-model="config.custom_ai_instructions" t-on-input="(ev) => this.onFieldChange('custom_ai_instructions', ev.target.value)" placeholder="e.g. If the tweet announces an open grant, rewrite it as a professional post. Otherwise return: SKIP_NOT_RELEVANT"></textarea>
-                            </div>
+                <div class="ae-config-linear-layout">
 
-                            <div class="col-xl-5 col-lg-12">
-                                <label class="sr-label mb-2">X List (ID or URL)</label>
-                                <p class="text-muted small mb-3">Paste the numeric ID or the full URL of your X List. e.g: <strong>https://x.com/i/lists/123456...</strong></p>
-                                <div class="d-flex gap-2">
-                                    <input type="text" class="form-control" t-model="config.x_list_id" t-on-input="(ev) => this.onFieldChange('x_list_id', ev.target.value)" placeholder="e.g. https://x.com/i/lists/1234567890123456789"/>
-                                </div>
-                                
-                                <div class="mt-4 p-3 border rounded bg-light border-primary-subtle">
-                                    <h6 class="fw-bold mb-2 text-primary"><i class="fa fa-user-secret me-2"/>X Reader Account (Cookies)</h6>
-                                    <p class="text-muted x-small mb-3" style="font-size: 0.8rem">These cookies are used by the scraper to read the list. They can belong to a different account than your publishing account.</p>
-                                    <div class="row g-2">
-                                        <div class="col-12 text-start">
-                                            <label class="sr-label x-small mb-1"><i class="fa fa-cookie me-1"/>auth_token</label>
-                                            <div class="input-group input-group-sm">
-                                                <input t-att-type="state.ui.showTwitterAuthToken ? 'text' : 'password'" autocomplete="new-password" class="form-control" t-model="config.x_auth_token" t-on-input="(ev) => this.onFieldChange('x_auth_token', ev.target.value)"/>
-                                                <button class="btn btn-outline-secondary" type="button" t-on-click="() => this.toggleVisibility('showTwitterAuthToken')">
-                                                    <i t-attf-class="fa {{ state.ui.showTwitterAuthToken ? 'fa-eye-slash' : 'fa-eye' }}"/>
-                                                </button>
+                    <!-- ── SECTION 1: AI Intelligence ───────────────────────────── -->
+                    <div class="ae-settings-section" id="intelligence">
+                        <div class="ae-section-header-v2">
+                            <div class="ae-icon-wrap"><i class="fa fa-magic"/></div>
+                            <div class="ae-text-wrap">
+                                <h3><t t-esc="_t('AI Intelligence &amp; Instructions')"/></h3>
+                                <p><t t-esc="_t('Neural commands that govern how the AI identifies and rewrites content.')"/></p>
+                            </div>
+                        </div>
+
+                        <div class="ae-glass-box p-4 mt-3">
+                            <label class="ae-label"><t t-esc="_t('System Prompt Algorithm')"/></label>
+                            <textarea class="ae-textarea-alt"
+                                      t-model="config.custom_ai_instructions"
+                                      t-on-input="(ev) => this.onFieldChange('custom_ai_instructions', ev.target.value)"
+                                      t-att-placeholder="_t('e.g. Find technical news and rewrite it for developers...')"/>
+                            <div class="ae-prompt-footer mt-2">
+                                <i class="fa fa-info-circle"/>
+                                <t t-esc="_t('Must include SKIP_NOT_RELEVANT instruction.')"/>
+                            </div>
+                        </div>
+
+                        <!-- Source &amp; Identity Hub -->
+                        <div class="ae-source-hub mt-4">
+                            <div class="row g-4">
+                                <!-- Discovery Source -->
+                                <div class="col-lg-6">
+                                    <div class="ae-hub-card">
+                                        <div class="ae-hub-card-header">
+                                            <div class="ae-glow-icon"><i class="fa fa-search-plus"/></div>
+                                            <div class="ae-hub-card-text">
+                                                <h4><t t-esc="_t('Content Discovery Source')"/></h4>
+                                                <p><t t-esc="_t('The primary X List used for scanning.')"/></p>
                                             </div>
                                         </div>
-                                        <div class="col-12 text-start mt-2">
-                                            <label class="sr-label x-small mb-1"><i class="fa fa-cookie me-1"/>ct0</label>
-                                            <div class="input-group input-group-sm">
-                                                <input t-att-type="state.ui.showTwitterCt0 ? 'text' : 'password'" autocomplete="new-password" class="form-control" t-model="config.x_ct0" t-on-input="(ev) => this.onFieldChange('x_ct0', ev.target.value)"/>
-                                                <button class="btn btn-outline-secondary" type="button" t-on-click="() => this.toggleVisibility('showTwitterCt0')">
-                                                    <i t-attf-class="fa {{ state.ui.showTwitterCt0 ? 'fa-eye-slash' : 'fa-eye' }}"/>
-                                                </button>
+                                        <div class="ae-hub-card-body">
+                                            <div class="ae-input-group-v2">
+                                                <label><t t-esc="_t('X List URL or identifier')"/></label>
+                                                <div class="ae-input-with-icon">
+                                                    <i class="fa fa-link"/>
+                                                    <input type="text"
+                                                           t-model="config.x_list_id"
+                                                           t-on-input="(ev) => this.onFieldChange('x_list_id', ev.target.value)"
+                                                           placeholder="https://x.com/i/lists/..."/>
+                                                </div>
+                                            </div>
+                                            <div class="ae-source-status mt-3" t-if="config.targets_count">
+                                                <span class="ae-badge-pulse">
+                                                    <i class="fa fa-crosshairs"/>
+                                                    <t t-esc="_t('Monitoring')"/> <t t-esc="config.targets_count"/> <t t-esc="_t('targets')"/>
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div t-if="config.x_list_id" class="mt-2 d-flex align-items-center gap-2">
-                                    <span class="badge rounded-pill bg-primary-subtle text-primary border border-primary-subtle px-3 py-2">
-                                        <i class="fa fa-users me-1"/>
-                                        <t t-esc="config.targets_count"/> Monitored Accounts
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <hr class="sr-divider"/>
-
-                    <!-- Section 2: Auto-Publish Toggle -->
-                    <div class="sr-section-block">
-                        <div class="sr-section-title">
-                            <i class="fa fa-dashboard"/>
-                            Publishing Settings
-                        </div>
-                        <div class="row g-4 align-items-stretch">
-
-                            <!-- Info Card: Scan Interval (hardcoded) -->
-                            <div class="col-xl-4 col-lg-12">
-                                <div class="sr-config-card-v4 h-100 p-4 rounded-4 bg-light border-0 d-flex flex-column align-items-center justify-content-center text-center">
-                                    <div class="icon-circle bg-indigo-subtle text-indigo mb-3" style="width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;">
-                                        <i class="fa fa-clock-o fa-lg"/>
-                                    </div>
-                                    <h5 class="fw-bold mb-1">Scan Frequency</h5>
-                                    <p class="text-muted small mb-3">Fixed interval between each X List scan.</p>
-                                    <div class="badge-v4 glass-dark fs-5 px-4 py-2 rounded-pill fw-bold">
-                                        Every 90 Minutes
-                                    </div>
-                                    <small class="text-muted mt-2"><i class="fa fa-lock me-1"/>Fixed — not configurable</small>
-                                </div>
-                            </div>
-
-                            <!-- Info Card: Max Posts/Day (hardcoded) -->
-                            <div class="col-xl-4 col-lg-12">
-                                <div class="sr-config-card-v4 h-100 p-4 rounded-4 bg-light border-0 d-flex flex-column align-items-center justify-content-center text-center">
-                                    <div class="icon-circle bg-emerald-subtle text-emerald mb-3" style="width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;">
-                                        <i class="fa fa-paper-plane-o fa-lg"/>
-                                    </div>
-                                    <h5 class="fw-bold mb-1">Daily Post Cap</h5>
-                                    <p class="text-muted small mb-3">Hard limit to protect your account.</p>
-                                    <div class="badge-v4 glass-emerald fs-5 px-4 py-2 rounded-pill fw-bold">
-                                        Max 300 / Day
-                                    </div>
-                                    <small class="text-muted mt-2"><i class="fa fa-lock me-1"/>Fixed — not configurable</small>
-                                </div>
-                            </div>
-
-                            <!-- Auto-Publish Toggle -->
-                            <div class="col-xl-4 col-lg-12 text-center">
-                                <div class="auto-publish-card h-100 p-4 rounded-4" t-att-class="config.auto_approve_drafts ? 'active-publish' : 'inactive-publish'">
-                                    <div class="icon-pulse mb-3">
-                                        <i t-att-class="'fa fa-rocket fa-2x ' + (config.auto_approve_drafts ? 'text-success' : 'text-muted')"/>
-                                    </div>
-                                    <h5 class="font-weight-bold mb-2">Auto-Publish</h5>
-                                    <p class="small mb-4 text-muted">When enabled, AI content is published immediately without manual review.</p>
-                                    <div class="fancy-auto-switch mx-auto text-center" style="width: fit-content;">
-                                        <div class="form-check form-switch p-0 m-0">
-                                            <input class="form-check-input ms-0 me-0" style="width: 4em; height: 2em; cursor:pointer;" type="checkbox" id="autoPublishMasterToggle" t-model="config.auto_approve_drafts" t-on-change="(ev) => this.onFieldChange('auto_approve_drafts', ev.target.checked)"/>
+                                <!-- Reader Identity -->
+                                <div class="col-lg-6">
+                                    <div class="ae-hub-card auth-card">
+                                        <div class="ae-hub-card-header">
+                                            <div class="ae-glow-icon purple"><i class="fa fa-id-badge"/></div>
+                                            <div class="ae-hub-card-text">
+                                                <h4><t t-esc="_t('Reader Identity')"/></h4>
+                                                <p><t t-esc="_t('Secure credentials for private list access.')"/></p>
+                                            </div>
+                                        </div>
+                                        <div class="ae-hub-card-body">
+                                            <div class="ae-credential-stack">
+                                                <div class="ae-cred-field">
+                                                    <div class="ae-cred-label">
+                                                        <span>auth_token</span>
+                                                        <span class="ae-secure-tag"><i class="fa fa-lock"/> <t t-esc="_t('Protected')"/></span>
+                                                    </div>
+                                                    <input type="password"
+                                                           t-model="config.x_auth_token"
+                                                           t-on-input="(ev) => this.onFieldChange('x_auth_token', ev.target.value)"
+                                                           placeholder="••••••••••••••••"
+                                                           autocomplete="off"/>
+                                                </div>
+                                                <div class="ae-cred-field mt-3">
+                                                    <div class="ae-cred-label">
+                                                        <span>ct0 (CSRF)</span>
+                                                        <span class="ae-secure-tag"><i class="fa fa-lock"/> <t t-esc="_t('Protected')"/></span>
+                                                    </div>
+                                                    <input type="password"
+                                                           t-model="config.x_ct0"
+                                                           t-on-input="(ev) => this.onFieldChange('x_ct0', ev.target.value)"
+                                                           placeholder="••••••••••••••••"
+                                                           autocomplete="off"/>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
 
-
-                    <hr class="sr-divider"/>
-                    
-                    <!-- Section 3: AI Service Credentials -->
-                    <div class="sr-section-block">
-                        <div class="sr-section-title">
-                            <i class="fa fa-key"/>
-                            AI Service Credentials
-                        </div>
-                        <p class="text-muted small mb-4">These keys connect the tracking engine to AI processing and automated scraping services. They are stored securely and masked by default.</p>
-                        <div class="row g-4">
-                            <!-- OpenAI API Key -->
-                            <div class="col-md-6 text-start">
-                                <label class="sr-label mb-2"><i class="fa fa-microchip me-1"/> OpenAI API Key</label>
-                                <div class="input-group">
-                                    <input type="password" autocomplete="new-password" class="form-control" t-model="config.openai_api_key" t-on-input="(ev) => this.onFieldChange('openai_api_key', ev.target.value)" placeholder="sk-..."/>
-                                </div>
-                                <small class="text-muted mt-1 d-block">Required for content analysis and formulation.</small>
+                    <!-- ── SECTION 2: Automation ────────────────────────────────── -->
+                    <div class="ae-settings-section mt-5" id="automation">
+                        <div class="ae-section-header-v2">
+                            <div class="ae-icon-wrap emerald"><i class="fa fa-dashboard"/></div>
+                            <div class="ae-text-wrap">
+                                <h3><t t-esc="_t('Engine Automation')"/></h3>
+                                <p><t t-esc="_t('Configure the speed and capacity of your automated scanning.')"/></p>
                             </div>
-                            
-                            <!-- Apify API Token -->
-                            <div class="col-md-6 text-start">
-                                <label class="sr-label mb-2"><i class="fa fa-cloud me-1"/> Apify API Token</label>
-                                <div class="input-group">
-                                    <input type="password" autocomplete="new-password" class="form-control" t-model="config.apify_token" t-on-input="(ev) => this.onFieldChange('apify_token', ev.target.value)" placeholder="apify_api_..."/>
+                        </div>
+                        <div class="ae-grid-2 mt-3">
+                            <div class="ae-info-card-alt">
+                                <div class="ae-card-icon"><i class="fa fa-refresh"/></div>
+                                <div class="ae-card-data">
+                                    <label><t t-esc="_t('Scan Interval')"/></label>
+                                    <div class="ae-val"><t t-esc="_t('Every 90m')"/></div>
+                                    <span class="ae-lock-tag"><i class="fa fa-lock"/> <t t-esc="_t('Fixed')"/></span>
                                 </div>
-                                <small class="text-muted mt-1 d-block">Required for discovering accounts and fetching posts.</small>
+                            </div>
+                            <div class="ae-info-card-alt">
+                                <div class="ae-card-icon"><i class="fa fa-bolt"/></div>
+                                <div class="ae-card-data">
+                                    <label><t t-esc="_t('Daily Post Capacity')"/></label>
+                                    <div class="ae-val"><t t-esc="_t('300 Posts')"/></div>
+                                    <span class="ae-lock-tag"><i class="fa fa-lock"/> <t t-esc="_t('Fixed')"/></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ae-glass-box p-4 mt-4">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h4 class="mb-1"><t t-esc="_t('Autonomous Publishing')"/></h4>
+                                    <p class="ae-hint mb-0"><t t-esc="_t('AI content will go live immediately without human intervention.')"/></p>
+                                </div>
+                                <div class="ae-fancy-switch">
+                                    <input type="checkbox" id="autoPubMain"
+                                           t-model="config.auto_approve_drafts"
+                                           t-on-change="(ev) => this.onFieldChange('auto_approve_drafts', ev.target.checked)"/>
+                                    <label for="autoPubMain"/>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <hr class="sr-divider"/>
-
-                    <!-- Section 4: Integrations (X & Odoo) -->
-                    <div class="sr-section-block">
-                        <div class="sr-section-title">
-                            <i class="fa fa-link"/>
-                            Publishing &amp; Integration Accounts
+                    <!-- ── SECTION 3: API Credentials ─────────────────────────── -->
+                    <div class="ae-settings-section mt-5" id="credentials">
+                        <div class="ae-section-header-v2">
+                            <div class="ae-icon-wrap indigo"><i class="fa fa-key"/></div>
+                            <div class="ae-text-wrap">
+                                <h3><t t-esc="_t('API Service Channels')"/></h3>
+                                <p><t t-esc="_t('Managed encrypted tokens for AI and scraping providers.')"/></p>
+                            </div>
                         </div>
-                        <div class="row g-4">
-                            
-                            <!-- X (Twitter) Integration -->
+                        <div class="ae-v-gap-md mt-3">
+                            <div class="ae-key-row">
+                                <div class="ae-key-icon"><i class="fa fa-microchip"/></div>
+                                <div class="ae-key-main">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <label class="mb-0"><t t-esc="_t('OpenAI Enterprise Key')"/></label>
+                                        <span class="ae-secure-tag"><i class="fa fa-lock"/> <t t-esc="_t('Protected')"/></span>
+                                    </div>
+                                    <input type="password"
+                                           t-model="config.openai_api_key"
+                                           t-on-input="(ev) => this.onFieldChange('openai_api_key', ev.target.value)"
+                                           placeholder="sk-••••••••••••"
+                                           autocomplete="off"/>
+                                </div>
+                            </div>
+                            <div class="ae-key-row mt-3">
+                                <div class="ae-key-icon purple"><i class="fa fa-cloud"/></div>
+                                <div class="ae-key-main">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <label class="mb-0"><t t-esc="_t('Apify Cloud Token')"/></label>
+                                        <span class="ae-secure-tag"><i class="fa fa-lock"/> <t t-esc="_t('Protected')"/></span>
+                                    </div>
+                                    <input type="password"
+                                           t-model="config.apify_token"
+                                           t-on-input="(ev) => this.onFieldChange('apify_token', ev.target.value)"
+                                           placeholder="apify_api_••••••••••••"
+                                           autocomplete="off"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ── SECTION 4: Publishing Destinations ─────────────────── -->
+                    <div class="ae-settings-section mt-5" id="accounts">
+                        <div class="ae-section-header-v2">
+                            <div class="ae-icon-wrap"><i class="fa fa-link"/></div>
+                            <div class="ae-text-wrap">
+                                <h3><t t-esc="_t('Publishing Destinations')"/></h3>
+                                <p><t t-esc="_t('Connect where your content will be broadcasted.')"/></p>
+                            </div>
+                        </div>
+                        <div class="row g-4 mt-1">
+                            <!-- X Connection Hub -->
                             <div class="col-xl-7 col-lg-12">
-                                <div class="integration-card h-100 p-4 rounded-4 bg-light border-0">
-                                    <div class="d-flex justify-content-between align-items-start mb-4">
-                                        <h6 class="font-weight-bold d-flex align-items-center gap-2 m-0" style="color: #0f1419; font-size:16px;">
-                                            <svg viewBox="0 0 24 24" aria-hidden="true" class="r-18jsvk2 r-4qtqp9 r-yyyyoo r-16y2uox r-lwhw9o r-color-900" style="width: 24px; height: 24px; fill:currentColor;"><g><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.007 3.56H5.022z"></path></g></svg>
-                                            Link X Account
-                                        </h6>
-                                        <span class="badge rounded-pill" t-att-class="isTwitterConnected ? 'bg-success' : 'bg-warning text-dark'">
-                                            <t t-if="isTwitterConnected">
-                                                <i class="fa fa-check me-1"/>
-                                                Connected
-                                            </t>
-                                            <t t-else="">
-                                                <i class="fa fa-plug me-1"/>
-                                                Pending
-                                            </t>
-                                        </span>
+                                <div class="ae-auth-hub-card x-cyber-theme">
+                                    <div class="ae-hub-glow-bg"/>
+                                    <div class="ae-auth-hub-header">
+                                        <div class="ae-brand-box">
+                                            <i class="fa fa-twitter"/>
+                                            <div class="ae-brand-status" t-att-class="isTwitterConnected ? 'verified' : 'pending'">
+                                                <i t-att-class="isTwitterConnected ? 'fa fa-check-circle' : 'fa fa-exclamation-circle'"/>
+                                            </div>
+                                        </div>
+                                        <div class="ae-brand-info">
+                                            <h4><t t-esc="_t('X Connection Hub')"/></h4>
+                                            <p t-if="!isTwitterConnected"><t t-esc="_t('Authorize broadcasting to your X account.')"/></p>
+                                            <p t-else=""><t t-esc="_t('Broadcast engine is active and verified.')"/></p>
+                                        </div>
+                                        <div class="ae-verified-badge" t-if="isTwitterConnected">
+                                            <span><t t-esc="_t('LIVE')"/></span>
+                                        </div>
                                     </div>
 
-                                    <!-- Logic: If connected, show profile card. If NOT, show inputs. -->
-                                    <t t-if="isTwitterConnected">
-                                        <div class="sr-connected-card p-3 rounded-4 d-flex align-items-center justify-content-between" style="background: rgba(29, 161, 242, 0.05); border: 1px solid rgba(29, 161, 242, 0.2);">
-                                            <div class="d-flex align-items-center">
-                                                <div class="me-3 position-relative">
-                                                    <t t-if="config.twitterUser and config.twitterUser.profile_image_url">
-                                                        <img t-att-src="config.twitterUser.profile_image_url" class="rounded-circle border border-2 border-white shadow-sm" style="width: 64px; height: 64px;"/>
-                                                    </t>
-                                                    <t t-else="">
-                                                        <div class="rounded-circle bg-dark text-white d-flex justify-content-center align-items-center shadow-sm" style="width: 64px; height: 64px; font-size: 28px;">
-                                                            <i class="fa fa-twitter"/>
+                                    <div class="ae-auth-hub-content mt-4">
+                                        <t t-if="isTwitterConnected">
+                                            <div class="ae-active-profile">
+                                                <div class="ae-profile-main">
+                                                    <div class="ae-avatar-wrapper">
+                                                        <img t-if="config.twitterUser" t-att-src="config.twitterUser.profile_image_url" class="ae-acc-avatar"/>
+                                                        <div class="ae-avatar-ring"/>
+                                                    </div>
+                                                    <div class="ae-acc-text">
+                                                        <div class="ae-name-row">
+                                                            <h5><t t-esc="this.getTwitterName()"/></h5>
+                                                            <i class="fa fa-certificate text-primary ms-1"/>
                                                         </div>
-                                                    </t>
-                                                    <div class="position-absolute bottom-0 end-0 bg-dark rounded-circle d-flex align-items-center justify-content-center border border-2 border-white" style="width: 20px; height: 20px;">
-                                                        <svg viewBox="0 0 24 24" style="width:10px;height:10px;fill:white;"><g><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.007 3.56H5.022z"/></g></svg>
+                                                        <p>@<t t-esc="this.getTwitterUsername()"/></p>
                                                     </div>
                                                 </div>
-                                                <div class="text-start">
-                                                    <h5 class="mb-0 fw-bold"><t t-esc="this.getTwitterName()"/></h5>
-                                                    <p class="text-muted mb-0">@<t t-esc="this.getTwitterUsername()"/></p>
-                                                    <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill mt-1">
-                                                        Connected &amp; Active
-                                                    </span>
+                                                <button class="ae-btn-unlink-minimal" t-on-click="disconnectTwitter">
+                                                    <i class="fa fa-chain-broken"/> <t t-esc="_t('Terminate Session')"/>
+                                                </button>
+                                            </div>
+                                        </t>
+                                        <t t-else="">
+                                            <div class="ae-auth-form-cyber">
+                                                <div class="ae-cyber-group-label"><t t-esc="_t('Authentication Tokens')"/></div>
+                                                <div class="ae-credential-grid mt-3">
+                                                    <div class="ae-cyber-input-wrap">
+                                                        <div class="ae-field-meta">
+                                                            <label><t t-esc="_t('API Key')"/></label>
+                                                            <span class="ae-secure-tag-mini"><i class="fa fa-lock"/></span>
+                                                        </div>
+                                                        <input type="password" t-model="config.x_api_key"
+                                                               t-on-input="(ev) => this.onFieldChange('x_api_key', ev.target.value)"
+                                                               placeholder="••••••••••••" autocomplete="off"/>
+                                                    </div>
+                                                    <div class="ae-cyber-input-wrap">
+                                                        <div class="ae-field-meta">
+                                                            <label><t t-esc="_t('API Secret')"/></label>
+                                                            <span class="ae-secure-tag-mini"><i class="fa fa-lock"/></span>
+                                                        </div>
+                                                        <input type="password" t-model="config.x_api_secret"
+                                                               t-on-input="(ev) => this.onFieldChange('x_api_secret', ev.target.value)"
+                                                               placeholder="••••••••••••" autocomplete="off"/>
+                                                    </div>
+                                                    <div class="ae-cyber-input-wrap">
+                                                        <div class="ae-field-meta">
+                                                            <label><t t-esc="_t('Access Token')"/></label>
+                                                            <span class="ae-secure-tag-mini"><i class="fa fa-lock"/></span>
+                                                        </div>
+                                                        <input type="password" t-model="config.x_access_token"
+                                                               t-on-input="(ev) => this.onFieldChange('x_access_token', ev.target.value)"
+                                                               placeholder="••••••••••••" autocomplete="off"/>
+                                                    </div>
+                                                    <div class="ae-cyber-input-wrap">
+                                                        <div class="ae-field-meta">
+                                                            <label><t t-esc="_t('Token Secret')"/></label>
+                                                            <span class="ae-secure-tag-mini"><i class="fa fa-lock"/></span>
+                                                        </div>
+                                                        <input type="password" t-model="config.x_access_token_secret"
+                                                               t-on-input="(ev) => this.onFieldChange('x_access_token_secret', ev.target.value)"
+                                                               placeholder="••••••••••••" autocomplete="off"/>
+                                                    </div>
                                                 </div>
+                                                <button class="ae-btn-cyber-authorize mt-4"
+                                                        t-att-disabled="!config.isFullyConfigured"
+                                                        t-on-click="saveConfig">
+                                                    <i class="fa fa-shield"/> <t t-esc="_t('Authorize Broadcast Engine')"/>
+                                                </button>
                                             </div>
-                                            <button class="btn btn-outline-danger btn-sm rounded-pill px-3 fw-bold" t-on-click="disconnectTwitter">
-                                                <i class="fa fa-unlink me-1"/>
-                                                Disconnect
-                                            </button>
-                                        </div>
-                                    </t>
-                                    <t t-else="">
-                                        <div class="row g-3">
-                                            <div class="col-md-6 text-start">
-                                                <label class="sr-label x-small mb-1">API Key</label>
-                                                <div class="input-group input-group-sm">
-                                                    <input t-att-type="state.ui.showTwitterApiKey ? 'text' : 'password'" autocomplete="new-password" class="form-control" t-model="config.x_api_key" t-on-input="(ev) => this.onFieldChange('x_api_key', ev.target.value)"/>
-                                                    <button class="btn btn-outline-secondary" type="button" t-on-click="() => this.toggleVisibility('showTwitterApiKey')">
-                                                        <i t-attf-class="fa {{ state.ui.showTwitterApiKey ? 'fa-eye-slash' : 'fa-eye' }}"/>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 text-start">
-                                                <label class="sr-label x-small mb-1">API Secret</label>
-                                                <div class="input-group input-group-sm">
-                                                    <input t-att-type="state.ui.showTwitterApiSecret ? 'text' : 'password'" autocomplete="new-password" class="form-control" t-model="config.x_api_secret" t-on-input="(ev) => this.onFieldChange('x_api_secret', ev.target.value)"/>
-                                                    <button class="btn btn-outline-secondary" type="button" t-on-click="() => this.toggleVisibility('showTwitterApiSecret')">
-                                                        <i t-attf-class="fa {{ state.ui.showTwitterApiSecret ? 'fa-eye-slash' : 'fa-eye' }}"/>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 text-start">
-                                                <label class="sr-label x-small mb-1">Access Token</label>
-                                                <div class="input-group input-group-sm">
-                                                    <input t-att-type="state.ui.showTwitterAccessToken ? 'text' : 'password'" autocomplete="new-password" class="form-control" t-model="config.x_access_token" t-on-input="(ev) => this.onFieldChange('x_access_token', ev.target.value)"/>
-                                                    <button class="btn btn-outline-secondary" type="button" t-on-click="() => this.toggleVisibility('showTwitterAccessToken')">
-                                                        <i t-attf-class="fa {{ state.ui.showTwitterAccessToken ? 'fa-eye-slash' : 'fa-eye' }}"/>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 text-start">
-                                                <label class="sr-label x-small mb-1">Access Secret</label>
-                                                <div class="input-group input-group-sm">
-                                                    <input t-att-type="state.ui.showTwitterAccessSecret ? 'text' : 'password'" autocomplete="new-password" class="form-control" t-model="config.x_access_token_secret" t-on-input="(ev) => this.onFieldChange('x_access_token_secret', ev.target.value)"/>
-                                                    <button class="btn btn-outline-secondary" type="button" t-on-click="() => this.toggleVisibility('showTwitterAccessSecret')">
-                                                        <i t-attf-class="fa {{ state.ui.showTwitterAccessSecret ? 'fa-eye-slash' : 'fa-eye' }}"/>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <!-- Cookies were moved to Search section -->
-                                        </div>
-                                        <div class="d-flex flex-column flex-md-row align-items-stretch align-items-md-center mt-3 gap-3">
-                                            <div class="alert alert-warning mb-0 p-2 small border-0 flex-grow-1 text-start">
-                                                <i class="fa fa-exclamation-triangle me-2"/>
-                                                Please enter all keys then click "Connect Account".
-                                            </div>
-                                            <button class="btn btn-primary font-weight-bold rounded-pill px-4 py-2 w-100 w-md-auto" t-att-disabled="!config.isFullyConfigured" t-on-click="saveConfig">
-                                                <i class="fa fa-link me-2"/>
-                                                Connect Account
-                                            </button>
-                                        </div>
-                                    </t>
+                                        </t>
+                                    </div>
                                 </div>
                             </div>
 
-                            <!-- Odoo Website Integration -->
+                            <!-- Odoo Blog Channel -->
                             <div class="col-xl-5 col-lg-12">
-                                <div class="integration-card h-100 p-4 rounded-4 bg-light border-0">
-                                    <div class="d-flex justify-content-between align-items-start mb-4">
-                                        <h6 class="font-weight-bold d-flex align-items-center gap-2 m-0" style="color: var(--v4-indigo); font-size:16px;">
-                                            <i class="fa fa-globe fa-lg"/>
-                                            Auto-Publish to Website Blog
-                                        </h6>
-                                        <span class="badge rounded-pill" t-att-class="isOdooBlogConnected ? 'bg-success' : 'bg-secondary'">
-                                            <t t-if="isOdooBlogConnected">
-                                                Connected
-                                            </t>
-                                            <t t-else="">
-                                                Disabled
-                                            </t>
+                                <div class="ae-account-card odoo-theme">
+                                    <div class="ae-acc-header">
+                                        <div class="ae-acc-logo"><i class="fa fa-globe"/></div>
+                                        <span class="ae-acc-status" t-att-class="isOdooBlogConnected ? 'online' : 'offline'">
+                                            <t t-esc="_t('Blog')"/>
                                         </span>
                                     </div>
-                                    
-                                        <p class="text-muted small mb-4">When a Blog ID is provided, the system will convert tweets into full articles and publish them automatically to your blog, boosting your SEO visibility.</p>
-                                    
-                                    <div class="form-group mb-0">
-                                        <label class="sr-label mb-2">
-                                            Odoo Blog ID
-                                        </label>
-                                        <input type="number" class="form-control w-100" placeholder="e.g. 1" t-model="config.odoo_blog_id" t-on-input="(ev) => this.onFieldChange('odoo_blog_id', ev.target.value)"/>
+                                    <div class="ae-acc-setup mt-4">
+                                        <label class="ae-label"><t t-esc="_t('Odoo Blog Channel ID')"/></label>
+                                        <input type="number" class="ae-input-alt mt-2"
+                                               t-model="config.odoo_blog_id"
+                                               t-on-input="(ev) => this.onFieldChange('odoo_blog_id', ev.target.value)"
+                                               placeholder="e.g. 1"/>
+                                        <p class="ae-hint smaller mt-3"><t t-esc="_t('Leave empty to disable Odoo Website publishing.')"/></p>
                                     </div>
                                 </div>
                             </div>
-                            
                         </div>
                     </div>
 

@@ -1,21 +1,24 @@
 /** @odoo-module **/
 
 import { Component, useState, onWillStart } from "@odoo/owl";
-import { _t } from "@web/core/l10n/translation";
-import { useService } from "@web/core/utils/hooks";
 import { registry } from "@web/core/registry";
+import { useService } from "@web/core/utils/hooks";
+import { _t } from "@web/core/l10n/translation";
 
 export class TargetsPage extends Component {
+    static template = "alpha_echo.TargetsPage";
+    static props = {};
+
+    /** Expose _t to the OWL template context */
+    get _t() { return _t; }
+
     setup() {
         this.radarService = useService("alpha_echo.radar_service");
-        this.orm = useService("orm");
-        this.actionService = useService("action");
-        
-        this._t = _t;
-        this.radarState = useState(this.radarService.state);
+        this.notification  = useService("notification");
+        this.orm           = useService("orm");
+
         this.state = useState({
-            activeTab: 'all',
-            searchQuery: '',
+            searchQuery: "",
             selectedTarget: null,
             targetRecentPosts: [],
         });
@@ -25,77 +28,79 @@ export class TargetsPage extends Component {
         });
     }
 
-    async syncListMembers() {
-        await this.radarService.syncListMembers();
-    }
-    async deleteTarget(id) {
-        if (confirm(_t("Are you sure you want to delete this target?"))) {
-            await this.radarService.deleteTarget(id);
-        }
-    }
-
-    get targets() {
-        return this.radarState.targets;
+    get radarState() {
+        return this.radarService.state;
     }
 
     get filteredTargets() {
-        if (!this.state.searchQuery) return this.targets;
-        const q = this.state.searchQuery.toLowerCase();
-        return this.targets.filter(t => 
-            (t.name && t.name.toLowerCase().includes(q)) ||
-            (t.handle && t.handle.toLowerCase().includes(q))
+        const q = this.state.searchQuery.toLowerCase().trim();
+        const targets = this.radarState.targets;
+        if (!q) return targets;
+        return targets.filter(
+            (t) =>
+                (t.name   && t.name.toLowerCase().includes(q)) ||
+                (t.handle && t.handle.toLowerCase().includes(q))
         );
     }
 
-    async setTab(tabName) {
-        this.state.activeTab = tabName;
-        // Always load all targets since categories are removed
-        await this.radarService.loadTargets();
+    /**
+     * Returns a translated label for a boolean active flag.
+     * @param {boolean} isActive
+     */
+    getEngineStatusLabel(isActive) {
+        return isActive ? _t("Active") : _t("Inactive");
     }
-    
+
+    /**
+     * Returns a translated label for the selected target's active status.
+     */
+    getSelectedTargetStatusLabel() {
+        if (!this.state.selectedTarget) return "";
+        return this.state.selectedTarget.is_active ? _t("Active &amp; Capturing") : _t("Monitoring Paused");
+    }
+
+    /**
+     * Returns a translated post state label for the analytics timeline.
+     * @param {string} state
+     */
+    getPostStatusLabel(state) {
+        const labels = {
+            draft:     _t("In Review"),
+            published: _t("Published"),
+            rejected:  _t("Rejected"),
+        };
+        return labels[state] || state;
+    }
+
     async openTargetAnalytics(target) {
         this.state.selectedTarget = target;
         this.state.targetRecentPosts = [];
-        
-        const posts = await this.orm.searchRead(
-            "alpha.echo.post",
-            [['target_id', '=', target.id]],
-            ["original_text", "ai_generated_text", "state", "create_date"],
-            { limit: 5, order: "create_date desc" }
-        );
-        
-        if (this.state.selectedTarget && this.state.selectedTarget.id === target.id) {
+        try {
+            const posts = await this.orm.searchRead(
+                "alpha.echo.post",
+                [["target_id", "=", target.id]],
+                ["ai_generated_text", "original_text", "state", "create_date"],
+                { limit: 5, order: "create_date desc" }
+            );
             this.state.targetRecentPosts = posts;
+        } catch (e) {
+            this.notification.add(_t("Failed to load recent posts for this target."), { type: "warning" });
         }
     }
-    
+
     closeTargetAnalytics() {
         this.state.selectedTarget = null;
         this.state.targetRecentPosts = [];
     }
 
-    // (Removed category mappings)
-
-
-    getEngineStatusLabel(isActive) {
-        return isActive ? _t('Exploration engine active') : _t('Monitoring system paused');
-    }
-
-    getSelectedTargetStatusLabel() {
-        return this.state.selectedTarget.is_active ? _t('Active \u0026 Capturing') : _t('Paused');
-    }
-
-    // (Removed getSelectedTargetCategoryLabel)
-
-    getPostStatusLabel(state) {
-        const states = {
-            'published': _t('Published'),
-            'draft': _t('Pending Draft'),
-            'rejected': _t('Rejected')
-        };
-        return states[state] || _t('Rejected');
+    async deleteTarget(id) {
+        try {
+            await this.radarService.deleteTarget(id);
+            this.notification.add(_t("Target removed successfully."), { type: "success" });
+        } catch (e) {
+            this.notification.add(_t("Failed to remove target."), { type: "danger" });
+        }
     }
 }
 
-TargetsPage.template = "alpha_echo.TargetsPage";
 registry.category("actions").add("alpha_echo.targets_client_action", TargetsPage);

@@ -28,196 +28,70 @@
 
                 <!-- ══ CONTENT GRID ══════════════════════════════════════════════ -->
                 <div class="ae-targets-grid">
-                    
-                    <!-- Case 1: Locked State -->
-                    <t t-if="!radarState.config.twitterLinked or !radarState.config.x_list_id">
-                        <div class="ae-lock-screen">
-                            <div class="ae-lock-card">
-                                <div class="ae-lock-icon">
-                                    <i t-if="!radarState.config.twitterLinked" class="fa fa-twitter"/>
-                                    <i t-else="" class="fa fa-list-ul"/>
-                                </div>
-                                <h3><t t-esc="!radarState.config.twitterLinked ? _t('X Account Required') : _t('X List ID Required')"/></h3>
-                                <p><t t-esc="!radarState.config.twitterLinked ? _t('Link your X account from Settings to activate discovery.') : _t('Add your X List URL or ID in Settings to start monitoring targets.')"/></p>
+
+                    <!-- Case 1: Locked — X account not connected -->
+                    <t t-if="!radarState.config.twitterLinked">
+                        <div class="ae-empty-hero">
+                            <div class="ae-empty-hero-ring"/>
+                            <div class="ae-empty-icon ae-empty-icon-lock">
+                                <i class="fa fa-twitter"/>
+                            </div>
+                            <h2><t t-esc="_t('X Account Required')"/></h2>
+                            <p><t t-esc="_t('Link your X account from Settings to activate discovery.')"/></p>
+                            <div class="ae-empty-actions">
+                                <a class="ae-btn-hero ae-btn-hero-primary" href="/odoo/alpha-echo/config">
+                                    <i class="fa fa-plug"/> <t t-esc="_t('Go to Settings')"/>
+                                </a>
+                            </div>
+                        </div>
+                    </t>
+
+                    <!-- Case 1b: Locked — X List not set -->
+                    <t t-elif="!radarState.config.x_list_id">
+                        <div class="ae-empty-hero">
+                            <div class="ae-empty-hero-ring ae-ring-amber"/>
+                            <div class="ae-empty-icon ae-empty-icon-amber">
+                                <i class="fa fa-list-ul"/>
+                            </div>
+                            <h2><t t-esc="_t('X List ID Required')"/></h2>
+                            <p><t t-esc="_t('Add your X List URL or ID in Settings to start monitoring targets.')"/></p>
+                            <div class="ae-empty-actions">
+                                <a class="ae-btn-hero ae-btn-hero-amber" href="/odoo/alpha-echo/config">
+                                    <i class="fa fa-cog"/> <t t-esc="_t('Configure Now')"/>
+                                </a>
                             </div>
                         </div>
                     </t>
 
                     <!-- Case 2: Loading -->
-                    <t t-elif="radarState.isLoading and targets.length === 0">
-                        <div class="ae-loading-state">
-                            <div class="ae-loader"></div>
-                            <p>Discovering targets from X...</p>
+                    <t t-elif="radarState.isLoading and filteredTargets.length === 0">
+                        <div class="ae-empty-hero">
+                            <div class="ae-empty-icon ae-empty-icon-spin">
+                                <i class="fa fa-spinner fa-spin"/>
+                            </div>
+                            <h2><t t-esc="_t('Discovering Targets...')"/></h2>
+                            <p><t t-esc="_t('Scanning your X List for monitored accounts.')"/></p>
                         </div>
                     </t>
 
-                    <!-- Force Preview Mode with Dummy Data -->
-                    <t t-if="true">
-
-                        <!-- Dummy Target 1 -->
-                        <div class="ae-target-card ae-dummy" t-on-click="() => this.openTargetAnalytics({id: 't1', name: 'Saudi News Network', handle: 'SaudiNewsNet', posts_count: 154, is_active: true})">
-                            <div class="ae-card-glow glow-indigo"/>
-                            <div class="ae-card-head">
-                                <div class="ae-target-info">
-                                    <h3>Saudi News Network</h3>
-                                    <span class="ae-handle"><i class="fa fa-at"/> SaudiNewsNet</span>
-                                </div>
+                    <!-- Case 3: Empty — configured but no targets yet -->
+                    <t t-elif="filteredTargets.length === 0">
+                        <div class="ae-empty-hero">
+                            <div class="ae-empty-hero-ring"/>
+                            <div class="ae-empty-icon">
+                                <i class="fa fa-crosshairs"/>
                             </div>
-                            <div class="ae-card-body">
-                                <div class="ae-stat-row">
-                                    <div class="ae-stat">
-                                        <span class="label">Captured</span>
-                                        <span class="value"><i class="fa fa-bolt"/> 154</span>
-                                    </div>
-                                    <div class="ae-stat">
-                                        <span class="label">Priority</span>
-                                        <span class="value text-emerald">High</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="ae-card-foot">
-                                <span class="ae-status-tag active"><span class="ae-dot"/>Monitoring</span>
-                                <span class="ae-hint">Click for analytics</span>
-                            </div>
-                        </div>
-
-                        <!-- Dummy Target 2 -->
-                        <div class="ae-target-card ae-dummy" t-on-click="() => this.openTargetAnalytics({id: 't2', name: 'Al Arabiya Business', handle: 'AlArabiya_Bn', posts_count: 89, is_active: true})">
-                            <div class="ae-card-glow glow-emerald"/>
-                            <div class="ae-card-head">
-                                <div class="ae-target-info">
-                                    <h3>Al Arabiya Business</h3>
-                                    <span class="ae-handle"><i class="fa fa-at"/> AlArabiya_Bn</span>
-                                </div>
-                            </div>
-                            <div class="ae-card-body">
-                                <div class="ae-stat-row">
-                                    <div class="ae-stat">
-                                        <span class="label">Captured</span>
-                                        <span class="value"><i class="fa fa-bolt"/> 89</span>
-                                    </div>
-                                    <div class="ae-stat">
-                                        <span class="label">Source</span>
-                                        <span class="value">Official</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="ae-card-foot">
-                                <span class="ae-status-tag active"><span class="ae-dot"/>Monitoring</span>
-                                <span class="ae-hint">Click for analytics</span>
-                            </div>
-                        </div>
-
-                        <!-- Dummy Target 3 -->
-                        <div class="ae-target-card ae-dummy" t-on-click="() => this.openTargetAnalytics({id: 't3', name: 'UAE Tech Insights', handle: 'UAETech', posts_count: 42, is_active: true})">
-                            <div class="ae-card-glow glow-indigo"/>
-                            <div class="ae-card-head">
-                                <div class="ae-target-info">
-                                    <h3>UAE Tech Insights</h3>
-                                    <span class="ae-handle"><i class="fa fa-at"/> UAETech</span>
-                                </div>
-                            </div>
-                            <div class="ae-card-body">
-                                <div class="ae-stat-row">
-                                    <div class="ae-stat">
-                                        <span class="label">Captured</span>
-                                        <span class="value"><i class="fa fa-bolt"/> 42</span>
-                                    </div>
-                                    <div class="ae-stat">
-                                        <span class="label">Scan Type</span>
-                                        <span class="value">Automatic</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="ae-card-foot">
-                                <span class="ae-status-tag active"><span class="ae-dot"/>Monitoring</span>
-                                <span class="ae-hint">Click for analytics</span>
-                            </div>
-                        </div>
-
-                        <!-- Dummy Target 4 -->
-                        <div class="ae-target-card ae-dummy" t-on-click="() => this.openTargetAnalytics({id: 't4', name: 'Economic World', handle: 'EcoWorld', posts_count: 215, is_active: true})">
-                            <div class="ae-card-glow glow-rose"/>
-                            <div class="ae-card-head">
-                                <div class="ae-target-info">
-                                    <h3>Economic World</h3>
-                                    <span class="ae-handle"><i class="fa fa-at"/> EcoWorld</span>
-                                </div>
-                            </div>
-                            <div class="ae-card-body">
-                                <div class="ae-stat-row">
-                                    <div class="ae-stat">
-                                        <span class="label">Captured</span>
-                                        <span class="value"><i class="fa fa-bolt"/> 215</span>
-                                    </div>
-                                    <div class="ae-stat">
-                                        <span class="label">Status</span>
-                                        <span class="value text-rose">Critcal</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="ae-card-foot">
-                                <span class="ae-status-tag active"><span class="ae-dot"/>Monitoring</span>
-                                <span class="ae-hint">Click for analytics</span>
-                            </div>
-                        </div>
-
-                        <!-- Dummy Target 5 -->
-                        <div class="ae-target-card ae-dummy" t-on-click="() => this.openTargetAnalytics({id: 't5', name: 'Vision 2030 News', handle: 'KSA_V2030', posts_count: 312, is_active: true})">
-                            <div class="ae-card-glow glow-emerald"/>
-                            <div class="ae-card-head">
-                                <div class="ae-target-info">
-                                    <h3>Vision 2030 News</h3>
-                                    <span class="ae-handle"><i class="fa fa-at"/> KSA_V2030</span>
-                                </div>
-                            </div>
-                            <div class="ae-card-body">
-                                <div class="ae-stat-row">
-                                    <div class="ae-stat">
-                                        <span class="label">Captured</span>
-                                        <span class="value"><i class="fa fa-bolt"/> 312</span>
-                                    </div>
-                                    <div class="ae-stat">
-                                        <span class="label">Growth</span>
-                                        <span class="value text-emerald">+24%</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="ae-card-foot">
-                                <span class="ae-status-tag active"><span class="ae-dot"/>Monitoring</span>
-                                <span class="ae-hint">Click for analytics</span>
-                            </div>
-                        </div>
-
-                        <!-- Dummy Target 6 -->
-                        <div class="ae-target-card ae-dummy" t-on-click="() => this.openTargetAnalytics({id: 't6', name: 'Riyadh Business', handle: 'RiyadhBiz', posts_count: 67, is_active: true})">
-                            <div class="ae-card-glow glow-indigo"/>
-                            <div class="ae-card-head">
-                                <div class="ae-target-info">
-                                    <h3>Riyadh Business</h3>
-                                    <span class="ae-handle"><i class="fa fa-at"/> RiyadhBiz</span>
-                                </div>
-                            </div>
-                            <div class="ae-card-body">
-                                <div class="ae-stat-row">
-                                    <div class="ae-stat">
-                                        <span class="label">Captured</span>
-                                        <span class="value"><i class="fa fa-bolt"/> 67</span>
-                                    </div>
-                                    <div class="ae-stat">
-                                        <span class="label">Update</span>
-                                        <span class="value">Hourly</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="ae-card-foot">
-                                <span class="ae-status-tag active"><span class="ae-dot"/>Monitoring</span>
-                                <span class="ae-hint">Click for analytics</span>
+                            <h2><t t-esc="_t('No Targets Found')"/></h2>
+                            <p><t t-esc="_t('No accounts have been discovered yet. Make sure your X List is configured, then trigger a scan.')"/></p>
+                            <div class="ae-empty-actions">
+                                <a class="ae-btn-hero ae-btn-hero-primary" href="/odoo/alpha-echo/config">
+                                    <i class="fa fa-refresh"/> <t t-esc="_t('Trigger a Scan')"/>
+                                </a>
                             </div>
                         </div>
                     </t>
 
-                    <!-- Real Targets -->
+                    <!-- Case 4: Real Targets -->
                     <t t-else="">
                         <t t-foreach="filteredTargets" t-as="target" t-key="target.id">
                             <div class="ae-target-card" t-on-click="() => this.openTargetAnalytics(target)">
@@ -231,18 +105,25 @@
                                 <div class="ae-card-body">
                                     <div class="ae-stat-row">
                                         <div class="ae-stat">
-                                            <span class="label">Captured Content</span>
+                                            <span class="label"><t t-esc="_t('Captured')"/></span>
                                             <span class="value"><i class="fa fa-bolt"/> <t t-esc="target.posts_count"/></span>
+                                        </div>
+                                        <div class="ae-stat">
+                                            <span class="label"><t t-esc="_t('Status')"/></span>
+                                            <span t-attf-class="value {{ target.is_active ? 'text-emerald' : '' }}">
+                                                <t t-esc="this.getEngineStatusLabel(target.is_active)"/>
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="ae-card-foot">
-                                    <span class="ae-status-tag active"><span class="ae-dot"/>Monitoring Active</span>
-                                    <span class="ae-hint">Click for analytics</span>
+                                    <span class="ae-status-tag active"><span class="ae-dot"/><t t-esc="_t('Monitoring Active')"/></span>
+                                    <span class="ae-hint"><t t-esc="_t('Click for analytics')"/></span>
                                 </div>
                             </div>
                         </t>
                     </t>
+
                 </div>
             </div>
 
@@ -277,14 +158,14 @@
                 <!-- Left: Stats -->
                 <div class="ae-analytics-col">
                     <div class="ae-insight-card">
-                        <h4>Target Insights</h4>
+                        <h4><t t-esc="_t('Target Insights')"/></h4>
                         <div class="ae-stat-group">
                             <div class="ae-stat-item">
-                                <span class="label">Engine Status</span>
-                                <span class="value text-emerald">Active &amp; Capturing</span>
+                                <span class="label"><t t-esc="_t('Engine Status')"/></span>
+                                <span class="value text-emerald"><t t-esc="this.getSelectedTargetStatusLabel()"/></span>
                             </div>
                             <div class="ae-stat-item">
-                                <span class="label">Total Discoveries</span>
+                                <span class="label"><t t-esc="_t('Total Discoveries')"/></span>
                                 <span class="value big"><t t-esc="state.selectedTarget.posts_count"/></span>
                             </div>
                         </div>
@@ -293,10 +174,10 @@
                 <!-- Right: Timeline -->
                 <div class="ae-analytics-col">
                     <div class="ae-timeline-card">
-                        <h4><i class="fa fa-feed"/> Recent Timeline</h4>
+                        <h4><i class="fa fa-feed"/> <t t-esc="_t('Recent Timeline')"/></h4>
                         <div class="ae-timeline">
                             <t t-if="state.targetRecentPosts.length === 0">
-                                <div class="ae-timeline-empty">Loading latest updates...</div>
+                                <div class="ae-timeline-empty"><t t-esc="_t('Loading latest updates...')"/></div>
                             </t>
                             <t t-else="">
                                 <t t-foreach="state.targetRecentPosts" t-as="post" t-key="post.id">

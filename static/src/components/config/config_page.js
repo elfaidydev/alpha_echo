@@ -8,6 +8,8 @@ import { localization } from "@web/core/l10n/localization";
 
 export class ConfigPage extends Component {
     get isRTL() { return localization.direction === "rtl"; }
+    /** Expose _t to the OWL template context */
+    get _t() { return _t; }
 
     setup() {
         this.radarService = useService("alpha_echo.radar_service");
@@ -29,7 +31,6 @@ export class ConfigPage extends Component {
                 renderTrigger: 0,
             }
         });
-        this._t = _t;
 
         onWillStart(async () => {
             await this.radarService.fetchConfig();
@@ -178,6 +179,25 @@ export class ConfigPage extends Component {
         }
     }
     
+    // --- Configuration Health ---
+    get configHealth() {
+        const conf = this.config;
+        const health = {
+            isAiReady: !!conf.openai_api_key,
+            isScraperReady: !!(conf.apify_token && conf.x_auth_token && conf.x_ct0),
+            isXLinked: this.isTwitterConnected,
+            hasPrompt: !!(conf.custom_ai_instructions && conf.custom_ai_instructions.length > 20),
+            hasList: !!conf.x_list_id
+        };
+        
+        const total = 5;
+        const readyCount = Object.values(health).filter(v => v).length;
+        health.percent = Math.round((readyCount / total) * 100);
+        health.status = health.percent === 100 ? 'optimal' : (health.percent > 50 ? 'partial' : 'critical');
+        
+        return health;
+    }
+
     toggleVisibility(field) {
         this.state.ui[field] = !this.state.ui[field];
     }

@@ -78,8 +78,6 @@ class SmartRadarTarget(models.Model):
             updates = {}
             if name and target.name == target.handle:
                 updates['name'] = name
-            if profile_pic and not target.image_1920:
-                updates['image_1920'] = profile_pic
             if updates:
                 target.write(updates)
             return target

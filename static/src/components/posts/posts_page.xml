@@ -26,13 +26,13 @@
                         <!-- Stats chips -->
                         <div class="ae-stat-chips">
                             <span class="ae-chip chip-total">
-                                <i class="fa fa-bolt"/> <t t-esc="posts.length"/> Total
+                                <i class="fa fa-bolt"/> <t t-esc="posts.length"/> <t t-esc="_t('Total')"/>
                             </span>
                             <span class="ae-chip chip-draft">
-                                <i class="fa fa-clock-o"/> Pending
+                                <i class="fa fa-clock-o"/> <t t-esc="_t('Pending')"/>
                             </span>
                             <span class="ae-chip chip-published">
-                                <i class="fa fa-check-circle"/> Published
+                                <i class="fa fa-check-circle"/> <t t-esc="_t('Published')"/>
                             </span>
                         </div>
                     </div>
@@ -41,16 +41,16 @@
                     <div class="ae-tabs-row">
                         <div class="ae-tabs">
                             <button t-attf-class="ae-tab {{ state.activeTab === 'all'       ? 'active' : '' }}" t-on-click="() => this.setTab('all')">
-                                <i class="fa fa-th-large"/> All
+                                <i class="fa fa-th-large"/> <t t-esc="_t('All')"/>
                             </button>
                             <button t-attf-class="ae-tab {{ state.activeTab === 'draft'     ? 'active' : '' }}" t-on-click="() => this.setTab('draft')">
-                                <i class="fa fa-hourglass-half"/> Pending
+                                <i class="fa fa-hourglass-half"/> <t t-esc="_t('Pending')"/>
                             </button>
                             <button t-attf-class="ae-tab {{ state.activeTab === 'published' ? 'active' : '' }}" t-on-click="() => this.setTab('published')">
-                                <i class="fa fa-rocket"/> Published
+                                <i class="fa fa-rocket"/> <t t-esc="_t('Published')"/>
                             </button>
                             <button t-attf-class="ae-tab {{ state.activeTab === 'rejected'  ? 'active' : '' }}" t-on-click="() => this.setTab('rejected')">
-                                <i class="fa fa-times-circle"/> Rejected
+                                <i class="fa fa-times-circle"/> <t t-esc="_t('Rejected')"/>
                             </button>
                         </div>
                     </div>
@@ -58,186 +58,26 @@
 
                 <!-- ══ CONTENT GRID ══════════════════════════════════════════════ -->
                 <div class="ae-posts-grid">
-                    <!-- Force rendering DUMMY preview -->
-                    <t t-if="true">
-                        <!-- Dummy data banner -->
-                        <div class="ae-dummy-banner">
-                            <i class="fa fa-eye"/> Preview Mode — Sample cards shown below. Real content will appear once the engine runs.
-                        </div>
 
-                        <!-- Dummy Card 1 -->
-                        <div class="ae-post-card ae-dummy" t-on-click="() => this.openPostModal({
-                            id: 'd1', target_id: [1, 'Saudi News Network'], state: 'draft',
-                            create_date: '2026-03-04 10:00:00',
-                            original_text: '(Original Arabic source text about Masjid Al-Haram expansion)',
-                            source_url: '#',
-                            ai_generated_text: '🚀 Saudi Arabia announces a major expansion plan for Masjid Al-Haram, adding capacity for over 2 million pilgrims simultaneously. The Third Saudi Expansion project is set to redefine the Hajj experience globally.'
-                        })">
-                            <div class="ae-card-glow glow-indigo"/>
-                            <div class="ae-card-head">
-                                <div class="ae-source-chip">
-                                    <span class="ae-source-icon"><i class="fa fa-institution"/></span>
-                                    Saudi News Network
-                                </div>
-                                <span class="ae-badge badge-draft">
-                                    <span class="ae-badge-dot"/>Pending
-                                </span>
-                            </div>
-                            <div class="ae-card-body">
-                                <p class="ae-ai-text">🚀 Saudi Arabia announces a major expansion plan for Masjid Al-Haram, adding capacity for over 2 million pilgrims simultaneously. The Third Saudi Expansion project is set to redefine the Hajj experience globally.</p>
-                            </div>
-                            <div class="ae-card-foot">
-                                <span class="ae-date-chip"><i class="fa fa-calendar-o"/> 2026-03-04</span>
-                                <span class="ae-action-hint"><i class="fa fa-mouse-pointer"/> Click to review</span>
-                            </div>
-                        </div>
-
-                        <!-- Dummy Card 2 -->
-                        <div class="ae-post-card ae-dummy" t-on-click="() => this.openPostModal({
-                            id: 'd2', target_id: [2, 'Tech Arabia'], state: 'published',
-                            create_date: '2026-03-03 14:30:00',
-                            original_text: '(Original source text about UAE AI infrastructure investments)',
-                            source_url: '#',
-                            ai_generated_text: '💡 The UAE\'s artificial intelligence strategy has positioned the region as a global leader in AI adoption. With over $10B invested in AI infrastructure, the Gulf leads the Middle East in digital transformation.'
-                        })">
-                            <div class="ae-card-glow glow-emerald"/>
-                            <div class="ae-card-head">
-                                <div class="ae-source-chip">
-                                    <span class="ae-source-icon"><i class="fa fa-institution"/></span>
-                                    Tech Arabia
-                                </div>
-                                <span class="ae-badge badge-published">
-                                    <span class="ae-badge-dot"/>Published
-                                </span>
-                            </div>
-                            <div class="ae-card-body">
-                                <p class="ae-ai-text">💡 The UAE's artificial intelligence strategy has positioned the region as a global leader in AI adoption. With over $10B invested in AI infrastructure, the Gulf leads the Middle East in digital transformation.</p>
-                            </div>
-                            <div class="ae-card-foot">
-                                <span class="ae-date-chip"><i class="fa fa-calendar-o"/> 2026-03-03</span>
-                                <span class="ae-action-hint"><i class="fa fa-check-circle"/> Published on X</span>
-                            </div>
-                        </div>
-
-                        <!-- Dummy Card 3 -->
-                        <div class="ae-post-card ae-dummy" t-on-click="() => this.openPostModal({
-                            id: 'd3', target_id: [3, 'Economic Monitor'], state: 'draft',
-                            create_date: '2026-03-03 09:15:00',
-                            original_text: '(Original source text detailing Vision 2030 progress)',
-                            source_url: '#',
-                            ai_generated_text: '📊 Saudi Arabia\'s Vision 2030 reaches 78% completion milestone. The diversification of the non-oil economy has exceeded expectations, with tourism revenue growing 150% year-over-year.'
-                        })">
-                            <div class="ae-card-glow glow-indigo"/>
-                            <div class="ae-card-head">
-                                <div class="ae-source-chip">
-                                    <span class="ae-source-icon"><i class="fa fa-institution"/></span>
-                                    Economic Monitor
-                                </div>
-                                <span class="ae-badge badge-draft">
-                                    <span class="ae-badge-dot"/>Pending
-                                </span>
-                            </div>
-                            <div class="ae-card-body">
-                                <p class="ae-ai-text">📊 Saudi Arabia's Vision 2030 reaches 78% completion milestone. The diversification of the non-oil economy has exceeded expectations, with tourism revenue growing 150% year-over-year.</p>
-                            </div>
-                            <div class="ae-card-foot">
-                                <span class="ae-date-chip"><i class="fa fa-calendar-o"/> 2026-03-03</span>
-                                <span class="ae-action-hint"><i class="fa fa-mouse-pointer"/> Click to review</span>
-                            </div>
-                        </div>
-
-                        <!-- Dummy Card 4 -->
-                        <div class="ae-post-card ae-dummy" t-on-click="() => this.openPostModal({
-                            id: 'd4', target_id: [4, 'Gulf Markets Watch'], state: 'rejected',
-                            create_date: '2026-03-02 16:45:00',
-                            original_text: '(Original source text discussing OPEC+ production quotas)',
-                            source_url: '#',
-                            ai_generated_text: '📉 Global oil markets face volatility as OPEC+ debates production quotas for Q2. Analysts forecast prices stabilizing between $78–$88 per barrel over the next quarter.'
-                        })">
-                            <div class="ae-card-glow glow-rose"/>
-                            <div class="ae-card-head">
-                                <div class="ae-source-chip">
-                                    <span class="ae-source-icon"><i class="fa fa-institution"/></span>
-                                    Gulf Markets Watch
-                                </div>
-                                <span class="ae-badge badge-rejected">
-                                    <span class="ae-badge-dot"/>Rejected
-                                </span>
-                            </div>
-                            <div class="ae-card-body">
-                                <p class="ae-ai-text">📉 Global oil markets face volatility as OPEC+ debates production quotas for Q2. Analysts forecast prices stabilizing between $78–$88 per barrel over the next quarter.</p>
-                            </div>
-                            <div class="ae-card-foot">
-                                <span class="ae-date-chip"><i class="fa fa-calendar-o"/> 2026-03-02</span>
-                                <span class="ae-action-hint"><i class="fa fa-times-circle"/> Rejected</span>
-                            </div>
-                        </div>
-
-                        <!-- Dummy Card 5 -->
-                        <div class="ae-post-card ae-dummy" t-on-click="() => this.openPostModal({
-                            id: 'd5', target_id: [5, 'Riyadh Daily'], state: 'published',
-                            create_date: '2026-03-01 11:20:00',
-                            original_text: '(Original source text reporting on NEOM THE LINE construction updates)',
-                            source_url: '#',
-                            ai_generated_text: '🏙️ NEOM\'s THE LINE construction accelerates with 18,000 workers on site. The 170km zero-carbon city is redefining urban architecture and sustainable living for the 22nd century.'
-                        })">
-                            <div class="ae-card-glow glow-emerald"/>
-                            <div class="ae-card-head">
-                                <div class="ae-source-chip">
-                                    <span class="ae-source-icon"><i class="fa fa-institution"/></span>
-                                    Riyadh Daily
-                                </div>
-                                <span class="ae-badge badge-published">
-                                    <span class="ae-badge-dot"/>Published
-                                </span>
-                            </div>
-                            <div class="ae-card-body">
-                                <p class="ae-ai-text">🏙️ NEOM's THE LINE construction accelerates with 18,000 workers on site. The 170km zero-carbon city is redefining urban architecture and sustainable living for the 22nd century.</p>
-                            </div>
-                            <div class="ae-card-foot">
-                                <span class="ae-date-chip"><i class="fa fa-calendar-o"/> 2026-03-01</span>
-                                <span class="ae-action-hint"><i class="fa fa-check-circle"/> Published on X</span>
-                            </div>
-                        </div>
-
-                        <!-- Dummy Card 6 -->
-                        <div class="ae-post-card ae-dummy" t-on-click="() => this.openPostModal({
-                            id: 'd6', target_id: [6, 'Arab Business Today'], state: 'draft',
-                            create_date: '2026-03-01 08:00:00',
-                            original_text: '(Original source text concerning Aramco South Korean partnership)',
-                            source_url: '#',
-                            ai_generated_text: '🤝 Saudi Aramco signs landmark $5B partnership with South Korean tech firms to develop green hydrogen and advanced petrochemical technologies aligned with net-zero goals by 2060.'
-                        })">
-                            <div class="ae-card-glow glow-indigo"/>
-                            <div class="ae-card-head">
-                                <div class="ae-source-chip">
-                                    <span class="ae-source-icon"><i class="fa fa-institution"/></span>
-                                    Arab Business Today
-                                </div>
-                                <span class="ae-badge badge-draft">
-                                    <span class="ae-badge-dot"/>Pending
-                                </span>
-                            </div>
-                            <div class="ae-card-body">
-                                <p class="ae-ai-text">🤝 Saudi Aramco signs landmark $5B partnership with South Korean tech firms to develop green hydrogen and advanced petrochemical technologies aligned with net-zero goals by 2060.</p>
-                            </div>
-                            <div class="ae-card-foot">
-                                <span class="ae-date-chip"><i class="fa fa-calendar-o"/> 2026-03-01</span>
-                                <span class="ae-action-hint"><i class="fa fa-mouse-pointer"/> Click to review</span>
-                            </div>
+                    <!-- Case 1: Loading -->
+                    <t t-if="state.isLoading and posts.length === 0">
+                        <div class="ae-empty-hero">
+                            <div class="ae-empty-icon"><i class="fa fa-spinner fa-spin"/></div>
+                            <h2><t t-esc="_t('Loading Content...')"/></h2>
+                            <p><t t-esc="_t('Fetching the latest posts from the engine.')"/></p>
                         </div>
                     </t>
 
-                    <!-- No search match -->
-                    <t t-elif="filteredPosts.length === 0 and !state.isLoading">
+                    <!-- Case 2: No search match / empty tab -->
+                    <t t-elif="filteredPosts.length === 0">
                         <div class="ae-empty-hero">
                             <div class="ae-empty-icon"><i class="fa fa-folder-open-o"/></div>
-                            <h2>No Results Found</h2>
-                            <p>No content matches your current filter. Try a different search or tab.</p>
+                            <h2><t t-esc="_t('No Results Found')"/></h2>
+                            <p><t t-esc="_t('No content matches your current filter. Try a different search or tab.')"/></p>
                         </div>
                     </t>
 
-                    <!-- Real posts -->
+                    <!-- Case 3: Real posts -->
                     <t t-else="">
                         <t t-foreach="filteredPosts" t-as="post" t-key="post.id">
                             <div class="ae-post-card" t-on-click="() => this.openPostModal(post)">
@@ -253,15 +93,16 @@
                                     </span>
                                 </div>
                                 <div class="ae-card-body">
-                                    <p class="ae-ai-text"><t t-esc="post.ai_generated_text.substring(0, 200)"/>…</p>
+                                    <p class="ae-ai-text"><t t-esc="post.ai_generated_text ? post.ai_generated_text.substring(0, 200) + '…' : post.original_text.substring(0, 200) + '…'"/></p>
                                 </div>
                                 <div class="ae-card-foot">
                                     <span class="ae-date-chip"><i class="fa fa-calendar-o"/> <t t-esc="post.create_date.split(' ')[0]"/></span>
-                                    <span class="ae-action-hint"><i class="fa fa-mouse-pointer"/> Click to review</span>
+                                    <span class="ae-action-hint"><i class="fa fa-mouse-pointer"/> <t t-esc="_t('Click to review')"/></span>
                                 </div>
                             </div>
                         </t>
                     </t>
+
                 </div> <!-- End ae-posts-grid -->
             </div> <!-- End ae-container -->
 
@@ -288,22 +129,22 @@
                                         <span class="ae-col-badge ae-col-badge-x">
                                             <svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:currentColor;"><g><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.007 3.56H5.022z"/></g></svg>
                                         </span>
-                                        Raw Source Tweet
+                                        <t t-esc="_t('Raw Source Tweet')"/>
                                     </div>
                                     <div class="ae-text-box ae-text-raw">
                                         <t t-esc="state.selectedPost.original_text"/>
                                     </div>
                                     <a t-att-href="state.selectedPost.source_url" target="_blank" class="ae-source-link">
-                                        <i class="fa fa-external-link"/> View Original Tweet
+                                        <i class="fa fa-external-link"/> <t t-esc="_t('View Original Tweet')"/>
                                     </a>
                                 </div>
                                 <!-- AI -->
                                 <div class="ae-split-col">
                                     <div class="ae-col-label">
                                         <span class="ae-col-badge ae-col-badge-ai"><i class="fa fa-magic"/></span>
-                                        AI Reformulation — Edit &amp; Approve
+                                        <t t-esc="_t('AI Reformulation — Edit &amp; Approve')"/>
                                     </div>
-                                    <textarea class="ae-text-box ae-text-ai" 
+                                    <textarea class="ae-text-box ae-text-ai"
                                               t-model="state.selectedPost.ai_generated_text"
                                               oninput="this.style.height = ''; this.style.height = this.scrollHeight + 'px'"
                                               style="overflow: hidden;"/>
@@ -316,15 +157,15 @@
                             <div class="ae-modal-actions">
                                 <t t-if="state.selectedPost.state === 'draft'">
                                     <button class="ae-btn-reject" t-on-click="rejectPost">
-                                        <i class="fa fa-trash-o"/> Reject
+                                        <i class="fa fa-trash-o"/> <t t-esc="_t('Reject')"/>
                                     </button>
                                     <button class="ae-btn-publish" t-on-click="approveAndPublish">
-                                        <i class="fa fa-rocket"/> Approve &amp; Publish
+                                        <i class="fa fa-rocket"/> <t t-esc="_t('Approve &amp; Publish')"/>
                                     </button>
                                 </t>
                                 <t t-if="state.selectedPost.state === 'published'">
                                     <button class="ae-btn-done" disabled="1">
-                                        <i class="fa fa-check-circle"/> Published Successfully
+                                        <i class="fa fa-check-circle"/> <t t-esc="_t('Published Successfully')"/>
                                     </button>
                                 </t>
                             </div>

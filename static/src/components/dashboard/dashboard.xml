@@ -3,12 +3,11 @@
     <t t-name="alpha_echo.Dashboard" owl="1">
         <div class="o_alpha_echo_dashboard" t-ref="dashboardMain">
             <div class="sr-v4-dashboard">
-                
+
+                <!-- ══ HEADER ══════════════════════════════════════════════════════ -->
                 <div class="sr-header-v4">
                     <div class="header-right-side">
-                        <div class="logo-box">
-                            <i class="fa fa-braille"/>
-                        </div>
+                        <div class="logo-box"><i class="fa fa-braille"/></div>
                         <div class="title-box">
                             <h1><t t-esc="_t('Dashboard')"/></h1>
                             <p class="subtitle"><t t-esc="_t('Central interface for tracking, reformulating, and publishing content')"/></p>
@@ -16,7 +15,8 @@
                     </div>
                     <div class="header-left-side">
                         <div class="health-nav">
-                            <span class="status-pulse"></span> <t t-esc="radarState.targets.length"/> <t t-esc="_t('monitored sources')"/>
+                            <span class="status-pulse"/>
+                            <t t-esc="radarState.targets.length"/> <t t-esc="_t('monitored sources')"/>
                         </div>
                         <button class="btn-primary-v4" t-on-click="toggleTracking" t-att-class="{'paused': radarState.isTracking}">
                             <t t-esc="trackingBtnLabel"/>
@@ -25,13 +25,13 @@
                     </div>
                 </div>
 
+                <!-- ══ ONBOARDING (not yet configured) ═════════════════════════════ -->
                 <t t-if="!radarState.isOnboarded">
                     <div class="sr-onboarding-hero-v2">
                         <div class="onboarding-bg-blobs">
-                            <div class="blob blob-1"></div>
-                            <div class="blob blob-2"></div>
+                            <div class="blob blob-1"/>
+                            <div class="blob blob-2"/>
                         </div>
-                        
                         <div class="onboarding-main">
                             <div class="onboarding-header">
                                 <h2><t t-esc="_t('Welcome to')"/> <span class="text-gradient">Alpha Echo</span></h2>
@@ -39,14 +39,15 @@
                             </div>
 
                             <div class="onboarding-grid grid-4-steps">
-                                <!-- Step 1: Twitter -->
+
+                                <!-- Step 1: X Account -->
                                 <div t-attf-class="onboarding-card {{ radarState.config.twitterLinked ? 'completed' : 'pending' }}" t-on-click="openSettings">
-                                    <div class="card-glow"></div>
+                                    <div class="card-glow"/>
                                     <div class="card-content">
-                                        <div class="step-label">Step 1</div>
+                                        <div class="step-label"><t t-esc="_t('Step 1')"/></div>
                                         <div class="step-main">
                                             <div class="step-icon">
-                                                <svg viewBox="0 0 24 24" style="width:28px;height:28px;fill:currentColor;"><g><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.007 3.56H5.022z"/></g></svg>
+                                                <svg viewBox="0 0 24 24" class="ae-icon-x"><g><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.007 3.56H5.022z"/></g></svg>
                                                 <div t-if="radarState.config.twitterLinked" class="check-badge"><i class="fa fa-check"/></div>
                                             </div>
                                             <div class="step-info">
@@ -54,9 +55,9 @@
                                                 <p><t t-esc="_t('Authorize the system to publish via your X account.')"/></p>
                                             </div>
                                         </div>
-                                        <div class="step-footer mt-2 text-start">
-                                            <span t-if="radarState.config.twitterLinked" class="status-done"><t t-esc="_t('Linked')"/> <i class="fa fa-check-circle me-1"/></span>
-                                            <span t-else="" class="status-btn"><t t-esc="_t('Connect')"/> <i class="fa fa-link me-1"/></span>
+                                        <div class="step-footer mt-2">
+                                            <span t-if="radarState.config.twitterLinked" class="status-done"><t t-esc="_t('Linked')"/> <i class="fa fa-check-circle"/></span>
+                                            <span t-else="" class="status-btn"><t t-esc="_t('Connect')"/> <i class="fa fa-link"/></span>
                                         </div>
                                     </div>
                                 </div>
@@ -64,9 +65,9 @@
                                 <!-- Step 2: AI Prompt -->
                                 <t t-set="isPromptDone" t-value="radarState.config.custom_ai_instructions and radarState.config.custom_ai_instructions.length > 0"/>
                                 <div t-attf-class="onboarding-card {{ isPromptDone ? 'completed' : 'pending' }}" t-on-click="openSettings">
-                                    <div class="card-glow"></div>
+                                    <div class="card-glow"/>
                                     <div class="card-content">
-                                        <div class="step-label">Step 2</div>
+                                        <div class="step-label"><t t-esc="_t('Step 2')"/></div>
                                         <div class="step-main">
                                             <div class="step-icon">
                                                 <i class="fa fa-magic"/>
@@ -77,19 +78,19 @@
                                                 <p><t t-esc="_t('Define the tone and instructions for the AI engine.')"/></p>
                                             </div>
                                         </div>
-                                        <div class="step-footer mt-2 text-start">
-                                            <span t-if="isPromptDone" class="status-done"><t t-esc="_t('Set')"/> <i class="fa fa-check-circle me-1"/></span>
-                                            <span t-else="" class="status-btn"><t t-esc="_t('Configure')"/> <i class="fa fa-edit me-1"/></span>
+                                        <div class="step-footer mt-2">
+                                            <span t-if="isPromptDone" class="status-done"><t t-esc="_t('Set')"/> <i class="fa fa-check-circle"/></span>
+                                            <span t-else="" class="status-btn"><t t-esc="_t('Configure')"/> <i class="fa fa-edit"/></span>
                                         </div>
                                     </div>
                                 </div>
 
-                                <!-- Step 3: X List Setup -->
+                                <!-- Step 3: X List -->
                                 <t t-set="isListDone" t-value="radarState.config.x_list_id and radarState.config.x_list_id.length > 0"/>
                                 <div t-attf-class="onboarding-card {{ isListDone ? 'completed' : 'pending' }}" t-on-click="openSettings">
-                                    <div class="card-glow"></div>
+                                    <div class="card-glow"/>
                                     <div class="card-content">
-                                        <div class="step-label">Step 3</div>
+                                        <div class="step-label"><t t-esc="_t('Step 3')"/></div>
                                         <div class="step-main">
                                             <div class="step-icon">
                                                 <i class="fa fa-list-ul"/>
@@ -100,19 +101,19 @@
                                                 <p><t t-esc="_t('Set your X List URL and reader account cookies (auth_token &amp; ct0).')"/></p>
                                             </div>
                                         </div>
-                                        <div class="step-footer mt-2 text-start">
-                                            <span t-if="isListDone" class="status-done"><t t-esc="_t('Configured')"/> <i class="fa fa-check-circle me-1"/></span>
-                                            <span t-else="" class="status-btn"><t t-esc="_t('Configure')"/> <i class="fa fa-cog me-1"/></span>
+                                        <div class="step-footer mt-2">
+                                            <span t-if="isListDone" class="status-done"><t t-esc="_t('Configured')"/> <i class="fa fa-check-circle"/></span>
+                                            <span t-else="" class="status-btn"><t t-esc="_t('Configure')"/> <i class="fa fa-cog"/></span>
                                         </div>
                                     </div>
                                 </div>
 
-                                <!-- Step 4: X Reader Cookies (auth_token + ct0) -->
+                                <!-- Step 4: Reader Cookies -->
                                 <t t-set="isCookiesDone" t-value="radarState.config.x_auth_token and radarState.config.x_ct0"/>
                                 <div t-attf-class="onboarding-card {{ isCookiesDone ? 'completed' : 'pending' }}" t-on-click="openSettings">
-                                    <div class="card-glow"></div>
+                                    <div class="card-glow"/>
                                     <div class="card-content">
-                                        <div class="step-label">Step 4</div>
+                                        <div class="step-label"><t t-esc="_t('Step 4')"/></div>
                                         <div class="step-main">
                                             <div class="step-icon">
                                                 <i class="fa fa-key"/>
@@ -123,226 +124,252 @@
                                                 <p><t t-esc="_t('Set auth_token and ct0 for the X reader account used to scrape the list.')"/></p>
                                             </div>
                                         </div>
-                                        <div class="step-footer mt-2 text-start">
-                                            <span t-if="isCookiesDone" class="status-done"><t t-esc="_t('Saved')"/> <i class="fa fa-check-circle me-1"/></span>
-                                            <span t-else="" class="status-btn"><t t-esc="_t('Add Cookies')"/> <i class="fa fa-shield me-1"/></span>
+                                        <div class="step-footer mt-2">
+                                            <span t-if="isCookiesDone" class="status-done"><t t-esc="_t('Saved')"/> <i class="fa fa-check-circle"/></span>
+                                            <span t-else="" class="status-btn"><t t-esc="_t('Add Cookies')"/> <i class="fa fa-shield"/></span>
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
 
                             <div class="onboarding-action">
-                                <p class="helper-text">Need help? Read the <a href="#">Quick Start Guide</a></p>
+                                <p class="helper-text">
+                                    <t t-esc="_t('Need help? Read the')"/>
+                                    <a href="#"><t t-esc="_t('Quick Start Guide')"/></a>
+                                </p>
                                 <button class="sr-premium-btn" t-on-click="toggleTracking" t-att-disabled="!radarState.isOnboarded">
-                                    <span>Activate Full Radar</span>
+                                    <span><t t-esc="_t('Activate Full Radar')"/></span>
                                     <i class="fa fa-bolt"/>
                                 </button>
                             </div>
                         </div>
                     </div>
                 </t>
+
+                <!-- ══ MAIN DASHBOARD (fully configured) ═══════════════════════════ -->
                 <t t-else="">
+
+                    <!-- Hero Card -->
                     <div class="sr-hero-card-v4">
                         <div class="hero-content">
                             <div class="ai-sparkle-v4"><i class="fa fa-magic"/></div>
                             <div class="hero-text">
-                                <h2>Advanced exploration and analysis engine is active.</h2>
+                                <h2><t t-esc="_t('Advanced exploration and analysis engine is active.')"/></h2>
                                 <p>
-                                    Currently <strong><t t-esc="radarState.targets.length"/> certified sources</strong> are under real-time monitoring. Successfully discovered <strong><t t-esc="radarState.grantsDiscovered"/> new topics</strong> today. 
-                                    AI has handled professional reformulation and content has been <strong>automatically and simultaneously</strong> published across official channels.
+                                    <t t-esc="_t('Currently')"/> <strong><t t-esc="radarState.targets.length"/> <t t-esc="_t('certified sources')"/></strong> <t t-esc="_t('are under real-time monitoring. Successfully discovered')"/> <strong><t t-esc="radarState.grantsDiscovered"/> <t t-esc="_t('new topics')"/></strong> <t t-esc="_t('today. AI has handled professional reformulation and content has been')"/> <strong><t t-esc="_t('automatically and simultaneously')"/></strong> <t t-esc="_t('published across official channels.')"/>
                                 </p>
                             </div>
                         </div>
-                        <div class="hero-curve-bg"></div>
+                        <div class="hero-curve-bg"/>
                     </div>
 
-                    <!-- Live Targets Radar Section -->
+                    <!-- Live Target Radar Strip -->
                     <div class="sr-radar-listening-v4">
                         <div class="listening-header">
-                            <span><i class="fa fa-crosshairs ms-1"/> Live Target Map (Net of <t t-esc="radarState.targets.length"/>)</span>
-                            <div class="sweep-animation"></div>
+                            <span><i class="fa fa-crosshairs"/> <t t-esc="_t('Live Target Map')"/> (<t t-esc="radarState.targets.length"/>)</span>
+                            <div class="sweep-animation"/>
                         </div>
                         <div class="targets-marquee-container">
                             <div class="targets-marquee">
                                 <t t-foreach="radarState.targets" t-as="target" t-key="target.id">
-                                    <div class="target-pill"><span class="pulse-dot"></span> <t t-esc="target.name"/></div>
+                                    <div class="target-pill"><span class="pulse-dot"/> <t t-esc="target.name"/></div>
                                 </t>
                                 <t t-if="radarState.targets.length === 0">
-                                    <div class="target-pill ghost"><i class="fa fa-plus ms-1"/> Searching for sources matching your criteria...</div>
+                                    <div class="target-pill ghost"><i class="fa fa-search"/> <t t-esc="_t('Searching for sources matching your criteria...')"/></div>
                                 </t>
-                                <!-- Duplicate for infinite seamless scroll -->
+                                <!-- Duplicate for seamless marquee loop -->
                                 <t t-foreach="radarState.targets" t-as="target" t-key="'dup_' + target.id">
-                                    <div class="target-pill"><span class="pulse-dot"></span> <t t-esc="target.name"/></div>
+                                    <div class="target-pill"><span class="pulse-dot"/> <t t-esc="target.name"/></div>
                                 </t>
                                 <t t-if="radarState.targets.length === 0">
-                                    <div class="target-pill ghost"><i class="fa fa-plus ms-1"/> Searching for sources matching your criteria...</div>
+                                    <div class="target-pill ghost"><i class="fa fa-search"/> <t t-esc="_t('Searching for sources matching your criteria...')"/></div>
                                 </t>
                             </div>
                         </div>
                     </div>
 
-                <div class="sr-kpi-grid-v4">
-                    <div class="kpi-card-v4">
-                        <div class="kpi-top">
-                            <div class="kpi-text">
-                                <span class="kpi-title">New Content Discovered Today</span>
-                                <div class="kpi-value"><t t-esc="radarState.grantsDiscovered"/></div>
-                            </div>
-                            <div class="kpi-icon blue"><i class="fa fa-search-plus"/></div>
-                        </div>
-                        <div class="kpi-chart sparkline"><canvas t-ref="sparkline1"></canvas></div>
-                    </div>
-                    
-                    <div class="kpi-card-v4">
-                        <div class="kpi-top">
-                            <div class="kpi-text">
-                                <span class="kpi-title">Publications (Website + X)</span>
-                                <div class="kpi-value"><t t-esc="radarState.publishedToday"/></div>
-                            </div>
-                            <div class="kpi-icon emerald"><i class="fa fa-paper-plane"/></div>
-                        </div>
-                        <div class="kpi-chart sparkline"><canvas t-ref="sparkline2"></canvas></div>
-                    </div>
-                    
-                    <div class="kpi-card-v4">
-                        <div class="kpi-top">
-                            <div class="kpi-text">
-                                <span class="kpi-title">Monitored Source Accounts</span>
-                                <div class="kpi-value"><t t-esc="radarState.monitoredAccounts"/> <span>sources</span></div>
-                            </div>
-                            <div class="kpi-icon indigo"><i class="fa fa-users"/></div>
-                        </div>
-                        <div class="kpi-chart sparkline">
-                            <!-- Visual placeholder for steady constant line -->
-                            <div style="height: 100%; border-bottom: 2px dashed #4f46e5; opacity: 0.2; transform: translateY(-15px);"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="kpi-card-v4">
-                        <div class="kpi-top">
-                            <div class="kpi-text">
-                                <span class="kpi-title">Formulation Prompt Accuracy</span>
-                                <div class="kpi-value"><t t-esc="radarState.matchRate"/><span>%</span></div>
-                            </div>
-                            <div class="kpi-icon amber"><i class="fa fa-shield"/></div>
-                        </div>
-                        <div class="kpi-chart sparkline"><canvas t-ref="sparkline4"></canvas></div>
-                    </div>
-                </div>
-
-                <div class="sr-main-grid-v4">
-                    <div class="grid-primary">
-                        <div class="charts-row">
-                            <div class="chart-card-v4 w-65">
-                                <div class="card-header">
-                                    <h3>Content Flow Density by Time</h3>
-                                    <span class="badge-soft">Live</span>
+                    <!-- KPI Grid -->
+                    <div class="sr-kpi-grid-v4">
+                        <div class="kpi-card-v4">
+                            <div class="kpi-top">
+                                <div class="kpi-text">
+                                    <span class="kpi-title"><t t-esc="_t('New Content Discovered Today')"/></span>
+                                    <div class="kpi-value"><t t-esc="radarState.grantsDiscovered"/></div>
                                 </div>
-                                <div class="chart-container">
-                                    <canvas t-ref="barChartCanvas"></canvas>
-                                </div>
+                                <div class="kpi-icon blue"><i class="fa fa-search-plus"/></div>
                             </div>
-                            <div class="chart-card-v4 w-35">
-                                <div class="card-header" style="margin-bottom: 8px;">
-                                    <h3>Automated Publishing Routing</h3>
-                                </div>
-                                <div class="chart-container doughnut-container mt-2">
-                                    <canvas t-ref="gaugeChartCanvas"></canvas>
-                                    <div class="doughnut-center">
-                                        <span class="d-number">100%</span>
-                                        <span class="d-label">Dual Automation</span>
-                                    </div>
-                                </div>
-                                <div class="custom-chart-legend">
-                                    <div class="legend-item">
-                                        <span class="legend-dot bg-indigo"></span>
-                                        <span class="legend-text">Official Website (WordPress)</span>
-                                    </div>
-                                    <div class="legend-item">
-                                        <span class="legend-dot bg-blue"></span>
-                                        <span class="legend-text">X Account</span>
-                                    </div>
-                                </div>
-                            </div>
+                            <div class="kpi-chart sparkline"><canvas t-ref="sparkline1"/></div>
                         </div>
 
-                        <div class="feed-card-v4 mt-4">
-                            <div class="card-header border-bottom">
-                                <h3><i class="fa fa-bolt ms-2"/>Real-time Exploration Log</h3>
+                        <div class="kpi-card-v4">
+                            <div class="kpi-top">
+                                <div class="kpi-text">
+                                    <span class="kpi-title"><t t-esc="_t('Publications (Website + X)')"/></span>
+                                    <div class="kpi-value"><t t-esc="radarState.publishedToday"/></div>
+                                </div>
+                                <div class="kpi-icon emerald"><i class="fa fa-paper-plane"/></div>
                             </div>
-                            <div class="feed-list-v4">
-                                <t t-if="radarState.feed.length === 0">
-                                    <div class="empty-state">
-                                        <i class="fa fa-microphone fa-2x mb-2 text-muted"/>
-                                        <p>Exploration engine is performing deep scans of certified entities...</p>
-                                    </div>
-                                </t>
-                                <t t-else="">
-                                    <t t-foreach="radarState.feed" t-as="item" t-key="item.id">
-                                        <div class="conversation-row fade-scale-up">
-                                            
-                                            <div class="chat-bubble raw-bubble">
-                                                <div class="bubble-header">
-                                                <span>
-                                                    <svg viewBox="0 0 24 24" style="width:13px;height:13px;fill:currentColor;vertical-align:middle;"><g><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.007 3.56H5.022z"/></g></svg>
-                                                    Raw Content from Source
-                                                </span>
-                                                <span class="time"><t t-esc="item.time"/></span>
-                                            </div>
-                                                <div class="bubble-text"><t t-esc="item.original"/></div>
-                                                <div class="source-tag">Source ID: <t t-esc="item.donor"/></div>
-                                            </div>
-                                            
-                                            <div class="magic-arrow text-muted text-center" style="display: flex; flex-direction: column; gap: 8px;">
-                                                <i class="fa fa-cogs" title="Smart Processing" style="font-size: 16px;"/>
-                                                <i class="fa fa-angle-left" style="font-size: 24px;"/>
-                                                <i class="fa fa-share-alt" title="Dual Publishing" style="font-size: 16px;"/>
-                                            </div>
+                            <div class="kpi-chart sparkline"><canvas t-ref="sparkline2"/></div>
+                        </div>
 
-                                            <div class="chat-bubble ai-bubble">
-                                                <div class="bubble-header ai-header">
-                                                    <span><i class="fa fa-check-circle ms-1"/> Smart Processing &amp; Auto-Approval</span>
-                                                    <div class="d-flex align-items-center">
-                                                        <span class="conf-badge ms-2"><i class="fa fa-globe ms-1"/> On Website</span>
-                                                        <span class="conf-badge ms-1" style="color: #0f1419; background: #e7e7e7; border-color: #0f1419;">
-                                                            <svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:currentColor;vertical-align:middle;"><g><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.007 3.56H5.022z"/></g></svg>
-                                                            Published to X
+                        <div class="kpi-card-v4">
+                            <div class="kpi-top">
+                                <div class="kpi-text">
+                                    <span class="kpi-title"><t t-esc="_t('Monitored Source Accounts')"/></span>
+                                    <div class="kpi-value"><t t-esc="radarState.monitoredAccounts"/> <span><t t-esc="_t('sources')"/></span></div>
+                                </div>
+                                <div class="kpi-icon indigo"><i class="fa fa-users"/></div>
+                            </div>
+                            <!-- Visual placeholder for constant line -->
+                            <div class="kpi-chart sparkline ae-kpi-placeholder-line"/>
+                        </div>
+
+                        <div class="kpi-card-v4">
+                            <div class="kpi-top">
+                                <div class="kpi-text">
+                                    <span class="kpi-title"><t t-esc="_t('Formulation Prompt Accuracy')"/></span>
+                                    <div class="kpi-value"><t t-esc="radarState.matchRate"/><span>%</span></div>
+                                </div>
+                                <div class="kpi-icon amber"><i class="fa fa-shield"/></div>
+                            </div>
+                            <div class="kpi-chart sparkline"><canvas t-ref="sparkline4"/></div>
+                        </div>
+                    </div>
+
+                    <!-- Main Grid: Charts + Feed | Timeline -->
+                    <div class="sr-main-grid-v4">
+                        <div class="grid-primary">
+                            <div class="charts-row">
+                                <!-- Bar Chart -->
+                                <div class="chart-card-v4 w-65">
+                                    <div class="card-header">
+                                        <h3>
+                                            <span class="icon-pill icon-pill-indigo"><i class="fa fa-bar-chart"/></span>
+                                            <t t-esc="_t('Content Flow Density by Time')"/>
+                                        </h3>
+                                        <span class="badge-soft"><t t-esc="_t('Live')"/></span>
+                                    </div>
+                                    <div class="chart-container">
+                                        <canvas t-ref="barChartCanvas"/>
+                                    </div>
+                                </div>
+                                <!-- Doughnut Chart -->
+                                <div class="chart-card-v4 w-35">
+                                    <div class="card-header">
+                                        <h3>
+                                            <span class="icon-pill icon-pill-emerald"><i class="fa fa-pie-chart"/></span>
+                                            <t t-esc="_t('Automated Publishing Routing')"/>
+                                        </h3>
+                                    </div>
+                                    <div class="chart-container doughnut-container">
+                                        <canvas t-ref="gaugeChartCanvas"/>
+                                        <div class="doughnut-center">
+                                            <span class="d-number">100%</span>
+                                            <span class="d-label"><t t-esc="_t('Dual Automation')"/></span>
+                                        </div>
+                                    </div>
+                                    <div class="custom-chart-legend">
+                                        <div class="legend-item">
+                                            <div class="legend-left">
+                                                <span class="legend-dot bg-indigo"/>
+                                                <span><t t-esc="_t('Official Website (WordPress)')"/></span>
+                                            </div>
+                                        </div>
+                                        <div class="legend-item">
+                                            <div class="legend-left">
+                                                <span class="legend-dot bg-blue"/>
+                                                <span><t t-esc="_t('X Account')"/></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Real-time Feed -->
+                            <div class="feed-card-v4">
+                                <div class="card-header border-bottom">
+                                    <h3>
+                                        <span class="icon-pill" style="background:linear-gradient(135deg,#fef3c7,#fde68a);color:#d97706;"><i class="fa fa-bolt"/></span>
+                                        <t t-esc="_t('Real-time Exploration Log')"/>
+                                    </h3>
+                                </div>
+                                <div class="feed-list-v4">
+                                    <t t-if="radarState.feed.length === 0">
+                                        <div class="empty-state">
+                                            <i class="fa fa-microphone"/>
+                                            <p><t t-esc="_t('Exploration engine is performing deep scans of certified entities...')"/></p>
+                                        </div>
+                                    </t>
+                                    <t t-else="">
+                                        <t t-foreach="radarState.feed" t-as="item" t-key="item.id">
+                                            <div class="conversation-row fade-scale-up">
+                                                <div class="chat-bubble raw-bubble">
+                                                    <div class="bubble-header">
+                                                        <span>
+                                                            <svg viewBox="0 0 24 24" class="ae-icon-x ae-icon-x-sm"><g><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.007 3.56H5.022z"/></g></svg>
+                                                            <t t-esc="_t('Raw Content from Source')"/>
                                                         </span>
+                                                        <span class="time"><t t-esc="item.time"/></span>
+                                                    </div>
+                                                    <div class="bubble-text"><t t-esc="item.original"/></div>
+                                                    <div class="source-tag"><t t-esc="_t('Source ID:')"/> <t t-esc="item.donor"/></div>
+                                                </div>
+
+                                                <div class="magic-arrow">
+                                                    <i class="fa fa-cogs"/>
+                                                    <i class="fa fa-angle-left"/>
+                                                    <i class="fa fa-share-alt"/>
+                                                </div>
+
+                                                <div class="chat-bubble ai-bubble">
+                                                    <div class="bubble-header ai-header">
+                                                        <span><i class="fa fa-check-circle"/> <t t-esc="_t('Smart Processing &amp; Auto-Approval')"/></span>
+                                                        <div class="d-flex align-items-center gap-1">
+                                                            <span class="conf-badge"><i class="fa fa-globe"/> <t t-esc="_t('On Website')"/></span>
+                                                            <span class="conf-badge ae-badge-x">
+                                                                <svg viewBox="0 0 24 24" class="ae-icon-x ae-icon-x-xs"><g><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.007 3.56H5.022z"/></g></svg>
+                                                                <t t-esc="_t('Published to X')"/>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="bubble-text"><t t-esc="item.rewritten"/></div>
+                                                    <div class="destination-tag">
+                                                        <a t-att-href="item.tweetLink" target="_blank"><t t-esc="_t('Live Verification')"/> <i class="fa fa-external-link"/></a>
                                                     </div>
                                                 </div>
-                                                <div class="bubble-text"><t t-esc="item.rewritten"/></div>
-                                                <div class="destination-tag"><a t-att-href="item.tweetLink" target="_blank" title="View Published Material">Live Verification <i class="fa fa-external-link"/></a></div>
+                                            </div>
+                                        </t>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Timeline / Logs sidebar -->
+                        <div class="grid-secondary">
+                            <div class="timeline-card-v4">
+                                <div class="card-header border-bottom">
+                                    <h3>
+                                        <span class="icon-pill" style="background:linear-gradient(135deg,#e0e7ff,#c7d2fe);color:#4f46e5;"><i class="fa fa-server"/></span>
+                                        <t t-esc="_t('Real-time Operational Metrics')"/>
+                                    </h3>
+                                </div>
+                                <div class="timeline-container">
+                                    <t t-foreach="radarState.logs" t-as="log" t-key="log.id">
+                                        <div class="timeline-item">
+                                            <div class="timeline-node" t-att-class="log.type"/>
+                                            <div class="timeline-content">
+                                                <div class="timeline-time"><t t-esc="log.time"/></div>
+                                                <div class="timeline-title"><t t-esc="log.tag"/></div>
+                                                <div class="timeline-desc"><t t-esc="log.message"/></div>
                                             </div>
                                         </div>
                                     </t>
-                                </t>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="grid-secondary">
-                        <div class="timeline-card-v4">
-                            <div class="card-header border-bottom">
-                                <h3><i class="fa fa-server ms-2"/>Real-time Operational Metrics</h3>
-                            </div>
-                            <div class="timeline-container">
-                                <t t-foreach="radarState.logs" t-as="log" t-key="log.id">
-                                    <div class="timeline-item">
-                                        <div class="timeline-node" t-att-class="log.type"></div>
-                                        <div class="timeline-content">
-                                            <div class="timeline-time"><t t-esc="log.time"/></div>
-                                            <div class="timeline-title"><t t-esc="log.tag"/></div>
-                                            <div class="timeline-desc"><t t-esc="log.message"/></div>
-                                        </div>
-                                    </div>
-                                </t>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-                </t>
+                </t><!-- end t-else (onboarded) -->
             </div>
         </div>
     </t>

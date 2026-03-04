@@ -7,6 +7,9 @@ import { Component, useState, onWillStart, onMounted, onWillUnmount, useRef } fr
 import { _t } from "@web/core/l10n/translation";
 
 export class SmartRadarDashboard extends Component {
+    /** Expose _t to the OWL template context */
+    get _t() { return _t; }
+
     setup() {
         this.action = useService("action");
         
@@ -16,7 +19,6 @@ export class SmartRadarDashboard extends Component {
         this.sparkline2 = useRef("sparkline2");
         this.sparkline4 = useRef("sparkline4"); // 3 is static text now
         
-        this._t = _t;
         this.chartInstances = [];
         this.mockInterval = null;
         this.dashboardRef = useRef("dashboardMain");
