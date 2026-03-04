@@ -1,226 +1,320 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
     <t t-name="alpha_echo.TargetsPage" owl="1">
-        <div class="sr-targets-container">
-            <!-- Premium 3-Row Header -->
-            <div class="sr-targets-header vertical-layout">
-                <!-- Row 1: Logo and Title -->
-                <div class="sr-header-row info-row">
-                    <div class="logo-box">
-                        <i class="fa fa-crosshairs"/>
+        <div class="ae-targets-page w-100 mh-100">
+            <div class="ae-container">
+                <!-- ══ HEADER ══════════════════════════════════════════════════════ -->
+                <div class="ae-targets-header">
+                    <div class="ae-header-brand">
+                        <div class="ae-logo-box">
+                            <i class="fa fa-crosshairs"/>
+                        </div>
+                        <div class="ae-title-wrap">
+                            <h1><t t-esc="_t('Resource Management')"/></h1>
+                            <p class="ae-subtitle"><t t-esc="_t('Accounts auto-discovered from your X List on each scan.')"/></p>
+                        </div>
                     </div>
-                    <div class="title-box">
-                         <h1><t t-esc="_t('Resource Management')"/></h1>
-                         <p class="subtitle"><t t-esc="_t('Accounts auto-discovered from your X List on each scan.')"/></p>
+
+                    <div class="ae-header-controls">
+                        <!-- Search -->
+                        <div class="ae-search-wrap">
+                            <i class="fa fa-search ae-search-icon"/>
+                            <input class="ae-search-input" type="text"
+                                   t-att-placeholder="_t('Search discovered accounts...')"
+                                   t-model="state.searchQuery"/>
+                        </div>
                     </div>
                 </div>
 
-                <div class="sr-header-row search-row gap-3">
-                    <div class="sr-search-bar flex-grow-1">
-                        <i class="fa fa-search"/>
-                        <input type="text" t-model="state.searchQuery" t-att-placeholder="_t('Search discovered accounts...')"/>
-                    </div>
-                </div>
-
-                <!-- Categories removed as per Auto-Discovery changes -->
-            </div>
-
-            <!-- Content Grid -->
-            <div class="sr-targets-grid">
-                <!-- Case 1: X Account not linked OR List ID missing -->
-                <t t-if="!radarState.config.twitterLinked or !radarState.config.x_list_id">
-                    <div class="sr-premium-lock-screen full-width-lock">
-                        <div class="lock-bg-pattern"></div>
-                        <div class="lock-content fade-scale-up">
-                            <div class="lock-icon-wrapper">
-                                <div class="lock-shield"></div>
-                                <div class="lock-main-icon">
+                <!-- ══ CONTENT GRID ══════════════════════════════════════════════ -->
+                <div class="ae-targets-grid">
+                    
+                    <!-- Case 1: Locked State -->
+                    <t t-if="!radarState.config.twitterLinked or !radarState.config.x_list_id">
+                        <div class="ae-lock-screen">
+                            <div class="ae-lock-card">
+                                <div class="ae-lock-icon">
                                     <i t-if="!radarState.config.twitterLinked" class="fa fa-twitter"/>
                                     <i t-else="" class="fa fa-list-ul"/>
                                 </div>
-                            </div>
-                            <div class="lock-text">
-                                <h3 t-if="!radarState.config.twitterLinked">
-                                    X Account Required
-                                    <span class="badge-locked">Step 1</span>
-                                </h3>
-                                <h3 t-else="">
-                                    X List ID Required
-                                    <span class="badge-locked">Step 3</span>
-                                </h3>
-                                <p t-if="!radarState.config.twitterLinked">
-                                    Link your X publishing account from the <b>Settings</b> page to activate the engine and start discovering accounts.
-                                </p>
-                                <p t-else="">
-                                    Almost there! Go to <b>Settings</b> and paste your X List URL or numeric ID to start auto-discovering and monitoring accounts.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </t>
-                <t t-elif="radarState.isLoading">
-                    <div class="sr-loading-state" style="grid-column: 1 / -1;">
-                        <div class="dot-spin"></div>
-                        <p>Synchronizing accounts from your X List...</p>
-                    </div>
-                </t>
-                <t t-elif="targets.length === 0 and !radarState.isLoading">
-                    <div class="sr-premium-empty-state" style="grid-column: 1 / -1;">
-                        <div class="empty-icon-wrap"><i class="fa fa-satellite-dish pulse-icon"/></div>
-                        <h2>No accounts discovered yet</h2>
-                        <p>Your Twitter List is connected, but no accounts have been discovered from it yet. Wait for the first automated scan or trigger it manually.</p>
-                        <button class="btn btn-primary mt-3 rounded-pill px-4" t-on-click="syncListMembers">
-                             Trigger Manual Sync
-                        </button>
-                    </div>
-                </t>
-                <t t-elif="filteredTargets.length === 0 and !radarState.isLoading">
-                    <div class="sr-empty-state" style="grid-column: 1 / -1;">
-                        <i class="fa fa-crosshairs"/>
-                        <p>No accounts match the current search.</p>
-                    </div>
-                </t>
-                <t t-else="">
-                    <t t-foreach="filteredTargets" t-as="target" t-key="target.id">
-                        <div class="sr-target-card">
-                            <div class="sr-card-bg-glow glow-success"></div>
-
-                            <div class="sr-card-head d-flex justify-content-between align-items-center">
-                                <div class="sr-target-identity d-flex align-items-center gap-2" t-on-click="() => this.openTargetAnalytics(target)">
-                                    <div class="sr-target-info d-flex flex-column align-items-start">
-                                        <h3 class="sr-target-name m-0">
-                                            <t t-esc="target.name"/>
-                                        </h3>
-                                        <span class="sr-target-handle" t-if="target.handle">
-                                            <svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:currentColor;vertical-align:middle;"><g><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.007 3.56H5.022z"/></g></svg> <t t-esc="target.handle"/>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="sr-actions-btns d-flex gap-2">
-                                    <button class="btn btn-link text-danger p-0" t-on-click.stop="() => this.deleteTarget(target.id)" title="Delete Target">
-                                        <i class="fa fa-trash"/>
-                                    </button>
-                                    <div class="sr-status-badge" t-on-click="() => this.openTargetAnalytics(target)">
-                                        <i class="fa fa-check-circle text-success"/>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="sr-card-body" t-on-click="() => this.openTargetAnalytics(target)">
-                                <div class="sr-stats-row">
-                                    <!-- Category badge removed -->
-                                    <div class="sr-stat-box">
-                                        <span class="stat-label">Captured Content</span>
-                                        <span class="stat-value text-indigo">
-                                            <i class="fa fa-bolt"/> <t t-esc="target.posts_count"/>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="sr-card-foot" t-on-click="() => this.openTargetAnalytics(target)">
-                                <span class="sr-engine-status recording">
-                                    <span class="pulse-dot"></span>
-                                    Monitoring Active
-                                </span>
+                                <h3><t t-esc="!radarState.config.twitterLinked ? _t('X Account Required') : _t('X List ID Required')"/></h3>
+                                <p><t t-esc="!radarState.config.twitterLinked ? _t('Link your X account from Settings to activate discovery.') : _t('Add your X List URL or ID in Settings to start monitoring targets.')"/></p>
                             </div>
                         </div>
                     </t>
-                </t>
+
+                    <!-- Case 2: Loading -->
+                    <t t-elif="radarState.isLoading and targets.length === 0">
+                        <div class="ae-loading-state">
+                            <div class="ae-loader"></div>
+                            <p>Discovering targets from X...</p>
+                        </div>
+                    </t>
+
+                    <!-- Force Preview Mode with Dummy Data -->
+                    <t t-if="true">
+
+                        <!-- Dummy Target 1 -->
+                        <div class="ae-target-card ae-dummy" t-on-click="() => this.openTargetAnalytics({id: 't1', name: 'Saudi News Network', handle: 'SaudiNewsNet', posts_count: 154, is_active: true})">
+                            <div class="ae-card-glow glow-indigo"/>
+                            <div class="ae-card-head">
+                                <div class="ae-target-info">
+                                    <h3>Saudi News Network</h3>
+                                    <span class="ae-handle"><i class="fa fa-at"/> SaudiNewsNet</span>
+                                </div>
+                            </div>
+                            <div class="ae-card-body">
+                                <div class="ae-stat-row">
+                                    <div class="ae-stat">
+                                        <span class="label">Captured</span>
+                                        <span class="value"><i class="fa fa-bolt"/> 154</span>
+                                    </div>
+                                    <div class="ae-stat">
+                                        <span class="label">Priority</span>
+                                        <span class="value text-emerald">High</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ae-card-foot">
+                                <span class="ae-status-tag active"><span class="ae-dot"/>Monitoring</span>
+                                <span class="ae-hint">Click for analytics</span>
+                            </div>
+                        </div>
+
+                        <!-- Dummy Target 2 -->
+                        <div class="ae-target-card ae-dummy" t-on-click="() => this.openTargetAnalytics({id: 't2', name: 'Al Arabiya Business', handle: 'AlArabiya_Bn', posts_count: 89, is_active: true})">
+                            <div class="ae-card-glow glow-emerald"/>
+                            <div class="ae-card-head">
+                                <div class="ae-target-info">
+                                    <h3>Al Arabiya Business</h3>
+                                    <span class="ae-handle"><i class="fa fa-at"/> AlArabiya_Bn</span>
+                                </div>
+                            </div>
+                            <div class="ae-card-body">
+                                <div class="ae-stat-row">
+                                    <div class="ae-stat">
+                                        <span class="label">Captured</span>
+                                        <span class="value"><i class="fa fa-bolt"/> 89</span>
+                                    </div>
+                                    <div class="ae-stat">
+                                        <span class="label">Source</span>
+                                        <span class="value">Official</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ae-card-foot">
+                                <span class="ae-status-tag active"><span class="ae-dot"/>Monitoring</span>
+                                <span class="ae-hint">Click for analytics</span>
+                            </div>
+                        </div>
+
+                        <!-- Dummy Target 3 -->
+                        <div class="ae-target-card ae-dummy" t-on-click="() => this.openTargetAnalytics({id: 't3', name: 'UAE Tech Insights', handle: 'UAETech', posts_count: 42, is_active: true})">
+                            <div class="ae-card-glow glow-indigo"/>
+                            <div class="ae-card-head">
+                                <div class="ae-target-info">
+                                    <h3>UAE Tech Insights</h3>
+                                    <span class="ae-handle"><i class="fa fa-at"/> UAETech</span>
+                                </div>
+                            </div>
+                            <div class="ae-card-body">
+                                <div class="ae-stat-row">
+                                    <div class="ae-stat">
+                                        <span class="label">Captured</span>
+                                        <span class="value"><i class="fa fa-bolt"/> 42</span>
+                                    </div>
+                                    <div class="ae-stat">
+                                        <span class="label">Scan Type</span>
+                                        <span class="value">Automatic</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ae-card-foot">
+                                <span class="ae-status-tag active"><span class="ae-dot"/>Monitoring</span>
+                                <span class="ae-hint">Click for analytics</span>
+                            </div>
+                        </div>
+
+                        <!-- Dummy Target 4 -->
+                        <div class="ae-target-card ae-dummy" t-on-click="() => this.openTargetAnalytics({id: 't4', name: 'Economic World', handle: 'EcoWorld', posts_count: 215, is_active: true})">
+                            <div class="ae-card-glow glow-rose"/>
+                            <div class="ae-card-head">
+                                <div class="ae-target-info">
+                                    <h3>Economic World</h3>
+                                    <span class="ae-handle"><i class="fa fa-at"/> EcoWorld</span>
+                                </div>
+                            </div>
+                            <div class="ae-card-body">
+                                <div class="ae-stat-row">
+                                    <div class="ae-stat">
+                                        <span class="label">Captured</span>
+                                        <span class="value"><i class="fa fa-bolt"/> 215</span>
+                                    </div>
+                                    <div class="ae-stat">
+                                        <span class="label">Status</span>
+                                        <span class="value text-rose">Critcal</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ae-card-foot">
+                                <span class="ae-status-tag active"><span class="ae-dot"/>Monitoring</span>
+                                <span class="ae-hint">Click for analytics</span>
+                            </div>
+                        </div>
+
+                        <!-- Dummy Target 5 -->
+                        <div class="ae-target-card ae-dummy" t-on-click="() => this.openTargetAnalytics({id: 't5', name: 'Vision 2030 News', handle: 'KSA_V2030', posts_count: 312, is_active: true})">
+                            <div class="ae-card-glow glow-emerald"/>
+                            <div class="ae-card-head">
+                                <div class="ae-target-info">
+                                    <h3>Vision 2030 News</h3>
+                                    <span class="ae-handle"><i class="fa fa-at"/> KSA_V2030</span>
+                                </div>
+                            </div>
+                            <div class="ae-card-body">
+                                <div class="ae-stat-row">
+                                    <div class="ae-stat">
+                                        <span class="label">Captured</span>
+                                        <span class="value"><i class="fa fa-bolt"/> 312</span>
+                                    </div>
+                                    <div class="ae-stat">
+                                        <span class="label">Growth</span>
+                                        <span class="value text-emerald">+24%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ae-card-foot">
+                                <span class="ae-status-tag active"><span class="ae-dot"/>Monitoring</span>
+                                <span class="ae-hint">Click for analytics</span>
+                            </div>
+                        </div>
+
+                        <!-- Dummy Target 6 -->
+                        <div class="ae-target-card ae-dummy" t-on-click="() => this.openTargetAnalytics({id: 't6', name: 'Riyadh Business', handle: 'RiyadhBiz', posts_count: 67, is_active: true})">
+                            <div class="ae-card-glow glow-indigo"/>
+                            <div class="ae-card-head">
+                                <div class="ae-target-info">
+                                    <h3>Riyadh Business</h3>
+                                    <span class="ae-handle"><i class="fa fa-at"/> RiyadhBiz</span>
+                                </div>
+                            </div>
+                            <div class="ae-card-body">
+                                <div class="ae-stat-row">
+                                    <div class="ae-stat">
+                                        <span class="label">Captured</span>
+                                        <span class="value"><i class="fa fa-bolt"/> 67</span>
+                                    </div>
+                                    <div class="ae-stat">
+                                        <span class="label">Update</span>
+                                        <span class="value">Hourly</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ae-card-foot">
+                                <span class="ae-status-tag active"><span class="ae-dot"/>Monitoring</span>
+                                <span class="ae-hint">Click for analytics</span>
+                            </div>
+                        </div>
+                    </t>
+
+                    <!-- Real Targets -->
+                    <t t-else="">
+                        <t t-foreach="filteredTargets" t-as="target" t-key="target.id">
+                            <div class="ae-target-card" t-on-click="() => this.openTargetAnalytics(target)">
+                                <div class="ae-card-glow glow-indigo"/>
+                                <div class="ae-card-head">
+                                    <div class="ae-target-info">
+                                        <h3><t t-esc="target.name"/></h3>
+                                        <span class="ae-handle" t-if="target.handle"><i class="fa fa-at"/> <t t-esc="target.handle"/></span>
+                                    </div>
+                                </div>
+                                <div class="ae-card-body">
+                                    <div class="ae-stat-row">
+                                        <div class="ae-stat">
+                                            <span class="label">Captured Content</span>
+                                            <span class="value"><i class="fa fa-bolt"/> <t t-esc="target.posts_count"/></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ae-card-foot">
+                                    <span class="ae-status-tag active"><span class="ae-dot"/>Monitoring Active</span>
+                                    <span class="ae-hint">Click for analytics</span>
+                                </div>
+                            </div>
+                        </t>
+                    </t>
+                </div>
             </div>
 
-            <!-- Target Analytics Modal -->
+            <!-- ══ ANALYTICS MODAL ══════════════════════════════════════════════ -->
             <t t-if="state.selectedTarget">
-                <div class="sr-modal-overlay" t-on-click.self="closeTargetAnalytics">
-                    <div class="sr-modal-content fade-in-scale">
-                        <!-- Modal Header -->
-                        <div class="sr-modal-header">
-                            <div class="sr-modal-title-block">
-                                <h2 class="sr-modal-title">
-                                    <t t-esc="state.selectedTarget.name"/>
-                                    <span class="pulse-dot-small bg-success"/>
-                                </h2>
-                                <span class="sr-modal-handle" t-if="state.selectedTarget.handle">
-                                    <svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:currentColor;vertical-align:middle;"><g><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.007 3.56H5.022z"/></g></svg> <t t-esc="state.selectedTarget.handle"/>
-                                </span>
+                <div class="ae-modal-overlay" t-on-click.self="closeTargetAnalytics">
+                    <div class="ae-modal ae-analytics-modal">
+                        <div class="ae-modal-header">
+                            <div class="ae-modal-brand">
+                                <div class="ae-modal-icon"><i class="fa fa-crosshairs"/></div>
+                                <div>
+                                    <h3><t t-esc="state.selectedTarget.name"/></h3>
+                                    <span class="ae-modal-date" t-if="state.selectedTarget.handle"><i class="fa fa-at"/> <t t-esc="state.selectedTarget.handle"/></span>
+                                </div>
                             </div>
-                            <button class="sr-close-btn" t-on-click="closeTargetAnalytics" title="Close">
-                                <i class="fa fa-times"/>
-                            </button>
+                            <button class="ae-modal-close" t-on-click="closeTargetAnalytics"><i class="fa fa-times"/></button>
                         </div>
 
-                        <!-- Modal Body — Analytics only (read-only) -->
-                        <div class="sr-modal-body bg-light-mesh">
+                        <div class="ae-modal-body">
                             <t t-call="alpha_echo.TargetsPage.AnalyticsView"/>
                         </div>
-                        
-                        <!-- No footer button needed as requested -->
                     </div>
                 </div>
             </t>
         </div>
     </t>
 
-    <!-- ============================================== -->
-    <!-- SUB-TEMPLATE: Analytics View (VIEW MODE)       -->
-    <!-- ============================================== -->
+    <!-- Sub-Template: Analytics View -->
     <t t-name="alpha_echo.TargetsPage.AnalyticsView" owl="1">
-        <div class="row g-4 m-0">
-            <!-- Left Analytics Card -->
-            <div class="col-md-5">
-                <div class="sr-insight-card p-4 bg-white rounded-4 shadow-sm h-100 border-0">
-                    <h4 class="fs-6 fw-bold text-muted mb-4 text-uppercase tracking-wide">Target Overview</h4>
-
-                    <div class="d-flex justify-content-between align-items-center mb-3 pb-3 border-bottom">
-                        <span class="text-secondary fw-semibold">Monitoring Status (Engine)</span>
-                        <span t-attf-class="badge rounded-pill {{state.selectedTarget.is_active ? 'bg-success-subtle text-success' : 'bg-secondary-subtle text-secondary'}} fs-6 px-3 py-2">
-                            <i t-attf-class="fa fa-{{state.selectedTarget.is_active ? 'check-circle' : 'pause-circle'}} me-1"/>
-                            <t t-esc="this.getSelectedTargetStatusLabel()"/>
-                        </span>
-                    </div>
-
-                    <!-- Source Category removed -->
-
-                    <div class="d-flex justify-content-between align-items-center bg-indigo-50 p-3 rounded-3 mt-4">
-                        <div>
-                            <span class="d-block text-indigo fw-bold fs-6">Total Discoveries</span>
-                            <span class="text-muted small">Topics and content captured</span>
+        <div class="ae-analytics-content">
+            <div class="ae-analytics-grid">
+                <!-- Left: Stats -->
+                <div class="ae-analytics-col">
+                    <div class="ae-insight-card">
+                        <h4>Target Insights</h4>
+                        <div class="ae-stat-group">
+                            <div class="ae-stat-item">
+                                <span class="label">Engine Status</span>
+                                <span class="value text-emerald">Active &amp; Capturing</span>
+                            </div>
+                            <div class="ae-stat-item">
+                                <span class="label">Total Discoveries</span>
+                                <span class="value big"><t t-esc="state.selectedTarget.posts_count"/></span>
+                            </div>
                         </div>
-                        <h2 class="text-indigo mb-0 fw-black"><t t-esc="state.selectedTarget.posts_count"/></h2>
                     </div>
                 </div>
-            </div>
-
-            <!-- Right Live Feed Timeline -->
-            <div class="col-md-7">
-                <div class="sr-insight-card p-4 bg-white rounded-4 shadow-sm h-100 border-0">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h4 class="fs-6 fw-bold text-dark mb-0"><i class="fa fa-feed text-primary me-2"/> Live Feed (Latest 5 Topics)</h4>
-                        <div t-if="state.targetRecentPosts.length === 0" class="spinner-border spinner-border-sm text-primary" role="status"></div>
-                    </div>
-
-                    <div class="sr-timeline pe-2">
-                        <t t-if="state.targetRecentPosts.length === 0">
-                            <p class="text-muted text-center py-4">Loading timeline...</p>
-                        </t>
-                        <t t-else="">
-                            <t t-foreach="state.targetRecentPosts" t-as="post" t-key="post.id">
-                                <div class="timeline-item slide-in-right" t-attf-style="animation-delay: {{post_index * 0.1}}s">
-                                    <div class="timeline-marker" t-att-class="post.state === 'published' ? 'bg-success' : (post.state === 'draft' ? 'bg-warning' : 'bg-danger')"></div>
-                                    <div class="timeline-content p-3 rounded-3 bg-light border border-light-subtle mb-3">
-                                        <div class="d-flex justify-content-between mb-2">
-                                            <span class="badge" t-att-class="post.state === 'published' ? 'text-bg-success' : (post.state === 'draft' ? 'text-bg-warning' : 'text-bg-danger')">
-                                                <t t-esc="this.getPostStatusLabel(post.state)"/>
-                                            </span>
-                                            <small class="text-muted fw-bold"><i class="fa fa-clock-o me-1"/> <t t-esc="post.create_date.split(' ')[0]"/></small>
-                                        </div>
-                                        <p class="ai-text-snippet mb-2 text-dark fs-6" style="line-height: 1.7; font-weight: 500;">
-                                            <t t-esc="post.ai_generated_text ? post.ai_generated_text.substring(0, 130) + '...' : post.original_text.substring(0, 130) + '...'"/>
-                                        </p>
-                                    </div>
-                                </div>
+                <!-- Right: Timeline -->
+                <div class="ae-analytics-col">
+                    <div class="ae-timeline-card">
+                        <h4><i class="fa fa-feed"/> Recent Timeline</h4>
+                        <div class="ae-timeline">
+                            <t t-if="state.targetRecentPosts.length === 0">
+                                <div class="ae-timeline-empty">Loading latest updates...</div>
                             </t>
-                        </t>
+                            <t t-else="">
+                                <t t-foreach="state.targetRecentPosts" t-as="post" t-key="post.id">
+                                    <div class="ae-timeline-item">
+                                        <div t-attf-class="ae-timeline-dot {{ post.state === 'published' ? 'bg-emerald' : 'bg-indigo' }}"/>
+                                        <div class="ae-timeline-content">
+                                            <div class="ae-timeline-head">
+                                                <span t-attf-class="ae-badge {{ post.state === 'published' ? 'badge-published' : 'badge-draft' }}">
+                                                    <t t-esc="this.getPostStatusLabel(post.state)"/>
+                                                </span>
+                                                <small><t t-esc="post.create_date.split(' ')[0]"/></small>
+                                            </div>
+                                            <p><t t-esc="post.ai_generated_text ? post.ai_generated_text.substring(0, 100) + '...' : post.original_text.substring(0, 100) + '...'"/></p>
+                                        </div>
+                                    </div>
+                                </t>
+                            </t>
+                        </div>
                     </div>
                 </div>
             </div>

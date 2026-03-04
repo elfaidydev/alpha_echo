@@ -25,8 +25,9 @@ export class TargetsPage extends Component {
         });
     }
 
-    // Sync logic removed as per auto-discovery requirement
-
+    async syncListMembers() {
+        await this.radarService.syncListMembers();
+    }
     async deleteTarget(id) {
         if (confirm(_t("Are you sure you want to delete this target?"))) {
             await this.radarService.deleteTarget(id);
