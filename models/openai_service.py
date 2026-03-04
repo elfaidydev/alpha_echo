@@ -41,7 +41,7 @@ class SmartRadarOpenAIService(models.AbstractModel):
         # ── Library guard ─────────────────────────────────────────────────────
         if not OpenAI:
             _logger.error("openai library not installed.")
-            return False, _("⚠️ مكتبة OpenAI غير مثبتة. شغّل: pip install openai")
+            return False, _("⚠️ OpenAI library is not installed. Run: pip install openai")
 
         # ── Input guard ───────────────────────────────────────────────────────
         if not original_text or not original_text.strip():
@@ -52,7 +52,7 @@ class SmartRadarOpenAIService(models.AbstractModel):
         api_key = config.openai_api_key
         if not api_key:
             _logger.warning("OpenAI API key not configured.")
-            return False, _("⚠️ OpenAI API Key غير موجود. أضفه في الإعدادات.")
+            return False, _("⚠️ OpenAI API Key is missing. Please add it in settings.")
 
         model = config.ai_model or 'gpt-4o-mini'
 
@@ -86,10 +86,10 @@ class SmartRadarOpenAIService(models.AbstractModel):
             _logger.error("OpenAI API error: %s", err)
 
             if '429' in err or 'quota' in err.lower():
-                return False, _("⚠️ تم تجاوز حصة OpenAI (Rate Limit). انتظر أو رقّي الخطة.")
+                return False, _("⚠️ OpenAI quota exceeded (Rate Limit). Please wait or upgrade your plan.")
             if 'invalid' in err.lower() and 'key' in err.lower():
-                return False, _("⚠️ OpenAI API Key غير صحيح. راجع الإعدادات.")
-            return False, _("⚠️ خطأ في OpenAI: %s") % err
+                return False, _("⚠️ Invalid OpenAI API Key. Please check the settings.")
+            return False, _("⚠️ OpenAI Error: %s") % err
 
         # ── Classify response ─────────────────────────────────────────────────
         if not result:

@@ -1,49 +1,49 @@
 msgid ""
 msgstr ""
-"Language: ar\n"
+"Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #. module: alpha_echo
 msgid " %s post(s) failed:\n%s"
-msgstr ""
+msgstr " %s post(s) failed:\n%s"
 
 #. module: alpha_echo
 msgid "%s: AI text is empty."
-msgstr ""
+msgstr "%s: AI text is empty."
 
 #. module: alpha_echo
 msgid "300 Posts"
-msgstr "300 منشور"
+msgstr "300 Posts"
 
 #. module: alpha_echo
 msgid "AI Formulated Draft"
-msgstr ""
+msgstr "AI Formulated Draft"
 
 #. module: alpha_echo
 msgid "AI Intelligence &amp; Instructions"
-msgstr ""
+msgstr "AI Intelligence &amp; Instructions"
 
 #. module: alpha_echo
 msgid "AI Model"
-msgstr ""
+msgstr "AI Model"
 
 #. module: alpha_echo
 msgid "AI Prompt"
-msgstr ""
+msgstr "AI Prompt"
 
 #. module: alpha_echo
 msgid "AI Reformulation — Edit &amp; Approve"
-msgstr ""
+msgstr "AI Reformulation — Edit &amp; Approve"
 
 #. module: alpha_echo
 msgid "AI content will go live immediately without human intervention."
-msgstr "المحتوى المُولد سينشر فوراً بدون تدخل بشري."
+msgstr "AI content will go live immediately without human intervention."
 
 #. module: alpha_echo
 msgid "AI prompt: what to look for and how to format the output."
-msgstr ""
+msgstr "AI prompt: what to look for and how to format the output."
 
 #. module: alpha_echo
 msgid "API Key"
@@ -55,7 +55,7 @@ msgstr "API Secret"
 
 #. module: alpha_echo
 msgid "API Service Channels"
-msgstr "قنوات خدمات الـ API"
+msgstr "API Service Channels"
 
 #. module: alpha_echo
 msgid "Access Token"
@@ -63,815 +63,815 @@ msgstr "Access Token"
 
 #. module: alpha_echo
 msgid "Account Name"
-msgstr ""
+msgstr "Account Name"
 
 #. module: alpha_echo
 msgid "Account unlinked successfully."
-msgstr ""
+msgstr "Account unlinked successfully."
 
 #. module: alpha_echo
 msgid "Accounts auto-discovered from your X List on each scan."
-msgstr ""
+msgstr "Accounts auto-discovered from your X List on each scan."
 
 #. module: alpha_echo
 msgid "Activate Full Radar"
-msgstr ""
+msgstr "Activate Full Radar"
 
 #. module: alpha_echo
 msgid "Active"
-msgstr "نشط"
+msgstr "Active"
 
 #. module: alpha_echo
 msgid "Active &amp; Capturing"
-msgstr ""
+msgstr "Active &amp; Capturing"
 
 #. module: alpha_echo
 msgid "Add Cookies"
-msgstr ""
+msgstr "Add Cookies"
 
 #. module: alpha_echo
 msgid "Add your X List URL or ID in Settings to start monitoring targets."
-msgstr ""
+msgstr "Add your X List URL or ID in Settings to start monitoring targets."
 
 #. module: alpha_echo
 msgid "Administrative Action"
-msgstr ""
+msgstr "Administrative Action"
 
 #. module: alpha_echo
 msgid "Advanced exploration and analysis engine is active."
-msgstr ""
+msgstr "Advanced exploration and analysis engine is active."
 
 #. module: alpha_echo
 msgid "All"
-msgstr "الكل"
+msgstr "All"
 
 #. module: alpha_echo
 msgid "All systems operational"
-msgstr "جميع الأنظمة تعمل بكفاءة"
+msgstr "All systems operational"
 
 #. module: alpha_echo
 msgid "An error occurred while saving settings or testing connection."
-msgstr ""
+msgstr "An error occurred while saving settings or testing connection."
 
 #. module: alpha_echo
 msgid "Apify API Token"
-msgstr ""
+msgstr "Apify API Token"
 
 #. module: alpha_echo
 msgid "Apify Cloud Token"
-msgstr "توكن Apify السحابي"
+msgstr "Apify Cloud Token"
 
 #. module: alpha_echo
 msgid "Approve &amp; Publish"
-msgstr ""
+msgstr "Approve &amp; Publish"
 
 #. module: alpha_echo
 msgid "Arabic Only"
-msgstr ""
+msgstr "Arabic Only"
 
 #. module: alpha_echo
 msgid "Are you sure you want to unlink the currently identified Twitter account? This will stop automated publishing."
-msgstr ""
+msgstr "Are you sure you want to unlink the currently identified Twitter account? This will stop automated publishing."
 
 #. module: alpha_echo
 msgid "Authentication Tokens"
-msgstr "مفاتيح المصادقة"
+msgstr "Authentication Tokens"
 
 #. module: alpha_echo
 msgid "Authorize Broadcast Engine"
-msgstr "توثيق محرك البث"
+msgstr "Authorize Broadcast Engine"
 
 #. module: alpha_echo
 msgid "Authorize broadcasting to your X account."
-msgstr "صرح ببث المنشورات إلى حساب X الخاص بك."
+msgstr "Authorize broadcasting to your X account."
 
 #. module: alpha_echo
 msgid "Authorize the system to publish via your X account."
-msgstr ""
+msgstr "Authorize the system to publish via your X account."
 
 #. module: alpha_echo
 msgid "Auto-Approve AI Drafts"
-msgstr ""
+msgstr "Auto-Approve AI Drafts"
 
 #. module: alpha_echo
 msgid "Automate content harvesting, formulation, and publishing with AI. Follow these steps to begin."
-msgstr ""
+msgstr "Automate content harvesting, formulation, and publishing with AI. Follow these steps to begin."
 
 #. module: alpha_echo
 msgid "Automated Publishing Routing"
-msgstr ""
+msgstr "Automated Publishing Routing"
 
 #. module: alpha_echo
 msgid "Autonomous Publishing"
-msgstr "النشر الآلي"
+msgstr "Autonomous Publishing"
 
 #. module: alpha_echo
 msgid "Bilingual (Arabic/English)"
-msgstr ""
+msgstr "Bilingual (Arabic/English)"
 
 #. module: alpha_echo
 msgid "Blog"
-msgstr ""
+msgstr "Blog"
 
 #. module: alpha_echo
 msgid "Broadcast engine is active and verified."
-msgstr "محرك البث نشط وموثق."
+msgstr "Broadcast engine is active and verified."
 
 #. module: alpha_echo
 msgid "Cannot start engine! Please complete the 3 setup steps first (X Account, AI Prompt, X List)."
-msgstr ""
+msgstr "Cannot start engine! Please complete the 3 setup steps first (X Account, AI Prompt, X List)."
 
 #. module: alpha_echo
 msgid "Captured"
-msgstr "ملتقطة"
+msgstr "Captured"
 
 #. module: alpha_echo
 msgid "Central interface for tracking, reformulating, and publishing content"
-msgstr ""
+msgstr "Central interface for tracking, reformulating, and publishing content"
 
 #. module: alpha_echo
 msgid "Claude 3.5 Sonnet"
-msgstr ""
+msgstr "Claude 3.5 Sonnet"
 
 #. module: alpha_echo
 msgid "Click for analytics"
-msgstr ""
+msgstr "Click for analytics"
 
 #. module: alpha_echo
 msgid "Click to review"
-msgstr "اضغط للمراجعة"
+msgstr "Click to review"
 
 #. module: alpha_echo
 msgid "Client License Key (Tenant ID)"
-msgstr ""
+msgstr "Client License Key (Tenant ID)"
 
 #. module: alpha_echo
 msgid "Comprehensive exploration engine activated."
-msgstr ""
+msgstr "Comprehensive exploration engine activated."
 
 #. module: alpha_echo
 msgid "Config Name"
-msgstr ""
+msgstr "Config Name"
 
 #. module: alpha_echo
 msgid "Configure"
-msgstr ""
+msgstr "Configure"
 
 #. module: alpha_echo
 msgid "Configure AI intelligence and automated workflows"
-msgstr "تهيئة ذكاء المنظومة وسير العمل التلقائي"
+msgstr "Configure AI intelligence and automated workflows"
 
 #. module: alpha_echo
 msgid "Configure Now"
-msgstr ""
+msgstr "Configure Now"
 
 #. module: alpha_echo
 msgid "Configure the speed and capacity of your automated scanning."
-msgstr "تهيئة سرعة وسعة المسح التلقائي."
+msgstr "Configure the speed and capacity of your automated scanning."
 
 #. module: alpha_echo
 msgid "Configured"
-msgstr ""
+msgstr "Configured"
 
 #. module: alpha_echo
 msgid "Connect"
-msgstr ""
+msgstr "Connect"
 
 #. module: alpha_echo
 msgid "Connect where your content will be broadcasted."
-msgstr "اربط حسابات تويتر التي سيتم بث المحتوى عليها."
+msgstr "Connect where your content will be broadcasted."
 
 #. module: alpha_echo
 msgid "Connected"
-msgstr ""
+msgstr "Connected"
 
 #. module: alpha_echo
 msgid "Connection Success"
-msgstr ""
+msgstr "Connection Success"
 
 #. module: alpha_echo
 msgid "Content &amp; Publications"
-msgstr ""
+msgstr "Content &amp; Publications"
 
 #. module: alpha_echo
 msgid "Content Discovery Source"
-msgstr "مصدر اكتشاف المحتوى"
+msgstr "Content Discovery Source"
 
 #. module: alpha_echo
 msgid "Content Flow Density by Time"
-msgstr ""
+msgstr "Content Flow Density by Time"
 
 #. module: alpha_echo
 msgid "Content Language"
-msgstr ""
+msgstr "Content Language"
 
 #. module: alpha_echo
 msgid "Critical setup missing"
-msgstr "إعدادات حرجة مفقودة"
+msgstr "Critical setup missing"
 
 #. module: alpha_echo
 msgid "Currently"
-msgstr ""
+msgstr "Currently"
 
 #. module: alpha_echo
 msgid "Custom AI Instructions"
-msgstr ""
+msgstr "Custom AI Instructions"
 
 #. module: alpha_echo
 msgid "Daily Post Capacity"
-msgstr "سعة المنشورات اليومية"
+msgstr "Daily Post Capacity"
 
 #. module: alpha_echo
 msgid "Dashboard"
-msgstr ""
+msgstr "Dashboard"
 
 #. module: alpha_echo
 msgid "Define the tone and instructions for the AI engine."
-msgstr ""
+msgstr "Define the tone and instructions for the AI engine."
 
 #. module: alpha_echo
 msgid "Disconnected"
-msgstr ""
+msgstr "Disconnected"
 
 #. module: alpha_echo
 msgid "Discovering Targets..."
-msgstr ""
+msgstr "Discovering Targets..."
 
 #. module: alpha_echo
 msgid "Draft (Needs Review)"
-msgstr ""
+msgstr "Draft (Needs Review)"
 
 #. module: alpha_echo
 msgid "Dual Automation"
-msgstr ""
+msgstr "Dual Automation"
 
 #. module: alpha_echo
 msgid "Engine Automation"
-msgstr "أتمتة المحرك"
+msgstr "Engine Automation"
 
 #. module: alpha_echo
 msgid "Engine Status"
-msgstr ""
+msgstr "Engine Status"
 
 #. module: alpha_echo
 msgid "Engine started successfully."
-msgstr ""
+msgstr "Engine started successfully."
 
 #. module: alpha_echo
 msgid "Engine stopped."
-msgstr ""
+msgstr "Engine stopped."
 
 #. module: alpha_echo
 msgid "English Only"
-msgstr ""
+msgstr "English Only"
 
 #. module: alpha_echo
 msgid "Error"
-msgstr ""
+msgstr "Error"
 
 #. module: alpha_echo
 msgid "Every 90m"
-msgstr "كل 90 دقيقة"
+msgstr "Every 90m"
 
 #. module: alpha_echo
 msgid "Exact date and time the post was published to X."
-msgstr ""
+msgstr "Exact date and time the post was published to X."
 
 #. module: alpha_echo
 msgid "Excluded / Rejected"
-msgstr ""
+msgstr "Excluded / Rejected"
 
 #. module: alpha_echo
 msgid "Exploration engine and AI formulation unit are in real-time activation mode. Connection is active and stable."
-msgstr ""
+msgstr "Exploration engine and AI formulation unit are in real-time activation mode. Connection is active and stable."
 
 #. module: alpha_echo
 msgid "Exploration engine is performing deep scans of certified entities..."
-msgstr ""
+msgstr "Exploration engine is performing deep scans of certified entities..."
 
 #. module: alpha_echo
 msgid "Exploration tasks suspended."
-msgstr ""
+msgstr "Exploration tasks suspended."
 
 #. module: alpha_echo
 msgid "Failed to disconnect X account."
-msgstr ""
+msgstr "Failed to disconnect X account."
 
 #. module: alpha_echo
 msgid "Failed to link with X account: "
-msgstr ""
+msgstr "Failed to link with X account: "
 
 #. module: alpha_echo
 msgid "Failed to load recent posts for this target."
-msgstr ""
+msgstr "Failed to load recent posts for this target."
 
 #. module: alpha_echo
 msgid "Failed to publish post. Please check your X connection."
-msgstr "فشل نشر المنشور. يرجى التحقق من اتصال حساب X."
+msgstr "Failed to publish post. Please check your X connection."
 
 #. module: alpha_echo
 msgid "Failed to reject post."
-msgstr "فشل رفض المنشور."
+msgstr "Failed to reject post."
 
 #. module: alpha_echo
 msgid "Failed to remove target."
-msgstr ""
+msgstr "Failed to remove target."
 
 #. module: alpha_echo
 msgid "Failed to update engine status."
-msgstr ""
+msgstr "Failed to update engine status."
 
 #. module: alpha_echo
 msgid "Fetching the latest posts from the engine."
-msgstr "جاري جلب أحدث المنشورات من المحرك."
+msgstr "Fetching the latest posts from the engine."
 
 #. module: alpha_echo
 msgid "Fixed"
-msgstr "ثابت"
+msgstr "Fixed"
 
 #. module: alpha_echo
 msgid "Formulation Prompt Accuracy"
-msgstr ""
+msgstr "Formulation Prompt Accuracy"
 
 #. module: alpha_echo
 msgid "GPT-4o (High Quality)"
-msgstr ""
+msgstr "GPT-4o (High Quality)"
 
 #. module: alpha_echo
 msgid "GPT-4o Mini (Fast/Cheap)"
-msgstr ""
+msgstr "GPT-4o Mini (Fast/Cheap)"
 
 #. module: alpha_echo
 msgid "Go to Settings"
-msgstr ""
+msgstr "Go to Settings"
 
 #. module: alpha_echo
 msgid "ID of the blog.blog if used"
-msgstr ""
+msgstr "ID of the blog.blog if used"
 
 #. module: alpha_echo
 msgid "In Review"
-msgstr ""
+msgstr "In Review"
 
 #. module: alpha_echo
 msgid "Inactive"
-msgstr "غير نشط"
+msgstr "Inactive"
 
 #. module: alpha_echo
 msgid "Is Tracking Engine Active"
-msgstr ""
+msgstr "Is Tracking Engine Active"
 
 #. module: alpha_echo
 msgid "LIVE"
-msgstr "مباشر"
+msgstr "LIVE"
 
 #. module: alpha_echo
 msgid "Last Scanned"
-msgstr ""
+msgstr "Last Scanned"
 
 #. module: alpha_echo
 msgid "Leave empty to disable Odoo Website publishing."
-msgstr ""
+msgstr "Leave empty to disable Odoo Website publishing."
 
 #. module: alpha_echo
 msgid "Link X Account"
-msgstr ""
+msgstr "Link X Account"
 
 #. module: alpha_echo
 msgid "Link your X account from Settings to activate discovery."
-msgstr ""
+msgstr "Link your X account from Settings to activate discovery."
 
 #. module: alpha_echo
 msgid "Linked"
-msgstr ""
+msgstr "Linked"
 
 #. module: alpha_echo
 msgid "Linked Account"
-msgstr ""
+msgstr "Linked Account"
 
 #. module: alpha_echo
 msgid "Live"
-msgstr ""
+msgstr "Live"
 
 #. module: alpha_echo
 msgid "Live Target Map"
-msgstr ""
+msgstr "Live Target Map"
 
 #. module: alpha_echo
 msgid "Live Verification"
-msgstr ""
+msgstr "Live Verification"
 
 #. module: alpha_echo
 msgid "Loading Content..."
-msgstr "جاري تحميل المحتوى..."
+msgstr "Loading Content..."
 
 #. module: alpha_echo
 msgid "Loading latest updates..."
-msgstr ""
+msgstr "Loading latest updates..."
 
 #. module: alpha_echo
 msgid "Lowercase handle without @, e.g. usaidmiddleeast"
-msgstr ""
+msgstr "Lowercase handle without @, e.g. usaidmiddleeast"
 
 #. module: alpha_echo
 msgid "Managed encrypted tokens for AI and scraping providers."
-msgstr "مفاتيح مشفرة مُدارة لمزودي خدمات الذكاء الاصطناعي والسحب."
+msgstr "Managed encrypted tokens for AI and scraping providers."
 
 #. module: alpha_echo
 msgid "Minor setup required"
-msgstr "يتطلب إعدادات بسيطة"
+msgstr "Minor setup required"
 
 #. module: alpha_echo
 msgid "Monitored Accounts"
-msgstr ""
+msgstr "Monitored Accounts"
 
 #. module: alpha_echo
 msgid "Monitored Source Accounts"
-msgstr ""
+msgstr "Monitored Source Accounts"
 
 #. module: alpha_echo
 msgid "Monitoring"
-msgstr "تتبع"
+msgstr "Monitoring"
 
 #. module: alpha_echo
 msgid "Monitoring Active"
-msgstr ""
+msgstr "Monitoring Active"
 
 #. module: alpha_echo
 msgid "Monitoring Paused"
-msgstr ""
+msgstr "Monitoring Paused"
 
 #. module: alpha_echo
 msgid "Must include SKIP_NOT_RELEVANT instruction."
-msgstr "يجب أن يحتوي على تعليمة SKIP_NOT_RELEVANT."
+msgstr "Must include SKIP_NOT_RELEVANT instruction."
 
 #. module: alpha_echo
 msgid "Need help? Read the"
-msgstr ""
+msgstr "Need help? Read the"
 
 #. module: alpha_echo
 msgid "Neural commands that govern how the AI identifies and rewrites content."
-msgstr "الأساس العصبي الذي يوجه الذكاء الاصطناعي لاكتشاف وصياغة المحتوى."
+msgstr "Neural commands that govern how the AI identifies and rewrites content."
 
 #. module: alpha_echo
 msgid "New Content Discovered Today"
-msgstr ""
+msgstr "New Content Discovered Today"
 
 #. module: alpha_echo
 msgid "No Results Found"
-msgstr "لا توجد نتائج"
+msgstr "No Results Found"
 
 #. module: alpha_echo
 msgid "No Targets Found"
-msgstr ""
+msgstr "No Targets Found"
 
 #. module: alpha_echo
 msgid "No accounts have been discovered yet. Make sure your X List is configured, then trigger a scan."
-msgstr ""
+msgstr "No accounts have been discovered yet. Make sure your X List is configured, then trigger a scan."
 
 #. module: alpha_echo
 msgid "No content matches your current filter. Try a different search or tab."
-msgstr "لا يوجد محتوى يطابق الفلتر الحالي. جرب بحثاً آخر."
+msgstr "No content matches your current filter. Try a different search or tab."
 
 #. module: alpha_echo
 msgid "Odoo Blog Channel ID"
-msgstr ""
+msgstr "Odoo Blog Channel ID"
 
 #. module: alpha_echo
 msgid "Odoo Blog ID Endpoint"
-msgstr ""
+msgstr "Odoo Blog ID Endpoint"
 
 #. module: alpha_echo
 msgid "Official Website"
-msgstr ""
+msgstr "Official Website"
 
 #. module: alpha_echo
 msgid "Official Website (WordPress)"
-msgstr ""
+msgstr "Official Website (WordPress)"
 
 #. module: alpha_echo
 msgid "On Website"
-msgstr ""
+msgstr "On Website"
 
 #. module: alpha_echo
 msgid "OpenAI API Key"
-msgstr ""
+msgstr "OpenAI API Key"
 
 #. module: alpha_echo
 msgid "OpenAI Enterprise Key"
-msgstr "مفتاح OpenAI (Enterprise)"
+msgstr "OpenAI Enterprise Key"
 
 #. module: alpha_echo
 msgid "Operation Refused 🔒"
-msgstr ""
+msgstr "Operation Refused 🔒"
 
 #. module: alpha_echo
 msgid "Original publish time of the source tweet."
-msgstr ""
+msgstr "Original publish time of the source tweet."
 
 #. module: alpha_echo
 msgid "Pause Monitoring"
-msgstr ""
+msgstr "Pause Monitoring"
 
 #. module: alpha_echo
 msgid "Pending"
-msgstr "قيد المراجعة"
+msgstr "Pending"
 
 #. module: alpha_echo
 msgid "Pending Review"
-msgstr "في انتظار المراجعة"
+msgstr "Pending Review"
 
 #. module: alpha_echo
 msgid "Post approved and sent to X for publishing."
-msgstr "تم اعتماد المنشور وإرساله إلى X للنشر."
+msgstr "Post approved and sent to X for publishing."
 
 #. module: alpha_echo
 msgid "Post rejected and removed from the queue."
-msgstr "تم رفض المنشور وإزالته من الطابور."
+msgstr "Post rejected and removed from the queue."
 
 #. module: alpha_echo
 msgid "Posts"
-msgstr ""
+msgstr "Posts"
 
 #. module: alpha_echo
 msgid "Posts Found"
-msgstr ""
+msgstr "Posts Found"
 
 #. module: alpha_echo
 msgid "Profile Picture"
-msgstr ""
+msgstr "Profile Picture"
 
 #. module: alpha_echo
 msgid "Protected"
-msgstr "محمي"
+msgstr "Protected"
 
 #. module: alpha_echo
 msgid "Publications (Website + X)"
-msgstr ""
+msgstr "Publications (Website + X)"
 
 #. module: alpha_echo
 msgid "Published"
-msgstr "تم النشر"
+msgstr "Published"
 
 #. module: alpha_echo
 msgid "Published At"
-msgstr ""
+msgstr "Published At"
 
 #. module: alpha_echo
 msgid "Published By"
-msgstr ""
+msgstr "Published By"
 
 #. module: alpha_echo
 msgid "Published Successfully"
-msgstr "تم النشر بنجاح"
+msgstr "Published Successfully"
 
 #. module: alpha_echo
 msgid "Published Website URL"
-msgstr ""
+msgstr "Published Website URL"
 
 #. module: alpha_echo
 msgid "Published X URL"
-msgstr ""
+msgstr "Published X URL"
 
 #. module: alpha_echo
 msgid "Published to X"
-msgstr ""
+msgstr "Published to X"
 
 #. module: alpha_echo
 msgid "Publishing Complete"
-msgstr ""
+msgstr "Publishing Complete"
 
 #. module: alpha_echo
 msgid "Publishing Destinations"
-msgstr "وجهات النشر"
+msgstr "Publishing Destinations"
 
 #. module: alpha_echo
 msgid "Publishing Failed"
-msgstr ""
+msgstr "Publishing Failed"
 
 #. module: alpha_echo
 msgid "Publishing Finished with Errors"
-msgstr ""
+msgstr "Publishing Finished with Errors"
 
 #. module: alpha_echo
 msgid "Quick Start Guide"
-msgstr ""
+msgstr "Quick Start Guide"
 
 #. module: alpha_echo
 msgid "Raw Content (Before AI)"
-msgstr ""
+msgstr "Raw Content (Before AI)"
 
 #. module: alpha_echo
 msgid "Raw Content from Source"
-msgstr ""
+msgstr "Raw Content from Source"
 
 #. module: alpha_echo
 msgid "Raw Source Tweet"
-msgstr "التغريدة المصدرية"
+msgstr "Raw Source Tweet"
 
 #. module: alpha_echo
 msgid "Reader Cookies"
-msgstr ""
+msgstr "Reader Cookies"
 
 #. module: alpha_echo
 msgid "Reader Identity"
-msgstr "هوية القارئ (الاستخراج)"
+msgstr "Reader Identity"
 
 #. module: alpha_echo
 msgid "Real-time Exploration Log"
-msgstr ""
+msgstr "Real-time Exploration Log"
 
 #. module: alpha_echo
 msgid "Real-time Operational Metrics"
-msgstr ""
+msgstr "Real-time Operational Metrics"
 
 #. module: alpha_echo
 msgid "Recent Timeline"
-msgstr ""
+msgstr "Recent Timeline"
 
 #. module: alpha_echo
 msgid "Reject"
-msgstr "رفض"
+msgstr "Reject"
 
 #. module: alpha_echo
 msgid "Rejected"
-msgstr "مرفوض"
+msgstr "Rejected"
 
 #. module: alpha_echo
 msgid "Resource Management"
-msgstr ""
+msgstr "Resource Management"
 
 #. module: alpha_echo
 msgid "Review AI-reformulated content and publish with one click."
-msgstr "راجع المحتوى المُعاد صياغته بالذكاء الاصطناعي وانشره بضغطة زر."
+msgstr "Review AI-reformulated content and publish with one click."
 
 #. module: alpha_echo
 msgid "Save Updates"
-msgstr "حفظ التحديثات"
+msgstr "Save Updates"
 
 #. module: alpha_echo
 msgid "Saved"
-msgstr ""
+msgstr "Saved"
 
 #. module: alpha_echo
 msgid "Saving..."
-msgstr "جاري الحفظ..."
+msgstr "Saving..."
 
 #. module: alpha_echo
 msgid "Scan Interval"
-msgstr "معدل المسح"
+msgstr "Scan Interval"
 
 #. module: alpha_echo
 msgid "Scanning your X List for monitored accounts."
-msgstr ""
+msgstr "Scanning your X List for monitored accounts."
 
 #. module: alpha_echo
 msgid "Search content or sources..."
-msgstr "ابحث في المحتوى أو المصادر..."
+msgstr "Search content or sources..."
 
 #. module: alpha_echo
 msgid "Search discovered accounts..."
-msgstr ""
+msgstr "Search discovered accounts..."
 
 #. module: alpha_echo
 msgid "Searching for sources matching your criteria..."
-msgstr ""
+msgstr "Searching for sources matching your criteria..."
 
 #. module: alpha_echo
 msgid "Secure credentials for private list access."
-msgstr "بيانات اعتماد مؤمنة للوصول للقوائم الخاصة."
+msgstr "Secure credentials for private list access."
 
 #. module: alpha_echo
 msgid "Set"
-msgstr ""
+msgstr "Set"
 
 #. module: alpha_echo
 msgid "Set auth_token and ct0 for the X reader account used to scrape the list."
-msgstr ""
+msgstr "Set auth_token and ct0 for the X reader account used to scrape the list."
 
 #. module: alpha_echo
 msgid "Set your X List URL and reader account cookies (auth_token &amp; ct0)."
-msgstr ""
+msgstr "Set your X List URL and reader account cookies (auth_token &amp; ct0)."
 
 #. module: alpha_echo
 msgid "Settings Center"
-msgstr "مركز الإعدادات"
+msgstr "Settings Center"
 
 #. module: alpha_echo
 msgid "Settings saved successfully"
-msgstr "تم حفظ الإعدادات بنجاح"
+msgstr "Settings saved successfully"
 
 #. module: alpha_echo
 msgid "Settings saved successfully. Testing connection to X account..."
-msgstr ""
+msgstr "Settings saved successfully. Testing connection to X account..."
 
 #. module: alpha_echo
 msgid "Smart Processing &amp; Auto-Approval"
-msgstr ""
+msgstr "Smart Processing &amp; Auto-Approval"
 
 #. module: alpha_echo
 msgid "Source Account Handle"
-msgstr ""
+msgstr "Source Account Handle"
 
 #. module: alpha_echo
 msgid "Source ID:"
-msgstr ""
+msgstr "Source ID:"
 
 #. module: alpha_echo
 msgid "Source Tweet ID"
-msgstr ""
+msgstr "Source Tweet ID"
 
 #. module: alpha_echo
 msgid "Source Tweet URL"
-msgstr ""
+msgstr "Source Tweet URL"
 
 #. module: alpha_echo
 msgid "Start Exploration"
-msgstr ""
+msgstr "Start Exploration"
 
 #. module: alpha_echo
 msgid "Status"
-msgstr "الحالة"
+msgstr "Status"
 
 #. module: alpha_echo
 msgid "Step 1"
-msgstr ""
+msgstr "Step 1"
 
 #. module: alpha_echo
 msgid "Step 2"
-msgstr ""
+msgstr "Step 2"
 
 #. module: alpha_echo
 msgid "Step 3"
-msgstr ""
+msgstr "Step 3"
 
 #. module: alpha_echo
 msgid "Step 4"
-msgstr ""
+msgstr "Step 4"
 
 #. module: alpha_echo
 msgid "Successfully connected to SaaS endpoints."
-msgstr ""
+msgstr "Successfully connected to SaaS endpoints."
 
 #. module: alpha_echo
 msgid "Successfully linked with account: @"
-msgstr ""
+msgstr "Successfully linked with account: @"
 
 #. module: alpha_echo
 msgid "Successfully published %s post(s)."
-msgstr ""
+msgstr "Successfully published %s post(s)."
 
 #. module: alpha_echo
 msgid "Supabase Key"
-msgstr ""
+msgstr "Supabase Key"
 
 #. module: alpha_echo
 msgid "Supabase Status"
-msgstr ""
+msgstr "Supabase Status"
 
 #. module: alpha_echo
 msgid "Supabase URL"
-msgstr ""
+msgstr "Supabase URL"
 
 #. module: alpha_echo
 msgid "System Prompt Algorithm"
-msgstr "الخوارزمية الموجهة (Prompt)"
+msgstr "System Prompt Algorithm"
 
 #. module: alpha_echo
 msgid "System Readiness"
-msgstr "جاهزية النظام"
+msgstr "System Readiness"
 
 #. module: alpha_echo
 msgid "Target Entity"
-msgstr ""
+msgstr "Target Entity"
 
 #. module: alpha_echo
 msgid "Target Insights"
-msgstr ""
+msgstr "Target Insights"
 
 #. module: alpha_echo
 msgid "Target removed successfully."
-msgstr ""
+msgstr "Target removed successfully."
 
 #. module: alpha_echo
 msgid "Terminate Session"
-msgstr "إنهاء الجلسة"
+msgstr "Terminate Session"
 
 #. module: alpha_echo
 msgid "The @handle of the account that originally posted the tweet."
-msgstr ""
+msgstr "The @handle of the account that originally posted the tweet."
 
 #. module: alpha_echo
 msgid "The Odoo user who triggered the publish action."
-msgstr ""
+msgstr "The Odoo user who triggered the publish action."
 
 #. module: alpha_echo
 msgid "The numeric ID of your private X/Twitter List. Found in the URL: twitter.com/i/lists/[LIST_ID]"
-msgstr ""
+msgstr "The numeric ID of your private X/Twitter List. Found in the URL: twitter.com/i/lists/[LIST_ID]"
 
 #. module: alpha_echo
 msgid "The primary X List used for scanning."
-msgstr "قائمة تويتر (X List) الرئيسية المستخدمة للمسح."
+msgstr "The primary X List used for scanning."
 
 #. module: alpha_echo
 msgid "Token Secret"
@@ -879,217 +879,217 @@ msgstr "Token Secret"
 
 #. module: alpha_echo
 msgid "Topics & Captured Content"
-msgstr ""
+msgstr "Topics & Captured Content"
 
 #. module: alpha_echo
 msgid "Total"
-msgstr "الإجمالي"
+msgstr "Total"
 
 #. module: alpha_echo
 msgid "Total Discoveries"
-msgstr ""
+msgstr "Total Discoveries"
 
 #. module: alpha_echo
 msgid "Trigger a Scan"
-msgstr ""
+msgstr "Trigger a Scan"
 
 #. module: alpha_echo
 msgid "Tweet Published At"
-msgstr ""
+msgstr "Tweet Published At"
 
 #. module: alpha_echo
 msgid "Twitter API Key"
-msgstr ""
+msgstr "Twitter API Key"
 
 #. module: alpha_echo
 msgid "Twitter API Secret"
-msgstr ""
+msgstr "Twitter API Secret"
 
 #. module: alpha_echo
 msgid "Twitter Access Secret"
-msgstr ""
+msgstr "Twitter Access Secret"
 
 #. module: alpha_echo
 msgid "Twitter Access Token"
-msgstr ""
+msgstr "Twitter Access Token"
 
 #. module: alpha_echo
 msgid "Twitter auth_token Cookie"
-msgstr ""
+msgstr "Twitter auth_token Cookie"
 
 #. module: alpha_echo
 msgid "Twitter ct0 Cookie"
-msgstr ""
+msgstr "Twitter ct0 Cookie"
 
 #. module: alpha_echo
 msgid "Unauthorized"
-msgstr ""
+msgstr "Unauthorized"
 
 #. module: alpha_echo
 msgid "Unique ID from X/Twitter — used to prevent duplicate processing."
-msgstr ""
+msgstr "Unique ID from X/Twitter — used to prevent duplicate processing."
 
 #. module: alpha_echo
 msgid "Verify your keys."
-msgstr ""
+msgstr "Verify your keys."
 
 #. module: alpha_echo
 msgid "View Original Tweet"
-msgstr "مشاهدة التغريدة الأصلية"
+msgstr "View Original Tweet"
 
 #. module: alpha_echo
 msgid "Welcome to"
-msgstr ""
+msgstr "Welcome to"
 
 #. module: alpha_echo
 msgid "X Account"
-msgstr ""
+msgstr "X Account"
 
 #. module: alpha_echo
 msgid "X Account Required"
-msgstr ""
+msgstr "X Account Required"
 
 #. module: alpha_echo
 msgid "X Connection Hub"
-msgstr "لوحة اتصال X"
+msgstr "X Connection Hub"
 
 #. module: alpha_echo
 msgid "X List &amp; Reader Cookies"
-msgstr ""
+msgstr "X List &amp; Reader Cookies"
 
 #. module: alpha_echo
 msgid "X List ID Required"
-msgstr ""
+msgstr "X List ID Required"
 
 #. module: alpha_echo
 msgid "X List URL or identifier"
-msgstr "رابط قائمة X أو المُعرّف"
+msgstr "X List URL or identifier"
 
 #. module: alpha_echo
 msgid "X Publisher Username"
-msgstr ""
+msgstr "X Publisher Username"
 
 #. module: alpha_echo
 msgid "X account disconnected and engine stopped."
-msgstr ""
+msgstr "X account disconnected and engine stopped."
 
 #. module: alpha_echo
 msgid "X/Twitter Handle"
-msgstr ""
+msgstr "X/Twitter Handle"
 
 #. module: alpha_echo
 msgid "X/Twitter List ID"
-msgstr ""
+msgstr "X/Twitter List ID"
 
 #. module: alpha_echo
 msgid "account"
-msgstr ""
+msgstr "account"
 
 #. module: alpha_echo
 msgid "are under real-time monitoring. Successfully discovered"
-msgstr ""
+msgstr "are under real-time monitoring. Successfully discovered"
 
 #. module: alpha_echo
 msgid "automatically and simultaneously"
-msgstr ""
+msgstr "automatically and simultaneously"
 
 #. module: alpha_echo
 msgid "certified sources"
-msgstr ""
+msgstr "certified sources"
 
 #. module: alpha_echo
 msgid "e.g. Find technical news and rewrite it for developers..."
-msgstr "مثال: ابحث عن الأخبار التقنية وأعد صياغتها للمطورين..."
+msgstr "e.g. Find technical news and rewrite it for developers..."
 
 #. module: alpha_echo
 msgid "monitored sources"
-msgstr ""
+msgstr "monitored sources"
 
 #. module: alpha_echo
 msgid "new topics"
-msgstr ""
+msgstr "new topics"
 
 #. module: alpha_echo
 msgid "published across official channels."
-msgstr ""
+msgstr "published across official channels."
 
 #. module: alpha_echo
 msgid "sources"
-msgstr ""
+msgstr "sources"
 
 #. module: alpha_echo
 msgid "targets"
-msgstr "حسابات مستهدفة"
+msgstr "targets"
 
 #. module: alpha_echo
 msgid "today. AI has handled professional reformulation and content has been"
-msgstr ""
+msgstr "today. AI has handled professional reformulation and content has been"
 
 #. module: alpha_echo
 msgid "⚠️ Apify rate limit exceeded (429 Rate Limit). Please wait."
-msgstr "⚠️ تم تجاوز حد طلبات Apify. انتظر قليلاً."
+msgstr "⚠️ Apify rate limit exceeded (429 Rate Limit). Please wait."
 
 #. module: alpha_echo
 msgid "⚠️ Apify returned HTTP error %d:\n%s"
-msgstr ""
+msgstr "⚠️ Apify returned HTTP error %d:\n%s"
 
 #. module: alpha_echo
 msgid "⚠️ Apify returned an unexpected response (not a list)."
-msgstr "⚠️ أرجع Apify استجابة غير متوقعة."
+msgstr "⚠️ Apify returned an unexpected response (not a list)."
 
 #. module: alpha_echo
 msgid "⚠️ Apify returned an unparsable response:\n%s"
-msgstr ""
+msgstr "⚠️ Apify returned an unparsable response:\n%s"
 
 #. module: alpha_echo
 msgid "⚠️ Failed to connect to X: %s"
-msgstr ""
+msgstr "⚠️ Failed to connect to X: %s"
 
 #. module: alpha_echo
 msgid "⚠️ Failed to publish on X: %s"
-msgstr ""
+msgstr "⚠️ Failed to publish on X: %s"
 
 #. module: alpha_echo
 msgid "⚠️ Insufficient Apify balance (402 Payment Required)."
-msgstr "⚠️ رصيد Apify غير كافٍ (402)."
+msgstr "⚠️ Insufficient Apify balance (402 Payment Required)."
 
 #. module: alpha_echo
 msgid "⚠️ Invalid Apify Token (401 Unauthorized)."
-msgstr "⚠️ توكن Apify غير صحيح (401 Unauthorized)."
+msgstr "⚠️ Invalid Apify Token (401 Unauthorized)."
 
 #. module: alpha_echo
 msgid "⚠️ Invalid OpenAI API Key. Please check the settings."
-msgstr "⚠️ مفتاح OpenAI API غير صحيح. راجع الإعدادات."
+msgstr "⚠️ Invalid OpenAI API Key. Please check the settings."
 
 #. module: alpha_echo
 msgid "⚠️ Network error while connecting to Apify:\n%s"
-msgstr ""
+msgstr "⚠️ Network error while connecting to Apify:\n%s"
 
 #. module: alpha_echo
 msgid "⚠️ OpenAI API Key is missing. Please add it in settings."
-msgstr "⚠️ مفتاح OpenAI غير موجود. برجاء إضافته في الإعدادات."
+msgstr "⚠️ OpenAI API Key is missing. Please add it in settings."
 
 #. module: alpha_echo
 msgid "⚠️ OpenAI Error: %s"
-msgstr ""
+msgstr "⚠️ OpenAI Error: %s"
 
 #. module: alpha_echo
 msgid "⚠️ OpenAI library is not installed. Run: pip install openai"
-msgstr "⚠️ مكتبة OpenAI غير مثبتة. شغّل: pip install openai"
+msgstr "⚠️ OpenAI library is not installed. Run: pip install openai"
 
 #. module: alpha_echo
 msgid "⚠️ OpenAI quota exceeded (Rate Limit). Please wait or upgrade your plan."
-msgstr "⚠️ تم تجاوز حصة OpenAI. انتظر أو قم بترقية الخطة."
+msgstr "⚠️ OpenAI quota exceeded (Rate Limit). Please wait or upgrade your plan."
 
 #. module: alpha_echo
 msgid "⚠️ Tweet text is empty — cannot publish."
-msgstr "⚠️ نص التغريدة فارغ — لا يمكن النشر."
+msgstr "⚠️ Tweet text is empty — cannot publish."
 
 #. module: alpha_echo
 msgid "⚠️ Unable to retrieve account information from X."
-msgstr "⚠️ تعذر استرداد معلومات الحساب من X."
+msgstr "⚠️ Unable to retrieve account information from X."
 
 #. module: alpha_echo
 msgid "⚠️ X connection test failed: %s"
-msgstr ""
+msgstr "⚠️ X connection test failed: %s"
 

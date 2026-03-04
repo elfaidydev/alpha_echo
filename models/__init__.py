@@ -4,3 +4,4 @@ from . import post
 from . import apify_service
 from . import openai_service
 from . import x_service
+from . import dashboard

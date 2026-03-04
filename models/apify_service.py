@@ -47,8 +47,8 @@ class SmartRadarApifyService(models.AbstractModel):
         """
         if not list_id or not str(list_id).strip():
             raise UserError(_(
-                "⚠️ X/Twitter List ID غير مُعدّ.\n"
-                "أضفه في: الإعدادات → Alpha Echo → X List ID."
+                "⚠️ X/Twitter List ID is not configured.\n"
+                "Add it in: Settings -> Alpha Echo -> X List ID."
             ))
 
         # ── Load credentials ──────────────────────────────────────────────────
@@ -62,8 +62,8 @@ class SmartRadarApifyService(models.AbstractModel):
         
         if not token:
             raise UserError(_(
-                "⚠️ Apify API Token مفقود.\n"
-                "أضفه في: الإعدادات → Alpha Echo → API Credentials."
+                "⚠️ Apify API Token is missing.\n"
+                "Add it in: Settings -> Alpha Echo -> API Credentials."
             ))
 
         # ── Build request body — exactly matching the working Postman call ────
@@ -106,33 +106,33 @@ class SmartRadarApifyService(models.AbstractModel):
             )
         except requests.exceptions.Timeout:
             raise UserError(_(
-                "⚠️ انتهت مهلة الاتصال بـ Apify (5 دقائق).\n"
-                "تحقق من صحة الـ List ID والـ Token."
+                "⚠️ Apify connection timed out (5 minutes).\n"
+                "Check your List ID and Token validity."
             ))
         except requests.exceptions.RequestException as exc:
             _logger.error("Apify HTTP error: %s", exc)
-            raise UserError(_("⚠️ خطأ شبكة أثناء الاتصال بـ Apify:\n%s") % str(exc))
+            raise UserError(_("⚠️ Network error while connecting to Apify:\n%s") % str(exc))
 
         # ── Handle HTTP errors ────────────────────────────────────────────────
         if resp.status_code == 401:
-            raise UserError(_("⚠️ Apify Token غير صحيح (401 Unauthorized)."))
+            raise UserError(_("⚠️ Invalid Apify Token (401 Unauthorized)."))
         if resp.status_code == 402:
-            raise UserError(_("⚠️ رصيد Apify غير كافٍ (402 Payment Required)."))
+            raise UserError(_("⚠️ Insufficient Apify balance (402 Payment Required)."))
         if resp.status_code == 429:
-            raise UserError(_("⚠️ تم تجاوز حد طلبات Apify (429 Rate Limit). انتظر قليلاً."))
+            raise UserError(_("⚠️ Apify rate limit exceeded (429 Rate Limit). Please wait."))
         if not resp.ok:
             raise UserError(_(
-                "⚠️ Apify أرجع خطأ HTTP %d:\n%s"
+                "⚠️ Apify returned HTTP error %d:\n%s"
             ) % (resp.status_code, resp.text[:300]))
 
         # ── Parse response ────────────────────────────────────────────────────
         try:
             raw_items = resp.json()
         except Exception:
-            raise UserError(_("⚠️ Apify أرجع استجابة غير قابلة للتحليل:\n%s") % resp.text[:300])
+            raise UserError(_("⚠️ Apify returned an unparsable response:\n%s") % resp.text[:300])
 
         if not isinstance(raw_items, list):
-            raise UserError(_("⚠️ Apify أرجع استجابة غير متوقعة (ليست قائمة)."))
+            raise UserError(_("⚠️ Apify returned an unexpected response (not a list)."))
 
         results = []
         for item in raw_items:

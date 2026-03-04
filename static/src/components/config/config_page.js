@@ -33,7 +33,7 @@ export class ConfigPage extends Component {
         });
 
         onWillStart(async () => {
-            await this.radarService.fetchConfig();
+            await this.radarService.initialize();
             this._initializeDefaultConfig();
         });
 

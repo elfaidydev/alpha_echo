@@ -24,6 +24,7 @@ export class TargetsPage extends Component {
         });
 
         onWillStart(async () => {
+            await this.radarService.initialize();
             await this.radarService.loadTargets();
         });
     }

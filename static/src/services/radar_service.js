@@ -14,6 +14,7 @@ export const radarService = {
     
     start(env, { rpc, notification }) {
         const state = reactive({
+            isConfigLoaded: false,
             isTracking: false, // Default to OFF for new clients
             isLoading: false,
             monitoredAccounts: 0, // Starts at 0
@@ -188,10 +189,10 @@ export const radarService = {
                     Object.assign(state.config, data);
                     state.isTracking = !!data.is_engine_active;
                     
-                    // Critical Fix: Automatically verify connection if keys exist to populate profile info
+                    // Critical Fix: Do not await the Twitter test. Let it run in the background
+                    // so the UI can render instantly without waiting for an external API.
                     if (state.config.isFullyConfigured) {
-                        try {
-                            const testResult = await rpc("/alpha_echo/config/test_twitter", {});
+                        rpc("/alpha_echo/config/test_twitter", {}).then((testResult) => {
                             if (testResult && testResult.success) {
                                 state.config.twitterLinked = true;
                                 state.config.twitterUser = testResult;
@@ -199,10 +200,10 @@ export const radarService = {
                                 state.config.twitterLinked = false;
                                 state.config.twitterUser = null;
                             }
-                        } catch (e) {
+                        }).catch(() => {
                             state.config.twitterLinked = false;
                             state.config.twitterUser = null;
-                        }
+                        });
                     } else {
                         state.config.twitterLinked = false;
                         state.config.twitterUser = null;
@@ -270,6 +271,16 @@ export const radarService = {
         }
 
 
+        let initPromise = null;
+        async function initialize() {
+            if (!initPromise) {
+                initPromise = fetchConfig().then(() => {
+                    state.isConfigLoaded = true;
+                });
+            }
+            return initPromise;
+        }
+
         return {
             state,
             toggleTracking,
@@ -282,7 +293,8 @@ export const radarService = {
             fetchConfig,
             saveConfig,
             disconnectX,
-            canStartEngine
+            canStartEngine,
+            initialize
         };
     }
 };

@@ -29,8 +29,19 @@
                 <!-- ══ CONTENT GRID ══════════════════════════════════════════════ -->
                 <div class="ae-targets-grid">
 
-                    <!-- Case 1: Locked — X account not connected -->
-                    <t t-if="!radarState.config.twitterLinked">
+                    <!-- Case 1: Loading -->
+                    <t t-if="(!radarState.isConfigLoaded) or (radarState.isLoading and filteredTargets.length === 0)">
+                        <div class="ae-empty-hero">
+                            <div class="ae-empty-icon ae-empty-icon-spin">
+                                <i class="fa fa-spinner fa-spin"/>
+                            </div>
+                            <h2><t t-esc="_t('Discovering Targets...')"/></h2>
+                            <p><t t-esc="_t('Scanning your X List for monitored accounts.')"/></p>
+                        </div>
+                    </t>
+
+                    <!-- Case 2: Locked — X account not connected -->
+                    <t t-elif="!radarState.config.twitterLinked">
                         <div class="ae-empty-hero">
                             <div class="ae-empty-hero-ring"/>
                             <div class="ae-empty-icon ae-empty-icon-lock">
@@ -46,7 +57,7 @@
                         </div>
                     </t>
 
-                    <!-- Case 1b: Locked — X List not set -->
+                    <!-- Case 3: Locked — X List not set -->
                     <t t-elif="!radarState.config.x_list_id">
                         <div class="ae-empty-hero">
                             <div class="ae-empty-hero-ring ae-ring-amber"/>
@@ -60,17 +71,6 @@
                                     <i class="fa fa-cog"/> <t t-esc="_t('Configure Now')"/>
                                 </a>
                             </div>
-                        </div>
-                    </t>
-
-                    <!-- Case 2: Loading -->
-                    <t t-elif="radarState.isLoading and filteredTargets.length === 0">
-                        <div class="ae-empty-hero">
-                            <div class="ae-empty-icon ae-empty-icon-spin">
-                                <i class="fa fa-spinner fa-spin"/>
-                            </div>
-                            <h2><t t-esc="_t('Discovering Targets...')"/></h2>
-                            <p><t t-esc="_t('Scanning your X List for monitored accounts.')"/></p>
                         </div>
                     </t>
 

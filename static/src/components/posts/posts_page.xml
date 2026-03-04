@@ -60,7 +60,7 @@
                 <div class="ae-posts-grid">
 
                     <!-- Case 1: Loading -->
-                    <t t-if="state.isLoading and posts.length === 0">
+                    <t t-if="(!radarState.isConfigLoaded) or (state.isLoading and posts.length === 0)">
                         <div class="ae-empty-hero">
                             <div class="ae-empty-icon"><i class="fa fa-spinner fa-spin"/></div>
                             <h2><t t-esc="_t('Loading Content...')"/></h2>

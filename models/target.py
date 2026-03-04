@@ -141,26 +141,26 @@ class SmartRadarTarget(models.Model):
 
         if not config.x_list_id:
             raise UserError(_(
-                "⚠️ X/Twitter List ID غير مُعدّ.\n"
-                "أضفه في: الإعدادات → Alpha Echo → X List ID."
+                "⚠️ X/Twitter List ID is not configured.\n"
+                "Add it in: Settings -> Alpha Echo -> X List ID."
             ))
 
         if not config.apify_token:
             raise UserError(_(
-                "⚠️ Apify Token مفقود.\n"
-                "أضفه في الإعدادات."
+                "⚠️ Apify Token is missing.\n"
+                "Add it in Settings."
             ))
 
         if not config.custom_ai_instructions:
             raise UserError(_(
-                "⚠️ System Prompt للـ AI غير مكتوب.\n"
-                "أكتبه في الإعدادات قبل تشغيل الـ Scan."
+                "⚠️ AI System Prompt is not configured.\n"
+                "Write it in Settings before running the scan."
             ))
 
         if not config.openai_api_key:
             raise UserError(_(
-                "⚠️ OpenAI API Key مفقود.\n"
-                "أضفه في الإعدادات."
+                "⚠️ OpenAI API Key is missing.\n"
+                "Add it in Settings."
             ))
 
         # ── Concurrency lock (prevents parallel Apify runs = cost control) ───

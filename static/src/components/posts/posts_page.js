@@ -25,6 +25,7 @@ export class PostsPage extends Component {
         });
 
         onWillStart(async () => {
+            await this.radarService.initialize();
             await this.loadPosts();
         });
     }
@@ -40,6 +41,10 @@ export class PostsPage extends Component {
 
     get posts() {
         return this.radarService.state.posts;
+    }
+
+    get radarState() {
+        return this.radarService.state;
     }
 
     get filteredPosts() {

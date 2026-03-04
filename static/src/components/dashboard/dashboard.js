@@ -12,6 +12,7 @@ export class SmartRadarDashboard extends Component {
 
     setup() {
         this.action = useService("action");
+        this.orm = useService("orm");
         
         this.barChartCanvas = useRef("barChartCanvas");
         this.gaugeChartCanvas = useRef("gaugeChartCanvas");
@@ -40,7 +41,22 @@ export class SmartRadarDashboard extends Component {
         });
 
         onMounted(async () => {
-            this.initCharts();
+            // Load actual data from backend
+            await this.radarService.fetchConfig();
+            await this.radarService.loadTargets();
+
+            let metrics = null;
+            try {
+                metrics = await this.orm.call("alpha.echo.dashboard", "get_dashboard_metrics", []);
+                this.radarState.grantsDiscovered = metrics.posts_today;
+                this.radarState.publishedToday = metrics.posts_published;
+                this.radarState.monitoredAccounts = metrics.targets_active;
+                this.radarState.matchRate = metrics.posts_total > 0 ? Math.round((metrics.posts_published / metrics.posts_total) * 100) : 0;
+            } catch (error) {
+                console.error("Failed to load metrics", error);
+            }
+
+            this.initCharts(metrics);
             
             // Modern ResizeObserver for perfect "live" responsiveness
             if (this.dashboardRef.el) {
@@ -54,10 +70,6 @@ export class SmartRadarDashboard extends Component {
                 });
                 this.resizeObserver.observe(this.dashboardRef.el);
             }
-
-            // Load actual data from backend
-            await this.radarService.fetchConfig();
-            await this.radarService.loadTargets();
 
             this.startMockFeed();
             this.radarService.pushLog(_t("System Readiness"), _t("Exploration engine and AI formulation unit are in real-time activation mode. Connection is active and stable."), "success");
@@ -80,7 +92,7 @@ export class SmartRadarDashboard extends Component {
     }
 
 
-    createSparkline(ctx, data, colorHex, r, g, b) {
+    createSparkline(ctx, labels, data, colorHex, r, g, b) {
         let grad = ctx.createLinearGradient(0, 0, 0, 48);
         grad.addColorStop(0, `rgba(${r}, ${g}, ${b}, 0.25)`);
         grad.addColorStop(1, `rgba(${r}, ${g}, ${b}, 0.0)`);
@@ -88,7 +100,7 @@ export class SmartRadarDashboard extends Component {
         return new window.Chart(ctx, {
             type: 'line',
             data: {
-                labels: ['1','2','3','4','5','6','7'],
+                labels: labels,
                 datasets: [{
                     data: data,
                     borderColor: colorHex,
@@ -109,15 +121,18 @@ export class SmartRadarDashboard extends Component {
         });
     }
 
-    initCharts() {
+    initCharts(metrics) {
         if (!window.Chart) return;
 
+        const chartData = metrics && metrics.chart_data.length > 0 ? metrics.chart_data : [0,0,0,0,0,0,0];
+        const chartLabels = metrics && metrics.chart_labels.length > 0 ? metrics.chart_labels : ['1','2','3','4','5','6','7'];
+
         // Grants discovered trend
-        if(this.sparkline1.el) this.chartInstances.push(this.createSparkline(this.sparkline1.el.getContext("2d"), [1, 2, 0, 3, 2, 4, 5], '#3b82f6', 59, 130, 246));
+        if(this.sparkline1.el) this.chartInstances.push(this.createSparkline(this.sparkline1.el.getContext("2d"), chartLabels, chartData, '#3b82f6', 59, 130, 246));
         // Posts created trend
-        if(this.sparkline2.el) this.chartInstances.push(this.createSparkline(this.sparkline2.el.getContext("2d"), [2, 4, 0, 6, 4, 8, 10], '#10b981', 16, 185, 129));
+        if(this.sparkline2.el) this.chartInstances.push(this.createSparkline(this.sparkline2.el.getContext("2d"), chartLabels, chartData, '#10b981', 16, 185, 129));
         // Match Rate trend
-        if(this.sparkline4.el) this.chartInstances.push(this.createSparkline(this.sparkline4.el.getContext("2d"), [95, 96, 94, 98, 97, 98, 99], '#f59e0b', 245, 158, 11));
+        if(this.sparkline4.el) this.chartInstances.push(this.createSparkline(this.sparkline4.el.getContext("2d"), chartLabels, chartData, '#f59e0b', 245, 158, 11));
 
         // Rounded Bar Chart flow density
         if(this.barChartCanvas.el) {
@@ -125,10 +140,10 @@ export class SmartRadarDashboard extends Component {
             this.chartInstances.push(new window.Chart(ctxBar, {
                 type: 'bar',
                 data: {
-                    labels: [_t('8 AM'), _t('10 AM'), _t('12 PM'), _t('2 PM'), _t('4 PM'), _t('6 PM')],
+                    labels: chartLabels,
                     datasets: [{
                         label: _t('Topics & Captured Content'),
-                        data: [2, 5, 8, 12, 6, 3],
+                        data: chartData,
                         backgroundColor: [
                             '#818cf8', '#6366f1', '#4f46e5', '#4338ca', '#3730a3', '#312e81'
                         ], // Beautiful sequential colors
@@ -163,7 +178,7 @@ export class SmartRadarDashboard extends Component {
                 data: {
                     labels: [_t('Official Website'), _t('X Account')],
                     datasets: [{
-                        data: [50, 50], // 50/50 dual publish
+                        data: [metrics && metrics.posts_published > 0 ? metrics.posts_published : 1, metrics && metrics.posts_published > 0 ? metrics.posts_published : 1], 
                         backgroundColor: ['#4f46e5', '#1da1f2'],
                         borderWidth: 0,
                         hoverOffset: 6,

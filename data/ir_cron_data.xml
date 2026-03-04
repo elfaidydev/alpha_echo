@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data noupdate="1">
+    <data noupdate="0">
         <record id="ir_cron_alpha_echo_fetch" model="ir.cron">
             <field name="name">Alpha Echo: Fetch &amp; Process Tweets</field>
             <field name="model_id" ref="model_alpha_echo_target"/>

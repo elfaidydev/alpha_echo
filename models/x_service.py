@@ -21,8 +21,8 @@ class SmartRadarXService(models.AbstractModel):
         """Helper to get tweepy client authenticated with DB credentials."""
         if not tweepy:
             return None, _(
-                "⚠️ مكتبة Tweepy غير مثبتة على الخادم.\n"
-                "يرجى تشغيل: pip install tweepy"
+                "⚠️ Tweepy library is not installed on the server.\n"
+                "Please run: pip install tweepy"
             )
 
         config = self.env['alpha.echo.client.config'].get_singleton()
@@ -39,8 +39,8 @@ class SmartRadarXService(models.AbstractModel):
 
         if missing:
             return None, _(
-                "⚠️ بيانات X (Twitter) ناقصة: %s\n"
-                "يرجى إكمالها في الإعدادات."
+                "⚠️ Missing X (Twitter) credentials: %s\n"
+                "Please complete them in Settings."
             ) % ", ".join(missing)
 
         try:
@@ -53,7 +53,7 @@ class SmartRadarXService(models.AbstractModel):
             return client, None
         except Exception as e:
             _logger.error("Failed to initialize tweepy client: %s", str(e))
-            return None, _("⚠️ فشل الاتصال بـ X: %s") % str(e)
+            return None, _("⚠️ Failed to connect to X: %s") % str(e)
 
     @api.model
     def test_connection(self):
@@ -77,11 +77,11 @@ class SmartRadarXService(models.AbstractModel):
                     'username': user_info.data.username,
                     'profile_image_url': user_info.data.profile_image_url
                 }
-            return {'success': False, 'error': _("⚠️ تعذر استرداد معلومات الحساب من X.")}
+            return {'success': False, 'error': _("⚠️ Unable to retrieve account information from X.")}
 
         except Exception as e:
             _logger.error("X connection test failed: %s", str(e))
-            return {'success': False, 'error': _("⚠️ فشل اختبار الاتصال بـ X: %s") % str(e)}
+            return {'success': False, 'error': _("⚠️ X connection test failed: %s") % str(e)}
 
     @api.model
     def publish_tweet(self, text):
@@ -90,12 +90,12 @@ class SmartRadarXService(models.AbstractModel):
         Returns (True, tweet_url) on success, or (False, error_message) on failure.
         """
         if not text or not text.strip():
-            return False, _("⚠️ نص التغريدة فارغ — لا يمكن النشر.")
+            return False, _("⚠️ Tweet text is empty — cannot publish.")
 
         if len(text) > X_CHAR_LIMIT:
             return False, _(
-                "⚠️ النص يتجاوز حد X/Twitter (%d حرف). الحجم الحالي: %d حرف.\n"
-                "يرجى تقصير النص قبل النشر."
+                "⚠️ Text exceeds X/Twitter limit (%d characters). Current size: %d characters.\n"
+                "Please shorten the text before publishing."
             ) % (X_CHAR_LIMIT, len(text))
 
         client, error = self._get_client()
@@ -120,22 +120,22 @@ class SmartRadarXService(models.AbstractModel):
 
             if '402' in error_str:
                 return False, _(
-                    "⚠️ فشل الدفع أو انتهاء الرصيد (402 Payment Required).\n"
-                    "يرجى مراجعة اشتراكك في منصة مطوري X (Developer Portal)."
+                    "⚠️ Payment failed or out of credit (402 Payment Required).\n"
+                    "Please check your X Developer Portal subscription."
                 )
             if '403' in error_str:
                 return False, _(
-                    "⚠️ رُفض النشر (403 Forbidden).\n"
-                    "تحقق من أن تطبيق X لديه صلاحية الكتابة (Read & Write)."
+                    "⚠️ Publishing rejected (403 Forbidden).\n"
+                    "Verify that your X app has Read & Write permissions."
                 )
             if '401' in error_str:
                 return False, _(
-                    "⚠️ خطأ في المصادقة (401 Unauthorized).\n"
-                    "يرجى مراجعة بيانات الاعتماد في الإعدادات."
+                    "⚠️ Authentication error (401 Unauthorized).\n"
+                    "Please review your credentials in Settings."
                 )
             if '429' in error_str:
                 return False, _(
-                    "⚠️ تم تجاوز حد النشر (Rate Limit).\n"
-                    "يرجى الانتظار قبل المحاولة مرة أخرى."
+                    "⚠️ Publishing rate limit exceeded.\n"
+                    "Please wait before trying again."
                 )
-            return False, _("⚠️ فشل النشر على X: %s") % error_str
+            return False, _("⚠️ Failed to publish on X: %s") % error_str
