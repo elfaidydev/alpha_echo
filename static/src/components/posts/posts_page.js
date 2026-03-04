@@ -78,9 +78,10 @@ export class PostsPage extends Component {
         const states = {
             'published': _t('Published'),
             'draft': _t('Pending Draft'),
-            'rejected': _t('Rejected')
+            'rejected': _t('Rejected'),
+            'failed': _t('Failed')
         };
-        return states[state] || _t('Rejected');
+        return states[state] || state;
     }
 }
 

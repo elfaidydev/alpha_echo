@@ -108,15 +108,7 @@ export class ConfigPage extends Component {
 
     async disconnectTwitter() {
         if(confirm(_t("Are you sure you want to unlink the currently identified Twitter account? This will stop automated publishing."))) {
-            this.config.x_api_key = "";
-            this.config.x_api_secret = "";
-            this.config.x_access_token = "";
-            this.config.x_access_token_secret = "";
-            this.config.twitterLinked = false;
-            this.config.twitterUser = null;
-            
-            // Persist the disconnection
-            await this.radarService.saveConfig();
+            await this.radarService.disconnectX();
             this.notification.add(_t("Account unlinked successfully."), { type: "info" });
         }
     }

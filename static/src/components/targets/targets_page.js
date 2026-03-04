@@ -59,7 +59,7 @@ export class TargetsPage extends Component {
         const posts = await this.orm.searchRead(
             "alpha.echo.post",
             [['target_id', '=', target.id]],
-            ["original_text", "ai_generated_text", "ai_confidence", "state", "create_date"],
+            ["original_text", "ai_generated_text", "state", "create_date"],
             { limit: 5, order: "create_date desc" }
         );
         

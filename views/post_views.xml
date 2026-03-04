@@ -9,7 +9,6 @@
                 <field name="target_id"/>
                 <field name="create_date"/>
                 <field name="state"/>
-                <field name="ai_confidence"/>
                 <templates>
                     <t t-name="kanban-box">
                         <div t-attf-class="oe_kanban_global_click oe_kanban_card">
@@ -28,9 +27,6 @@
                                 <div class="text-muted d-flex justify-content-between align-items-center">
                                     <span>
                                         <i class="fa fa-clock-o me-1" title="Discovery Date"/> <field name="create_date" widget="date"/>
-                                    </span>
-                                    <span title="AI confidence level that this is a relevant discovery" class="text-success fw-bold">
-                                        <i class="fa fa-magic me-1"/> <field name="ai_confidence"/>%
                                     </span>
                                 </div>
                             </div>
@@ -62,7 +58,6 @@
                 <field name="source_author_handle" string="Source @Handle"/>
                 <field name="source_created_at" string="Tweet Date"/>
                 <field name="create_date" string="Detected On"/>
-                <field name="ai_confidence" widget="progressbar"/>
                 <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-success="state == 'published'" decoration-danger="state == 'failed'"/>
                 <field name="published_by" string="Published By" optional="show"/>
                 <field name="published_at" string="Published At" optional="show"/>
@@ -84,12 +79,6 @@
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                        <button class="oe_stat_button" icon="fa-percent" title="AI Match Confidence" style="pointer-events: none;">
-                            <div class="o_stat_info">
-                                <span class="o_stat_value text-success"><field name="ai_confidence"/>%</span>
-                                <span class="o_stat_text">AI Confidence</span>
-                            </div>
-                        </button>
                     </div>
                     
                     <widget name="web_ribbon" title="Approved &amp; Published" bg_color="bg-success" invisible="state != 'published'"/>

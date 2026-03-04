@@ -1,88 +1,203 @@
-/* 
-   ==========================================================================
-   SMART RADAR CORE - Global Design Tokens (_variables.scss)
-   Inspired by Flutter Clean Architecture
-   ==========================================================================
-*/
-
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap');
+/*
+ * ============================================================================
+ * ALPHA ECHO — Global Design Token System (_variables.scss)
+ * Single source of truth for:
+ *   • Colors, typography, spacing, radius, shadows
+ *   • Responsive breakpoints (desktop → tablet → mobile)
+ *   • Consistent icon sizing scale
+ *
+ * NOTE: Google Fonts (Inter + Cairo) are loaded via the XML backend template,
+ * NOT here — Odoo's libsass does not support @import url() inside .scss files.
+ * ============================================================================
+ */
 
 :root {
-    /* --- V4 Brand Color Palette --- */
-    --v4-bg: #f8fafc; /* Slightly cooler background */
-    --v4-surface: #ffffff;
-    --v4-text-dark: #0f172a;
-    --v4-text-muted: #64748b;
-    --v4-border: rgba(15, 23, 42, 0.08); /* More visible but soft */
-    
-    /* Bold Primary Colors */
-    --v4-indigo: #4338ca; 
-    --v4-indigo-light: #eef2ff;
-    --v4-emerald: #10b981;
-    --v4-emerald-soft: #ecfdf5;
-    --v4-blue: #3b82f6;
-    --v4-amber: #f59e0b;
-    --v4-rose: #f43f5e;
+    /* ── Brand Font ─────────────────────────────────────────────────────── */
+    --ae-font:      'Inter', 'Cairo', system-ui, -apple-system, sans-serif;
 
-    /* Semantic UI Colors */
-    --v4-danger-bg: #fef2f2;
-    --v4-danger-text: #ef4444;
-    --v4-danger-border: #fee2e2;
-    
-    --v4-warning-bg: #fffbeb;
-    --v4-warning-text: #f59e0b;
-    --v4-warning-border: #fef3c7;
+    /* ── Weight Scale ───────────────────────────────────────────────────── */
+    --ae-w-regular:  400;
+    --ae-w-medium:   500;
+    --ae-w-semibold: 600;
+    --ae-w-bold:     700;
+    --ae-w-extrabold:800;
+    --ae-w-black:    900;
 
-    --v4-twitter-blue: #1da1f2;
-    --v4-twitter-bg: #eff6ff;
+    /* ── Color Palette ──────────────────────────────────────────────────── */
+    --ae-bg:          #f8fafc;
+    --ae-surface:     #ffffff;
+    --ae-text:        #0f172a;
+    --ae-muted:       #64748b;
+    --ae-border:      rgba(15, 23, 42, 0.08);
 
-    /* --- Universal Elevation & Radius --- */
-    --v4-shadow-soft: 0 4px 20px -5px rgba(0, 0, 0, 0.05);
-    --v4-shadow-hover: 0 12px 30px -10px rgba(0, 0, 0, 0.1);
-    --v4-radius-xl: 20px; /* Slightly tighter */
-    --v4-radius-lg: 16px;
-    --v4-radius-md: 12px;
-    --v4-radius-sm: 8px;
+    --ae-indigo:      #4338ca;
+    --ae-indigo-lt:   #eef2ff;
+    --ae-emerald:     #10b981;
+    --ae-emerald-lt:  #ecfdf5;
+    --ae-blue:        #3b82f6;
+    --ae-amber:       #f59e0b;
+    --ae-rose:        #f43f5e;
+    --ae-twitter:     #1da1f2;
+    --ae-twitter-lt:  #eff6ff;
 
-    /* --- GLOBAL FONTS & WEIGHTS --- */
-    --v4-font-family: 'Montserrat', 'Montserrat Arabic', system-ui, -apple-system, sans-serif;
-    --v4-w-regular: 400;
-    --v4-w-medium: 500;
-    --v4-w-semibold: 600;
-    --v4-w-bold: 700;
-    --v4-w-black: 900;
+    /* Semantic */
+    --ae-danger-bg:     #fef2f2;
+    --ae-danger-text:   #ef4444;
+    --ae-danger-border: #fee2e2;
+    --ae-warn-bg:       #fffbeb;
+    --ae-warn-text:     #f59e0b;
+    --ae-warn-border:   #fef3c7;
 
-    /* --- ADAPTIVE TYPOGRAPHY (CLEAN SCALE) --- */
-    /* Desktop Default */
-    --v4-font-h1: 28px;
-    --v4-font-h2: 24px;
-    --v4-font-h3: 18px;
-    --v4-font-body: 14px;
-    --v4-font-small: 12px;
-    --v4-font-xsmall: 10px;
+    /* ── Elevation ──────────────────────────────────────────────────────── */
+    --ae-shadow-sm:   0 2px 8px rgba(0,0,0,0.04);
+    --ae-shadow-md:   0 4px 20px -5px rgba(0,0,0,0.05);
+    --ae-shadow-lg:   0 12px 30px -10px rgba(0,0,0,0.10);
+    --ae-shadow-xl:   0 25px 50px -12px rgba(0,0,0,0.15);
 
-    /* --- Layout Constants --- */
-    --v4-max-content-width: 1600px;
-    --v4-header-height-mobile: 70px;
+    /* ── Radius ─────────────────────────────────────────────────────────── */
+    --ae-r-xs: 6px;
+    --ae-r-sm: 8px;
+    --ae-r-md: 12px;
+    --ae-r-lg: 16px;
+    --ae-r-xl: 20px;
+    --ae-r-2xl:24px;
+    --ae-r-3xl:30px;
+
+    /* ── Spacing Scale (4px base) ───────────────────────────────────────── */
+    --ae-sp-1:  4px;
+    --ae-sp-2:  8px;
+    --ae-sp-3:  12px;
+    --ae-sp-4:  16px;
+    --ae-sp-5:  20px;
+    --ae-sp-6:  24px;
+    --ae-sp-8:  32px;
+    --ae-sp-10: 40px;
+    --ae-sp-12: 48px;
+
+    /* ── Icon Sizes ─────────────────────────────────────────────────────── */
+    /* Container (box/circle wrapping the icon) */
+    --ae-icon-box-xs: 28px;    /* tiny inline icon box */
+    --ae-icon-box-sm: 36px;    /* small context icon */
+    --ae-icon-box-md: 44px;    /* standard card icon */
+    --ae-icon-box-lg: 56px;    /* header / logo box */
+    --ae-icon-box-xl: 64px;    /* hero sparkle */
+
+    /* Glyph (the actual <i> font-size inside the box) */
+    --ae-icon-xs: 12px;
+    --ae-icon-sm: 14px;
+    --ae-icon-md: 18px;
+    --ae-icon-lg: 22px;
+    --ae-icon-xl: 28px;
+
+    /* ── Typography Scale (desktop) ─────────────────────────────────────── */
+    --ae-fs-h1:   28px;
+    --ae-fs-h2:   22px;
+    --ae-fs-h3:   18px;
+    --ae-fs-h4:   16px;
+    --ae-fs-body: 14px;
+    --ae-fs-sm:   12px;
+    --ae-fs-xs:   10px;
+
+    /* ── Layout ─────────────────────────────────────────────────────────── */
+    --ae-max-w:     1600px;
+    --ae-content-px: 32px;    /* horizontal padding for all page containers */
+    --ae-content-py: 32px;    /* vertical padding */
+    --ae-header-h:   70px;    /* sticky header height */
+
+    /* ── Transitions ────────────────────────────────────────────────────── */
+    --ae-ease:      cubic-bezier(0.4, 0, 0.2, 1);
+    --ae-ease-out:  cubic-bezier(0.16, 1, 0.3, 1);
+    --ae-ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    --ae-duration:  0.25s;
+
+    /* Legacy aliases (do NOT add new uses — migrate to --ae-* prefix) */
+    --v4-font-family:  var(--ae-font);
+    --v4-bg:           var(--ae-bg);
+    --v4-surface:      var(--ae-surface);
+    --v4-text-dark:    var(--ae-text);
+    --v4-text-muted:   var(--ae-muted);
+    --v4-border:       var(--ae-border);
+    --v4-indigo:       var(--ae-indigo);
+    --v4-indigo-light: var(--ae-indigo-lt);
+    --v4-emerald:      var(--ae-emerald);
+    --v4-emerald-soft: var(--ae-emerald-lt);
+    --v4-blue:         var(--ae-blue);
+    --v4-amber:        var(--ae-amber);
+    --v4-rose:         var(--ae-rose);
+    --v4-twitter-blue: var(--ae-twitter);
+    --v4-twitter-bg:   var(--ae-twitter-lt);
+    --v4-shadow-soft:  var(--ae-shadow-md);
+    --v4-shadow-hover: var(--ae-shadow-lg);
+    --v4-radius-xl:    var(--ae-r-xl);
+    --v4-radius-lg:    var(--ae-r-lg);
+    --v4-radius-md:    var(--ae-r-md);
+    --v4-radius-sm:    var(--ae-r-sm);
+    --v4-danger-bg:       var(--ae-danger-bg);
+    --v4-danger-text:     var(--ae-danger-text);
+    --v4-danger-border:   var(--ae-danger-border);
+    --v4-warning-bg:      var(--ae-warn-bg);
+    --v4-warning-text:    var(--ae-warn-text);
+    --v4-warning-border:  var(--ae-warn-border);
+    --v4-w-regular:   var(--ae-w-regular);
+    --v4-w-medium:    var(--ae-w-medium);
+    --v4-w-semibold:  var(--ae-w-semibold);
+    --v4-w-bold:      var(--ae-w-bold);
+    --v4-w-black:     var(--ae-w-black);
+    --v4-font-h1:     var(--ae-fs-h1);
+    --v4-font-h2:     var(--ae-fs-h2);
+    --v4-font-h3:     var(--ae-fs-h3);
+    --v4-font-body:   var(--ae-fs-body);
+    --v4-font-small:  var(--ae-fs-sm);
+    --v4-font-xsmall: var(--ae-fs-xs);
+    --v4-max-content-width: var(--ae-max-w);
 }
 
-/* Tablet Polish (Standard iPad) */
+/* ── Tablet (≤ 1024px) ────────────────────────────────────────────────────── */
 @media (max-width: 1024px) {
     :root {
-        --v4-font-h1: 26px;
-        --v4-font-h2: 22px;
-        --v4-font-body: 13.5px;
+        --ae-fs-h1:     26px;
+        --ae-fs-h2:     20px;
+        --ae-fs-h3:     17px;
+        --ae-fs-body:   13.5px;
+        --ae-content-px: 24px;
+        --ae-content-py: 24px;
+
+        --ae-icon-box-lg: 52px;
+        --ae-icon-box-xl: 56px;
+        --ae-icon-lg: 20px;
     }
 }
 
-/* Mobile Sharp Focus */
+/* ── Mobile (≤ 768px) ─────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
     :root {
-        --v4-font-h1: 22px;
-        --v4-font-h2: 20px;
-        --v4-font-h3: 17px;
-        --v4-font-body: 13px;
-        --v4-font-small: 11.5px;
-        --v4-font-xsmall: 10px;
+        --ae-fs-h1:     22px;
+        --ae-fs-h2:     18px;
+        --ae-fs-h3:     16px;
+        --ae-fs-h4:     15px;
+        --ae-fs-body:   13px;
+        --ae-fs-sm:     11.5px;
+        --ae-fs-xs:     10px;
+        --ae-content-px: 16px;
+        --ae-content-py: 20px;
+
+        --ae-icon-box-lg: 44px;
+        --ae-icon-box-xl: 48px;
+        --ae-icon-box-md: 38px;
+        --ae-icon-lg: 18px;
+        --ae-icon-md: 16px;
+
+        --ae-sp-8:  24px;
+        --ae-sp-10: 32px;
+        --ae-sp-12: 40px;
+    }
+}
+
+/* ── Small Mobile (≤ 480px) ───────────────────────────────────────────────── */
+@media (max-width: 480px) {
+    :root {
+        --ae-fs-h1:     20px;
+        --ae-fs-h2:     17px;
+        --ae-content-px: 12px;
     }
 }

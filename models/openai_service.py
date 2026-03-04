@@ -8,104 +8,96 @@ except ImportError:
 
 _logger = logging.getLogger(__name__)
 
-# Sentinel returned by AI when a tweet is NOT relevant — never shown to the user
-AI_SKIP_SIGNAL = "SKIP_NOT_RELEVANT"
+# The exact signal the AI must return to mark a tweet as irrelevant.
+# Documented here so the system_prompt wrapper stays in-sync with detection.
+_SKIP_SIGNALS = frozenset({
+    'skip_not_relevant',   # canonical sentinel
+    'skip',                # shorthand (often used in Arabic system prompts)
+})
 
 
 class SmartRadarOpenAIService(models.AbstractModel):
-    _name = 'alpha.echo.openai.service'
+    _name        = 'alpha.echo.openai.service'
     _description = 'OpenAI Integration Service'
 
     @api.model
-    def classify_and_draft(self, original_text, system_prompt):
+    def classify_and_draft(self, original_text: str, system_prompt: str) -> tuple[bool, str]:
         """
-        Sends a tweet to the AI for BOTH classification and drafting in a single API call.
+        Classify a tweet AND draft the output post in a SINGLE OpenAI call.
 
-        The system_prompt (written by the admin in Settings) tells the AI:
-          - Which tweets are relevant (e.g. "grants with open applications")
-          - How to format the output post
+        The system_prompt (set by the admin) tells the AI:
+          • Which tweets are relevant (topic/criteria)
+          • How to format the output post
 
-        If the tweet is NOT relevant, the AI must return exactly: SKIP_NOT_RELEVANT
-        If the tweet IS relevant, the AI returns the formatted post.
+        If the tweet is NOT relevant the AI must reply with EXACTLY one of:
+          SKIP_NOT_RELEVANT   (canonical)
+          skip                (shorthand accepted for Arabic prompts)
 
         Returns:
-          (True,  draft_text)  → relevant, post ready
-          (False, 'skip')      → not relevant, skip silently
-          (False, error_msg)   → real technical error, log it
+          (True,  draft_text)   → relevant — create a post
+          (False, 'skip')       → not relevant — silently skip
+          (False, error_msg)    → technical error — log and skip
         """
+        # ── Library guard ─────────────────────────────────────────────────────
         if not OpenAI:
-            msg = _(
-                "⚠️ مكتبة OpenAI غير مثبتة.\n"
-                "يرجى تشغيل: pip install openai"
-            )
-            _logger.error("OpenAI library not installed.")
-            return False, msg
+            _logger.error("openai library not installed.")
+            return False, _("⚠️ مكتبة OpenAI غير مثبتة. شغّل: pip install openai")
 
+        # ── Input guard ───────────────────────────────────────────────────────
         if not original_text or not original_text.strip():
             return False, 'skip'
 
-        config = self.env['alpha.echo.client.config'].get_singleton()
+        # ── Load config ───────────────────────────────────────────────────────
+        config  = self.env['alpha.echo.client.config'].get_singleton()
         api_key = config.openai_api_key
-
         if not api_key:
-            msg = _(
-                "⚠️ مفتاح OpenAI API غير موجود.\n"
-                "يرجى إضافته في الإعدادات أو ملف .env"
-            )
-            _logger.warning("OpenAI API key is not configured.")
-            return False, msg
+            _logger.warning("OpenAI API key not configured.")
+            return False, _("⚠️ OpenAI API Key غير موجود. أضفه في الإعدادات.")
 
-        model_choice = config.ai_model or 'gpt-4o-mini'
-        client = OpenAI(api_key=api_key)
+        model = config.ai_model or 'gpt-4o-mini'
 
-        # Build a structured prompt that forces the AI to either produce content or skip
-        classification_wrapper = (
-            "%s\n\n"
+        # ── Build classifier-wrapper around the admin prompt ──────────────────
+        # We append a mandatory exit clause so the AI knows exactly what to send
+        # when the tweet is irrelevant — avoids ambiguous freeform rejections.
+        wrapped_prompt = (
+            f"{system_prompt.strip()}\n\n"
             "---\n"
-            "IMPORTANT: If the tweet below does NOT match your criteria, "
-            "respond with ONLY this exact text and nothing else: %s\n"
-            "If it DOES match, respond with the formatted post only."
-        ) % (system_prompt.strip(), AI_SKIP_SIGNAL)
+            "IMPORTANT: If the tweet below does NOT meet your criteria, "
+            "reply with ONLY the word: SKIP_NOT_RELEVANT\n"
+            "Do NOT add any other text. If it DOES match, reply with the formatted post only."
+        )
 
+        # ── Call OpenAI ───────────────────────────────────────────────────────
         try:
+            client   = OpenAI(api_key=api_key)
             response = client.chat.completions.create(
-                model=model_choice,
+                model=model,
                 messages=[
-                    {"role": "system", "content": classification_wrapper},
-                    {"role": "user", "content": original_text}
+                    {"role": "system", "content": wrapped_prompt},
+                    {"role": "user",   "content": original_text},
                 ],
                 temperature=0.5,
                 max_tokens=500,
             )
+            result = (response.choices[0].message.content or '').strip()
 
-            result = response.choices[0].message.content.strip()
+        except Exception as exc:
+            err = str(exc)
+            _logger.error("OpenAI API error: %s", err)
 
-            if not result:
-                return False, 'skip'
+            if '429' in err or 'quota' in err.lower():
+                return False, _("⚠️ تم تجاوز حصة OpenAI (Rate Limit). انتظر أو رقّي الخطة.")
+            if 'invalid' in err.lower() and 'key' in err.lower():
+                return False, _("⚠️ OpenAI API Key غير صحيح. راجع الإعدادات.")
+            return False, _("⚠️ خطأ في OpenAI: %s") % err
 
-            # Check if AI decided to skip this tweet
-            if AI_SKIP_SIGNAL in result:
-                _logger.debug("AI classified tweet as not relevant — skipping.")
-                return False, 'skip'
+        # ── Classify response ─────────────────────────────────────────────────
+        if not result:
+            return False, 'skip'
 
-            _logger.info(
-                "AI (%s) classified tweet as RELEVANT and generated draft (%d chars).",
-                model_choice, len(result)
-            )
-            return True, result
+        if result.lower() in _SKIP_SIGNALS or 'SKIP_NOT_RELEVANT' in result:
+            _logger.debug("AI: tweet not relevant — skipping.")
+            return False, 'skip'
 
-        except Exception as e:
-            error_str = str(e)
-            _logger.error("OpenAI API error: %s", error_str)
-
-            if 'quota' in error_str.lower() or '429' in error_str:
-                return False, _(
-                    "⚠️ تم تجاوز حصة OpenAI (Rate Limit).\n"
-                    "يرجى الانتظار أو الترقية لخطة أعلى."
-                )
-            if 'invalid' in error_str.lower() and 'key' in error_str.lower():
-                return False, _(
-                    "⚠️ مفتاح OpenAI غير صحيح.\n"
-                    "يرجى مراجعة الإعدادات."
-                )
-            return False, _("⚠️ خطأ في OpenAI: %s") % error_str
+        _logger.info("AI (%s): tweet classified RELEVANT (%d chars).", model, len(result))
+        return True, result

@@ -33,10 +33,6 @@ class SmartRadarPost(models.Model):
 
     # ── AI Output ─────────────────────────────────────────────────────
     ai_generated_text = fields.Text(string=_('AI Formulated Draft'), required=True)
-    ai_confidence = fields.Float(
-        string=_('AI Match Confidence'), default=92.5,
-        help=_('How confident the AI is that this is a relevant grant.')
-    )
 
     # ── Publication ───────────────────────────────────────────────────
     state = fields.Selection([

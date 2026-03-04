@@ -68,6 +68,9 @@ class SmartRadarXService(models.AbstractModel):
                 _logger.info(
                     "X connection test successful for @%s.", user_info.data.username
                 )
+                # Cache the publisher username to avoid a get_me() call on every publish
+                config = self.env['alpha.echo.client.config'].get_singleton()
+                config.sudo().write({'x_publisher_username': user_info.data.username})
                 return {
                     'success': True,
                     'name': user_info.data.name,
@@ -103,9 +106,9 @@ class SmartRadarXService(models.AbstractModel):
             response = client.create_tweet(text=text)
             tweet_id = response.data.get('id')
 
-            # Fetch username for constructing the tweet URL
-            user_info = client.get_me()
-            username = user_info.data.username if user_info and user_info.data else 'i'
+            # Build URL using saved handle from config (no extra API call needed)
+            config = self.env['alpha.echo.client.config'].get_singleton()
+            username = config.x_publisher_username or 'i'
             tweet_url = "https://twitter.com/%s/status/%s" % (username, tweet_id)
 
             _logger.info("Tweet published successfully: %s", tweet_url)
@@ -115,6 +118,11 @@ class SmartRadarXService(models.AbstractModel):
             error_str = str(e)
             _logger.error("Tweet publish failed: %s", error_str)
 
+            if '402' in error_str:
+                return False, _(
+                    "⚠️ فشل الدفع أو انتهاء الرصيد (402 Payment Required).\n"
+                    "يرجى مراجعة اشتراكك في منصة مطوري X (Developer Portal)."
+                )
             if '403' in error_str:
                 return False, _(
                     "⚠️ رُفض النشر (403 Forbidden).\n"

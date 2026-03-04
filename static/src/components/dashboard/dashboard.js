@@ -31,7 +31,7 @@ export class SmartRadarDashboard extends Component {
         // Dummy data moved to service
 
         onWillStart(async () => {
-            await this.loadChartJs();
+            // Chart.js is pre-bundled as a local static asset — no CDN load needed
             if(window.Chart) {
                 window.Chart.defaults.font.family = 'system-ui, -apple-system, sans-serif';
             }
@@ -77,19 +77,6 @@ export class SmartRadarDashboard extends Component {
         return _t("Start Exploration");
     }
 
-    async loadChartJs() {
-        return new Promise((resolve, reject) => {
-            if (window.Chart) { resolve(); return; }
-            const script = document.createElement("script");
-            script.src = "https://cdn.jsdelivr.net/npm/chart.js";
-            script.onload = () => {
-                window.Chart.defaults.font.family = "'Alexandria', sans-serif";
-                resolve();
-            };
-            script.onerror = reject;
-            document.head.appendChild(script);
-        });
-    }
 
     createSparkline(ctx, data, colorHex, r, g, b) {
         let grad = ctx.createLinearGradient(0, 0, 0, 48);
@@ -199,19 +186,12 @@ export class SmartRadarDashboard extends Component {
     }
 
     startMockFeed() {
-        this.mockInterval = setInterval(() => {
-            if (this.radarState.isTracking) {
-                this.radarService.fetchFeed();
-            }
-        }, Math.floor(Math.random() * 4000) + 7000);
+        // High-frequency auto-fetch removed to protect user budget! 🚨
+        // Scans should only triggered manually or by background cron.
     }
 
     toggleTracking() {
         this.radarService.toggleTracking();
-    }
-
-    fetchLatest() {
-        this.radarService.fetchFeed();
     }
 
     openSettings() {

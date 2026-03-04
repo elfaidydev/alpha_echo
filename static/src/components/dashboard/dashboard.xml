@@ -18,12 +18,9 @@
                         <div class="health-nav">
                             <span class="status-pulse"></span> <t t-esc="radarState.targets.length"/> <t t-esc="_t('monitored sources')"/>
                         </div>
-                        <button class="btn-primary-v4" t-on-click="toggleTracking" t-att-class="{'paused': !radarState.isTracking}">
-                            <i class="fa ms-2" t-att-class="radarState.isTracking ? 'fa-pause' : 'fa-play'"/>
+                        <button class="btn-primary-v4" t-on-click="toggleTracking" t-att-class="{'paused': radarState.isTracking}">
                             <t t-esc="trackingBtnLabel"/>
-                        </button>
-                        <button class="btn-icon-v4" t-on-click="fetchLatest" title="Instant Sync">
-                            <i class="fa fa-refresh" t-att-class="{'fa-spin': radarState.isLoading}"/>
+                            <i class="fa" t-att-class="radarState.isTracking ? 'fa-pause' : 'fa-rocket'"/>
                         </button>
                     </div>
                 </div>
@@ -49,12 +46,12 @@
                                         <div class="step-label">Step 1</div>
                                         <div class="step-main">
                                             <div class="step-icon">
-                                                <i class="fa fa-twitter"/>
+                                                <svg viewBox="0 0 24 24" style="width:28px;height:28px;fill:currentColor;"><g><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.007 3.56H5.022z"/></g></svg>
                                                 <div t-if="radarState.config.twitterLinked" class="check-badge"><i class="fa fa-check"/></div>
                                             </div>
                                             <div class="step-info">
-                                                <h4><t t-esc="_t('Link X (Twitter)')"/></h4>
-                                                <p><t t-esc="_t('Authorize the system to publish via your account.')"/></p>
+                                                <h4><t t-esc="_t('Link X Account')"/></h4>
+                                                <p><t t-esc="_t('Authorize the system to publish via your X account.')"/></p>
                                             </div>
                                         </div>
                                         <div class="step-footer mt-2 text-start">
@@ -87,51 +84,52 @@
                                     </div>
                                 </div>
 
-                                <!-- Step 3: Keywords -->
-                                <t t-set="isKeywordsDone" t-value="radarState.config.target_radar_focus and radarState.config.target_radar_focus.length > 0"/>
-                                <div t-attf-class="onboarding-card {{ isKeywordsDone ? 'completed' : 'pending' }}" t-on-click="openSettings">
+                                <!-- Step 3: X List Setup -->
+                                <t t-set="isListDone" t-value="radarState.config.x_list_id and radarState.config.x_list_id.length > 0"/>
+                                <div t-attf-class="onboarding-card {{ isListDone ? 'completed' : 'pending' }}" t-on-click="openSettings">
                                     <div class="card-glow"></div>
                                     <div class="card-content">
                                         <div class="step-label">Step 3</div>
                                         <div class="step-main">
                                             <div class="step-icon">
-                                                <i class="fa fa-filter"/>
-                                                <div t-if="isKeywordsDone" class="check-badge"><i class="fa fa-check"/></div>
+                                                <i class="fa fa-list-ul"/>
+                                                <div t-if="isListDone" class="check-badge"><i class="fa fa-check"/></div>
                                             </div>
                                             <div class="step-info">
-                                                <h4><t t-esc="_t('Search Keywords')"/></h4>
-                                                <p><t t-esc="_t('Set primary filters for discovered content.')"/></p>
+                                                <h4><t t-esc="_t('X List &amp; Reader Cookies')"/></h4>
+                                                <p><t t-esc="_t('Set your X List URL and reader account cookies (auth_token &amp; ct0).')"/></p>
                                             </div>
                                         </div>
                                         <div class="step-footer mt-2 text-start">
-                                            <span t-if="isKeywordsDone" class="status-done"><t t-esc="_t('Defined')"/> <i class="fa fa-check-circle me-1"/></span>
-                                            <span t-else="" class="status-btn"><t t-esc="_t('Add Filters')"/> <i class="fa fa-plus-circle me-1"/></span>
+                                            <span t-if="isListDone" class="status-done"><t t-esc="_t('Configured')"/> <i class="fa fa-check-circle me-1"/></span>
+                                            <span t-else="" class="status-btn"><t t-esc="_t('Configure')"/> <i class="fa fa-cog me-1"/></span>
                                         </div>
                                     </div>
                                 </div>
 
-                                <!-- Step 4: Targets -->
-                                <t t-set="isTargetsDone" t-value="radarState.targets.length > 0"/>
-                                <div t-attf-class="onboarding-card {{ isTargetsDone ? 'completed' : 'pending' }}" t-on-click="openSettings">
+                                <!-- Step 4: X Reader Cookies (auth_token + ct0) -->
+                                <t t-set="isCookiesDone" t-value="radarState.config.x_auth_token and radarState.config.x_ct0"/>
+                                <div t-attf-class="onboarding-card {{ isCookiesDone ? 'completed' : 'pending' }}" t-on-click="openSettings">
                                     <div class="card-glow"></div>
                                     <div class="card-content">
                                         <div class="step-label">Step 4</div>
                                         <div class="step-main">
                                             <div class="step-icon">
-                                                <i class="fa fa-crosshairs"/>
-                                                <div t-if="isTargetsDone" class="check-badge"><i class="fa fa-check"/></div>
+                                                <i class="fa fa-key"/>
+                                                <div t-if="isCookiesDone" class="check-badge"><i class="fa fa-check"/></div>
                                             </div>
                                             <div class="step-info">
-                                                <h4><t t-esc="_t('Monitored Sources')"/></h4>
-                                                <p><t t-esc="_t('Add the accounts the radar will track.')"/></p>
+                                                <h4><t t-esc="_t('Reader Cookies')"/></h4>
+                                                <p><t t-esc="_t('Set auth_token and ct0 for the X reader account used to scrape the list.')"/></p>
                                             </div>
                                         </div>
                                         <div class="step-footer mt-2 text-start">
-                                            <span t-if="isTargetsDone" class="status-done">Added <t t-esc="radarState.targets.length"/> <i class="fa fa-check-circle me-1"/></span>
-                                            <span t-else="" class="status-btn">Add Targets <i class="fa fa-plus me-1"/></span>
+                                            <span t-if="isCookiesDone" class="status-done"><t t-esc="_t('Saved')"/> <i class="fa fa-check-circle me-1"/></span>
+                                            <span t-else="" class="status-btn"><t t-esc="_t('Add Cookies')"/> <i class="fa fa-shield me-1"/></span>
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
 
                             <div class="onboarding-action">
@@ -263,7 +261,7 @@
                                     </div>
                                     <div class="legend-item">
                                         <span class="legend-dot bg-blue"></span>
-                                        <span class="legend-text">X Account (Twitter)</span>
+                                        <span class="legend-text">X Account</span>
                                     </div>
                                 </div>
                             </div>
@@ -286,9 +284,12 @@
                                             
                                             <div class="chat-bubble raw-bubble">
                                                 <div class="bubble-header">
-                                                    <span><i class="fa fa-twitter ms-1"/> Raw Content from Source</span>
-                                                    <span class="time"><t t-esc="item.time"/></span>
-                                                </div>
+                                                <span>
+                                                    <svg viewBox="0 0 24 24" style="width:13px;height:13px;fill:currentColor;vertical-align:middle;"><g><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.007 3.56H5.022z"/></g></svg>
+                                                    Raw Content from Source
+                                                </span>
+                                                <span class="time"><t t-esc="item.time"/></span>
+                                            </div>
                                                 <div class="bubble-text"><t t-esc="item.original"/></div>
                                                 <div class="source-tag">Source ID: <t t-esc="item.donor"/></div>
                                             </div>
@@ -304,7 +305,10 @@
                                                     <span><i class="fa fa-check-circle ms-1"/> Smart Processing &amp; Auto-Approval</span>
                                                     <div class="d-flex align-items-center">
                                                         <span class="conf-badge ms-2"><i class="fa fa-globe ms-1"/> On Website</span>
-                                                        <span class="conf-badge ms-1" style="color: #1da1f2; background: #e8f5fe; border-color: #1da1f2;"><i class="fa fa-twitter ms-1"/> Published to X</span>
+                                                        <span class="conf-badge ms-1" style="color: #0f1419; background: #e7e7e7; border-color: #0f1419;">
+                                                            <svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:currentColor;vertical-align:middle;"><g><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.007 3.56H5.022z"/></g></svg>
+                                                            Published to X
+                                                        </span>
                                                     </div>
                                                 </div>
                                                 <div class="bubble-text"><t t-esc="item.rewritten"/></div>

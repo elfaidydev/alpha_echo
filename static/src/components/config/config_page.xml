@@ -39,8 +39,8 @@
                             </div>
 
                             <div class="col-xl-5 col-lg-12">
-                                <label class="sr-label mb-2">X/Twitter List (ID or URL)</label>
-                                <p class="text-muted small mb-3">Paste the numeric ID or the FULL URL of your private X List. e.g: <strong>https://x.com/i/lists/123456...</strong></p>
+                                <label class="sr-label mb-2">X List (ID or URL)</label>
+                                <p class="text-muted small mb-3">Paste the numeric ID or the full URL of your X List. e.g: <strong>https://x.com/i/lists/123456...</strong></p>
                                 <div class="d-flex gap-2">
                                     <input type="text" class="form-control" t-model="config.x_list_id" t-on-input="(ev) => this.onFieldChange('x_list_id', ev.target.value)" placeholder="e.g. https://x.com/i/lists/1234567890123456789"/>
                                 </div>
@@ -70,12 +70,6 @@
                                     </div>
                                 </div>
 
-                                <div class="alert alert-info py-2 px-3 border-0 bg-light mt-4" role="alert">
-                                    <i class="fa fa-info-circle me-2 text-primary"/>
-                                    <small class="text-dark font-weight-bold">
-                                        All 350+ accounts in this List will be scanned in a <b class="text-primary">single Apify run</b> — saving ~85% cost.
-                                    </small>
-                                </div>
                                 <div t-if="config.x_list_id" class="mt-2 d-flex align-items-center gap-2">
                                     <span class="badge rounded-pill bg-primary-subtle text-primary border border-primary-subtle px-3 py-2">
                                         <i class="fa fa-users me-1"/>
@@ -147,8 +141,38 @@
 
 
                     <hr class="sr-divider"/>
+                    
+                    <!-- Section 3: AI Service Credentials -->
+                    <div class="sr-section-block">
+                        <div class="sr-section-title">
+                            <i class="fa fa-key"/>
+                            AI Service Credentials
+                        </div>
+                        <p class="text-muted small mb-4">These keys connect the tracking engine to AI processing and automated scraping services. They are stored securely and masked by default.</p>
+                        <div class="row g-4">
+                            <!-- OpenAI API Key -->
+                            <div class="col-md-6 text-start">
+                                <label class="sr-label mb-2"><i class="fa fa-microchip me-1"/> OpenAI API Key</label>
+                                <div class="input-group">
+                                    <input type="password" autocomplete="new-password" class="form-control" t-model="config.openai_api_key" t-on-input="(ev) => this.onFieldChange('openai_api_key', ev.target.value)" placeholder="sk-..."/>
+                                </div>
+                                <small class="text-muted mt-1 d-block">Required for content analysis and formulation.</small>
+                            </div>
+                            
+                            <!-- Apify API Token -->
+                            <div class="col-md-6 text-start">
+                                <label class="sr-label mb-2"><i class="fa fa-cloud me-1"/> Apify API Token</label>
+                                <div class="input-group">
+                                    <input type="password" autocomplete="new-password" class="form-control" t-model="config.apify_token" t-on-input="(ev) => this.onFieldChange('apify_token', ev.target.value)" placeholder="apify_api_..."/>
+                                </div>
+                                <small class="text-muted mt-1 d-block">Required for discovering accounts and fetching posts.</small>
+                            </div>
+                        </div>
+                    </div>
 
-                    <!-- Section 3: Integrations (X & Odoo) -->
+                    <hr class="sr-divider"/>
+
+                    <!-- Section 4: Integrations (X & Odoo) -->
                     <div class="sr-section-block">
                         <div class="sr-section-title">
                             <i class="fa fa-link"/>
@@ -162,7 +186,7 @@
                                     <div class="d-flex justify-content-between align-items-start mb-4">
                                         <h6 class="font-weight-bold d-flex align-items-center gap-2 m-0" style="color: #0f1419; font-size:16px;">
                                             <svg viewBox="0 0 24 24" aria-hidden="true" class="r-18jsvk2 r-4qtqp9 r-yyyyoo r-16y2uox r-lwhw9o r-color-900" style="width: 24px; height: 24px; fill:currentColor;"><g><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.007 3.56H5.022z"></path></g></svg>
-                                            Link X (Twitter) Account
+                                            Link X Account
                                         </h6>
                                         <span class="badge rounded-pill" t-att-class="isTwitterConnected ? 'bg-success' : 'bg-warning text-dark'">
                                             <t t-if="isTwitterConnected">
@@ -189,8 +213,8 @@
                                                             <i class="fa fa-twitter"/>
                                                         </div>
                                                     </t>
-                                                    <div class="position-absolute bottom-0 end-0 bg-primary rounded-circle d-flex align-items-center justify-content-center border border-2 border-white" style="width: 20px; height: 20px;">
-                                                        <i class="fa fa-twitter text-white" style="font-size: 10px;"/>
+                                                    <div class="position-absolute bottom-0 end-0 bg-dark rounded-circle d-flex align-items-center justify-content-center border border-2 border-white" style="width: 20px; height: 20px;">
+                                                        <svg viewBox="0 0 24 24" style="width:10px;height:10px;fill:white;"><g><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.007 3.56H5.022z"/></g></svg>
                                                     </div>
                                                 </div>
                                                 <div class="text-start">

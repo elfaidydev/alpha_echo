@@ -1,13 +1,13 @@
 .o_alpha_echo_config {
-    background-color: var(--v4-bg);
+    font-family: var(--ae-font);
+    background-color: var(--ae-bg);
+    color: var(--ae-text);
     position: relative;
     height: 100%;
     width: 100%;
     overflow-y: auto;
     overflow-x: hidden;
-    color: var(--v4-text-dark);
-    padding: 20px 0;
-    font-family: inherit;
+    padding: var(--ae-sp-5) 0;
 
     /* --- Heritage Ambient Lighting --- */
     .v4-bg-orb {
@@ -37,11 +37,15 @@
             gap: 24px;
 
             .logo-box {
-                width: 56px; height: 56px;
-                background: linear-gradient(135deg, #1e1b4b, var(--v4-indigo));
-                color: #fff; border-radius: var(--v4-radius-md);
-                display: flex; align-items: center; justify-content: center;
-                font-size: var(--v4-font-h2);
+                width: var(--ae-icon-box-lg);
+                height: var(--ae-icon-box-lg);
+                background: linear-gradient(135deg, #1e1b4b, var(--ae-indigo));
+                color: #fff;
+                border-radius: var(--ae-r-md);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: var(--ae-icon-lg);
                 box-shadow: 0 10px 25px rgba(67, 56, 202, 0.2);
                 position: relative;
                 overflow: hidden;
@@ -62,8 +66,20 @@
             }
 
             .title-box {
-                h1 { margin: 0; font-size: var(--v4-font-h2); font-weight: var(--v4-w-black); color: var(--v4-indigo); letter-spacing: -0.5px; span { color: var(--v4-text-dark); } }
-                .subtitle { margin: 2px 0 0 0; font-size: var(--v4-font-small); color: var(--v4-text-muted); font-weight: var(--v4-w-medium); }
+                h1 {
+                    margin: 0;
+                    font-size: var(--ae-fs-h2);
+                    font-weight: var(--ae-w-black);
+                    color: var(--ae-indigo);
+                    letter-spacing: -0.5px;
+                    span { color: var(--ae-text); }
+                }
+                .subtitle {
+                    margin: var(--ae-sp-1) 0 0 0;
+                    font-size: var(--ae-fs-sm);
+                    color: var(--ae-muted);
+                    font-weight: var(--ae-w-medium);
+                }
             }
         }
     }
@@ -90,9 +106,23 @@
     }
 
     .sr-section-title {
-        font-size: 1.25rem; font-weight: 800; color: var(--v4-text-dark); margin-bottom: 24px; display: flex; align-items: center; letter-spacing: -0.3px;
-        padding-bottom: 15px; border-bottom: 2px solid #f8fafc;
-        i { margin-inline-end: 12px; font-size: 1.3rem; padding: 10px; border-radius: 10px; background: #eef2ff; color: var(--v4-indigo); }
+        font-size: var(--ae-fs-h3);
+        font-weight: var(--ae-w-extrabold);
+        color: var(--ae-text);
+        margin-bottom: var(--ae-sp-6);
+        display: flex;
+        align-items: center;
+        letter-spacing: -0.3px;
+        padding-bottom: var(--ae-sp-3);
+        border-bottom: 2px solid #f8fafc;
+        i {
+            margin-inline-end: var(--ae-sp-3);
+            font-size: var(--ae-icon-md);
+            padding: var(--ae-sp-2);
+            border-radius: var(--ae-r-sm);
+            background: var(--ae-indigo-lt);
+            color: var(--ae-indigo);
+        }
     }
 
     /* --- Inner Controls Polish --- */
@@ -133,10 +163,13 @@
         }
 
         .icon-circle {
-            width: 48px; height: 48px;
-            border-radius: 14px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.2rem;
+            width: var(--ae-icon-box-md);
+            height: var(--ae-icon-box-md);
+            border-radius: var(--ae-r-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--ae-icon-md);
             flex-shrink: 0;
             align-self: center !important;
             margin-top: 0 !important;
@@ -260,9 +293,9 @@
                 .title-box { display: flex; flex-direction: column; align-items: center; h1 { font-size: 24px; } .subtitle { font-size: 13px; } }
             }
         }
-        .sr-unified-panel { padding: 32px; border-radius: 20px; }
-        .sr-section-title { font-size: 1.15rem; margin-bottom: 20px; }
-        .sr-label { font-size: 13.5px; }
+        .sr-unified-panel { padding: var(--ae-sp-8); border-radius: var(--ae-r-2xl); }
+        .sr-section-title { font-size: var(--ae-fs-h3); margin-bottom: var(--ae-sp-5); }
+        .sr-label { font-size: var(--ae-fs-body); }
         .border-end-xl, .border-end-lg { border: none !important; border-bottom: 1px dashed rgba(226, 232, 240, 0.8) !important; padding-bottom: 24px; margin-bottom: 24px; }
     }
 }
@@ -272,8 +305,15 @@
         .sr-page-content { padding: 12px; }
         .sr-header-v4 {
             .header-right-side {
-                .logo-box { width: 40px; height: 40px; i { font-size: 18px; } }
-                .title-box { h1 { font-size: 18px; } .subtitle { font-size: 11px; } }
+                .logo-box {
+                    width: var(--ae-icon-box-md);
+                    height: var(--ae-icon-box-md);
+                    i { font-size: var(--ae-icon-md); }
+                }
+                .title-box {
+                    h1 { font-size: var(--ae-fs-h3); }
+                    .subtitle { font-size: var(--ae-fs-xs); }
+                }
             }
         }
         .sr-unified-panel { padding: 20px 14px; border-radius: 20px; .sr-section-title { font-size: 15px; i { font-size: 16px; padding: 6px; } } }
@@ -320,7 +360,7 @@
                 i.fa-info-circle { color: #10b981 !important; } // Match emerald theme
             }
             .range-limit-v4 { font-size: 10px !important; }
-            .icon-circle { width: 34px; height: 34px; font-size: 0.85rem; margin-inline-end: 10px; }
+            .icon-circle { width: var(--ae-icon-box-xs); height: var(--ae-icon-box-xs); font-size: var(--ae-icon-xs); margin-inline-end: var(--ae-sp-2); }
         }
         
         // Ensure stacked text stays right-aligned
@@ -329,7 +369,4 @@
     }
 }
 
-/* Animations */
-@keyframes sr-v4-pulse { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.1); opacity: 0.8; } 100% { transform: scale(1); opacity: 1; } }
-@keyframes sr-v4-shine { 0% { inset-inline-start: -100%; } 100% { inset-inline-start: 100%; } }
-@keyframes sr-v4-slideUpFade { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
+/* Keyframes defined in _animations.scss and dashboard.scss — no duplicates here */

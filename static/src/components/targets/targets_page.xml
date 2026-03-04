@@ -11,7 +11,7 @@
                     </div>
                     <div class="title-box">
                          <h1><t t-esc="_t('Resource Management')"/></h1>
-                         <p class="subtitle"><t t-esc="_t('Accounts auto-discovered from your X/Twitter List.')"/></p>
+                         <p class="subtitle"><t t-esc="_t('Accounts auto-discovered from your X List on each scan.')"/></p>
                     </div>
                 </div>
 
@@ -33,17 +33,27 @@
                         <div class="lock-bg-pattern"></div>
                         <div class="lock-content fade-scale-up">
                             <div class="lock-icon-wrapper">
-                                <div class="lock-shield text-warning"><i class="fa fa-exclamation-triangle"/></div>
-                                <div class="lock-main-icon"><i class="fa fa-link"/></div>
+                                <div class="lock-shield"></div>
+                                <div class="lock-main-icon">
+                                    <i t-if="!radarState.config.twitterLinked" class="fa fa-twitter"/>
+                                    <i t-else="" class="fa fa-list-ul"/>
+                                </div>
                             </div>
                             <div class="lock-text">
-                                <h3 t-if="!radarState.config.twitterLinked">X Account Required <span class="badge-locked">Step 1</span></h3>
-                                <h3 t-else="">Twitter List ID Required <span class="badge-locked">Step 2</span></h3>
-                                <p t-if="!radarState.config.twitterLinked">Please link your X (Twitter) account in Settings to start using the engine.</p>
-                                <p t-else="">Almost there! You must provide a <b>Private X List ID</b> in Settings to discover and monitor accounts.</p>
-                                <button class="btn btn-primary mt-3 rounded-pill px-4" t-on-click="() => this.actionService.doAction('alpha_echo.action_alpha_echo_config_settings_client')">
-                                    Go to Settings
-                                </button>
+                                <h3 t-if="!radarState.config.twitterLinked">
+                                    X Account Required
+                                    <span class="badge-locked">Step 1</span>
+                                </h3>
+                                <h3 t-else="">
+                                    X List ID Required
+                                    <span class="badge-locked">Step 3</span>
+                                </h3>
+                                <p t-if="!radarState.config.twitterLinked">
+                                    Link your X publishing account from the <b>Settings</b> page to activate the engine and start discovering accounts.
+                                </p>
+                                <p t-else="">
+                                    Almost there! Go to <b>Settings</b> and paste your X List URL or numeric ID to start auto-discovering and monitoring accounts.
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -51,7 +61,7 @@
                 <t t-elif="radarState.isLoading">
                     <div class="sr-loading-state" style="grid-column: 1 / -1;">
                         <div class="dot-spin"></div>
-                        <p>Synchronizing monitoring network...</p>
+                        <p>Synchronizing accounts from your X List...</p>
                     </div>
                 </t>
                 <t t-elif="targets.length === 0 and !radarState.isLoading">
@@ -82,7 +92,7 @@
                                             <t t-esc="target.name"/>
                                         </h3>
                                         <span class="sr-target-handle" t-if="target.handle">
-                                            <i class="fa fa-twitter"/> <t t-esc="target.handle"/>
+                                            <svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:currentColor;vertical-align:middle;"><g><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.007 3.56H5.022z"/></g></svg> <t t-esc="target.handle"/>
                                         </span>
                                     </div>
                                 </div>
@@ -131,7 +141,7 @@
                                     <span class="pulse-dot-small bg-success"/>
                                 </h2>
                                 <span class="sr-modal-handle" t-if="state.selectedTarget.handle">
-                                    <i class="fa fa-twitter"/> <t t-esc="state.selectedTarget.handle"/>
+                                    <svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:currentColor;vertical-align:middle;"><g><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.007 3.56H5.022z"/></g></svg> <t t-esc="state.selectedTarget.handle"/>
                                 </span>
                             </div>
                             <button class="sr-close-btn" t-on-click="closeTargetAnalytics" title="Close">

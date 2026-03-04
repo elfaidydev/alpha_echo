@@ -19,10 +19,6 @@ class SmartRadarConfigController(http.Controller):
         """Test the Twitter connection using saved config."""
         return request.env['alpha.echo.x.service'].test_connection()
 
-    @http.route('/alpha_echo/config/sync_list', type='json', auth='user')
-    def sync_list(self):
-        """Trigger the X List member sync."""
-        return request.env['alpha.echo.client.config'].sync_list_members()
 
     @http.route('/alpha_echo/config/disconnect_x', type='json', auth='user')
     def disconnect_x(self):

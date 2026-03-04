@@ -25,11 +25,13 @@ Alpha Echo is a high-end Odoo 17 module developed by Alpha Plus Information Tech
         'views/target_views.xml',
         'views/post_views.xml',
         'views/client_config_views.xml',
-        'views/res_config_settings_views.xml',
         'views/menu.xml',
     ],
     'assets': {
         'web.assets_backend': [
+            # Fonts: plain CSS file (not SCSS) to avoid libsass @import url() restriction
+            'alpha_echo/static/src/core/scss/fonts.css',
+            'alpha_echo/static/lib/chart.umd.min.js',
             'alpha_echo/static/src/core/scss/_variables.scss',
             'alpha_echo/static/src/core/scss/_animations.scss',
             'alpha_echo/static/src/core/scss/design_system.scss',

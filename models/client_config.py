@@ -49,25 +49,9 @@ class SmartRadarClientConfig(models.Model):
     ], string=_('Content Language'), default='both')
 
     # API Secrets (Secured by Admin Group)
-    # Note: These fields now prioritize environment variables if set.
-    openai_api_key = fields.Char(string=_('OpenAI API Key'), groups='base.group_system', compute='_compute_api_secrets', inverse='_inverse_openai_key', store=True)
-    apify_token = fields.Char(string=_('Apify API Token'), groups='base.group_system', compute='_compute_api_secrets', inverse='_inverse_apify_token', store=True)
+    openai_api_key = fields.Char(string=_('OpenAI API Key'), groups='base.group_system')
+    apify_token = fields.Char(string=_('Apify API Token'), groups='base.group_system')
 
-    def _compute_api_secrets(self):
-        for record in self:
-            # Prioritize OS Environment / .env — fallback to DB — fallback to empty string
-            record.openai_api_key = os.getenv('OPENAI_API_KEY') or record.openai_api_key or ''
-            record.apify_token = os.getenv('APIFY_TOKEN') or record.apify_token or ''
-
-    def _inverse_openai_key(self):
-        for record in self:
-            if not os.getenv('OPENAI_API_KEY'):
-                record.openai_api_key = record.openai_api_key
-
-    def _inverse_apify_token(self):
-        for record in self:
-            if not os.getenv('APIFY_TOKEN'):
-                record.apify_token = record.apify_token
 
     # X (Twitter) Settings (Restricted to Admin for security)
     x_api_key = fields.Char(string=_('Twitter API Key'), groups='base.group_system')
@@ -78,6 +62,9 @@ class SmartRadarClientConfig(models.Model):
     # X (Twitter) Cookies (For Apify List scraping)
     x_auth_token = fields.Char(string=_('Twitter auth_token Cookie'), groups='base.group_system')
     x_ct0 = fields.Char(string=_('Twitter ct0 Cookie'), groups='base.group_system')
+    
+    # Cached publisher username (stored after successful test_connection — avoids an API call per publish)
+    x_publisher_username = fields.Char(string=_('X Publisher Username'), groups='base.group_system', readonly=True)
     
     # Supabase Settings (Restricted to Admin for security)
     supabase_url = fields.Char(string=_('Supabase URL'), groups='base.group_system')
@@ -144,33 +131,6 @@ class SmartRadarClientConfig(models.Model):
             'targets_count': config.targets_count,
         }
     
-    @api.model
-    def sync_list_members(self):
-        """
-        Triggers the synchronization process.
-        INSTANT FIX: We only trigger the Cron job to run in the background.
-        No external API calls are made within this RPC to prevent Timeout.
-        """
-        config = self.env['alpha.echo.client.config'].get_singleton()
-        if not config.x_list_id:
-            return {'success': False, 'error': _('No List ID configured.')}
-
-        _logger.info("Manual target sync triggered (FULL ASYNC) for list %s", config.x_list_id)
-        
-        # TRIGGER CRON: Run everything (member fetch + tweet scan) in the background
-        cron = self.env.ref('alpha_echo.alpha_echo_cron_fetch_targets', raise_if_not_found=False)
-        if cron:
-            # Set nextcall to now to force immediate execution by Odoo's cron runner
-            cron.sudo().write({
-                'nextcall': fields.Datetime.now(),
-                'active': True
-            })
-            return {
-                'success': True,
-                'message': _("Sync command sent. The engine is now discoverng accounts in the background. Please wait a moment and refresh.")
-            }
-        
-        return {'success': False, 'error': _("Sync service not found.")}
 
     @api.model
     def save_config_data(self, data):
@@ -191,12 +151,14 @@ class SmartRadarClientConfig(models.Model):
         ]
         
         vals = {k: v for k, v in data.items() if k in allowed_fields}
+        
+        # Robust List ID Parsing: Extract number from URL if needed
+        if 'x_list_id' in vals and vals['x_list_id']:
+            list_val = str(vals['x_list_id']).split('/')[-1].split('?')[0].strip()
+            if list_val.isdigit():
+                vals['x_list_id'] = list_val
+                
         config.write(vals)
-
-        # Proactively trigger sync if List ID changed and we have a token
-        if config.x_list_id and config.x_list_id != old_list_id and config.apify_token:
-            _logger.info("List ID changed, triggering proactive sync...")
-            self.with_delay().sync_list_members() # Run async if queue installed, or just call if not
             
         return {'success': True}
 
@@ -214,6 +176,7 @@ class SmartRadarClientConfig(models.Model):
             'x_api_secret': '',
             'x_access_token': '',
             'x_access_token_secret': '',
+            'x_publisher_username': '',
             'is_engine_active': False
         })
         return {'success': True}

@@ -46,14 +46,18 @@ export const radarService = {
                 custom_ai_instructions: "",
                 target_radar_focus: "",
                 x_list_id: "",
+                x_auth_token: "",
+                x_ct0: "",
                 twitterUser: null
             },
             get isOnboarded() {
                 const conf = this.config;
                 return !!(
-                    conf.twitterLinked && 
+                    conf.twitterLinked &&
                     (conf.custom_ai_instructions && conf.custom_ai_instructions.length > 0) &&
-                    (conf.x_list_id && conf.x_list_id.length > 0)
+                    (conf.x_list_id && conf.x_list_id.length > 0) &&
+                    (conf.x_auth_token && conf.x_auth_token.length > 0) &&
+                    (conf.x_ct0 && conf.x_ct0.length > 0)
                 );
             }
         });
@@ -73,37 +77,10 @@ export const radarService = {
             ].slice(0, 10);
         }
 
-        async function fetchFeed() {
-            state.isLoading = true;
-            try {
-                notification.add(_t("Discovery process started (Apify)..."), { type: "info" });
-                
-                // Call the real backend coordination logic
-                await rpc("/web/dataset/call_kw/alpha.echo.target/cron_fetch_all_targets", {
-                    model: "alpha.echo.target",
-                    method: "cron_fetch_all_targets",
-                    args: [],
-                    kwargs: {}
-                });
-                
-                // Reload data to reflect changes
-                await loadPosts();
-                await loadTargets();
-                
-                notification.add(_t("Source review and content formulation completed successfully."), { type: "success" });
-                pushLog(_t("Manual Sync"), _t("Scanned all active sources and fetched updates."), "success");
-
-            } catch (error) {
-                notification.add(_t("Auto-fetch failed. Check connection and link settings."), { type: "danger" });
-                pushLog(_t("Sync Error"), error.message || _t("Failed to connect to Apify or OpenAI."), "danger");
-            } finally {
-                state.isLoading = false;
-            }
-        }
 
         async function toggleTracking() {
             if (!state.isTracking && !state.isOnboarded) {
-                notification.add(_t("Cannot start engine! Please complete the four setup steps first."), {
+                notification.add(_t("Cannot start engine! Please complete the 3 setup steps first (X Account, AI Prompt, X List)."), {
                     type: "danger",
                     title: _t("Operation Refused 🔒"),
                     className: "sr-premium-toast"
@@ -149,7 +126,7 @@ export const radarService = {
                 state.posts = await rpc("/web/dataset/call_kw/alpha.echo.post/search_read", {
                     model: "alpha.echo.post",
                     method: "search_read",
-                    args: [domain, ["target_id", "original_text", "ai_generated_text", "ai_confidence", "state", "create_date"]],
+                    args: [domain, ["target_id", "original_text", "ai_generated_text", "state", "create_date"]],
                     kwargs: { limit: limit, order: "create_date desc" }
                 });
             } finally {
@@ -292,35 +269,9 @@ export const radarService = {
             }
         }
 
-        async function syncListMembers() {
-            state.isLoading = true;
-            try {
-                notification.add(_t("Sync command sent. Discovery is starting in the background..."), { type: "info" });
-                
-                // Use a direct RPC call with a very short timeout or just fire and forget if possible
-                const result = await rpc("/alpha_echo/config/sync_list", {}, { shadow: true });
-                
-                if (result && result.success) {
-                    notification.add(result.message, { type: "success" });
-                    // Give it a small delay before refreshing UI to allow background job to start
-                    setTimeout(async () => {
-                        await fetchConfig();
-                        await loadTargets();
-                    }, 3000);
-                }
-                return result;
-            } catch (error) {
-                // If it's a timeout but the command was sent, we might still be okay
-                console.warn("Sync RPC might have timed out but command was likely sent:", error);
-                notification.add(_t("Sync initiated. Please refresh in a minute to see new accounts."), { type: "warning" });
-            } finally {
-                state.isLoading = false;
-            }
-        }
 
         return {
             state,
-            fetchFeed,
             toggleTracking,
             pushLog,
             loadTargets,
@@ -331,7 +282,6 @@ export const radarService = {
             fetchConfig,
             saveConfig,
             disconnectX,
-            syncListMembers,
             canStartEngine
         };
     }
