@@ -19,8 +19,19 @@ export class TargetsPage extends Component {
 
         this.state = useState({
             searchQuery: "",
-            selectedTarget: null,
+            activeTab: "all", // 'all', 'active', 'inactive'
+            isModalOpen: false,
+            modalMode: "edit", // 'add' or 'edit'
             targetRecentPosts: [],
+            // Field states for the modal
+            editingTarget: {
+                id: null,
+                name: "",
+                handle: "",
+                is_active: true,
+                posts_count: 0
+            },
+            isSaving: false
         });
 
         onWillStart(async () => {
@@ -35,7 +46,15 @@ export class TargetsPage extends Component {
 
     get filteredTargets() {
         const q = this.state.searchQuery.toLowerCase().trim();
-        const targets = this.radarState.targets;
+        let targets = this.radarState.targets;
+
+        // Apply Tab Filter
+        if (this.state.activeTab === 'active') {
+            targets = targets.filter(t => t.is_active);
+        } else if (this.state.activeTab === 'inactive') {
+            targets = targets.filter(t => !t.is_active);
+        }
+
         if (!q) return targets;
         return targets.filter(
             (t) =>
@@ -44,38 +63,23 @@ export class TargetsPage extends Component {
         );
     }
 
-    /**
-     * Returns a translated label for a boolean active flag.
-     * @param {boolean} isActive
-     */
-    getEngineStatusLabel(isActive) {
-        return isActive ? _t("Active") : _t("Inactive");
+    setTab(tab) {
+        this.state.activeTab = tab;
     }
 
-    /**
-     * Returns a translated label for the selected target's active status.
-     */
-    getSelectedTargetStatusLabel() {
-        if (!this.state.selectedTarget) return "";
-        return this.state.selectedTarget.is_active ? _t("Active &amp; Capturing") : _t("Monitoring Paused");
-    }
-
-    /**
-     * Returns a translated post state label for the analytics timeline.
-     * @param {string} state
-     */
-    getPostStatusLabel(state) {
-        const labels = {
-            draft:     _t("In Review"),
-            published: _t("Published"),
-            rejected:  _t("Rejected"),
-        };
-        return labels[state] || state;
-    }
-
-    async openTargetAnalytics(target) {
-        this.state.selectedTarget = target;
+    async addTarget() {
+        this.state.modalMode = "add";
+        this.state.editingTarget = { id: null, name: "", handle: "", is_active: true, posts_count: 0 };
         this.state.targetRecentPosts = [];
+        this.state.isModalOpen = true;
+    }
+
+    async openTargetDetails(target) {
+        this.state.modalMode = "edit";
+        this.state.editingTarget = { ...target };
+        this.state.targetRecentPosts = [];
+        this.state.isModalOpen = true;
+        
         try {
             const posts = await this.orm.searchRead(
                 "alpha.echo.post",
@@ -85,22 +89,66 @@ export class TargetsPage extends Component {
             );
             this.state.targetRecentPosts = posts;
         } catch (e) {
-            this.notification.add(_t("Failed to load recent posts for this target."), { type: "warning" });
+            console.error("Failed to load posts", e);
         }
     }
 
-    closeTargetAnalytics() {
-        this.state.selectedTarget = null;
-        this.state.targetRecentPosts = [];
+    closeModal() {
+        this.state.isModalOpen = false;
+        this.state.isSaving = false;
     }
 
-    async deleteTarget(id) {
+    async saveTarget() {
+        const t = this.state.editingTarget;
+        if (!t.name || !t.handle) {
+            this.notification.add(_t("Please provide both Name and X Handle."), { type: "warning" });
+            return;
+        }
+
+        this.state.isSaving = true;
+        try {
+            if (this.state.modalMode === "add") {
+                await this.radarService.saveTarget('new', { name: t.name, handle: t.handle, is_active: t.is_active });
+                this.notification.add(_t("Target added successfully."), { type: "success" });
+            } else {
+                await this.radarService.saveTarget(t.id, { name: t.name, handle: t.handle, is_active: t.is_active });
+                this.notification.add(_t("Target updated successfully."), { type: "success" });
+            }
+            this.closeModal();
+        } catch (e) {
+            this.notification.add(_t("Failed to save target."), { type: "danger" });
+        } finally {
+            this.state.isSaving = false;
+        }
+    }
+
+    async deleteTarget() {
+        const id = this.state.editingTarget.id;
+        if (!id) return;
+        
+        if (!confirm(_t("Are you sure you want to delete this target?"))) return;
+
         try {
             await this.radarService.deleteTarget(id);
-            this.notification.add(_t("Target removed successfully."), { type: "success" });
+            this.notification.add(_t("Target removed."), { type: "success" });
+            this.closeModal();
         } catch (e) {
             this.notification.add(_t("Failed to remove target."), { type: "danger" });
         }
+    }
+
+    async refreshTargets() {
+        await this.radarService.loadTargets();
+        this.notification.add(_t("Sync complete."), { type: "info" });
+    }
+
+    getEngineStatusLabel(isActive) {
+        return isActive ? _t("Active") : _t("Inactive");
+    }
+
+    getPostStatusLabel(state) {
+        const labels = { draft: _t("In Review"), published: _t("Published"), rejected: _t("Rejected") };
+        return labels[state] || state;
     }
 }
 

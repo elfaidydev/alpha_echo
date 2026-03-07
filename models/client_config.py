@@ -21,11 +21,6 @@ class SmartRadarClientConfig(models.Model):
     tenant_id = fields.Char(string=_('Client License Key (Tenant ID)'), required=True, default='')
     auto_approve_drafts = fields.Boolean(string=_('Auto-Approve AI Drafts'), default=False)
     is_engine_active = fields.Boolean(string=_('Is Tracking Engine Active'), default=False)
-    x_list_id = fields.Char(
-        string=_('X/Twitter List ID'),
-        default='',
-        help=_("The numeric ID of your private X/Twitter List. Found in the URL: twitter.com/i/lists/[LIST_ID]")
-    )
     custom_ai_instructions = fields.Text(string=_('Custom AI Instructions'), default='', help=_("AI prompt: what to look for and how to format the output."))
     
     # Statistics
@@ -66,32 +61,7 @@ class SmartRadarClientConfig(models.Model):
     # Cached publisher username (stored after successful test_connection — avoids an API call per publish)
     x_publisher_username = fields.Char(string=_('X Publisher Username'), groups='base.group_system', readonly=True)
     
-    # Supabase Settings (Restricted to Admin for security)
-    supabase_url = fields.Char(string=_('Supabase URL'), groups='base.group_system')
-    supabase_key = fields.Char(string=_('Supabase Key'), groups='base.group_system')
-    supabase_status = fields.Selection([
-        ('disconnected', _('Disconnected')),
-        ('connected', _('Connected')),
-        ('error', _('Error'))
-    ], string=_('Supabase Status'), default='disconnected', groups='base.group_system')
-    
-    # Optional integration with blog.blog if module enabled.
-    odoo_blog_id = fields.Integer(string=_('Odoo Blog ID Endpoint'), help=_("ID of the blog.blog if used"))
 
-    def action_test_connection(self):
-        """Dummy test connection logic."""
-        self.ensure_one()
-        self.supabase_status = 'connected'
-        return {
-            'type': 'ir.actions.client',
-            'tag': 'display_notification',
-            'params': {
-                'title': _('Connection Success'),
-                'message': _('Successfully connected to SaaS endpoints.'),
-                'type': 'success',
-                'sticky': False,
-            }
-        }
 
     @api.model
     def get_singleton(self):
@@ -112,7 +82,6 @@ class SmartRadarClientConfig(models.Model):
             'tenant_id': config.tenant_id or '',
             'auto_approve_drafts': config.auto_approve_drafts,
             'is_engine_active': config.is_engine_active,
-            'x_list_id': config.x_list_id or '',
             'custom_ai_instructions': config.custom_ai_instructions or '',
             'ai_model': config.ai_model,
             'content_language': config.content_language,
@@ -124,10 +93,6 @@ class SmartRadarClientConfig(models.Model):
             'x_access_token_secret': config.x_access_token_secret or '',
             'x_auth_token': config.x_auth_token or '',
             'x_ct0': config.x_ct0 or '',
-            'supabase_url': config.supabase_url or '',
-            'supabase_key': config.supabase_key or '',
-            'supabase_status': config.supabase_status,
-            'odoo_blog_id': config.odoo_blog_id,
             'targets_count': config.targets_count,
         }
     
@@ -139,26 +104,27 @@ class SmartRadarClientConfig(models.Model):
             return {'error': _('Unauthorized')}
             
         config = self.get_singleton()
-        old_list_id = config.x_list_id
+        was_active = config.is_engine_active
         
         # Whitelist fields to update
         allowed_fields = [
-            'tenant_id', 'auto_approve_drafts', 'x_list_id', 'is_engine_active',
+            'tenant_id', 'auto_approve_drafts', 'is_engine_active',
             'custom_ai_instructions', 'x_api_key', 'x_api_secret',
             'x_access_token', 'x_access_token_secret', 'x_auth_token', 'x_ct0',
-            'odoo_blog_id', 'ai_model', 'content_language',
-            'supabase_url', 'supabase_key', 'openai_api_key', 'apify_token'
+            'ai_model', 'content_language',
+            'openai_api_key', 'apify_token'
         ]
         
         vals = {k: v for k, v in data.items() if k in allowed_fields}
         
-        # Robust List ID Parsing: Extract number from URL if needed
-        if 'x_list_id' in vals and vals['x_list_id']:
-            list_val = str(vals['x_list_id']).split('/')[-1].split('?')[0].strip()
-            if list_val.isdigit():
-                vals['x_list_id'] = list_val
                 
         config.write(vals)
+
+        # Immediate start: If engine was just turned on, trigger the cron immediately
+        if vals.get('is_engine_active') and not was_active:
+            cron = self.env.ref('alpha_echo.ir_cron_twitter_smart_scraper', raise_if_not_found=False)
+            if cron:
+                cron._trigger()
             
         return {'success': True}
 

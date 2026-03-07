@@ -5,77 +5,44 @@ import requests
 
 _logger = logging.getLogger(__name__)
 
-# Maximum items fetched from Apify per scan (cost control hard limit)
-MAX_APIFY_ITEMS = 200
+# Maximum items typically expected per search pulse (for safety)
+MAX_ITEMS_SOFT_LIMIT = 150
 
-# Direct sync endpoint — same as the working Postman call
-# Returns results immediately without polling (no async actor lifecycle)
+# Direct sync endpoint — returns results immediately
 APIFY_SYNC_URL = (
     "https://api.apify.com/v2/acts/apidojo~twitter-scraper-lite"
     "/run-sync-get-dataset-items"
 )
 
 
-def _parse_list_id(raw: str) -> str:
-    """Extract the numeric List ID from either a raw ID or a full URL."""
-    raw = raw.strip()
-    if 'lists/' in raw:
-        raw = raw.split('lists/')[-1].split('?')[0].strip('/').split('/')[0]
-    return raw
-
-
 class SmartRadarApifyService(models.AbstractModel):
     _name        = 'alpha.echo.apify.service'
-    _description = 'Apify Integration Service'
+    _description = 'Alpha Echo: Apify Search Service'
+
 
     @api.model
-    def run_list_and_fetch(self, list_id: str, max_items: int = MAX_APIFY_ITEMS) -> list:
+    def run_search_and_fetch(self, query: str, max_items: int = 150) -> list:
         """
-        Fetch the most-recent tweets from a Twitter/X List timeline via Apify.
-
-        Uses the SYNCHRONOUS endpoint (run-sync-get-dataset-items) — identical
-        to a cURL/Postman call. No polling, no actor lifecycle, no hanging.
+        Fetch tweets using Advanced Search terms (OR queries).
+        Uses the synchronous endpoint for immediate response.
 
         Args:
-            list_id:   Numeric ID of the X/Twitter List (or full URL).
-            max_items: Maximum number of tweets to retrieve.
-
-        Returns:
-            list of dicts with keys:
-              id, text, author_handle, author_name, author_pic,
-              url, created_at, is_retweet, is_reply, is_quote, type
+            query: The X Search Query (e.g. 'from:user1 OR from:user2')
+            max_items: Max tweets to retrieve (standardized to 100).
         """
-        if not list_id or not str(list_id).strip():
-            raise UserError(_(
-                "⚠️ X/Twitter List ID is not configured.\n"
-                "Add it in: Settings -> Alpha Echo -> X List ID."
-            ))
-
-        # ── Load credentials ──────────────────────────────────────────────────
         config = self.env['alpha.echo.client.config'].get_singleton()
-        
-        # VERY IMPORTANT: explicitly cast config fields to strings 
-        # to ensure no Odoo ORM wrappers break the JSON serialization
         token = str(config.apify_token or '').strip()
         auth  = str(config.x_auth_token or '').strip()
         ct    = str(config.x_ct0 or '').strip()
-        
-        if not token:
-            raise UserError(_(
-                "⚠️ Apify API Token is missing.\n"
-                "Add it in: Settings -> Alpha Echo -> API Credentials."
-            ))
 
-        # ── Build request body — exactly matching the working Postman call ────
-        clean_id = _parse_list_id(str(list_id))
-        list_url = f"https://x.com/i/lists/{clean_id}?s=20"
-        safe_max = min(int(max_items), MAX_APIFY_ITEMS)
+        if not token:
+            raise UserError(_("⚠️ Apify API Token is missing."))
 
         body = {
-            "includeSearchTerms": False,
-            "maxItems":           safe_max,
+            "searchTerms":        [query],
             "sort":               "Latest",
-            "startUrls":          [list_url],
+            "maxItems":           int(max_items),
+            "includeSearchTerms": False,
             "proxyConfig": {
                 "useApifyProxy":      True,
                 "apifyProxyGroups":   ["RESIDENTIAL"],
@@ -83,68 +50,36 @@ class SmartRadarApifyService(models.AbstractModel):
             },
         }
 
-        # Inject session cookies if available in config
         if auth and ct:
             body["twitterCookies"] = [
                 {"domain": ".x.com", "name": "auth_token", "value": auth},
                 {"domain": ".x.com", "name": "ct0",        "value": ct},
             ]
 
-        _logger.info(
-            "Apify sync scan — List: %s | max_items: %d | cookies: %s",
-            list_url, safe_max, "yes" if auth else "no"
-        )
+        _logger.info("Apify Search Pulse — Query: %s | max_items: %d", query, max_items)
 
-        # ── Execute — direct HTTP POST, same as Postman ───────────────────────
         try:
             resp = requests.post(
                 APIFY_SYNC_URL,
                 params={"token": token},
                 json=body,
                 headers={"User-Agent": "PostmanRuntime/7.36.0", "Accept": "*/*"},
-                timeout=300,   # 5-minute hard timeout
+                timeout=300,
             )
-        except requests.exceptions.Timeout:
-            raise UserError(_(
-                "⚠️ Apify connection timed out (5 minutes).\n"
-                "Check your List ID and Token validity."
-            ))
-        except requests.exceptions.RequestException as exc:
-            _logger.error("Apify HTTP error: %s", exc)
-            raise UserError(_("⚠️ Network error while connecting to Apify:\n%s") % str(exc))
+            if not resp.ok:
+                raise UserError(_("Apify Search Error: %s") % resp.text[:300])
 
-        # ── Handle HTTP errors ────────────────────────────────────────────────
-        if resp.status_code == 401:
-            raise UserError(_("⚠️ Invalid Apify Token (401 Unauthorized)."))
-        if resp.status_code == 402:
-            raise UserError(_("⚠️ Insufficient Apify balance (402 Payment Required)."))
-        if resp.status_code == 429:
-            raise UserError(_("⚠️ Apify rate limit exceeded (429 Rate Limit). Please wait."))
-        if not resp.ok:
-            raise UserError(_(
-                "⚠️ Apify returned HTTP error %d:\n%s"
-            ) % (resp.status_code, resp.text[:300]))
-
-        # ── Parse response ────────────────────────────────────────────────────
-        try:
             raw_items = resp.json()
-        except Exception:
-            raise UserError(_("⚠️ Apify returned an unparsable response:\n%s") % resp.text[:300])
+            results = []
+            for item in raw_items:
+                normalized = _normalize_tweet(item)
+                if normalized:
+                    results.append(normalized)
+            return results
 
-        if not isinstance(raw_items, list):
-            raise UserError(_("⚠️ Apify returned an unexpected response (not a list)."))
-
-        results = []
-        for item in raw_items:
-            normalized = _normalize_tweet(item)
-            if normalized:
-                results.append(normalized)
-
-        _logger.info(
-            "Apify sync scan complete — %d usable tweet(s) from List %s.",
-            len(results), clean_id
-        )
-        return results
+        except Exception as e:
+            _logger.error("Apify Search Request Failed: %s", str(e))
+            return []
 
 
 def _normalize_tweet(item: dict) -> dict | None:

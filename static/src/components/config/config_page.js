@@ -186,11 +186,10 @@ export class ConfigPage extends Component {
             isAiReady: !!conf.openai_api_key,
             isScraperReady: !!(conf.apify_token && conf.x_auth_token && conf.x_ct0),
             isXLinked: this.isTwitterConnected,
-            hasPrompt: !!(conf.custom_ai_instructions && conf.custom_ai_instructions.length > 20),
-            hasList: !!conf.x_list_id
+            hasPrompt: !!(conf.custom_ai_instructions && conf.custom_ai_instructions.length > 20)
         };
         
-        const total = 5;
+        const total = 4;
         const readyCount = Object.values(health).filter(v => v).length;
         health.percent = Math.round((readyCount / total) * 100);
         health.status = health.percent === 100 ? 'optimal' : (health.percent > 50 ? 'partial' : 'critical');

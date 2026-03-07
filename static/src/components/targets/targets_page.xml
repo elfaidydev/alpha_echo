@@ -10,8 +10,8 @@
                             <i class="fa fa-crosshairs"/>
                         </div>
                         <div class="ae-title-wrap">
-                            <h1><t t-esc="_t('Resource Management')"/></h1>
-                            <p class="ae-subtitle"><t t-esc="_t('Accounts auto-discovered from your X List on each scan.')"/></p>
+                            <h1><t t-esc="_t('Monitored Resource Management')"/></h1>
+                            <p class="ae-subtitle"><t t-esc="_t('Manage your certified sources and tracked entities manually.')"/></p>
                         </div>
                     </div>
 
@@ -20,23 +20,45 @@
                         <div class="ae-search-wrap">
                             <i class="fa fa-search ae-search-icon"/>
                             <input class="ae-search-input" type="text"
-                                   t-att-placeholder="_t('Search discovered accounts...')"
+                                   t-att-placeholder="_t('Search your monitored accounts...')"
                                    t-model="state.searchQuery"/>
+                        </div>
+
+                        <!-- Manual Actions -->
+                        <div class="ae-header-actions">
+                            <button class="ae-btn-add" t-on-click="addTarget">
+                                <i class="fa fa-plus-circle"/>
+                                <span><t t-esc="_t('Add Target')"/></span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Filter Tabs (Matching Posts Page) -->
+                    <div class="ae-tabs-row">
+                        <div class="ae-tabs">
+                            <button t-attf-class="ae-tab {{ state.activeTab === 'all'      ? 'active' : '' }}" t-on-click="() => this.setTab('all')">
+                                <i class="fa fa-th-large"/> <t t-esc="_t('All')"/>
+                            </button>
+                            <button t-attf-class="ae-tab {{ state.activeTab === 'active'   ? 'active' : '' }}" t-on-click="() => this.setTab('active')">
+                                <i class="fa fa-check-circle"/> <t t-esc="_t('Active')"/>
+                            </button>
+                            <button t-attf-class="ae-tab {{ state.activeTab === 'inactive' ? 'active' : '' }}" t-on-click="() => this.setTab('inactive')">
+                                <i class="fa fa-pause-circle"/> <t t-esc="_t('Inactive')"/>
+                            </button>
                         </div>
                     </div>
                 </div>
 
                 <!-- ══ CONTENT GRID ══════════════════════════════════════════════ -->
                 <div class="ae-targets-grid">
-
                     <!-- Case 1: Loading -->
                     <t t-if="(!radarState.isConfigLoaded) or (radarState.isLoading and filteredTargets.length === 0)">
                         <div class="ae-empty-hero">
                             <div class="ae-empty-icon ae-empty-icon-spin">
                                 <i class="fa fa-spinner fa-spin"/>
                             </div>
-                            <h2><t t-esc="_t('Discovering Targets...')"/></h2>
-                            <p><t t-esc="_t('Scanning your X List for monitored accounts.')"/></p>
+                            <h2><t t-esc="_t('Loading Resources...')"/></h2>
+                            <p><t t-esc="_t('Synchronizing with the intelligent monitoring engine.')"/></p>
                         </div>
                     </t>
 
@@ -47,30 +69,8 @@
                             <div class="ae-empty-icon ae-empty-icon-lock">
                                 <i class="fa fa-twitter"/>
                             </div>
-                            <h2><t t-esc="_t('X Account Required')"/></h2>
-                            <p><t t-esc="_t('Link your X account from Settings to activate discovery.')"/></p>
-                            <div class="ae-empty-actions">
-                                <a class="ae-btn-hero ae-btn-hero-primary" href="/odoo/alpha-echo/config">
-                                    <i class="fa fa-plug"/> <t t-esc="_t('Go to Settings')"/>
-                                </a>
-                            </div>
-                        </div>
-                    </t>
-
-                    <!-- Case 3: Locked — X List not set -->
-                    <t t-elif="!radarState.config.x_list_id">
-                        <div class="ae-empty-hero">
-                            <div class="ae-empty-hero-ring ae-ring-amber"/>
-                            <div class="ae-empty-icon ae-empty-icon-amber">
-                                <i class="fa fa-list-ul"/>
-                            </div>
-                            <h2><t t-esc="_t('X List ID Required')"/></h2>
-                            <p><t t-esc="_t('Add your X List URL or ID in Settings to start monitoring targets.')"/></p>
-                            <div class="ae-empty-actions">
-                                <a class="ae-btn-hero ae-btn-hero-amber" href="/odoo/alpha-echo/config">
-                                    <i class="fa fa-cog"/> <t t-esc="_t('Configure Now')"/>
-                                </a>
-                            </div>
+                            <h2><t t-esc="_t('X Account Connection Required')"/></h2>
+                            <p><t t-esc="_t('Please link your X account from the Settings page to enable scraping.')"/></p>
                         </div>
                     </t>
 
@@ -81,20 +81,15 @@
                             <div class="ae-empty-icon">
                                 <i class="fa fa-crosshairs"/>
                             </div>
-                            <h2><t t-esc="_t('No Targets Found')"/></h2>
-                            <p><t t-esc="_t('No accounts have been discovered yet. Make sure your X List is configured, then trigger a scan.')"/></p>
-                            <div class="ae-empty-actions">
-                                <a class="ae-btn-hero ae-btn-hero-primary" href="/odoo/alpha-echo/config">
-                                    <i class="fa fa-refresh"/> <t t-esc="_t('Trigger a Scan')"/>
-                                </a>
-                            </div>
+                            <h2><t t-esc="_t('No Source Accounts Added')"/></h2>
+                            <p><t t-esc="_t('You havent added any targets yet. Click the button above to add your first monitored account.')"/></p>
                         </div>
                     </t>
 
                     <!-- Case 4: Real Targets -->
                     <t t-else="">
                         <t t-foreach="filteredTargets" t-as="target" t-key="target.id">
-                            <div class="ae-target-card" t-on-click="() => this.openTargetAnalytics(target)">
+                            <div class="ae-target-card" t-on-click="() => this.openTargetDetails(target)">
                                 <div class="ae-card-glow glow-indigo"/>
                                 <div class="ae-card-head">
                                     <div class="ae-target-info">
@@ -110,96 +105,122 @@
                                         </div>
                                         <div class="ae-stat">
                                             <span class="label"><t t-esc="_t('Status')"/></span>
-                                            <span t-attf-class="value {{ target.is_active ? 'text-emerald' : '' }}">
+                                            <span t-attf-class="value {{ target.is_active ? 'text-emerald' : 'text-rose' }}">
                                                 <t t-esc="this.getEngineStatusLabel(target.is_active)"/>
                                             </span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="ae-card-foot">
-                                    <span class="ae-status-tag active"><span class="ae-dot"/><t t-esc="_t('Monitoring Active')"/></span>
-                                    <span class="ae-hint"><t t-esc="_t('Click for analytics')"/></span>
+                                    <span t-attf-class="ae-status-tag {{ target.is_active ? 'active' : 'inactive' }}">
+                                        <span class="ae-dot"/>
+                                        <t t-if="target.is_active"><t t-esc="_t('Monitoring Active')"/></t>
+                                        <t t-else=""><t t-esc="_t('Monitoring Paused')"/></t>
+                                    </span>
+                                    <span class="ae-hint"><t t-esc="_t('Click to manage')"/></span>
                                 </div>
                             </div>
                         </t>
                     </t>
-
                 </div>
             </div>
 
-            <!-- ══ ANALYTICS MODAL ══════════════════════════════════════════════ -->
-            <t t-if="state.selectedTarget">
-                <div class="ae-modal-overlay" t-on-click.self="closeTargetAnalytics">
-                    <div class="ae-modal ae-analytics-modal">
+            <!-- ══ UNIFIED MANAGEMENT MODAL ═════════════════════════════════════════ -->
+            <t t-if="state.isModalOpen">
+                <div class="ae-modal-overlay" t-on-click.self="closeModal">
+                    <div class="ae-modal ae-management-modal">
                         <div class="ae-modal-header">
                             <div class="ae-modal-brand">
-                                <div class="ae-modal-icon"><i class="fa fa-crosshairs"/></div>
+                                <div class="ae-modal-icon"><i t-attf-class="fa {{ state.modalMode === 'add' ? 'fa-plus-circle' : 'fa-sliders' }}"/></div>
                                 <div>
-                                    <h3><t t-esc="state.selectedTarget.name"/></h3>
-                                    <span class="ae-modal-date" t-if="state.selectedTarget.handle"><i class="fa fa-at"/> <t t-esc="state.selectedTarget.handle"/></span>
+                                    <h3>
+                                        <t t-if="state.modalMode === 'add'"><t t-esc="_t('New Target Account')"/></t>
+                                        <t t-else=""><t t-esc="_t('Configure Target')"/></t>
+                                    </h3>
+                                    <span class="ae-modal-status">
+                                        <t t-if="state.modalMode === 'add'"><t t-esc="_t('Adding account to backend groups...')"/></t>
+                                        <t t-else=""><t t-esc="_t('Modify account parameters and visibility')"/></t>
+                                    </span>
                                 </div>
                             </div>
-                            <button class="ae-modal-close" t-on-click="closeTargetAnalytics"><i class="fa fa-times"/></button>
+                            <button class="ae-modal-close" t-on-click="closeModal"><i class="fa fa-times"/></button>
                         </div>
 
                         <div class="ae-modal-body">
-                            <t t-call="alpha_echo.TargetsPage.AnalyticsView"/>
+                            <div class="ae-management-split">
+                                <!-- Left Panel: Form -->
+                                <div class="ae-panel ae-form-panel">
+                                    <div class="ae-form-group">
+                                        <label><t t-esc="_t('Display Name')"/></label>
+                                        <input type="text" t-model="state.editingTarget.name" t-att-placeholder="_t('e.g. Al Arabiya Arabic')"/>
+                                    </div>
+                                    <div class="ae-form-group">
+                                        <label><t t-esc="_t('X Handle (Username)')"/></label>
+                                        <div class="ae-input-icon-wrap">
+                                            <i class="fa fa-at"/>
+                                            <input type="text" t-model="state.editingTarget.handle" t-att-placeholder="_t('username')"/>
+                                        </div>
+                                        <p class="ae-input-hint"><t t-esc="_t('Handle will be auto-cleaned on save.')"/></p>
+                                    </div>
+                                    
+                                    <div class="ae-form-toggle-row">
+                                        <div class="ae-toggle-info">
+                                            <strong><t t-esc="_t('Target Visibility')"/></strong>
+                                            <p><t t-esc="_t('If disabled, the engine will ignore this target.')"/></p>
+                                        </div>
+                                        <label class="ae-switch">
+                                            <input type="checkbox" t-model="state.editingTarget.is_active"/>
+                                            <span class="ae-slider"/>
+                                        </label>
+                                    </div>
+
+                                    <div class="ae-modal-actions">
+                                        <t t-if="state.modalMode === 'edit'">
+                                            <button class="ae-btn-delete-modal" t-on-click="deleteTarget">
+                                                <i class="fa fa-trash-o"/> <t t-esc="_t('Remove Target')"/>
+                                            </button>
+                                        </t>
+                                        <div class="ae-action-spacer"/>
+                                        <button class="ae-btn-save-modal" t-on-click="saveTarget" t-att-disabled="state.isSaving">
+                                            <i t-attf-class="fa {{ state.isSaving ? 'fa-circle-o-notch fa-spin' : 'fa-check-circle' }}"/>
+                                            <t t-if="state.modalMode === 'add'"><t t-esc="_t('Create Target')"/></t>
+                                            <t t-else=""><t t-esc="_t('Apply Changes')"/></t>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Right Panel: Analytics -->
+                                <div class="ae-panel ae-stats-panel" t-if="state.modalMode === 'edit'">
+                                    <div class="ae-analytics-scrolled">
+                                        <div class="ae-stat-chip">
+                                            <span class="label"><t t-esc="_t('Captured Posts')"/></span>
+                                            <span class="value"><t t-esc="state.editingTarget.posts_count"/></span>
+                                        </div>
+                                        
+                                        <div class="ae-mini-timeline">
+                                            <h4><i class="fa fa-feed"/> <t t-esc="_t('Recent Activity')"/></h4>
+                                            <t t-if="state.targetRecentPosts.length === 0">
+                                                <div class="ae-mini-empty"><t t-esc="_t('No posts indexed yet.')"/></div>
+                                            </t>
+                                            <t t-else="">
+                                                <t t-foreach="state.targetRecentPosts" t-as="post" t-key="post.id">
+                                                    <div class="ae-mini-item">
+                                                        <div class="ae-mini-head">
+                                                            <span t-attf-class="ae-dot {{ post.state === 'published' ? 'bg-emerald' : 'bg-indigo' }}"/>
+                                                            <small><t t-esc="post.create_date.split(' ')[0]"/></small>
+                                                        </div>
+                                                        <p><t t-esc="post.ai_generated_text ? (post.ai_generated_text.substring(0, 70) + '...') : (post.original_text ? post.original_text.substring(0, 70) + '...' : '')"/></p>
+                                                    </div>
+                                                </t>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </t>
         </div>
     </t>
-
-    <!-- Sub-Template: Analytics View -->
-    <t t-name="alpha_echo.TargetsPage.AnalyticsView" owl="1">
-        <div class="ae-analytics-content">
-            <div class="ae-analytics-grid">
-                <!-- Left: Stats -->
-                <div class="ae-analytics-col">
-                    <div class="ae-insight-card">
-                        <h4><t t-esc="_t('Target Insights')"/></h4>
-                        <div class="ae-stat-group">
-                            <div class="ae-stat-item">
-                                <span class="label"><t t-esc="_t('Engine Status')"/></span>
-                                <span class="value text-emerald"><t t-esc="this.getSelectedTargetStatusLabel()"/></span>
-                            </div>
-                            <div class="ae-stat-item">
-                                <span class="label"><t t-esc="_t('Total Discoveries')"/></span>
-                                <span class="value big"><t t-esc="state.selectedTarget.posts_count"/></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Right: Timeline -->
-                <div class="ae-analytics-col">
-                    <div class="ae-timeline-card">
-                        <h4><i class="fa fa-feed"/> <t t-esc="_t('Recent Timeline')"/></h4>
-                        <div class="ae-timeline">
-                            <t t-if="state.targetRecentPosts.length === 0">
-                                <div class="ae-timeline-empty"><t t-esc="_t('Loading latest updates...')"/></div>
-                            </t>
-                            <t t-else="">
-                                <t t-foreach="state.targetRecentPosts" t-as="post" t-key="post.id">
-                                    <div class="ae-timeline-item">
-                                        <div t-attf-class="ae-timeline-dot {{ post.state === 'published' ? 'bg-emerald' : 'bg-indigo' }}"/>
-                                        <div class="ae-timeline-content">
-                                            <div class="ae-timeline-head">
-                                                <span t-attf-class="ae-badge {{ post.state === 'published' ? 'badge-published' : 'badge-draft' }}">
-                                                    <t t-esc="this.getPostStatusLabel(post.state)"/>
-                                                </span>
-                                                <small><t t-esc="post.create_date.split(' ')[0]"/></small>
-                                            </div>
-                                            <p><t t-esc="post.ai_generated_text ? post.ai_generated_text.substring(0, 100) + '...' : post.original_text.substring(0, 100) + '...'"/></p>
-                                        </div>
-                                    </div>
-                                </t>
-                            </t>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </t>
-
 </templates>

@@ -37,8 +37,6 @@ export const radarService = {
                 openai_api_key: "",
                 apify_token: "",
                 apify_actor_id: "",
-                supabase_url: "",
-                supabase_key: "",
                 twitterLinked: false,
                 get isFullyConfigured() {
                     return !!(this.x_api_key && this.x_api_secret && this.x_access_token && this.x_access_token_secret);
@@ -46,7 +44,6 @@ export const radarService = {
                 systemPrompt: false,
                 custom_ai_instructions: "",
                 target_radar_focus: "",
-                x_list_id: "",
                 x_auth_token: "",
                 x_ct0: "",
                 twitterUser: null
@@ -56,9 +53,9 @@ export const radarService = {
                 return !!(
                     conf.twitterLinked &&
                     (conf.custom_ai_instructions && conf.custom_ai_instructions.length > 0) &&
-                    (conf.x_list_id && conf.x_list_id.length > 0) &&
                     (conf.x_auth_token && conf.x_auth_token.length > 0) &&
-                    (conf.x_ct0 && conf.x_ct0.length > 0)
+                    (conf.x_ct0 && conf.x_ct0.length > 0) &&
+                    (this.targets.length > 0)
                 );
             }
         });
@@ -81,7 +78,7 @@ export const radarService = {
 
         async function toggleTracking() {
             if (!state.isTracking && !state.isOnboarded) {
-                notification.add(_t("Cannot start engine! Please complete the 3 setup steps first (X Account, AI Prompt, X List)."), {
+                notification.add(_t("Cannot start engine! Please complete the setup steps first (X Account, AI Prompt)."), {
                     type: "danger",
                     title: _t("Operation Refused 🔒"),
                     className: "sr-premium-toast"
@@ -271,12 +268,63 @@ export const radarService = {
         }
 
 
+        async function loadMetrics() {
+            try {
+                const metrics = await rpc("/web/dataset/call_kw/alpha.echo.dashboard/get_dashboard_metrics", {
+                    model: "alpha.echo.dashboard",
+                    method: "get_dashboard_metrics",
+                    args: [],
+                    kwargs: {}
+                });
+                state.grantsDiscovered = metrics.posts_today;
+                state.publishedToday = metrics.posts_published;
+                state.monitoredAccounts = metrics.targets_active;
+                state.matchRate = metrics.posts_total > 0 ? Math.round((metrics.posts_published / metrics.posts_total) * 100) : 0;
+                return metrics;
+            } catch (e) {
+                console.error("Alpha Echo: Failed to load metrics", e);
+                return null;
+            }
+        }
+
+        let pollingInterval = null;
+        function startPolling() {
+            if (!pollingInterval) {
+                pollingInterval = setInterval(async () => {
+                    if (state.isTracking) {
+                        await loadTargets();
+                        await loadPosts();
+                        await loadMetrics();
+                    }
+                }, 15000); // 15 seconds
+            }
+        }
+
+        function stopPolling() {
+            if (pollingInterval) {
+                clearInterval(pollingInterval);
+                pollingInterval = null;
+            }
+        }
+
         let initPromise = null;
         async function initialize() {
             if (!initPromise) {
-                initPromise = fetchConfig().then(() => {
-                    state.isConfigLoaded = true;
-                });
+                initPromise = (async () => {
+                    try {
+                        // Parallelize primary data fetch to speed up initial render
+                        await Promise.allSettled([
+                            fetchConfig(),
+                            loadTargets(),
+                            loadMetrics()
+                        ]);
+                    } catch (e) {
+                        console.error("Alpha Echo: Initialization error", e);
+                    } finally {
+                        state.isConfigLoaded = true;
+                        startPolling();
+                    }
+                })();
             }
             return initPromise;
         }

@@ -34,17 +34,18 @@ export class SmartRadarDashboard extends Component {
         // Dummy data moved to service
 
         onWillStart(async () => {
-            // Chart.js is pre-bundled as a local static asset — no CDN load needed
+            // Ensure core systems are ready before rendering dashboard shells
+            await this.radarService.initialize();
+            
             if(window.Chart) {
                 window.Chart.defaults.font.family = 'system-ui, -apple-system, sans-serif';
             }
         });
 
         onMounted(async () => {
-            // Load actual data from backend
-            await this.radarService.fetchConfig();
-            await this.radarService.loadTargets();
-
+            // Metrics are already pre-loaded by initialize() in onWillStart, 
+            // but we fetch them here again to ensure they are the freshest possible 
+            // for the chart initialization.
             let metrics = null;
             try {
                 metrics = await this.orm.call("alpha.echo.dashboard", "get_dashboard_metrics", []);
@@ -205,6 +206,23 @@ export class SmartRadarDashboard extends Component {
     startMockFeed() {
         // High-frequency auto-fetch removed to protect user budget! 🚨
         // Scans should only triggered manually or by background cron.
+        
+        // Instead of mock feed, we poll for real metrics to update charts every 15 seconds
+        this.mockInterval = setInterval(async () => {
+            if (this.radarState.isTracking) {
+                try {
+                    let metrics = await this.orm.call("alpha.echo.dashboard", "get_dashboard_metrics", []);
+                    this.updateCharts(metrics);
+                } catch(e) {}
+            }
+        }, 15000);
+    }
+
+    updateCharts(metrics) {
+        if (!metrics) return;
+        this.chartInstances.forEach(c => c.destroy());
+        this.chartInstances = [];
+        this.initCharts(metrics);
     }
 
     toggleTracking() {

@@ -7,8 +7,6 @@
             <field name="arch" type="xml">
                 <form string="Alpha Echo Configuration">
                     <header>
-                        <button name="action_test_connection" string="Test Connection" type="object" class="oe_highlight"/>
-                        <field name="supabase_status" widget="statusbar" statusbar_visible="disconnected,connected,error"/>
                     </header>
                     <sheet>
                         <div class="oe_title">
@@ -27,12 +25,6 @@
                                 <group>
                                     <field name="openai_api_key" widget="password"/>
                                     <field name="apify_token" widget="password"/>
-                                </group>
-                            </page>
-                            <page string="Supabase Cloud Sync">
-                                <group>
-                                    <field name="supabase_url"/>
-                                    <field name="supabase_key" widget="password"/>
                                 </group>
                             </page>
                         </notebook>

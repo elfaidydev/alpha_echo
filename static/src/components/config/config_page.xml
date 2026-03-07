@@ -43,7 +43,6 @@
                             <div class="ae-h-item" t-att-class="{ready: configHealth.isAiReady}"><i class="fa fa-microchip"/></div>
                             <div class="ae-h-item" t-att-class="{ready: configHealth.isXLinked}"><i class="fa fa-twitter"/></div>
                             <div class="ae-h-item" t-att-class="{ready: configHealth.hasPrompt}"><i class="fa fa-magic"/></div>
-                            <div class="ae-h-item" t-att-class="{ready: configHealth.hasList}"><i class="fa fa-list"/></div>
                         </div>
                     </div>
 
@@ -81,45 +80,15 @@
                         <!-- Source &amp; Identity Hub -->
                         <div class="ae-source-hub mt-4">
                             <div class="row g-4">
-                                <!-- Discovery Source -->
-                                <div class="col-lg-6">
-                                    <div class="ae-hub-card">
-                                        <div class="ae-hub-card-header">
-                                            <div class="ae-glow-icon"><i class="fa fa-search-plus"/></div>
-                                            <div class="ae-hub-card-text">
-                                                <h4><t t-esc="_t('Content Discovery Source')"/></h4>
-                                                <p><t t-esc="_t('The primary X List used for scanning.')"/></p>
-                                            </div>
-                                        </div>
-                                        <div class="ae-hub-card-body">
-                                            <div class="ae-input-group-v2">
-                                                <label><t t-esc="_t('X List URL or identifier')"/></label>
-                                                <div class="ae-input-with-icon">
-                                                    <i class="fa fa-link"/>
-                                                    <input type="text"
-                                                           t-model="config.x_list_id"
-                                                           t-on-input="(ev) => this.onFieldChange('x_list_id', ev.target.value)"
-                                                           placeholder="https://x.com/i/lists/..."/>
-                                                </div>
-                                            </div>
-                                            <div class="ae-source-status mt-3" t-if="config.targets_count">
-                                                <span class="ae-badge-pulse">
-                                                    <i class="fa fa-crosshairs"/>
-                                                    <t t-esc="_t('Monitoring')"/> <t t-esc="config.targets_count"/> <t t-esc="_t('targets')"/>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <!-- Reader Identity -->
-                                <div class="col-lg-6">
+                                <!-- Session Identity -->
+                                <div class="col-lg-12">
                                     <div class="ae-hub-card auth-card">
                                         <div class="ae-hub-card-header">
                                             <div class="ae-glow-icon purple"><i class="fa fa-id-badge"/></div>
                                             <div class="ae-hub-card-text">
-                                                <h4><t t-esc="_t('Reader Identity')"/></h4>
-                                                <p><t t-esc="_t('Secure credentials for private list access.')"/></p>
+                                                <h4><t t-esc="_t('Session Identity')"/></h4>
+                                                <p><t t-esc="_t('Secure credentials for high-volume bypass.')"/></p>
                                             </div>
                                         </div>
                                         <div class="ae-hub-card-body">

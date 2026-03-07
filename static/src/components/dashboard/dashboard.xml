@@ -25,8 +25,25 @@
                     </div>
                 </div>
 
+                <!-- ══ LOADING STATE ════════════════════════════════════════════════ -->
+                <t t-if="!radarState.isConfigLoaded">
+                    <div class="sr-onboarding-hero-v2 justify-content-center align-items-center">
+                        <div class="onboarding-bg-blobs">
+                            <div class="blob blob-1"/>
+                            <div class="blob blob-2"/>
+                        </div>
+                        <div class="ae-loader-container text-center">
+                            <div class="ae-logo-box mx-auto mb-4 ae-loader-spin">
+                                <i class="fa fa-braille fa-spin"/>
+                            </div>
+                            <h2 class="text-white"><t t-esc="_t('Initializing Systems...')"/></h2>
+                            <p class="text-white-50"><t t-esc="_t('Authenticating with cloud engines and retrieving your monitored sources.')"/></p>
+                        </div>
+                    </div>
+                </t>
+                
                 <!-- ══ ONBOARDING (not yet configured) ═════════════════════════════ -->
-                <t t-if="!radarState.isOnboarded">
+                <t t-elif="!radarState.isOnboarded">
                     <div class="sr-onboarding-hero-v2">
                         <div class="onboarding-bg-blobs">
                             <div class="blob blob-1"/>
@@ -85,30 +102,30 @@
                                     </div>
                                 </div>
 
-                                <!-- Step 3: X List -->
-                                <t t-set="isListDone" t-value="radarState.config.x_list_id and radarState.config.x_list_id.length > 0"/>
-                                <div t-attf-class="onboarding-card {{ isListDone ? 'completed' : 'pending' }}" t-on-click="openSettings">
+                                 <!-- Step 3: Add Targets -->
+                                <t t-set="isListDone" t-value="radarState.targets.length > 0"/>
+                                <div t-attf-class="onboarding-card {{ isListDone ? 'completed' : 'pending' }}" t-on-click="() => this.action.doAction('alpha_echo.targets_client_action')">
                                     <div class="card-glow"/>
                                     <div class="card-content">
                                         <div class="step-label"><t t-esc="_t('Step 3')"/></div>
                                         <div class="step-main">
                                             <div class="step-icon">
-                                                <i class="fa fa-list-ul"/>
+                                                <i class="fa fa-crosshairs"/>
                                                 <div t-if="isListDone" class="check-badge"><i class="fa fa-check"/></div>
                                             </div>
                                             <div class="step-info">
-                                                <h4><t t-esc="_t('X List &amp; Reader Cookies')"/></h4>
-                                                <p><t t-esc="_t('Set your X List URL and reader account cookies (auth_token &amp; ct0).')"/></p>
+                                                <h4><t t-esc="_t('Target Sources')"/></h4>
+                                                <p><t t-esc="_t('Add at least one account you wish to monitor for updates.')"/></p>
                                             </div>
                                         </div>
                                         <div class="step-footer mt-2">
-                                            <span t-if="isListDone" class="status-done"><t t-esc="_t('Configured')"/> <i class="fa fa-check-circle"/></span>
-                                            <span t-else="" class="status-btn"><t t-esc="_t('Configure')"/> <i class="fa fa-cog"/></span>
+                                            <span t-if="isListDone" class="status-done"><t t-esc="_t('Sources Set')"/> <i class="fa fa-check-circle"/></span>
+                                            <span t-else="" class="status-btn"><t t-esc="_t('Add Target')"/> <i class="fa fa-plus-circle"/></span>
                                         </div>
                                     </div>
                                 </div>
 
-                                <!-- Step 4: Reader Cookies -->
+                                 <!-- Step 4: Scraper Security -->
                                 <t t-set="isCookiesDone" t-value="radarState.config.x_auth_token and radarState.config.x_ct0"/>
                                 <div t-attf-class="onboarding-card {{ isCookiesDone ? 'completed' : 'pending' }}" t-on-click="openSettings">
                                     <div class="card-glow"/>
@@ -116,17 +133,17 @@
                                         <div class="step-label"><t t-esc="_t('Step 4')"/></div>
                                         <div class="step-main">
                                             <div class="step-icon">
-                                                <i class="fa fa-key"/>
+                                                <i class="fa fa-shield"/>
                                                 <div t-if="isCookiesDone" class="check-badge"><i class="fa fa-check"/></div>
                                             </div>
                                             <div class="step-info">
-                                                <h4><t t-esc="_t('Reader Cookies')"/></h4>
-                                                <p><t t-esc="_t('Set auth_token and ct0 for the X reader account used to scrape the list.')"/></p>
+                                                <h4><t t-esc="_t('Scraper Connection')"/></h4>
+                                                <p><t t-esc="_t('Provide auth_token and ct0 from a dedicated X reader account for scraping.')"/></p>
                                             </div>
                                         </div>
                                         <div class="step-footer mt-2">
-                                            <span t-if="isCookiesDone" class="status-done"><t t-esc="_t('Saved')"/> <i class="fa fa-check-circle"/></span>
-                                            <span t-else="" class="status-btn"><t t-esc="_t('Add Cookies')"/> <i class="fa fa-shield"/></span>
+                                            <span t-if="isCookiesDone" class="status-done"><t t-esc="_t('Authenticated')"/> <i class="fa fa-check-circle"/></span>
+                                            <span t-else="" class="status-btn"><t t-esc="_t('Add Credentials')"/> <i class="fa fa-key"/></span>
                                         </div>
                                     </div>
                                 </div>
@@ -156,7 +173,7 @@
                             <div class="hero-text">
                                 <h2><t t-esc="_t('Advanced exploration and analysis engine is active.')"/></h2>
                                 <p>
-                                    <t t-esc="_t('Currently')"/> <strong><t t-esc="radarState.targets.length"/> <t t-esc="_t('certified sources')"/></strong> <t t-esc="_t('are under real-time monitoring. Successfully discovered')"/> <strong><t t-esc="radarState.grantsDiscovered"/> <t t-esc="_t('new topics')"/></strong> <t t-esc="_t('today. AI has handled professional reformulation and content has been')"/> <strong><t t-esc="_t('automatically and simultaneously')"/></strong> <t t-esc="_t('published across official channels.')"/>
+                                    <t t-esc="_t('Currently')"/> <strong><t t-esc="radarState.targets.length"/> <t t-esc="_t('certified sources')"/></strong> <t t-esc="_t('are under real-time monitoring. Successfully captured')"/> <strong><t t-esc="radarState.grantsDiscovered"/> <t t-esc="_t('new topics')"/></strong> <t t-esc="_t('today. AI has handled professional reformulation and content has been')"/> <strong><t t-esc="_t('automatically and simultaneously')"/></strong> <t t-esc="_t('published across official channels.')"/>
                                 </p>
                             </div>
                         </div>
@@ -193,7 +210,7 @@
                         <div class="kpi-card-v4">
                             <div class="kpi-top">
                                 <div class="kpi-text">
-                                    <span class="kpi-title"><t t-esc="_t('New Content Discovered Today')"/></span>
+                                    <span class="kpi-title"><t t-esc="_t('New Content Captured Today')"/></span>
                                     <div class="kpi-value"><t t-esc="radarState.grantsDiscovered"/></div>
                                 </div>
                                 <div class="kpi-icon blue"><i class="fa fa-search-plus"/></div>

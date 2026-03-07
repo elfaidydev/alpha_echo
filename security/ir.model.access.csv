@@ -2,3 +2,5 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_alpha_echo_target,alpha.echo.target,model_alpha_echo_target,base.group_user,1,1,1,1
 access_alpha_echo_post,alpha.echo.post,model_alpha_echo_post,base.group_user,1,1,1,1
 access_alpha_echo_client_config,alpha.echo.client.config,model_alpha_echo_client_config,base.group_system,1,1,1,1
+access_twitter_scrape_group,twitter.scrape.group,model_twitter_scrape_group,base.group_user,1,1,1,1
+access_twitter_scraper_engine,twitter.scraper.engine,model_twitter_scraper_engine,base.group_system,1,0,0,0
