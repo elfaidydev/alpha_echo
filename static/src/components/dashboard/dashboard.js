@@ -207,15 +207,10 @@ export class SmartRadarDashboard extends Component {
         // High-frequency auto-fetch removed to protect user budget! 🚨
         // Scans should only triggered manually or by background cron.
         
-        // Instead of mock feed, we poll for real metrics to update charts every 15 seconds
-        this.mockInterval = setInterval(async () => {
-            if (this.radarState.isTracking) {
-                try {
-                    let metrics = await this.orm.call("alpha.echo.dashboard", "get_dashboard_metrics", []);
-                    this.updateCharts(metrics);
-                } catch(e) {}
-            }
-        }, 15000);
+        // Instead of polling, the dashboard now relies on real-time WebSocket updates 
+        // orchestrated by radar_service.js. 
+        // When radar_service.js fetches new metrics, radarState updates automatically.
+        // We just need to watch for those changes if we need to redraw charts, or we can fetch them manually if needed.
     }
 
     updateCharts(metrics) {

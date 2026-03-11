@@ -19,7 +19,7 @@ class DashboardMetrics(models.AbstractModel):
         active_targets = Target.search_count([('is_active', '=', True)])
 
         # Posts stats
-        total_posts = Post.search_count([])
+        total_posts = Post.search_count([('state', '!=', 'rejected')])
         pending_posts = Post.search_count([('state', '=', 'draft')])
         published_posts = Post.search_count([('state', '=', 'published')])
         rejected_posts = Post.search_count([('state', '=', 'rejected')])
@@ -27,7 +27,10 @@ class DashboardMetrics(models.AbstractModel):
         # Last 7 days post activity
         seven_days_ago = Date.today() - timedelta(days=6)
         posts_history = Post.read_group(
-            domain=[('create_date', '>=', fields.Datetime.to_string(seven_days_ago))],
+            domain=[
+                ('create_date', '>=', fields.Datetime.to_string(seven_days_ago)),
+                ('state', '!=', 'rejected')
+            ],
             fields=['create_date'],
             groupby=['create_date:day']
         )

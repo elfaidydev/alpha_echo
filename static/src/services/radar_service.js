@@ -10,9 +10,9 @@ import { _t } from "@web/core/l10n/translation";
  * Decouples the UI from the data source (Odoo RPC/Supabase).
  */
 export const radarService = {
-    dependencies: ["rpc", "notification"],
+    dependencies: ["rpc", "notification", "bus_service"],
     
-    start(env, { rpc, notification }) {
+    start(env, { rpc, notification, bus_service }) {
         const state = reactive({
             isConfigLoaded: false,
             isTracking: false, // Default to OFF for new clients
@@ -287,24 +287,20 @@ export const radarService = {
             }
         }
 
-        let pollingInterval = null;
-        function startPolling() {
-            if (!pollingInterval) {
-                pollingInterval = setInterval(async () => {
-                    if (state.isTracking) {
-                        await loadTargets();
-                        await loadPosts();
-                        await loadMetrics();
+        // Replace polling with Real-Time WebSockets
+        function startRealTimeUpdates() {
+            bus_service.addEventListener("notification", async ({ detail: notifications }) => {
+                for (const { payload, type } of notifications) {
+                    if (type === "alpha_echo.post_updated") {
+                        if (state.isTracking) {
+                            await loadTargets();
+                            await loadPosts();
+                            await loadMetrics();
+                        }
                     }
-                }, 15000); // 15 seconds
-            }
-        }
-
-        function stopPolling() {
-            if (pollingInterval) {
-                clearInterval(pollingInterval);
-                pollingInterval = null;
-            }
+                }
+            });
+            bus_service.addChannel("alpha_echo_updates");
         }
 
         let initPromise = null;
@@ -316,13 +312,14 @@ export const radarService = {
                         await Promise.allSettled([
                             fetchConfig(),
                             loadTargets(),
+                            loadPosts(),
                             loadMetrics()
                         ]);
                     } catch (e) {
                         console.error("Alpha Echo: Initialization error", e);
                     } finally {
                         state.isConfigLoaded = true;
-                        startPolling();
+                        startRealTimeUpdates();
                     }
                 })();
             }

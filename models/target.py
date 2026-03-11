@@ -7,7 +7,7 @@ from dateutil import parser as dateutil_parser
 _logger = logging.getLogger(__name__)
 
 # ─── Scan Constants ────────────────────────────────────────────────────────────
-MIN_TWEET_LENGTH   = 50   # Skip very short tweets (noise) before touching AI
+MIN_TWEET_LENGTH   = 10   # Skip very short tweets (noise) before touching AI
 MAX_POSTS_PER_DAY  = 2000 # Hard daily cap — safety net against runaway scans
 MAX_PER_ACCOUNT    = 200  # Max new posts per unique account per scan
 MAX_PER_SCAN       = 200  # Max new posts created in a single scan run
@@ -28,8 +28,8 @@ class SmartRadarTarget(models.Model):
     is_active    = fields.Boolean(string=_('Active'), default=True)
     last_scanned = fields.Datetime(string=_('Last Scanned'), readonly=True)
     image_1920   = fields.Image(string=_('Profile Picture'))
-    
     group_id     = fields.Many2one('twitter.scrape.group', string=_('Scrape Group'), ondelete='set null')
+    latest_seen_tweet_id = fields.Char(string=_('Latest Seen Tweet ID'), readonly=True, help=_('Highest tweet ID evaluated. Prevents re-sending discarded tweets to AI.'))
 
     post_ids     = fields.One2many('alpha.echo.post', 'target_id', string=_('Posts'))
     posts_count  = fields.Integer(
@@ -71,16 +71,20 @@ class SmartRadarTarget(models.Model):
         groups = self.env['twitter.scrape.group'].search([], order='id asc')
         assigned_group = False
         for g in groups:
-            if len(g.target_ids) < 30:
+            # Cap at 25 accounts per group (not 30).
+            # A 30-handle OR query = ~557 chars, exceeding Twitter's 512-char safe limit.
+            # 25 handles = ~465 chars, safely under the limit even with since: added.
+            if len(g.target_ids) < 25:
                 assigned_group = g
                 break
-        
+
         if not assigned_group:
             assigned_group = self.env['twitter.scrape.group'].create({
                 'name': f'Scrape Group {len(groups) + 1}'
             })
-            
+
         self.group_id = assigned_group.id
+
 
     # ── Actions ─────────────────────────────────────────────────────────────────
     def action_view_posts(self):
@@ -127,8 +131,8 @@ class SmartRadarTarget(models.Model):
         else:
             # If handles were passed (optimization), we still need the ID mapping
             authorized_handles = {h.lower().strip() for h in authorized_handles}
-            targets = self.search([('handle', 'in', list(authorized_handles)), ('is_active', '=', True)])
-            handle_to_target = {t.handle.lower().strip(): t.id for t in targets}
+            active_targets = self.search([('handle', 'in', list(authorized_handles)), ('is_active', '=', True)])
+            handle_to_target = {t.handle.lower().strip(): t.id for t in active_targets}
 
         # ── Pre-load existing tweet IDs — single query ──────────────────────
         self.env.cr.execute("SELECT source_tweet_id FROM alpha_echo_post WHERE source_tweet_id IS NOT NULL")
@@ -139,6 +143,10 @@ class SmartRadarTarget(models.Model):
         posts_today  = PostObj.search_count([
             ('create_date', '>=', fields.Datetime.to_string(today_start))
         ])
+
+        # Track max seen tweet ID per target to prevent future re-processing
+        latest_seen_per_target = {t.id: int(t.latest_seen_tweet_id or 0) for t in active_targets}
+        max_seen_per_target = {}
 
         # ── Counters (for the summary log) ───────────────────────────────────
         new_posts      = 0
@@ -196,11 +204,22 @@ class SmartRadarTarget(models.Model):
             
             target_id = handle_to_target.get(author_handle)
 
-            # ── 5. Duplicate check — O(1) in-memory, ZERO DB queries ─────────
+            # ── 5. Duplicate check & Highest Seen check ──────────────────────
             tweet_id = str(tweet.get('id', '')).strip()
             if not tweet_id or tweet_id in existing_ids:
                 sk_dup += 1
                 continue
+                
+            try:
+                tweet_id_int = int(tweet_id)
+                # If we've already parsed a tweet this new or newer, completely skip it
+                if target_id in latest_seen_per_target and tweet_id_int <= latest_seen_per_target[target_id]:
+                    sk_dup += 1
+                    continue
+                # Track highest id in memory for this batch
+                max_seen_per_target[target_id] = max(max_seen_per_target.get(target_id, 0), tweet_id_int)
+            except (ValueError, TypeError):
+                pass
 
             # ── 6. Per-account cap ────────────────────────────────────────────
             if account_counts.get(author_handle, 0) >= MAX_PER_ACCOUNT:
@@ -214,10 +233,18 @@ class SmartRadarTarget(models.Model):
             if not ai_ok:
                 if ai_result == 'skip':
                     sk_ai += 1
+                    existing_ids.add(tweet_id) # memory lockout for this loop iteration
+                    continue
                 else:
                     err_ai += 1
                     _logger.warning("AI error for tweet %s: %s", tweet_id, ai_result)
-                continue
+                    ai_fetch_failed = True
+                    ai_fetch_error = ai_result
+                    new_post_state = 'failed'
+            else:
+                ai_fetch_failed = False
+                ai_fetch_error = ""
+                new_post_state = 'draft'
 
             # ── 8. Create post (savepoint-isolated) ─────────────────────────
             created_at_str = tweet.get('created_at', '')
@@ -228,6 +255,8 @@ class SmartRadarTarget(models.Model):
 
             try:
                 with self.env.cr.savepoint():
+                    ai_text = f"⚠️ SYSTEM ERROR: {ai_fetch_error}" if ai_fetch_failed else ai_result
+                    
                     new_post = PostObj.create({
                         'target_id':            target_id,
                         'source_tweet_id':      tweet_id,
@@ -235,18 +264,20 @@ class SmartRadarTarget(models.Model):
                         'source_author_handle': author_handle,
                         'source_created_at':    source_dt or fields.Datetime.now(),
                         'original_text':        text,
-                        'ai_generated_text':    ai_result,
-                        'state':                'draft',
+                        'ai_generated_text':    ai_text,
+                        'state':                new_post_state,
                     })
                     # Mark as seen immediately (prevents double-processing in same scan)
                     existing_ids.add(tweet_id)
                     new_posts += 1
                     account_counts[author_handle] = account_counts.get(author_handle, 0) + 1
-                    # Update target status directly via ID
-                    self.browse(target_id).write({'last_scanned': fields.Datetime.now()})
 
-                    if config.auto_approve_drafts:
+                    # Only auto-approve if AI succeeded
+                    if config.auto_approve_drafts and new_post_state == 'draft':
                         new_post.action_publish()
+
+                # Commit immediately so the realtime WebSocket bus pushes this to the frontend
+                self.env.cr.commit()
 
             except Exception as exc:
                 err_db += 1
@@ -254,6 +285,14 @@ class SmartRadarTarget(models.Model):
                     "Failed to create post for tweet %s (@%s): %s",
                     tweet_id, author_handle, exc
                 )
+
+        # ── 9. Final target updates ──────────────────────────────────────────
+        for t in active_targets:
+            vals = {'last_scanned': fields.Datetime.now()}
+            new_max = max_seen_per_target.get(t.id, 0)
+            if new_max > latest_seen_per_target.get(t.id, 0):
+                vals['latest_seen_tweet_id'] = str(new_max)
+            t.write(vals)
 
         # ── Summary ──────────────────────────────────────────────────────────
         _logger.info(

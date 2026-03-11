@@ -113,6 +113,10 @@ class SmartRadarPost(models.Model):
                 message += " ..."
             msg_type = 'warning'
 
+        # Notify the frontend to refresh the view
+        if success_count > 0 or fail_count > 0:
+            self.env['bus.bus']._sendone('alpha_echo_updates', 'alpha_echo.post_updated', {})
+
         return {
             'type': 'ir.actions.client',
             'tag': 'display_notification',
@@ -127,7 +131,15 @@ class SmartRadarPost(models.Model):
     def action_reject(self):
         for record in self:
             record.state = 'rejected'
+        self.env['bus.bus']._sendone('alpha_echo_updates', 'alpha_echo.post_updated', {})
 
     def action_revert_to_draft(self):
         for record in self:
             record.state = 'draft'
+        self.env['bus.bus']._sendone('alpha_echo_updates', 'alpha_echo.post_updated', {})
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        records = super().create(vals_list)
+        self.env['bus.bus']._sendone('alpha_echo_updates', 'alpha_echo.post_updated', {})
+        return records
