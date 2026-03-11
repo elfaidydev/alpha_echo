@@ -17,7 +17,7 @@ Alpha Echo is a high-end Odoo 17 module developed by Alpha Plus Information Tech
     """,
     'author': 'Alpha Plus',
     'website': 'https://alpha.com.se/',
-    'depends': ['base', 'web'],
+    'depends': ['base', 'web', 'website', 'portal'],
     'data': [
         'security/ir.model.access.csv',
         'data/demo_data.xml',
@@ -27,6 +27,7 @@ Alpha Echo is a high-end Odoo 17 module developed by Alpha Plus Information Tech
         'views/client_config_views.xml',
         'views/menu.xml',
         'data/twitter_engine_cron.xml',
+        'views/website_grants.xml',
     ],
     'assets': {
         'web.assets_backend': [

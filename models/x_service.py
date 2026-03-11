@@ -93,10 +93,14 @@ class SmartRadarXService(models.AbstractModel):
             return False, _("⚠️ Tweet text is empty — cannot publish.")
 
         if len(text) > X_CHAR_LIMIT:
-            return False, _(
-                "⚠️ Text exceeds X/Twitter limit (%d characters). Current size: %d characters.\n"
-                "Please shorten the text before publishing."
-            ) % (X_CHAR_LIMIT, len(text))
+            _logger.warning(
+                "Tweet text (%d chars) exceeds %d limit. Smart-truncating.",
+                len(text), X_CHAR_LIMIT
+            )
+            # Truncate at last whitespace before the 277-char cutoff, then add ellipsis
+            cutoff = text[:277]
+            last_space = cutoff.rfind(' ')
+            text = (cutoff[:last_space] if last_space > 200 else cutoff) + '…'
 
         client, error = self._get_client()
         if error:

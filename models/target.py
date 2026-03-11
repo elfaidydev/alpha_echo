@@ -240,10 +240,15 @@ class SmartRadarTarget(models.Model):
                     _logger.warning("AI error for tweet %s: %s", tweet_id, ai_result)
                     ai_fetch_failed = True
                     ai_fetch_error = ai_result
+                    ai_post_text = ''
+                    ai_grant_end_date = None
                     new_post_state = 'failed'
             else:
                 ai_fetch_failed = False
                 ai_fetch_error = ""
+                # ai_result is now a dict: {post_text, grant_end_date}
+                ai_post_text = ai_result.get('post_text', '') if isinstance(ai_result, dict) else str(ai_result)
+                ai_grant_end_date = ai_result.get('grant_end_date') if isinstance(ai_result, dict) else None
                 new_post_state = 'draft'
 
             # ── 8. Create post (savepoint-isolated) ─────────────────────────
@@ -255,9 +260,9 @@ class SmartRadarTarget(models.Model):
 
             try:
                 with self.env.cr.savepoint():
-                    ai_text = f"⚠️ SYSTEM ERROR: {ai_fetch_error}" if ai_fetch_failed else ai_result
-                    
-                    new_post = PostObj.create({
+                    ai_text = f"⚠️ SYSTEM ERROR: {ai_fetch_error}" if ai_fetch_failed else ai_post_text
+
+                    create_vals = {
                         'target_id':            target_id,
                         'source_tweet_id':      tweet_id,
                         'source_url':           tweet.get('url') or '',
@@ -266,7 +271,11 @@ class SmartRadarTarget(models.Model):
                         'original_text':        text,
                         'ai_generated_text':    ai_text,
                         'state':                new_post_state,
-                    })
+                    }
+                    if ai_grant_end_date:
+                        create_vals['grant_end_date'] = ai_grant_end_date
+
+                    new_post = PostObj.create(create_vals)
                     # Mark as seen immediately (prevents double-processing in same scan)
                     existing_ids.add(tweet_id)
                     new_posts += 1

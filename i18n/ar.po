@@ -1093,3 +1093,179 @@ msgstr "⚠️ تعذر استرداد معلومات الحساب من X."
 msgid "⚠️ X connection test failed: %s"
 msgstr ""
 
+#. module: alpha_echo — Website Grants Page
+msgid "Powered by Alpha Echo AI Engine"
+msgstr "مدعوم بمحرك Alpha Echo الذكي"
+
+#. module: alpha_echo
+msgid "Discover Available"
+msgstr "اكتشف"
+
+#. module: alpha_echo
+msgid "Grants and Scholarships"
+msgstr "المنح والمنح الدراسية"
+
+#. module: alpha_echo
+msgid "AI-curated and professionally reformulated funding opportunities updated automatically from trusted sources"
+msgstr "فرص تمويلية مُنتقاة بالذكاء الاصطناعي وتُحدَّث تلقائياً من مصادر موثوقة"
+
+#. module: alpha_echo
+msgid "Total Grants"
+msgstr "إجمالي المنح"
+
+#. module: alpha_echo
+msgid "Active Now"
+msgstr "نشطة الآن"
+
+#. module: alpha_echo
+msgid "Active Grants"
+msgstr "المنح النشطة"
+
+#. module: alpha_echo
+msgid "All Grants"
+msgstr "جميع المنح"
+
+#. module: alpha_echo
+msgid "Expired"
+msgstr "منتهية"
+
+#. module: alpha_echo
+msgid "Open"
+msgstr "مفتوحة"
+
+#. module: alpha_echo
+msgid "Deadline"
+msgstr "الموعد النهائي"
+
+#. module: alpha_echo
+msgid "No deadline specified"
+msgstr "لم يُحدد موعد نهائي"
+
+#. module: alpha_echo
+msgid "View Details"
+msgstr "عرض التفاصيل"
+
+#. module: alpha_echo
+msgid "No grants available yet"
+msgstr "لا توجد منح في هذه الفئة بعد"
+
+#. module: alpha_echo
+msgid "New grants are added automatically. Check back soon."
+msgstr "يتم إضافة المنح تلقائياً، تحقق لاحقاً."
+
+#. module: alpha_echo
+msgid "Back to Grants"
+msgstr "العودة للمنح"
+
+#. module: alpha_echo
+msgid "Grant Active"
+msgstr "المنحة نشطة"
+
+#. module: alpha_echo
+msgid "Grant Expired"
+msgstr "انتهت المنحة"
+
+#. module: alpha_echo
+msgid "Open Grant"
+msgstr "مفتوحة"
+
+#. module: alpha_echo
+msgid "Publication Date"
+msgstr "تاريخ النشر"
+
+#. module: alpha_echo
+msgid "Source Account"
+msgstr "الحساب المصدر"
+
+#. module: alpha_echo
+msgid "Grant Status"
+msgstr "حالة المنحة"
+
+#. module: alpha_echo
+msgid "View Original Tweet"
+msgstr "عرض التغريدة الأصلية"
+
+#. module: alpha_echo
+msgid "All Grants Back"
+msgstr "جميع المنح"
+
+#. module: alpha_echo
+msgid "Latest Opportunities"
+msgstr "أحدث الفرص"
+
+#. module: alpha_echo
+msgid "Available Grants"
+msgstr "المنح المتاحة"
+
+#. module: alpha_echo
+msgid "AI-curated automatically"
+msgstr "مُنتقاة بالذكاء الاصطناعي تلقائياً"
+
+#. module: alpha_echo
+msgid "View All"
+msgstr "عرض الكل"
+
+#. module: alpha_echo
+msgid "Grant Deadline"
+msgstr "الموعد النهائي للتقديم"
+
+#. module: alpha_echo
+msgid "Website URL Slug"
+msgstr "رابط URL للصفحة"
+
+#. module: alpha_echo
+msgid "Published on Website"
+msgstr "منشور على الموقع"
+
+#. module: alpha_echo
+msgid "No Date"
+msgstr "لا يوجد تاريخ"
+
+#. module: alpha_echo
+msgid "Browse All Grants"
+msgstr "تصفح جميع المنح"
+
+#. module: alpha_echo
+msgid "Closing Date"
+msgstr "تاريخ الإغلاق"
+
+#. module: alpha_echo
+msgid "Not announced"
+msgstr "غير معلن"
+
+#. module: alpha_echo
+msgid "Read More"
+msgstr "شاهد المزيد"
+
+#. module: alpha_echo
+msgid "Discovered on"
+msgstr "تاريخ الاكتشاف"
+
+#. module: alpha_echo
+msgid "Processing"
+msgstr "المعالجة"
+
+#. module: alpha_echo
+msgid "AI Formulated"
+msgstr "مصاغ بالذكاء الاصطناعي"
+
+#. module: alpha_echo
+msgid "View Original Announcement"
+msgstr "الاطلاع على الإعلان الأصلي"
+
+#. module: alpha_echo
+msgid "AI Discovery"
+msgstr "اكتشاف حصري"
+
+#. module: alpha_echo
+msgid "Latest Funding Opportunities"
+msgstr "أحدث الفرص التمويلية"
+
+#. module: alpha_echo
+msgid "Start Date"
+msgstr "تاريخ البدء"
+
+#. module: alpha_echo
+msgid "End Date"
+msgstr "تاريخ الانتهاء"
+

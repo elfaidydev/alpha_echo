@@ -1,6 +1,7 @@
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 import logging
+import re
 
 _logger = logging.getLogger(__name__)
 
@@ -39,7 +40,7 @@ class SmartRadarPost(models.Model):
         ('draft', _('Draft (Needs Review)')),
         ('published', _('Published Successfully')),
         ('failed', _('Publishing Failed')),
-        ('rejected', _('Excluded / Rejected'))
+        ('rejected', _('Excluded / Rejected')),
     ], string=_('Status'), default='draft', index=True)
 
     published_web_url = fields.Char(string=_('Published Website URL'), readonly=True)
@@ -55,12 +56,64 @@ class SmartRadarPost(models.Model):
         help=_('Exact date and time the post was published to X.')
     )
 
+    # ── Grant Metadata ────────────────────────────────────────────────
+    grant_end_date = fields.Date(
+        string=_('Grant Deadline'),
+        help=_('AI-extracted deadline date from the tweet content.')
+    )
+    grant_state = fields.Selection([
+        ('active', 'Active'),
+        ('expired', 'Expired'),
+        ('unknown', 'No Date'),
+    ], string=_('Grant Status'), compute='_compute_grant_state',
+       store=True, default='unknown', index=True)
+
+    website_published = fields.Boolean(
+        string=_('Published on Website'), default=False, index=True,
+        help=_('Automatically set to True when published to X.')
+    )
+    website_slug = fields.Char(
+        string=_('Website Slug'), compute='_compute_website_slug',
+        store=True, readonly=False,
+        help=_('URL-friendly identifier for the grant detail page.')
+    )
+
     # ── SQL Constraint — absolute guarantee against duplicate tweets ──
     _sql_constraints = [
         ('unique_source_tweet_id', 'UNIQUE(source_tweet_id)',
          'A post with this Tweet ID already exists. Duplicate processing is not allowed.'),
     ]
 
+    # ── Computed Fields ───────────────────────────────────────────────
+    @api.depends('grant_end_date')
+    def _compute_grant_state(self):
+        today = fields.Date.today()
+        for rec in self:
+            if not rec.grant_end_date:
+                rec.grant_state = 'unknown'
+            elif rec.grant_end_date >= today:
+                rec.grant_state = 'active'
+            else:
+                rec.grant_state = 'expired'
+
+    @api.depends('source_author_handle', 'source_tweet_id')
+    def _compute_website_slug(self):
+        for rec in self:
+            handle = (rec.source_author_handle or 'grant').lower().replace('@', '')
+            handle = re.sub(r'[^a-z0-9-]', '-', handle)
+            tweet_id = rec.source_tweet_id or str(rec.id or 'new')
+            # Use last 8 chars of tweet_id to keep URL short
+            rec.website_slug = f"{handle}-{tweet_id[-8:]}"
+
+    # ── Daily Cron: Update Grant States ──────────────────────────────
+    @api.model
+    def _cron_update_grant_states(self):
+        """Recompute grant_state for all stored records based on today's date."""
+        posts = self.search([('grant_end_date', '!=', False)])
+        posts._compute_grant_state()
+        _logger.info("Grant state update complete: %d records processed.", len(posts))
+
+    # ── Actions ───────────────────────────────────────────────────────
     def action_publish(self):
         """Publishes posts to X (Twitter). Supports bulk selection with error resilience."""
         fail_count = 0
@@ -87,6 +140,7 @@ class SmartRadarPost(models.Model):
                     'published_x_url': result,
                     'published_by': self.env.user.id,
                     'published_at': fields.Datetime.now(),
+                    'website_published': True,
                 })
                 success_count += 1
                 _logger.info(

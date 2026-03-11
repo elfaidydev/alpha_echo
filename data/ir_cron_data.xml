@@ -13,5 +13,16 @@
             <field name="doall" eval="False"/>
             <field name="active" eval="True"/>
         </record>
+        <record id="ir_cron_alpha_echo_grant_states" model="ir.cron">
+            <field name="name">Alpha Echo: Update Grant States</field>
+            <field name="model_id" ref="model_alpha_echo_post"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_update_grant_states()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="active" eval="True"/>
+        </record>
     </data>
 </odoo>

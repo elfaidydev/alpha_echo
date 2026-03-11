@@ -1,0 +1,998 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ════════════════════════════════════════════════════════════
+         GRANTS LIST PAGE  /grants
+    ════════════════════════════════════════════════════════════ -->
+    <template id="grants_page" name="Alpha Echo: Grants Page">
+        <t t-call="website.layout">
+            <t t-set="title">
+                <t t-esc="'المنح والفرص المتاحة | Alpha Echo'"/>
+            </t>
+            <t t-set="head">
+                <link rel="preconnect" href="https://fonts.googleapis.com"/>
+                <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+                <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&amp;display=swap" rel="stylesheet"/>
+                <style>
+                    /* ── Base ── */
+                    body { font-family: 'Tajawal', sans-serif !important; direction: rtl; background-color: #f8fafc; overflow-x: hidden; }
+                    
+                    /* Background Global Mesh Gradient */
+                    .ae-global-bg {
+                        position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2;
+                        background: radial-gradient(circle at 15% 50%, rgba(249, 115, 22, 0.03), transparent 25%),
+                                    radial-gradient(circle at 85% 30%, rgba(234, 88, 12, 0.04), transparent 25%);
+                        pointer-events: none;
+                    }
+
+                    /* ── Ultra Premium Light Hero (Orange Theme) ── */
+                    .ae-hero {
+                        position: relative;
+                        background: linear-gradient(180deg, #ffffff 0%, rgba(255,255,255,0) 100%);
+                        padding: 120px 24px 80px;
+                        text-align: center;
+                        z-index: 1;
+                    }
+                    /* Animated Blobs / Mesh Gradient */
+                    .ae-hero::before, .ae-hero::after {
+                        content: '';
+                        position: absolute;
+                        border-radius: 50%;
+                        filter: blur(90px);
+                        z-index: -1;
+                        animation: float 12s infinite ease-in-out alternate;
+                    }
+                    .ae-hero::before {
+                        width: 700px; height: 700px;
+                        background: rgba(234, 88, 12, 0.06);
+                        top: -300px; right: 0;
+                    }
+                    .ae-hero::after {
+                        width: 600px; height: 600px;
+                        background: rgba(249, 115, 22, 0.05); /* Brighter Orange blur */
+                        bottom: -200px; left: -100px;
+                        animation-delay: -6s;
+                    }
+                    @keyframes float {
+                        0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+                        100% { transform: translate(-40px, 40px) scale(1.15) rotate(10deg); }
+                    }
+                    
+                    .ae-hero h1 {
+                        font-size: clamp(3rem, 7vw, 5rem);
+                        font-weight: 900;
+                        color: #0f172a;
+                        line-height: 1.1;
+                        margin: 0 0 24px;
+                        letter-spacing: -2px;
+                        animation: fadeUp 1s ease-out forwards;
+                        opacity: 0; transform: translateY(20px);
+                    }
+                    .ae-title-gradient {
+                        position: relative;
+                        display: inline-block;
+                        background: linear-gradient(to right, #ea580c, #f97316, #fb923c, #ea580c);
+                        background-size: 300% auto;
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent;
+                        animation: textShine 6s linear infinite;
+                    }
+                    @keyframes textShine { to { background-position: 300% center; } }
+                    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
+                    .ae-hero-sub {
+                        font-size: 1.25rem;
+                        color: #475569;
+                        max-width: 700px;
+                        margin: 0 auto 56px;
+                        line-height: 1.8;
+                        font-weight: 500;
+                        opacity: 0; transform: translateY(20px);
+                        animation: fadeUp 1s ease-out 0.2s forwards;
+                    }
+
+                    /* Hero Stats Glassmorphism */
+                    .ae-hero-stats {
+                        display: inline-flex;
+                        background: rgba(255, 255, 255, 0.6);
+                        border: 1px solid rgba(255, 255, 255, 0.8);
+                        backdrop-filter: blur(24px);
+                        -webkit-backdrop-filter: blur(24px);
+                        border-radius: 30px;
+                        padding: 24px 56px;
+                        gap: 64px;
+                        box-shadow: 0 20px 40px rgba(234, 88, 12, 0.05), inset 0 1px 0 rgba(255,255,255,1);
+                        opacity: 0; transform: translateY(20px);
+                        animation: fadeUp 1s ease-out 0.4s forwards;
+                    }
+                    .ae-stat {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        gap: 10px;
+                        position: relative;
+                        transition: transform 0.3s;
+                    }
+                    .ae-stat:hover { transform: scale(1.05); }
+                    .ae-stat-num {
+                        font-size: 2.8rem;
+                        font-weight: 900;
+                        color: #ea580c;
+                        line-height: 1;
+                        font-family: system-ui, -apple-system, sans-serif;
+                        text-shadow: 0 4px 12px rgba(234, 88, 12, 0.2);
+                    }
+                    .ae-stat-lbl {
+                        font-size: 0.9rem;
+                        color: #475569;
+                        font-weight: 800;
+                        letter-spacing: 0.5px;
+                    }
+                    .ae-stat-divider {
+                        width: 1px;
+                        background: linear-gradient(to bottom, rgba(226, 232, 240, 0), rgba(226, 232, 240, 1), rgba(226, 232, 240, 0));
+                        align-self: stretch;
+                        margin: 8px 0;
+                    }
+
+                    /* ── Floating Filters ── */
+                    .ae-filter-wrapper {
+                        position: sticky;
+                        top: 20px;
+                        z-index: 50;
+                        display: flex;
+                        justify-content: center;
+                        margin-bottom: 40px;
+                        pointer-events: none; /* Let background clicks pass through wrapper */
+                    }
+                    .ae-filters {
+                        pointer-events: auto; /* Re-enable clicks on filters */
+                        display: inline-flex;
+                        background: rgba(255, 255, 255, 0.8);
+                        backdrop-filter: blur(32px);
+                        -webkit-backdrop-filter: blur(32px);
+                        padding: 8px;
+                        border-radius: 20px;
+                        gap: 8px;
+                        box-shadow: 0 8px 32px rgba(0,0,0,0.06), inset 0 1px 1px rgba(255,255,255,0.8);
+                        border: 1px solid rgba(255, 255, 255, 0.6);
+                    }
+                    .ae-filter-tab {
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 12px;
+                        padding: 14px 28px;
+                        border-radius: 14px;
+                        font-size: 1rem;
+                        font-weight: 800;
+                        color: #64748b;
+                        text-decoration: none !important;
+                        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+                        position: relative;
+                        overflow: hidden;
+                    }
+                    .ae-filter-tab:hover {
+                        color: #0f172a;
+                        background: rgba(248, 250, 252, 0.8);
+                    }
+                    .ae-filter-tab.ae-tab-active {
+                        background: #ea580c;
+                        color: #ffffff;
+                        box-shadow: 0 8px 20px rgba(234, 88, 12, 0.3);
+                        transform: translateY(-2px);
+                    }
+                    
+                    .ae-filter-pill {
+                        background: #f1f5f9;
+                        color: #475569;
+                        padding: 3px 12px;
+                        border-radius: 999px;
+                        font-size: 0.8rem;
+                        font-weight: 900;
+                        font-family: system-ui, sans-serif;
+                        transition: all 0.3s;
+                    }
+                    .ae-filter-tab.ae-tab-active .ae-filter-pill {
+                        background: rgba(255,255,255,0.2);
+                        color: #ffffff;
+                    }
+
+                    /* ── Content Grid ── */
+                    .ae-content {
+                        position: relative;
+                        padding: 20px 24px 100px;
+                        z-index: 2;
+                    }
+                    .ae-grid {
+                        display: grid;
+                        grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+                        gap: 40px;
+                        max-width: 1400px;
+                        margin: 0 auto;
+                    }
+
+                    /* ── Premium Card ── */
+                    .ae-card {
+                        background: rgba(255, 255, 255, 0.7);
+                        backdrop-filter: blur(20px);
+                        -webkit-backdrop-filter: blur(20px);
+                        border-radius: 30px;
+                        border: 1px solid rgba(255, 255, 255, 0.8);
+                        display: flex;
+                        flex-direction: column;
+                        transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+                        position: relative;
+                        box-shadow: 0 10px 30px rgba(0,0,0,0.03), inset 0 1px 0 rgba(255,255,255,0.8);
+                        text-decoration: none !important;
+                        z-index: 1;
+                    }
+                    /* Animated Border on Hover */
+                    .ae-card::before {
+                        content: '';
+                        position: absolute;
+                        inset: -2px;
+                        border-radius: 32px;
+                        background: linear-gradient(135deg, #fb923c, #ea580c, #c2410c, #fb923c);
+                        background-size: 200% 200%;
+                        z-index: -1;
+                        opacity: 0;
+                        transition: opacity 0.5s ease;
+                        animation: borderGlow 3s ease infinite;
+                    }
+                    @keyframes borderGlow {
+                        0% { background-position: 0% 50%; }
+                        50% { background-position: 100% 50%; }
+                        100% { background-position: 0% 50%; }
+                    }
+                    .ae-card:hover {
+                        transform: translateY(-10px) scale(1.02);
+                        box-shadow: 0 30px 60px rgba(234, 88, 12, 0.2), 0 10px 20px rgba(0,0,0,0.05);
+                        /* Notice: Background intentionally kept transparent so the ::before gradient orange shines loudly through */
+                    }
+                    .ae-card:hover::before { opacity: 1; }
+
+                    .ae-card-header {
+                        padding: 28px 32px 20px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        border-bottom: 1px solid rgba(0,0,0,0.03);
+                        transition: border-color 0.4s;
+                    }
+                    .ae-card:hover .ae-card-header {
+                        border-bottom-color: rgba(255,255,255,0.2);
+                    }
+                    
+                    .ae-card-source {
+                        display: flex;
+                        align-items: center;
+                        gap: 16px;
+                    }
+                    .ae-card-avatar {
+                        width: 56px;
+                        height: 56px;
+                        border-radius: 18px;
+                        background: linear-gradient(135deg, #fff7ed, #ffedd5);
+                        border: 2px solid #ffffff;
+                        box-shadow: 0 8px 16px rgba(234, 88, 12, 0.1);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        color: #ea580c;
+                        font-size: 1.4rem;
+                        font-weight: 900;
+                        font-family: system-ui, sans-serif;
+                        line-height: 1;
+                        padding-top: 2px;
+                        transition: all 0.5s ease;
+                        position: relative;
+                        overflow: hidden;
+                    }
+                    /* Avatar Shine */
+                    .ae-card-avatar::after {
+                        content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+                        background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0) 100%);
+                        transform: rotate(45deg) translate(-100%, 100%); transition: all 0.8s ease;
+                    }
+                    /* Card Hover -> Invert Avatar to White */
+                    .ae-card:hover .ae-card-avatar {
+                        background: #ffffff;
+                        color: #ea580c; transform: rotate(-5deg) scale(1.1);
+                        box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+                        border-color: transparent;
+                    }
+                    .ae-card:hover .ae-card-avatar::after { transform: rotate(45deg) translate(100%, -100%); }
+
+                    .ae-card-handle {
+                        font-size: 1.1rem;
+                        font-weight: 900;
+                        color: #0f172a;
+                        letter-spacing: 0.2px;
+                        transition: color 0.4s;
+                    }
+                    .ae-card:hover .ae-card-handle { color: #ffffff; }
+                    
+                    .ae-card-date {
+                        font-size: 0.85rem;
+                        color: #64748b;
+                        margin-top: 4px;
+                        font-weight: 600;
+                        transition: color 0.4s;
+                    }
+                    .ae-card:hover .ae-card-date { color: rgba(255,255,255,0.8); }
+
+                    /* Animated Status Badges */
+                    .ae-badge {
+                        display: inline-flex;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 8px;
+                        padding: 8px 16px;
+                        border-radius: 12px;
+                        font-size: 0.8rem;
+                        font-weight: 800;
+                        letter-spacing: 0.5px;
+                        box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+                        transition: all 0.3s;
+                        white-space: nowrap;
+                    }
+                    .ae-badge-dot {
+                        display: inline-block;
+                        width: 8px; height: 8px;
+                        border-radius: 50%;
+                        flex-shrink: 0;
+                        transition: all 0.3s;
+                    }
+                    
+                    .ae-badge-active  { background: #ecfdf5; color: #059669; border: 1px solid #d1fae5; }
+                    .ae-badge-active .ae-badge-dot  { background: #10b981; box-shadow: 0 0 0 0 rgba(16,185,129,0.4); animation: pulse-green 2s infinite cubic-bezier(0.66, 0, 0, 1); }
+                    @keyframes pulse-green { to { box-shadow: 0 0 0 10px rgba(16,185,129,0); } }
+                    
+                    .ae-badge-expired { background: #fff1f2; color: #e11d48; border: 1px solid #ffe4e6; }
+                    .ae-badge-expired .ae-badge-dot { background: #f43f5e; box-shadow: 0 0 0 0 rgba(244,63,94,0.4); animation: pulse-red 2s infinite cubic-bezier(0.66, 0, 0, 1); }
+                    @keyframes pulse-red { to { box-shadow: 0 0 0 10px rgba(244,63,94,0); } }
+                    
+                    .ae-badge-unknown { background: #f8fafc; color: #64748b; border: 1px solid #e2e8f0; }
+                    .ae-badge-unknown .ae-badge-dot { background: #94a3b8; }
+                    
+                    /* Badges Hover Inversions */
+                    .ae-card:hover .ae-badge-active { background: rgba(255,255,255,0.2); color: #ffffff; border-color: rgba(255,255,255,0.3); }
+                    .ae-card:hover .ae-badge-active .ae-badge-dot { background: #ffffff; box-shadow: 0 0 8px rgba(255,255,255,0.8); animation: none; }
+                    .ae-card:hover .ae-badge-expired { background: rgba(0,0,0,0.1); color: #ffffff; border-color: rgba(255,255,255,0.2); }
+                    .ae-card:hover .ae-badge-expired .ae-badge-dot { background: #ffffff; animation: none; opacity: 0.5; }
+                    .ae-card:hover .ae-badge-unknown { background: rgba(255,255,255,0.2); color: #ffffff; border-color: rgba(255,255,255,0.3); }
+                    .ae-card:hover .ae-badge-unknown .ae-badge-dot { background: #ffffff; }
+
+                    .ae-card-body {
+                        padding: 28px 32px;
+                        flex: 1;
+                    }
+                    .ae-card-text {
+                        font-size: 1.05rem;
+                        line-height: 1.9;
+                        color: #334155;
+                        display: -webkit-box;
+                        -webkit-line-clamp: 4;
+                        -webkit-box-orient: vertical;
+                        overflow: hidden;
+                        margin: 0;
+                        font-weight: 500;
+                        transition: color 0.4s;
+                    }
+                    .ae-card:hover .ae-card-text { color: #ffffff; }
+
+                    .ae-card-footer {
+                        padding: 20px 32px 28px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        gap: 16px;
+                    }
+                    .ae-deadline {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 6px;
+                        background: rgba(248, 250, 252, 0.8);
+                        padding: 12px 20px;
+                        border-radius: 16px;
+                        border: 1px solid #f1f5f9;
+                        transition: all 0.3s;
+                    }
+                    .ae-card:hover .ae-deadline { background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.3); }
+                    
+                    .ae-deadline-lbl {
+                        font-size: 0.75rem;
+                        text-transform: uppercase;
+                        font-weight: 800;
+                        color: #94a3b8;
+                        letter-spacing: 0.5px;
+                        transition: color 0.3s;
+                    }
+                    .ae-card:hover .ae-deadline-lbl { color: rgba(255,255,255,0.8); }
+                    
+                    .ae-deadline-val {
+                        font-size: 1rem;
+                        font-weight: 900;
+                        color: #0f172a;
+                        transition: color 0.3s;
+                    }
+                    .ae-card:hover .ae-deadline-val { color: #ffffff; }
+                    
+                    .ae-read-more {
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 10px;
+                        color: #ea580c;
+                        font-size: 1rem;
+                        font-weight: 900;
+                        transition: all 0.3s ease;
+                        position: relative;
+                        padding: 8px 16px;
+                        border-radius: 12px;
+                    }
+                    .ae-card:hover .ae-read-more { background: rgba(255,255,255,0.2); color: #ffffff; }
+                    
+                    .ae-arrow {
+                        display: inline-flex;
+                        align-items: center;
+                        justify-content: center;
+                        width: 36px;
+                        height: 36px;
+                        min-width: 36px;
+                        border-radius: 50%;
+                        background: #fff7ed;
+                        color: #ea580c;
+                        font-family: system-ui, sans-serif;
+                        padding-top: 2px;
+                        font-size: 1rem;
+                        line-height: 1;
+                        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+                    }
+                    .ae-card:hover .ae-arrow { background: #ffffff; color: #ea580c; transform: translateX(-8px) scale(1.1); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+
+                    /* ── Empty State ── */
+                    .ae-empty {
+                        grid-column: 1 / -1;
+                        text-align: center;
+                        padding: 120px 24px;
+                        background: rgba(255,255,255,0.7);
+                        backdrop-filter: blur(20px);
+                        border-radius: 32px;
+                        border: 1px dashed rgba(234, 88, 12, 0.3);
+                        box-shadow: 0 10px 40px rgba(0,0,0,0.02);
+                    }
+                    .ae-empty-icon {
+                        font-size: 5rem;
+                        margin-bottom: 24px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        animation: float 4s infinite ease-in-out alternate;
+                    }
+                    .ae-empty h3 { font-size: 1.8rem; font-weight: 900; color: #0f172a; margin-bottom: 16px; }
+                    .ae-empty p  { color: #64748b; font-size: 1.15rem; font-weight: 500; }
+
+                    /* ── Responsive ── */
+                    @media(max-width: 768px) {
+                        .ae-hero { padding: 80px 20px 60px; }
+                        .ae-hero-stats { flex-direction: column; gap: 32px; padding: 32px; width: 100%; border-radius: 24px; }
+                        .ae-stat-divider { display: none; }
+                        .ae-filter-wrapper { padding: 12px; overflow-x: auto; justify-content: flex-start; scrollbar-width: none; }
+                        .ae-filter-wrapper::-webkit-scrollbar { display: none; }
+                        .ae-grid { grid-template-columns: 1fr; gap: 24px; }
+                        .ae-card-header { flex-direction: column; gap: 16px; }
+                    }
+                </style>
+            </t>
+
+            <!-- ── Partial Grid Template for AJAX ── -->
+            <!-- We define it here so Odoo knows about it for the AJAX call -->
+
+
+            <div class="ae-global-bg"></div>
+
+            <!-- ── Ultra Premium Light Hero ── -->
+            <div class="ae-hero">
+                <h1>
+                    <t t-t9n="Discover Available">اكتشف أحدث</t>
+                    <br/>
+                    <span class="ae-title-gradient" t-t9n="Grants and Scholarships">المنح وفرص التمويل</span>
+                </h1>
+                <p class="ae-hero-sub" t-t9n="AI-curated and professionally reformulated funding opportunities updated automatically from trusted sources">
+                    منصة رقمية متطورة تجلب وتصيغ لك أفضل الفرص التمويلية والمنح الدراسية بشكل احترافي، في مكان واحد.
+                </p>
+                
+                <div class="ae-hero-stats">
+                    <div class="ae-stat">
+                        <span class="ae-stat-num" t-esc="counts.get('all', 0)"/>
+                        <span class="ae-stat-lbl" t-t9n="Total Grants">الفرص المكتشفة</span>
+                    </div>
+                    <div class="ae-stat-divider"/>
+                    <div class="ae-stat">
+                        <span class="ae-stat-num" t-esc="counts.get('active', 0)"/>
+                        <span class="ae-stat-lbl" t-t9n="Active Now">المنح النشطة حالياً</span>
+                    </div>
+                    <div class="ae-stat-divider"/>
+                    <div class="ae-stat">
+                        <span class="ae-stat-num" t-esc="counts.get('expired', 0)"/>
+                        <span class="ae-stat-lbl" t-t9n="Expired">الأرشيف</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Floating Filters ── -->
+            <div class="ae-filter-wrapper">
+                <div class="ae-filters">
+                    <a t-attf-href="/grants?filter=all"
+                       t-attf-class="ae-filter-tab #{active_filter == 'all' and 'ae-tab-active' or ''}">
+                        <span>📋</span>
+                        <span t-t9n="All Grants">عرض الكل</span>
+                        <span class="ae-filter-pill" t-esc="counts.get('all', 0)"/>
+                    </a>
+                    <a t-attf-href="/grants?filter=active"
+                       t-attf-class="ae-filter-tab #{active_filter == 'active' and 'ae-tab-active' or ''}">
+                        <span>🟢</span>
+                        <span t-t9n="Active">نشطة الآن</span>
+                        <span class="ae-filter-pill" t-esc="counts.get('active', 0)"/>
+                    </a>
+                    <a t-attf-href="/grants?filter=expired"
+                       t-attf-class="ae-filter-tab #{active_filter == 'expired' and 'ae-tab-active' or ''}">
+                        <span>🔴</span>
+                        <span t-t9n="Expired">منتهية</span>
+                        <span class="ae-filter-pill" t-esc="counts.get('expired', 0)"/>
+                    </a>
+                </div>
+            </div>
+
+            <!-- ── Content Grid ── -->
+            <div class="ae-content ae-dynamic-content" style="transition: opacity 0.3s ease;">
+                <t t-call="alpha_echo.grants_grid_partial"/>
+            </div>
+            
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const tabs = document.querySelectorAll('.ae-filter-tab');
+                    const contentArea = document.querySelector('.ae-dynamic-content');
+                    
+                    if (!tabs.length || !contentArea) return;
+                    
+                    tabs.forEach(tab => {
+                        tab.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            const url = this.getAttribute('href');
+                            
+                            // Highlight active tab
+                            tabs.forEach(t => t.classList.remove('ae-tab-active'));
+                            this.classList.add('ae-tab-active');
+                            
+                            // Fade out gracefully
+                            contentArea.style.opacity = '0.5';
+                            
+                            // Build fetch URL
+                            const sep = url.includes('?') ? '&amp;' : '?';
+                            const fetchUrl = url + sep + 'ajax=1';
+                            
+                            fetch(fetchUrl)
+                                .then(response => response.text())
+                                .then(html => {
+                                    contentArea.innerHTML = html;
+                                    contentArea.style.opacity = '1';
+                                    window.history.pushState({path: url}, '', url);
+                                })
+                                .catch(err => {
+                                    console.error('Error fetching partial:', err);
+                                    window.location.href = url; // fallback
+                                });
+                        });
+                    });
+                    
+                    // Handle browser back/forward buttons
+                    window.addEventListener('popstate', function(e) {
+                        window.location.reload();
+                    });
+                });
+            </script>
+        </t>
+    </template>
+    
+    <template id="grants_grid_partial" name="Alpha Echo: Grants Grid Partial">
+        <t t-if="posts">
+            <div class="ae-grid">
+                <t t-foreach="posts" t-as="post">
+                    <a t-attf-href="/grants/#{post.website_slug}" class="ae-card">
+                        
+                        <div class="ae-card-header">
+                            <div class="ae-card-source">
+                                <div class="ae-card-avatar">
+                                    <t t-esc="(post.source_author_handle or 'G')[0].upper()"/>
+                                </div>
+                                <div>
+                                    <div class="ae-card-handle" t-esc="'@' + (post.source_author_handle or 'Unknown')"/>
+                                    <div class="ae-card-date" t-esc="post.source_created_at and post.source_created_at.strftime('%d %b %Y') or ''"/>
+                                </div>
+                            </div>
+                            
+                            <t t-if="post.grant_state == 'active'">
+                                <div class="ae-badge ae-badge-active">
+                                    <span class="ae-badge-dot"/>
+                                    <t t-t9n="Active">متاحة</t>
+                                </div>
+                            </t>
+                            <t t-elif="post.grant_state == 'expired'">
+                                <div class="ae-badge ae-badge-expired">
+                                    <span class="ae-badge-dot"/>
+                                    <t t-t9n="Expired">منتهية</t>
+                                </div>
+                            </t>
+                            <t t-else="">
+                                <div class="ae-badge ae-badge-unknown">
+                                    <span class="ae-badge-dot"/>
+                                    <t t-t9n="Open">مفتوحة</t>
+                                </div>
+                            </t>
+                        </div>
+
+                        <div class="ae-card-body">
+                            <p class="ae-card-text" t-esc="post.ai_generated_text"/>
+                        </div>
+
+                        <div class="ae-card-footer">
+                            <div class="ae-deadline">
+                                <span class="ae-deadline-lbl" t-t9n="Deadline">تاريخ الإغلاق</span>
+                                <t t-if="post.grant_end_date">
+                                    <span class="ae-deadline-val" t-esc="post.grant_end_date"/>
+                                </t>
+                                <t t-else="">
+                                    <span class="ae-deadline-val" style="color:#94a3b8;" t-t9n="No deadline specified">غير محدد</span>
+                                </t>
+                            </div>
+                            
+                            <div class="ae-read-more">
+                                <span t-t9n="View Details">التفاصيل</span>
+                                <span class="ae-arrow">←</span>
+                            </div>
+                        </div>
+                    </a>
+                </t>
+            </div>
+        </t>
+        <t t-else="">
+            <div class="ae-empty">
+                <div class="ae-empty-icon">🌟</div>
+                <h3 t-t9n="No grants available yet">لا توجد سجلات في هذا القسم حالياً</h3>
+                <p t-t9n="New grants are added automatically. Check back soon.">محرك النظام يقوم بالبحث المستمر، يرجى العودة لاحقاً لاكتشاف فرص جديدة.</p>
+            </div>
+        </t>
+    </template>
+
+    <!-- ════════════════════════════════════════════════════════════
+         GRANT DETAIL PAGE  /grants/<slug>
+    ════════════════════════════════════════════════════════════ -->
+    <!-- ════════════════════════════════════════════════════════════
+         GRANT DETAIL PAGE  /grants/<slug>
+    ════════════════════════════════════════════════════════════ -->
+    <template id="grant_detail_page" name="Alpha Echo: Grant Detail">
+        <t t-call="website.layout">
+            <t t-set="title" t-value="'@' + (post.source_author_handle or 'Grant') + ' | Alpha Echo'"/>
+            <t t-set="head">
+                <link rel="preconnect" href="https://fonts.googleapis.com"/>
+                <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+                <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&amp;display=swap" rel="stylesheet"/>
+                <style>
+                    body { font-family: 'Tajawal', sans-serif !important; direction: rtl; background-color: #ffffff; overflow-x: hidden; }
+
+                    /* ── Detail Clean Header ── */
+                    .ae-det-header {
+                        background: #f8fafc;
+                        padding: 60px 24px 60px;
+                        border-bottom: 1px solid #e2e8f0;
+                        display: flex;
+                        justify-content: center;
+                    }
+                    .ae-det-header-inner {
+                        max-width: 800px;
+                        width: 100%;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        gap: 20px;
+                        flex-wrap: wrap;
+                    }
+                    .ae-det-source-info { display: flex; align-items: center; gap: 20px; }
+                    .ae-det-avatar {
+                        width: 72px; height: 72px; border-radius: 20px;
+                        background: linear-gradient(135deg, #ea580c, #f97316);
+                        color: white; font-size: 2rem; font-weight: 900;
+                        font-family: system-ui, sans-serif; line-height: 1; padding-top: 2px;
+                        display: flex; align-items: center; justify-content: center;
+                        box-shadow: 0 10px 20px rgba(234, 88, 12, 0.2);
+                        flex-shrink: 0;
+                    }
+                    .ae-det-handle { font-size: 1.6rem; font-weight: 900; color: #0f172a; margin-bottom: 4px; }
+                    .ae-det-date { font-size: 1rem; color: #64748b; font-weight: 500; }
+                    
+                    .ae-badge-large {
+                        display: inline-flex; align-items: center; gap: 8px;
+                        padding: 10px 20px; border-radius: 12px;
+                        font-weight: 800; font-size: 1rem;
+                    }
+                    .ae-badge-large.active { background: #ecfdf5; color: #059669; border: 1px solid #d1fae5; }
+                    .ae-badge-large.expired { background: #fff1f2; color: #e11d48; border: 1px solid #ffe4e6; }
+                    .ae-badge-dot-lrg { width: 10px; height: 10px; border-radius: 50%; }
+                    .ae-badge-large.active .ae-badge-dot-lrg { background: #10b981; }
+                    .ae-badge-large.expired .ae-badge-dot-lrg { background: #f43f5e; }
+
+                    /* ── Detail Content Area ── */
+                    .ae-det-content {
+                        max-width: 800px;
+                        margin: 0 auto;
+                        padding: 60px 24px 100px;
+                    }
+                    .ae-det-text {
+                        font-size: 1.25rem;
+                        line-height: 2;
+                        color: #334155;
+                        white-space: pre-line;
+                        font-weight: 500;
+                        margin-bottom: 60px;
+                    }
+                    
+                    /* ── Info Grid ── */
+                    .ae-det-grid {
+                        display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px;
+                        margin-bottom: 60px;
+                    }
+                    .ae-info-box {
+                        background: #f8fafc;
+                        border: 1px solid #e2e8f0; padding: 24px; border-radius: 20px;
+                        display: flex; gap: 20px; align-items: center;
+                        transition: all 0.3s;
+                    }
+                    .ae-info-box:hover {
+                        border-color: #cbd5e1;
+                        background: #f1f5f9;
+                    }
+                    .ae-info-icon {
+                        width: 52px; height: 52px;
+                        background: #ffedd5; color: #ea580c;
+                        border-radius: 16px; display: flex; align-items: center; justify-content: center;
+                        font-family: system-ui, "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
+                        line-height: 1; padding-top: 2px;
+                        font-size: 1.5rem; flex-shrink: 0;
+                    }
+                    .ae-info-content { display: flex; flex-direction: column; gap: 4px; }
+                    .ae-info-lbl { font-size: 0.85rem; font-weight: 700; color: #64748b; text-transform: uppercase; }
+                    .ae-info-val { font-size: 1.2rem; font-weight: 800; color: #0f172a; }
+
+                    /* ── Action Button ── */
+                    .ae-btn-twitter {
+                        display: flex; align-items: center; justify-content: center; gap: 12px;
+                        padding: 20px 40px; border-radius: 16px;
+                        background: #0f172a; color: #ffffff !important;
+                        font-size: 1.15rem; font-weight: 800; text-decoration: none !important;
+                        transition: all 0.3s;
+                        width: 100%;
+                    }
+                    .ae-btn-twitter:hover {
+                        background: #000000;
+                        transform: translateY(-2px);
+                        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+                    }
+                    .ae-x-icon { font-size: 1.4rem; font-family: sans-serif; }
+                </style>
+            </t>
+
+            <!-- Header Band -->
+            <div class="ae-det-header">
+                <div class="ae-det-header-inner">
+                    <div class="ae-det-source-info">
+                        <div class="ae-det-avatar" t-esc="(post.source_author_handle or 'G')[0].upper()"/>
+                        <div>
+                            <div class="ae-det-handle" t-esc="'@' + (post.source_author_handle or 'Unknown')"/>
+                            <div class="ae-det-date">
+                                <t t-t9n="Discovered on">تاريخ الاكتشاف</t>: <t t-esc="post.source_created_at and post.source_created_at.strftime('%d %B %Y') or 'غير متوفر'"/>
+                            </div>
+                        </div>
+                    </div>
+                    <t t-if="post.grant_state == 'active'">
+                        <div class="ae-badge-large active">
+                            <div class="ae-badge-dot-lrg"/>
+                            <t t-t9n="Active">متاحة للتقديم</t>
+                        </div>
+                    </t>
+                    <t t-elif="post.grant_state == 'expired'">
+                        <div class="ae-badge-large expired">
+                            <div class="ae-badge-dot-lrg"/>
+                            <t t-t9n="Expired">انتهى التقديم</t>
+                        </div>
+                    </t>
+                </div>
+            </div>
+
+            <!-- Content Area -->
+            <div class="ae-det-content">
+                <p class="ae-det-text" t-esc="post.ai_generated_text"/>
+                
+                <div class="ae-det-grid">
+                    <div class="ae-info-box">
+                        <div class="ae-info-icon">🚀</div>
+                        <div class="ae-info-content">
+                            <span class="ae-info-lbl" t-t9n="Start Date">تاريخ بدء المنحة</span>
+                            <span class="ae-info-val" t-esc="post.source_created_at and post.source_created_at.strftime('%Y-%m-%d') or 'غير محدد'"/>
+                        </div>
+                    </div>
+                    <div class="ae-info-box">
+                        <div class="ae-info-icon">⏳</div>
+                        <div class="ae-info-content">
+                            <span class="ae-info-lbl" t-t9n="End Date">تاريخ انتهاء التقديم</span>
+                            <t t-if="post.grant_end_date">
+                                <span class="ae-info-val" t-esc="post.grant_end_date"/>
+                            </t>
+                            <t t-else="">
+                                <span class="ae-info-val" style="color:#94a3b8;" t-t9n="No deadline specified">لم يُعلن بعد</span>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+
+                <t t-if="post.source_url">
+                    <a t-att-href="post.source_url" target="_blank" rel="noopener" class="ae-btn-twitter">
+                        <span class="ae-x-icon">𝕏</span> 
+                        <t t-t9n="View Original Announcement">الاطلاع على الإعلان في منصة إكس</t>
+                    </a>
+                </t>
+            </div>
+        </t>
+    </template>
+
+    <!-- ════════════════════════════════════════════════════════════
+         HOMEPAGE SNIPPET (latest 3 active grants)
+    ════════════════════════════════════════════════════════════ -->
+    <template id="grants_snippet" name="Alpha Echo: Latest Grants Snippet">
+        <section style="background:#f8fafc;padding:120px 24px;font-family:'Tajawal',sans-serif;direction:rtl;position:relative;overflow:hidden;">
+            <style>
+                .ae-snippet-card {
+                    background: rgba(255,255,255,0.7);
+                    backdrop-filter: blur(20px);
+                    -webkit-backdrop-filter: blur(20px);
+                    border: 1px solid rgba(255,255,255,0.9);
+                    border-radius: 32px;
+                    padding: 40px;
+                    display: flex;
+                    flex-direction: column;
+                    text-decoration: none !important;
+                    color: inherit;
+                    position: relative;
+                    transition: all 0.5s cubic-bezier(0.165,0.84,0.44,1);
+                    box-shadow: 0 10px 40px rgba(0,0,0,0.03);
+                    z-index: 1;
+                }
+                .ae-snippet-card::before {
+                    content: '';
+                    position: absolute;
+                    inset: -2px;
+                    border-radius: 34px;
+                    background: linear-gradient(135deg, #fb923c, #ea580c, #c2410c, #fb923c);
+                    background-size: 200% 200%;
+                    z-index: -1;
+                    opacity: 0;
+                    transition: opacity 0.5s ease;
+                    animation: borderGlow 3s ease infinite;
+                }
+                .ae-snippet-card:hover {
+                    transform: translateY(-12px) scale(1.02);
+                    box-shadow: 0 30px 60px rgba(234,88,12,0.2), 0 10px 20px rgba(0,0,0,0.05);
+                }
+                .ae-snippet-card:hover::before { opacity: 1; }
+                
+                .ae-snip-avatar {
+                    width: 60px; height: 60px; border-radius: 20px;
+                    background: linear-gradient(135deg, #fff7ed, #ffedd5);
+                    color: #ea580c; border: 2px solid #ffffff;
+                    box-shadow: 0 8px 16px rgba(234, 88, 12, 0.1);
+                    font-weight: 900; font-size: 1.5rem;
+                    display: flex; align-items: center; justify-content: center;
+                    transition: all 0.4s;
+                }
+                .ae-snippet-card:hover .ae-snip-avatar {
+                    background: #ffffff; color: #ea580c;
+                    transform: rotate(-5deg) scale(1.1);
+                    box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+                    border-color: transparent;
+                }
+                .ae-snip-handle { font-weight: 900; color: #0f172a; font-size: 1.2rem; letter-spacing: 0.5px; transition: color 0.4s; }
+                .ae-snippet-card:hover .ae-snip-handle { color: #ffffff; }
+                
+                .ae-snip-badge {
+                    background: #ecfdf5; color: #059669; border: 1px solid #d1fae5;
+                    padding: 8px 16px; border-radius: 12px; font-size: 0.85rem; font-weight: 900;
+                    box-shadow: 0 4px 10px rgba(0,0,0,0.02); transition: all 0.4s;
+                }
+                .ae-snippet-card:hover .ae-snip-badge {
+                    background: rgba(255,255,255,0.2); color: #ffffff; border-color: rgba(255,255,255,0.3);
+                }
+                
+                .ae-snip-text { font-size: 1.1rem; line-height: 2; color: #475569; margin: 0 0 40px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; flex: 1; font-weight: 500; transition: color 0.4s; }
+                .ae-snippet-card:hover .ae-snip-text { color: #ffffff; }
+                
+                .ae-snip-footer { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid rgba(0,0,0,0.05); padding-top: 24px; transition: border-color 0.4s; }
+                .ae-snippet-card:hover .ae-snip-footer { border-top-color: rgba(255,255,255,0.2); }
+                
+                .ae-snip-lbl { font-size: 0.8rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; transition: color 0.4s; }
+                .ae-snippet-card:hover .ae-snip-lbl { color: rgba(255,255,255,0.8); }
+                
+                .ae-snip-val { color: #0f172a; font-size: 1.05rem; font-weight: 900; transition: color 0.4s; }
+                .ae-snippet-card:hover .ae-snip-val { color: #ffffff; }
+                .ae-snip-val-empty { color: #94a3b8; font-size: 1.05rem; font-weight: 600; transition: color 0.4s; }
+                .ae-snippet-card:hover .ae-snip-val-empty { color: rgba(255,255,255,0.8); }
+                
+                .ae-snip-btn { color: #ea580c; font-weight: 900; font-size: 1.05rem; display: flex; align-items: center; gap: 10px; transition: color 0.4s; }
+                .ae-snippet-card:hover .ae-snip-btn { color: #ffffff; }
+                
+                .ae-snip-arr { font-size: 1.4rem; line-height: 0; transition: all 0.4s cubic-bezier(0.165,0.84,0.44,1); }
+                .ae-snippet-card:hover .ae-snip-arr { transform: translateX(-8px) scale(1.2); }
+            </style>
+            <!-- Background Elements -->
+            <div style="position:absolute;top:-200px;right:-100px;width:600px;height:600px;background:rgba(249,115,22,0.05);border-radius:50%;filter:blur(80px);pointer-events:none;"></div>
+            <div style="position:absolute;bottom:-200px;left:-100px;width:500px;height:500px;background:rgba(234,88,12,0.04);border-radius:50%;filter:blur(80px);pointer-events:none;"></div>
+            
+            <div style="max-width:1400px;margin:0 auto;position:relative;z-index:10;">
+                <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:60px;flex-wrap:wrap;gap:20px;">
+                    <div>
+                        <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.8);backdrop-filter:blur(10px);color:#ea580c;padding:8px 20px;border-radius:999px;font-size:0.9rem;font-weight:800;margin-bottom:20px;box-shadow:0 4px 12px rgba(0,0,0,0.03);border:1px solid rgba(255,255,255,1);">
+                            <span>⚡</span> <t t-t9n="AI Discovery">اكتشاف حصري</t>
+                        </div>
+                        <h2 style="font-size:clamp(2.5rem,5vw,3.5rem);font-weight:900;color:#0f172a;margin:0;line-height:1.1;letter-spacing:-1px;">
+                            <span style="background: linear-gradient(to right, #ea580c, #f97316); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">أحدث</span> الفرص التمويلية
+                        </h2>
+                    </div>
+                    <a href="/grants" style="display:inline-flex;align-items:center;gap:12px;background:linear-gradient(135deg,#ea580c,#c2410c);color:white;padding:16px 36px;border-radius:20px;font-weight:900;font-size:1.05rem;text-decoration:none;transition:all 0.4s cubic-bezier(0.165,0.84,0.44,1);box-shadow:0 10px 30px rgba(234,88,12,0.25);"
+                       onmouseover="this.style.transform='translateY(-4px) scale(1.02)';this.style.boxShadow='0 20px 40px rgba(234,88,12,0.4)';"
+                       onmouseout="this.style.transform='';this.style.boxShadow='0 10px 30px rgba(234,88,12,0.25)';">
+                        <t t-t9n="Browse All Grants">تصفح جميع المنح</t> <span style="font-size:1.2rem;">←</span>
+                    </a>
+                </div>
+                
+                <t t-set="latest_posts" t-value="request.env['alpha.echo.post'].sudo().search([('website_published','=',True),('grant_state','=','active')], order='create_date desc', limit=3)"/>
+                <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:40px;">
+                    <t t-foreach="latest_posts" t-as="post">
+                        <a t-attf-href="/grants/#{post.website_slug}" class="ae-snippet-card">
+                            
+                            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:32px;">
+                                <div style="display:flex;align-items:center;gap:16px;">
+                                    <div class="ae-snip-avatar">
+                                        <t t-esc="(post.source_author_handle or 'G')[0].upper()"/>
+                                    </div>
+                                    <span class="ae-snip-handle" t-esc="'@' + (post.source_author_handle or 'منحة')"/>
+                                </div>
+                                <span class="ae-snip-badge">
+                                    <t t-t9n="Active">متاحة</t>
+                                </span>
+                            </div>
+                            
+                            <p class="ae-snip-text" t-esc="post.ai_generated_text"/>
+                            
+                            <div class="ae-snip-footer">
+                                <div style="display:flex;flex-direction:column;gap:6px;">
+                                    <span class="ae-snip-lbl">
+                                        <t t-t9n="Closing Date">تاريخ الإغلاق</t>
+                                    </span>
+                                    <t t-if="post.grant_end_date">
+                                        <strong class="ae-snip-val" t-esc="post.grant_end_date"/>
+                                    </t>
+                                    <t t-else="">
+                                        <span class="ae-snip-val-empty" t-t9n="Not announced">غير معلن</span>
+                                    </t>
+                                </div>
+                                <span class="ae-snip-btn">
+                                    <t t-t9n="Read More">شاهد المزيد</t> <span class="ae-snip-arr">←</span>
+                                </span>
+                            </div>
+                        </a>
+                    </t>
+                </div>
+            </div>
+        </section>
+    </template>
+
+</odoo>
